@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Brain", "Brain\Brain.vcproj", "{2F84E5C2-720E-42A3-94B4-0AD806E55A63}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CreateDebugISForDebugAcad", "CreateDebugISForDebugAcad\CreateDebugISForDebugAcad.vcproj", "{78251CC9-B889-439D-BE67-12DDA03C6821}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2F84E5C2-720E-42A3-94B4-0AD806E55A63} = {2F84E5C2-720E-42A3-94B4-0AD806E55A63}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BrainUnitTest", "BrainUnitTest\BrainUnitTest.vcproj", "{6834F582-0BF8-4EB4-8820-A54BB4528ECA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2F84E5C2-720E-42A3-94B4-0AD806E55A63} = {2F84E5C2-720E-42A3-94B4-0AD806E55A63}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F84E5C2-720E-42A3-94B4-0AD806E55A63}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2F84E5C2-720E-42A3-94B4-0AD806E55A63}.Debug|Win32.Build.0 = Debug|Win32
+		{2F84E5C2-720E-42A3-94B4-0AD806E55A63}.Release|Win32.ActiveCfg = Release|Win32
+		{2F84E5C2-720E-42A3-94B4-0AD806E55A63}.Release|Win32.Build.0 = Release|Win32
+		{78251CC9-B889-439D-BE67-12DDA03C6821}.Debug|Win32.ActiveCfg = Debug|Win32
+		{78251CC9-B889-439D-BE67-12DDA03C6821}.Debug|Win32.Build.0 = Debug|Win32
+		{78251CC9-B889-439D-BE67-12DDA03C6821}.Release|Win32.ActiveCfg = Release|Win32
+		{78251CC9-B889-439D-BE67-12DDA03C6821}.Release|Win32.Build.0 = Release|Win32
+		{6834F582-0BF8-4EB4-8820-A54BB4528ECA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6834F582-0BF8-4EB4-8820-A54BB4528ECA}.Debug|Win32.Build.0 = Debug|Win32
+		{6834F582-0BF8-4EB4-8820-A54BB4528ECA}.Release|Win32.ActiveCfg = Release|Win32
+		{6834F582-0BF8-4EB4-8820-A54BB4528ECA}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
