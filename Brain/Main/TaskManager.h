@@ -3,6 +3,11 @@
 #include <list>
 #include "ParameterObject.h"
 
+#pragma warning( push )
+// http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
+//Disable the waring " class 'ATL::CStringT<BaseType,StringTraits>' needs to have dll-interface to be used by clients of class"
+#pragma warning( disable : 4251 ) 
+
 class Action;
 class Condition;
 
@@ -73,3 +78,4 @@ public:
     virtual bool IsTrue() = 0;
 };
 
+#pragma warning( pop ) 
