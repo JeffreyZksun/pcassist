@@ -99,9 +99,31 @@ The data format is:
 
  If comment is empty, don't output.
 ************************************************************************/
+
+#define NameNode _T("Name")
+#define ValueNode _T("Value")
+#define CommentsNode _T("Comments")
+
 bool Parameter::XmlIn(XmlIOStream* pXmlIOStream)
 {
 	ASSERT(pXmlIOStream != NULL);
+	{
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, NameNode);
+		pXmlIOStream->ReadNodeText(mName);
+	}
+
+	{
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ValueNode);
+		CString rawStr;
+		pXmlIOStream->ReadNodeText(rawStr);
+		mValue.SetRawString(rawStr);
+	}
+
+	{
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, CommentsNode);
+		if(stack.IsSuccess())
+			pXmlIOStream->ReadNodeText(mComments);
+	}
 	return true;
 }
 
@@ -110,19 +132,19 @@ bool Parameter::XmlOut(XmlIOStream* pXmlIOStream) const
 	ASSERT(pXmlIOStream != NULL);
 
 	{
-		XmlIOStreamBeginNodeStack stack(pXmlIOStream, _T("Name"));
-		pXmlIOStream->SetNodeText(mName);
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, NameNode);
+		pXmlIOStream->WriteNodeText(mName);
 	}
 
 	{
-		XmlIOStreamBeginNodeStack stack(pXmlIOStream, _T("Value"));
-		pXmlIOStream->SetNodeText(mValue.GetRawtring());
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ValueNode);
+		pXmlIOStream->WriteNodeText(mValue.GetRawtring());
 	}
 	
 	if(mComments.GetLength() != 0)
 	{
-		XmlIOStreamBeginNodeStack stack(pXmlIOStream, _T("Comments"));
-		pXmlIOStream->SetNodeText(mComments);
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, CommentsNode);
+		pXmlIOStream->WriteNodeText(mComments);
 	}
 
 	return true;

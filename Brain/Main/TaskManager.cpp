@@ -157,65 +157,74 @@ bool TaskManager::XmlIn(XmlIOStream* pXmlIOStream)
 	// Actions
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ActionsNode);
-		bool bHasItem = true;
-		int index = 0;
-		while(bHasItem)
-		{		
-			bHasItem = pXmlIOStream->BeginNode(ActionNode, index);
-			if(!bHasItem)
-				break;
+		if(stack.IsSuccess())
+		{
+			bool bHasItem = true;
+			int index = 0;
+			while(bHasItem)
+			{		
+				bHasItem = pXmlIOStream->ReadNode(ActionNode, index);
+				if(!bHasItem)
+					break;
 
-			Action* pNewAction = new Action(); // The action is registered in its ctor
-			pNewAction->XmlIn(pXmlIOStream);
+				Action* pNewAction = new Action(); // The action is registered in its ctor
+				pNewAction->XmlIn(pXmlIOStream);
 
-			index++;
+				index++;
+
+				pXmlIOStream->CloseNode();
+			}
 		}
-
-		pXmlIOStream->CloseNode();
 	}
 	
 	// Conditions
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ConditionsNode);
-		bool bHasItem = true;
-		int index = 0;
-		while(bHasItem)
-		{		
-			bHasItem = pXmlIOStream->BeginNode(ConditionNode, index);
-			if(!bHasItem)
-				break;
+		if(stack.IsSuccess())
+		{
+			bool bHasItem = true;
+			int index = 0;
+			while(bHasItem)
+			{		
+				bHasItem = pXmlIOStream->ReadNode(ConditionNode, index);
+				if(!bHasItem)
+					break;
 
-			Condition* pNewCondition = new Condition(); // The action is registered in its ctor
-			pNewCondition->XmlIn(pXmlIOStream);
+				Condition* pNewCondition = new Condition(); // The action is registered in its ctor
+				pNewCondition->XmlIn(pXmlIOStream);
 
-			index++;
+				index++;
+
+				pXmlIOStream->CloseNode();
+			}
 		}
-
-		pXmlIOStream->CloseNode();
 	}
 
 	// TaskList 
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, TaskListNode);
-		bool bHasItem = true;
-		int index = 0;
-		while(bHasItem)
-		{		
-			bHasItem = pXmlIOStream->BeginNode(ActionIdNode, index);
-			if(!bHasItem)
-				break;
+		if(stack.IsSuccess())
+		{
+			bool bHasItem = true;
+			int index = 0;
+			while(bHasItem)
+			{		
+				bHasItem = pXmlIOStream->ReadNode(ActionIdNode, index);
+				if(!bHasItem)
+					break;
 
-			CString actionObjectId;
-			pXmlIOStream->GetNodeText(actionObjectId);
+				CString actionObjectId;
+				pXmlIOStream->ReadNodeText(actionObjectId);
 
-			Action* pAction = GetActionById(actionObjectId);
-			if(pAction != NULL)
-				AddActionTask(pAction);
+				Action* pAction = GetActionById(actionObjectId);
+				if(pAction != NULL)
+					AddActionTask(pAction);
 
-			index++;
+				index++;
+
+				pXmlIOStream->CloseNode();
+			}
 		}
-
-		pXmlIOStream->CloseNode();
 	}
 
 	return true;
@@ -233,7 +242,7 @@ bool TaskManager::XmlOut(XmlIOStream* pXmlIOStream) const
 		{
 			ASSERT(*it != NULL);
 			XmlIOStreamBeginNodeStack stack2(pXmlIOStream, ActionIdNode);
-			pXmlIOStream->SetNodeText((*it)->GetObjectId());
+			pXmlIOStream->WriteNodeText((*it)->GetObjectId());
 		}
 	}
 

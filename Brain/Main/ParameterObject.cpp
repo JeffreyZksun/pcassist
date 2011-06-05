@@ -67,7 +67,7 @@ bool ParameterObject::XmlIn(XmlIOStream* pXmlIOStream)
 		int index = 0;
 		while(bHasParameter)
 		{		
-			bHasParameter = pXmlIOStream->BeginNode(ParameterNode, index);
+			bHasParameter = pXmlIOStream->ReadNode(ParameterNode, index);
 			if(!bHasParameter)
 				break;
 
@@ -77,9 +77,9 @@ bool ParameterObject::XmlIn(XmlIOStream* pXmlIOStream)
 			AddParameter(newPara);
 
 			index++;
-		}
 
-		pXmlIOStream->CloseNode();
+			pXmlIOStream->CloseNode();
+		}
 	}
 	return true;
 }
