@@ -4,8 +4,6 @@
 #include "stdafx.h"
 
 #include "Parameter.h"
-#include "Condition.h"
-#include "Action.h"
 #include "TaskManager.h"
 #include "BrainUtil.h"
 #include "ConstantsDefinition.h"
@@ -19,13 +17,145 @@ void TestFolderExistsCondition();
 int _tmain(int argc, _TCHAR* argv[])
 {
 
+	DocumentManager* pDoc = new DocumentManager();
+	pDoc->SetDocumentName(_T("C:\\My.xml"));
+	pDoc->XmlIn();
+	delete pDoc;
+
+	TaskManager::Get()->RunTasks();
+	return 0;
+
 	////////////////// Test DocumentManager
 	//DocumentManager* pDoc = new DocumentManager();
 	//pDoc->SetDocumentName(_T("C:\\My.xml"));
 	//pDoc->XmlOut();
 	//delete pDoc;
 
-	DocumentManager* pDoc = new DocumentManager();
+	// Define system variables
+	//Parameter var1(_T("LocalISFolder"), _T("C:\\Inventor Server"));
+	//Parameter var2(_T("ISVersion"), _T("M17_22_x64_srv"));
+
+	Parameter var3(_T("ServerISFolder"), _T("\\\\panda\\BRE_MASTERS_MFG\\INV\\Goodyear\\px64\\%ISVersion%\\Server\\x64\\Setup\\Program Files\\Autodesk\\Inventor Server 2013\\Inventor Server"));
+	Parameter var4(_T("InvBin"), _T("r:\\lib\\Debug_x64"));
+	Parameter var5(_T("AcadISFolder"), _T("U:\\develop\\RunRoot\\Debug64\\acad\\Program Files\\AutoCAD Jaws - English\\Inventor Server"));
+
+	//VariableManager::Get()->AddParameter(var1);
+	//VariableManager::Get()->AddParameter(var2);
+	VariableManager::Get()->AddParameter(var3);
+	VariableManager::Get()->AddParameter(var4);
+	VariableManager::Get()->AddParameter(var5);
+
+	// Create tasks
+	TaskManager* pTaskMgr = TaskManager::Get();
+
+	// 1.       Create a new folder D:\Inventor Server. This can be any folder.
+	{
+		Action* pAction = new Action(_T("DeleteFolderAction"));
+		Parameter localFolderName(FOLDER_NAME, _T("%LocalISFolder%"));
+		pAction->AddParameter(localFolderName);
+		pTaskMgr->AddActionTask(pAction);
+
+		pAction = new Action(_T("CreateFolderAction"));
+		pAction->AddParameter(localFolderName);
+		pTaskMgr->AddActionTask(pAction);
+	}
+
+	// 2.       Under D:\Inventor Server, make a link “Bin” to F:\Inventor\Main\lib\debug_x64.  Note F:\Inventor\Main is where R: is mapped.
+	{
+		Action* pAction = new Action(_T("MakeDirectoryLinkAction"));
+		Parameter linkName(LINK_NAME, _T("%LocalISFolder%\\bin"));
+		Parameter linkTarget(LINK_TARGET, _T("%InvBin%"));
+		pAction->AddParameter(linkName);
+		pAction->AddParameter(linkTarget);
+		pTaskMgr->AddActionTask(pAction);
+	}
+
+	//3.       Make a link “Inventor Server” from the AutoCAD run root to D:\Inventor Server
+	{
+		Action* pAction = new Action(_T("MakeDirectoryLinkAction"));
+		Parameter linkName2(LINK_NAME, _T("%AcadISFolder%"));
+		Parameter linkTarget2(LINK_TARGET, _T("%LocalISFolder%"));
+		pAction->AddParameter(linkName2);
+		pAction->AddParameter(linkTarget2);
+		pTaskMgr->AddActionTask(pAction);
+	}
+
+
+	// 4.       Copy folders Configuration, Design Data, etc from local server to D:\Inventor Server. For example, 
+	// I use \\novistore\BRE_MASTERS_MFG\INV\Brunel\px86\M16_79_x86_srv\Server\x86\Setup\Program Files\Autodesk\Inventor Server 2012\Inventor Server
+	{
+		Action* pAction = new Action(_T("CopyFolderAction"));
+		Parameter srcFolder(SRC_Folder_NAME, _T("%ServerISFolder%\\Common Files"));
+		Parameter destFolder(DEST_Folder_NAME, _T("%LocalISFolder%\\Common Files"));
+		pAction->AddParameter(srcFolder);
+		pAction->AddParameter(destFolder);
+		pTaskMgr->AddActionTask(pAction);
+	}
+
+	{
+		Action* pAction = new Action(_T("CopyFolderAction"));
+		Parameter srcFolder(SRC_Folder_NAME, _T("%ServerISFolder%\\Configuration"));
+		Parameter destFolder(DEST_Folder_NAME, _T("%LocalISFolder%\\Configuration"));
+		pAction->AddParameter(srcFolder);
+		pAction->AddParameter(destFolder);
+		pTaskMgr->AddActionTask(pAction);
+	}
+
+	{
+		Action* pAction = new Action(_T("CopyFolderAction"));
+		Parameter srcFolder(SRC_Folder_NAME, _T("%ServerISFolder%\\Design Data"));
+		Parameter destFolder(DEST_Folder_NAME, _T("%LocalISFolder%\\Design Data"));
+		pAction->AddParameter(srcFolder);
+		pAction->AddParameter(destFolder);
+		pTaskMgr->AddActionTask(pAction);
+	}
+
+	{
+		Action* pAction = new Action(_T("CopyFolderAction"));
+		Parameter srcFolder(SRC_Folder_NAME, _T("%ServerISFolder%\\Templates"));
+		Parameter destFolder(DEST_Folder_NAME, _T("%LocalISFolder%\\Templates"));
+		pAction->AddParameter(srcFolder);
+		pAction->AddParameter(destFolder);
+		pTaskMgr->AddActionTask(pAction);
+	}
+
+	{
+		Action* pAction = new Action(_T("CopyFolderAction"));
+		Parameter srcFolder(SRC_Folder_NAME, _T("%ServerISFolder%\\Textures"));
+		Parameter destFolder(DEST_Folder_NAME, _T("%LocalISFolder%\\Textures"));
+		pAction->AddParameter(srcFolder);
+		pAction->AddParameter(destFolder);
+		pTaskMgr->AddActionTask(pAction);
+	}
+
+	{
+		Action* pAction = new Action(_T("CopyFolderAction"));
+		Parameter srcFolder(SRC_Folder_NAME, _T("%ServerISFolder%\\Translation"));
+		Parameter destFolder(DEST_Folder_NAME, _T("%LocalISFolder%\\Translation"));
+		pAction->AddParameter(srcFolder);
+		pAction->AddParameter(destFolder);
+		pTaskMgr->AddActionTask(pAction);
+	}
+
+	// 5.       Make sure your R:\ is mapped correctly, for example, subst R: F:\Inventor\Main.
+
+	// 6.       Copy R:\Server\Framework\Utx\HardwareLibraryDM.xml to F:\Inventor\Main\lib. 
+	{
+		Action* pAction = new Action(_T("DeleteFileAction"));
+		Parameter HardwareLibraryDM(FILE_NAME, _T("R:\\lib\\HardwareLibraryDM.xml"));
+		pAction->AddParameter(HardwareLibraryDM);
+		pTaskMgr->AddActionTask(pAction);
+	}
+
+	{
+		Action* pAction = new Action(_T("CopyFileAction"));
+		Parameter srcFile(SRC_FILE_NAME, _T("R:\\Server\\Framework\\Utx\\HardwareLibraryDM.xml"));
+		Parameter destFile(DEST_FILE_NAME, _T("R:\\lib\\HardwareLibraryDM.xml"));
+		pAction->AddParameter(srcFile);
+		pAction->AddParameter(destFile);
+		pTaskMgr->AddActionTask(pAction);
+	}
+	//DocumentManager* pDoc = new DocumentManager();
 	pDoc->SetDocumentName(_T("C:\\My.xml"));
 	pDoc->XmlOut();
 	delete pDoc;
@@ -201,44 +331,44 @@ int _tmain(int argc, _TCHAR* argv[])
 	//BrainUtil::CreateFile(_T("C:\\new FolderRoot\\new Folder\\new File.txt"));
 	return 0;
 }
-
-void TestFolderExistsCondition()
-{
-	Parameter para(FOLDER_NAME, _T("C:\\"));
-	//Parameter para(_T("FolderName"), _T("C:\\tte"));
-	FolderExistsCondition condition;
-	condition.AddParameter(para);
-
-	bool ret = condition.IsTrue();
-}
-
-void TestFileExistsCondition()
-{
-	Parameter para(FILE_NAME, _T("C:\\tte")); // Local file
-	//Parameter para(_T("FileName"), _T("C:\\test.txt")); // Local file
-	//Parameter para(_T("FileName"), _T("\\\\aaa\DM\txt.txt")); // network file
-	FileExistsCondition condition;
-	condition.AddParameter(para);
-
-	bool ret = condition.IsTrue();
-}
-
-void TestParameterObject()
-{
-	Parameter fileNamePara(_T("FileName"), _T("C:\\test.txt"));
-	ParameterObject paraObj;
-	paraObj.AddParameter(fileNamePara);
-
-	Parameter para;
-	bool ret = paraObj.GetParameter(_T("FileName"), para); //
-
-	Parameter fileNamePara2(_T("FileName"), _T("C:\\test2.txt"));
-	fileNamePara2.SetComments(_T("second one"));
-
-	paraObj.AddParameter(fileNamePara2);
-	ret = paraObj.GetParameter(_T("FileName"), para);//
-
-	ret = paraObj.GetParameter(_T("FileName2"), para);//
-}
+//
+//void TestFolderExistsCondition()
+//{
+//	Parameter para(FOLDER_NAME, _T("C:\\"));
+//	//Parameter para(_T("FolderName"), _T("C:\\tte"));
+//	FolderExistsCondition condition;
+//	condition.AddParameter(para);
+//
+//	bool ret = condition.IsTrue();
+//}
+//
+//void TestFileExistsCondition()
+//{
+//	Parameter para(FILE_NAME, _T("C:\\tte")); // Local file
+//	//Parameter para(_T("FileName"), _T("C:\\test.txt")); // Local file
+//	//Parameter para(_T("FileName"), _T("\\\\aaa\DM\txt.txt")); // network file
+//	FileExistsCondition condition;
+//	condition.AddParameter(para);
+//
+//	bool ret = condition.IsTrue();
+//}
+//
+//void TestParameterObject()
+//{
+//	Parameter fileNamePara(_T("FileName"), _T("C:\\test.txt"));
+//	ParameterObject paraObj;
+//	paraObj.AddParameter(fileNamePara);
+//
+//	Parameter para;
+//	bool ret = paraObj.GetParameter(_T("FileName"), para); //
+//
+//	Parameter fileNamePara2(_T("FileName"), _T("C:\\test2.txt"));
+//	fileNamePara2.SetComments(_T("second one"));
+//
+//	paraObj.AddParameter(fileNamePara2);
+//	ret = paraObj.GetParameter(_T("FileName"), para);//
+//
+//	ret = paraObj.GetParameter(_T("FileName2"), para);//
+//}
 
 

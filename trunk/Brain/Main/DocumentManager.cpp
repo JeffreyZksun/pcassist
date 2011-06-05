@@ -63,21 +63,31 @@ void DocumentManager::SetDocumentName(const CString& docName)
 	mDocumentName = docName;
 }
 
+#define DocRootNode _T("DocRoot")
+
 bool DocumentManager::XmlIn()
 {
 	::CoInitialize(NULL);
 
-	XmlIOStream* pXmlStream = new XmlIOStream(true);
-	bool bRet = pXmlStream->Load(mDocumentName);
+	XmlIOStream* pXmlIOStream = new XmlIOStream(true);
+	bool bRet = pXmlIOStream->Load(mDocumentName); // Load root
 
-	// Load root
-	// Load variable manager
-	// Load task manager
+	{
+		// Load root The pointer has already points to the root. Don't need to move.
+		//XmlIOStreamBeginNodeStack stack(pXmlIOStream, DocRootNode);
+
+		// Load variable manager
+		VariableManager::Get()->XmlIn(pXmlIOStream);
+
+		// Load task manager
+		TaskManager::Get()->XmlIn(pXmlIOStream);
+	}
 
 	::CoUninitialize();
 
 	return bRet;
 }
+
 bool DocumentManager::XmlOut()
 {
 	::CoInitialize(NULL);
@@ -86,7 +96,7 @@ bool DocumentManager::XmlOut()
 
 	{
 		// Save root
-		XmlIOStreamBeginNodeStack stack(pXmlIOStream, _T("DocRoot"));
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, DocRootNode);
 
 		// Save variable manager
 		VariableManager::Get()->XmlOut(pXmlIOStream);

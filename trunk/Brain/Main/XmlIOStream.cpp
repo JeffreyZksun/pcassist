@@ -15,11 +15,36 @@ void XmlIOStream::Clear()
 
 }
 
+// Only for traverse the brothers when read.
+bool XmlIOStream::BeginNode(const CString& nodeName, int index)
+{
+	ASSERT(mbIsRead); 
+	if(!mbIsRead)
+		return false;
+
+	ASSERT(mpCurrentNode != NULL);
+	if(NULL == mpCurrentNode)
+		return false;
+
+	CXmlNodeWrapper nodeWrapper(mpCurrentNode);
+	MSXML2::IXMLDOMNodeListPtr pNodeList = nodeWrapper.FindNodes(nodeName);
+
+	CXmlNodeListWrapper nodeListWrapper(pNodeList);
+
+	if(index > nodeListWrapper.Count())
+		return false;
+
+	mpCurrentNode = nodeListWrapper.Node(index);
+	ASSERT(mpCurrentNode != NULL);
+
+	return true;
+}
+
 bool XmlIOStream::BeginNode(const CString& nodeName)
 {
 	if(!mbIsRead)
 	{		
-		if(NULL == mpCurrentNode) // This is the firt node
+		if(NULL == mpCurrentNode) // This is the first node
 		{
 			mpCurrentNode = mDocumentWrapper.AppendChild(nodeName);
 		}
@@ -33,11 +58,17 @@ bool XmlIOStream::BeginNode(const CString& nodeName)
 	}
 	else
 	{
-		return false;
+		ASSERT(mpCurrentNode != NULL);
+		if(NULL == mpCurrentNode)
+			return false;
+
+		CXmlNodeWrapper nodeWrapper(mpCurrentNode);
+		mpCurrentNode = nodeWrapper.GetNode(nodeName);
 	}
 
 	return true;
 }
+
 bool XmlIOStream::CloseNode()
 {
 	// Back to parent
@@ -54,6 +85,10 @@ bool XmlIOStream::CloseNode()
 
 bool XmlIOStream::SetNodeText(const CString& text)
 {
+	ASSERT(!mbIsRead);
+	if(mbIsRead)
+		return false; // Can't write to the read stream.
+
 	ASSERT(mpCurrentNode != NULL);
 	if(NULL == mpCurrentNode)
 		return false;

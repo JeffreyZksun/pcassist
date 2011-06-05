@@ -9,7 +9,8 @@ public:
 	~XmlIOStream(void);
 
 public:
-	// write
+	// Only for traverse the brothers when read.
+	bool		BeginNode(const CString& nodeName, int index);
 	bool		BeginNode(const CString& nodeName);
 	bool		CloseNode();
 	bool		SetNodeText(const CString& text);

@@ -1,38 +1,38 @@
 #include "StdAfx.h"
 #include "BehaviorNodeFactory.h"
 
-BehaviorNodeFactory::BehaviorNodeFactory(void) : mCreationFunctionMap()
+BehaviorNodeFactory::BehaviorNodeFactory(void) : mBehaviorFunctionMap()
 {
 }
 
 BehaviorNodeFactory::~BehaviorNodeFactory(void)
 {
-	mCreationFunctionMap.clear();
+	mBehaviorFunctionMap.clear();
 }
 
-BehaviorNode* BehaviorNodeFactory::CreteBehaviorNodeByType(const CString& objectType) const
+BehaviorFunction BehaviorNodeFactory::GetBehaviorFunction(const CString& objectType) const
 {
-	FunctionMap::const_iterator it = mCreationFunctionMap.find(objectType);
+	FunctionMap::const_iterator it = mBehaviorFunctionMap.find(objectType);
 	
-	if(it != mCreationFunctionMap.end())
-		return (it->second)();
+	if(it != mBehaviorFunctionMap.end())
+		return it->second;
 
 	return NULL;
 }
 
-void BehaviorNodeFactory::AddCreationFunction(const CString& objectType, CreateBehaviorNode pFunction)
+void BehaviorNodeFactory::AddBehaviorFunction(const CString& objectType, BehaviorFunction pFunction)
 {
-	FunctionMap::iterator it = mCreationFunctionMap.find(objectType);
-	ASSERT(mCreationFunctionMap.end() == it); // Check duplication.
-	if(mCreationFunctionMap.end() == it)
-		mCreationFunctionMap.insert(std::make_pair(objectType, pFunction));
+	FunctionMap::iterator it = mBehaviorFunctionMap.find(objectType);
+	ASSERT(mBehaviorFunctionMap.end() == it); // Check duplication.
+	if(mBehaviorFunctionMap.end() == it)
+		mBehaviorFunctionMap.insert(std::make_pair(objectType, pFunction));
 }
 
-void BehaviorNodeFactory::RemoveCreationFunction(const CString& objectType)
+void BehaviorNodeFactory::RemoveBehaviorFunction(const CString& objectType)
 {
-	FunctionMap::iterator it = mCreationFunctionMap.find(objectType);
-	if(it != mCreationFunctionMap.end())
-		mCreationFunctionMap.erase(it);
+	FunctionMap::iterator it = mBehaviorFunctionMap.find(objectType);
+	if(it != mBehaviorFunctionMap.end())
+		mBehaviorFunctionMap.erase(it);
 }
 
 BehaviorNodeFactory* BehaviorNodeFactory::Get()
@@ -41,13 +41,13 @@ BehaviorNodeFactory* BehaviorNodeFactory::Get()
 	return &singleton;
 }
 
-BehaviorNodeCreationHelper::BehaviorNodeCreationHelper(const CString& objectType, CreateBehaviorNode pFunction) 
+BehaviorFunctionHelper::BehaviorFunctionHelper(const CString& objectType, BehaviorFunction pFunction) 
 	: mObjectType(objectType)
 {
-	BehaviorNodeFactory::Get()->AddCreationFunction(objectType, pFunction);
+	BehaviorNodeFactory::Get()->AddBehaviorFunction(objectType, pFunction);
 }
 
-BehaviorNodeCreationHelper::~BehaviorNodeCreationHelper(void)
+BehaviorFunctionHelper::~BehaviorFunctionHelper(void)
 {
-	BehaviorNodeFactory::Get()->RemoveCreationFunction(mObjectType);
+	BehaviorNodeFactory::Get()->RemoveBehaviorFunction(mObjectType);
 }

@@ -73,6 +73,7 @@ private:
 class BRAINEXPORT BehaviorNode : public ParameterObject
 {
 public:
+	BehaviorNode();
 	BehaviorNode(const CString& objetType);
 
 	CString			GetObjectId() const;
@@ -86,17 +87,15 @@ public:
 class BRAINEXPORT Action : public BehaviorNode
 {
 public:
+	Action();
     Action(const CString& objetType);
     virtual ~Action(void);
 
 protected:
 	virtual bool		IsParameterValid(const Parameter& para) const;
 
-	virtual bool		XmlIn(XmlIOStream* pXmlIOStream);
-	virtual bool		XmlOut(XmlIOStream* pXmlIOStream) const;
-
 public:
-    virtual bool		Execute() = 0;
+    virtual bool		Execute();
 };
 
 
@@ -107,17 +106,15 @@ public:
 class BRAINEXPORT Condition : public BehaviorNode
 {
 public:
+	Condition();
     Condition(const CString& objetType);
     virtual ~Condition(void);
 
 protected:
 	virtual bool		IsParameterValid(const Parameter& para) const;
 
-	virtual bool		XmlIn(XmlIOStream* pXmlIOStream);
-	virtual bool		XmlOut(XmlIOStream* pXmlIOStream) const;
-
 public:
-    virtual bool		IsTrue() = 0;
+    virtual bool		IsTrue();
 };
 
 #pragma warning( pop ) 

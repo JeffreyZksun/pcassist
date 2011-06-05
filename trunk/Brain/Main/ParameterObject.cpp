@@ -56,9 +56,31 @@ The data format is:
 	<Parameter>...</Parameter>
 	...
 ************************************************************************/
+
+#define ParameterNode _T("Parameter")
+
 bool ParameterObject::XmlIn(XmlIOStream* pXmlIOStream)
 {
 	ASSERT(pXmlIOStream != NULL);
+	{
+		bool bHasParameter = true;
+		int index = 0;
+		while(bHasParameter)
+		{		
+			bHasParameter = pXmlIOStream->BeginNode(ParameterNode, index);
+			if(!bHasParameter)
+				break;
+
+			Parameter newPara;
+			newPara.XmlIn(pXmlIOStream);
+
+			AddParameter(newPara);
+
+			index++;
+		}
+
+		pXmlIOStream->CloseNode();
+	}
 	return true;
 }
 
@@ -68,7 +90,7 @@ bool ParameterObject::XmlOut(XmlIOStream* pXmlIOStream) const
 
 	for (ParameterMap::const_iterator it = mParaMap.begin(); it != mParaMap.end(); ++it)
 	{
-		XmlIOStreamBeginNodeStack stack(pXmlIOStream, _T("Parameter"));
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ParameterNode);
 		(it->second).XmlOut(pXmlIOStream);
 	}
 
