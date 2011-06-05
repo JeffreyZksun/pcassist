@@ -18,12 +18,12 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 
 	DocumentManager* pDoc = new DocumentManager();
-	pDoc->SetDocumentName(_T("C:\\My.xml"));
-	pDoc->XmlIn();
-	delete pDoc;
+	//pDoc->SetDocumentName(_T("C:\\My.xml"));
+	//pDoc->XmlIn();
+	//delete pDoc;
 
-	TaskManager::Get()->RunTasks();
-	return 0;
+	//TaskManager::Get()->RunTasks();
+	//return 0;
 
 	////////////////// Test DocumentManager
 	//DocumentManager* pDoc = new DocumentManager();
