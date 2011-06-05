@@ -73,7 +73,7 @@ bool DocumentManager::XmlIn()
 	bool bRet = pXmlIOStream->Load(mDocumentName); // Load root
 
 	{
-		// Load root The pointer has already points to the root. Don't need to move.
+		// The pointer has already points to the root. Don't need to move.
 		//XmlIOStreamBeginNodeStack stack(pXmlIOStream, DocRootNode);
 
 		// Load variable manager
