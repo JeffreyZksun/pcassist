@@ -329,6 +329,14 @@
 				RelativePath=".\Main\XmlIOStream.h"
 				>
 			</File>
+			<File
+				RelativePath=".\Main\XmlNodeWrapper.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Main\XmlNodeWrapper.h"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

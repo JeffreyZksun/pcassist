@@ -1,5 +1,7 @@
 #pragma once
 
+#include "XmlNodeWrapper.h"
+
 class XmlIOStream
 {
 public:
@@ -7,6 +9,10 @@ public:
 	~XmlIOStream(void);
 
 public:
+	// write
+	bool		BeginNode(const CString& nodeName);
+	bool		CloseNode();
+	bool		SetNodeValue(const CString& nodeName);
 
 public:
 	void		Clear();
@@ -15,4 +21,7 @@ public:
 
 private:
 	bool	mbIsRead;
+
+	MSXML2::IXMLDOMNodePtr	mpCurrentNode;
+	CXmlDocumentWrapper		mDocumentWrapper;
 };
