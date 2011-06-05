@@ -12,7 +12,8 @@ public:
 	// write
 	bool		BeginNode(const CString& nodeName);
 	bool		CloseNode();
-	bool		SetNodeValue(const CString& nodeName);
+	bool		SetNodeText(const CString& text);
+	bool		GetNodeText(CString& text);
 
 public:
 	void		Clear();
@@ -24,4 +25,14 @@ private:
 
 	MSXML2::IXMLDOMNodePtr	mpCurrentNode;
 	CXmlDocumentWrapper		mDocumentWrapper;
+};
+
+class XmlIOStreamBeginNodeStack
+{
+public:
+	XmlIOStreamBeginNodeStack(XmlIOStream*, const CString& );
+	~XmlIOStreamBeginNodeStack();
+
+private:
+	XmlIOStream* mpStream;
 };

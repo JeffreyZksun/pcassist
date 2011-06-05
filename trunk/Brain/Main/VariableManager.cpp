@@ -3,6 +3,7 @@
 #include <list>
 #include <algorithm>
 #include "CloseLoopChecker.h"
+#include "XmlIOStream.h"
 
 //////////////////////////////////////////////////////////////////////////
 // Dead loop checker
@@ -99,3 +100,32 @@ VariableManager* VariableManager::Get()
 
      return true;
  }
+ 
+/************************************************************************
+ The data format is:
+ 
+ <GlobalVariables>
+	<Parameter> ...</Parameter>
+	<Parameter>...</Parameter>
+	<Parameter>...</Parameter>
+	...
+ </GlobalVariables>
+************************************************************************/
+bool VariableManager::XmlIn(XmlIOStream* pXmlIOStream)
+{
+	ASSERT(pXmlIOStream != NULL);
+	return true;
+}
+
+bool VariableManager::XmlOut(XmlIOStream* pXmlIOStream) const
+{
+	ASSERT(pXmlIOStream != NULL);	
+
+	{
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, _T("GlobalVariables"));
+		ParameterObject::XmlOut(pXmlIOStream);
+	}
+
+	return true;
+}
+

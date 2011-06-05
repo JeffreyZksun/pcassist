@@ -6,6 +6,8 @@
 //Disable the waring " class 'ATL::CStringT<BaseType,StringTraits>' needs to have dll-interface to be used by clients of class"
 #pragma warning( disable : 4251 ) 
 
+class XmlIOStream;
+
 //////////////////////////////////////////////////////////////////////////
 // ComplexString
 //////////////////////////////////////////////////////////////////////////
@@ -44,6 +46,9 @@ public:
 
     void            SetComments(const CString& comments);
     const CString&  GetComments() const;
+
+	bool XmlIn(XmlIOStream* pXmlIOStream);
+	bool XmlOut(XmlIOStream* pXmlIOStream) const;
 
 private:
     // Note: POD can't have pointer.

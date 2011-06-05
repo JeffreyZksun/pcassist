@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "ParameterObject.h"
+#include "XmlIOStream.h"
 
 
 ParameterObject::ParameterObject(void)
@@ -46,6 +47,32 @@ bool ParameterObject::GetParameter(const CString& paraName, Parameter& para) con
 
     // Not found
     return false;
+}
+
+/************************************************************************
+The data format is:
+	<Parameter> ...</Parameter>
+	<Parameter>...</Parameter>
+	<Parameter>...</Parameter>
+	...
+************************************************************************/
+bool ParameterObject::XmlIn(XmlIOStream* pXmlIOStream)
+{
+	ASSERT(pXmlIOStream != NULL);
+	return true;
+}
+
+bool ParameterObject::XmlOut(XmlIOStream* pXmlIOStream) const
+{
+	ASSERT(pXmlIOStream != NULL);	
+
+	for (ParameterMap::const_iterator it = mParaMap.begin(); it != mParaMap.end(); ++it)
+	{
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, _T("Parameter"));
+		(it->second).XmlOut(pXmlIOStream);
+	}
+
+	return true;
 }
 
 bool ParameterObject::IsParameterValid(const Parameter& para) const

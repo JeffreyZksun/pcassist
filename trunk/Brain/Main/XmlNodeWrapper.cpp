@@ -215,6 +215,18 @@ MSXML2::IXMLDOMNodePtr CXmlNodeWrapper::InsertNode(int index,MSXML2::IXMLDOMNode
 		return NULL;
 }
 
+MSXML2::IXMLDOMNodePtr CXmlNodeWrapper::AppendNode(LPCTSTR nodeName)
+{
+	MSXML2::IXMLDOMDocumentPtr xmlDocument = m_xmlnode->GetownerDocument();
+	if (xmlDocument)
+	{
+		MSXML2::IXMLDOMNodePtr newNode = xmlDocument->createNode(_variant_t((short)MSXML2::NODE_ELEMENT),nodeName,"");
+		newNode = m_xmlnode->appendChild(newNode);
+		return newNode;
+	}
+	return NULL;
+}
+
 CString CXmlNodeWrapper::GetXML()
 {
 	if (IsValid())
@@ -233,7 +245,7 @@ MSXML2::IXMLDOMNodePtr CXmlNodeWrapper::RemoveNode(MSXML2::IXMLDOMNodePtr pNode)
 /* ********************************************************************************************************* */
 CXmlDocumentWrapper::CXmlDocumentWrapper()
 {
-	m_xmldoc.CreateInstance(MSXML2::CLSID_DOMDocument);
+	HRESULT hr = m_xmldoc.CreateInstance(MSXML2::CLSID_DOMDocument);
 }
 
 CXmlDocumentWrapper::CXmlDocumentWrapper(MSXML2::IXMLDOMDocumentPtr pDoc)
@@ -341,6 +353,16 @@ MSXML2::IXMLDOMNodePtr CXmlDocumentWrapper::AsNode()
 	if (!IsValid())
 		return NULL;
 	return m_xmldoc->GetdocumentElement();
+}
+
+MSXML2::IXMLDOMNodePtr CXmlDocumentWrapper::AppendChild(LPCTSTR nodeName)
+{
+	if (!IsValid())
+		return NULL;
+
+	MSXML2::IXMLDOMNodePtr newNode = m_xmldoc->createNode(_variant_t((short)MSXML2::NODE_ELEMENT),nodeName,"");
+	newNode = m_xmldoc->appendChild(newNode);
+	return newNode;
 }
 
 CString CXmlDocumentWrapper::GetXML()
