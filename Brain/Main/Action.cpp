@@ -3,6 +3,7 @@
 #include "BrainUtil.h"
 #include "ConstantsDefinition.h"
 #include "CloseLoopChecker.h"
+#include "BehaviorNodeFactory.h"
 
 CloseLoopChecker sComplexActionCloseLoopChecker;
 

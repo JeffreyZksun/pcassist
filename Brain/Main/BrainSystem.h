@@ -10,6 +10,11 @@
 
 #define BEHAVIOR_CLASS_IMP(ClassName, BaseClass) \
 ClassName::ClassName() \
-	: BaseClass(_T("ClassName")) \
+	: BaseClass(_T(#ClassName)) \
 { \
-}
+}\
+BehaviorNode* Create##ClassName()\
+{\
+	return new ClassName();\
+}\
+BehaviorNodeCreationHelper gCreate##ClassName(_T(#ClassName), Create##ClassName);

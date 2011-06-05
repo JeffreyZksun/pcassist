@@ -144,6 +144,10 @@ bool TaskManager::RunTasks()
 bool TaskManager::XmlIn(XmlIOStream* pXmlIOStream)
 {
 	ASSERT(pXmlIOStream != NULL);
+	{
+		Action* pNewAction = NULL;
+
+	}
 	return true;
 }
 

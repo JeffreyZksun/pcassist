@@ -250,6 +250,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Main\BehaviorNodeFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Main\BehaviorNodeFactory.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Main\BrainSystem.h"
 				>
 			</File>
