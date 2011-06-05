@@ -282,6 +282,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Main\DocumentManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Main\DocumentManager.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Main\Parameter.cpp"
 				>
 			</File>
@@ -311,6 +319,14 @@
 			</File>
 			<File
 				RelativePath=".\Main\VariableManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Main\XmlIOStream.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Main\XmlIOStream.h"
 				>
 			</File>
 		</Filter>
