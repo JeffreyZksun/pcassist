@@ -40,6 +40,10 @@ VariableManager* VariableManager::Get()
 
      while(bExist) // Parse the variable one by one.
      {
+         bool bRet = GetParameter(varItem, para);
+         if(!bRet) // No this variable
+             break;
+
 		 // Detect dead loop caused by the close loop reference. Such as (ExePath, %AppPath%/bin) (AppPath, %ExePath%/../)
 		 if(!sVariableManagerCloseLoopChecker.PushOngoingItem(varItem))
 		 {
@@ -51,17 +55,16 @@ VariableManager* VariableManager::Get()
 			 return _T("");  // Return empty string
 		 }
 
-         bool bRet = GetParameter(varItem, para);
-         if(!bRet) // No this variable
-             break;
-
          CString evalStr = para.GetEvaluatedValue();
+
+		 sVariableManagerCloseLoopChecker.Pop();
+
+
          varItem.Insert(0, _T('%'));
          varItem.AppendChar(_T('%'));
 
          evaluatedString.Replace(varItem, evalStr);
 
-         sVariableManagerCloseLoopChecker.Pop();
 
          bExist = GetNextVariable(evaluatedString, varItem);
      }

@@ -60,7 +60,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		pTaskMgr->AddActionTask(pAction);
 	}
 
-	// 2.       Under D:\Inventor Server, make a link “Bin” to F:\Inventor\Main\lib\debug_x64.  Note F:\Inventor\Main is where R: is mapped.
+	// 2.       Under D:\Inventor Server, make a link “Bin?to F:\Inventor\Main\lib\debug_x64.  Note F:\Inventor\Main is where R: is mapped.
 	{
 		Action* pAction = new Action(_T("MakeDirectoryLinkAction"));
 		Parameter linkName(LINK_NAME, _T("%LocalISFolder%\\bin"));
@@ -70,7 +70,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		pTaskMgr->AddActionTask(pAction);
 	}
 
-	//3.       Make a link “Inventor Server” from the AutoCAD run root to D:\Inventor Server
+	//3.       Make a link “Inventor Server?from the AutoCAD run root to D:\Inventor Server
 	{
 		Action* pAction = new Action(_T("MakeDirectoryLinkAction"));
 		Parameter linkName2(LINK_NAME, _T("%AcadISFolder%"));

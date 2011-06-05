@@ -16,7 +16,7 @@ void XmlIOStream::Clear()
 }
 
 // Only for traverse the brothers when read.
-bool XmlIOStream::BeginNode(const CString& nodeName, int index)
+bool XmlIOStream::ReadNode(const CString& nodeName, int index)
 {
 	ASSERT(mbIsRead); 
 	if(!mbIsRead)
@@ -31,40 +31,92 @@ bool XmlIOStream::BeginNode(const CString& nodeName, int index)
 
 	CXmlNodeListWrapper nodeListWrapper(pNodeList);
 
-	if(index > nodeListWrapper.Count())
+	if(index >= nodeListWrapper.Count())
 		return false;
 
-	mpCurrentNode = nodeListWrapper.Node(index);
-	ASSERT(mpCurrentNode != NULL);
+	MSXML2::IXMLDOMNodePtr	pNode = nodeListWrapper.Node(index);
+	ASSERT(pNode != NULL);
+	if(NULL == pNode)
+		return false;
+
+	mpCurrentNode = pNode;
 
 	return true;
 }
 
-bool XmlIOStream::BeginNode(const CString& nodeName)
-{
-	if(!mbIsRead)
-	{		
-		if(NULL == mpCurrentNode) // This is the first node
-		{
-			mpCurrentNode = mDocumentWrapper.AppendChild(nodeName);
-		}
-		else
-		{
-			CXmlNodeWrapper nodeWrapper(mpCurrentNode);
-			mpCurrentNode = nodeWrapper.AppendNode(nodeName);
-		}
 
-		ASSERT(mpCurrentNode != NULL);
+bool XmlIOStream::ReadNode(const CString& nodeName)
+{
+	ASSERT(mbIsRead);
+	if(!mbIsRead)
+		return false;
+
+	ASSERT(mpCurrentNode != NULL);
+	if(NULL == mpCurrentNode)
+		return false;
+
+	CXmlNodeWrapper nodeWrapper(mpCurrentNode);
+	MSXML2::IXMLDOMNodePtr	pNode = nodeWrapper.GetNode(nodeName);
+
+	if(NULL == pNode)
+		return false;
+
+	mpCurrentNode = pNode;
+
+	return true;
+}
+
+bool XmlIOStream::ReadNodeText(CString& text)
+{
+	ASSERT(mpCurrentNode != NULL);
+	if(NULL == mpCurrentNode)
+		return false;
+
+	CXmlNodeWrapper nodeWrapper(mpCurrentNode);
+	text = nodeWrapper.GetText();
+
+	return true;
+}
+
+bool XmlIOStream::WriteNode(const CString& nodeName)
+{
+	ASSERT(!mbIsRead);
+	if(mbIsRead)
+		return false;
+
+	MSXML2::IXMLDOMNodePtr	pNode = NULL;
+
+	if(NULL == mpCurrentNode) // This is the first node
+	{
+		pNode = mDocumentWrapper.AppendChild(nodeName);
 	}
 	else
 	{
-		ASSERT(mpCurrentNode != NULL);
-		if(NULL == mpCurrentNode)
-			return false;
-
 		CXmlNodeWrapper nodeWrapper(mpCurrentNode);
-		mpCurrentNode = nodeWrapper.GetNode(nodeName);
+		pNode = nodeWrapper.AppendNode(nodeName);
 	}
+
+	ASSERT(pNode != NULL);
+	if(NULL == pNode)
+		return false;
+
+	mpCurrentNode = pNode;
+
+	return true;
+}
+
+bool XmlIOStream::WriteNodeText(const CString& text)
+{
+	ASSERT(!mbIsRead);
+	if(mbIsRead)
+		return false; // Can't write to the read stream.
+
+	ASSERT(mpCurrentNode != NULL);
+	if(NULL == mpCurrentNode)
+		return false;
+
+	CXmlNodeWrapper nodeWrapper(mpCurrentNode);
+	nodeWrapper.SetText(text);
 
 	return true;
 }
@@ -83,30 +135,9 @@ bool XmlIOStream::CloseNode()
 	return true;
 }
 
-bool XmlIOStream::SetNodeText(const CString& text)
+bool XmlIOStream::IsReadStream() const
 {
-	ASSERT(!mbIsRead);
-	if(mbIsRead)
-		return false; // Can't write to the read stream.
-
-	ASSERT(mpCurrentNode != NULL);
-	if(NULL == mpCurrentNode)
-		return false;
-	CXmlNodeWrapper nodeWrapper(mpCurrentNode);
-	nodeWrapper.SetText(text);
-
-	return true;
-}
-
-bool XmlIOStream::GetNodeText(CString& text)
-{
-	ASSERT(mpCurrentNode != NULL);
-	if(NULL == mpCurrentNode)
-		return false;
-	CXmlNodeWrapper nodeWrapper(mpCurrentNode);
-	text = nodeWrapper.GetText();
-
-	return true;
+	return mbIsRead;
 }
 
 bool XmlIOStream::Load(const CString& docName)
@@ -129,14 +160,24 @@ bool XmlIOStream::Save(const CString& docName)
 }
 
 XmlIOStreamBeginNodeStack::XmlIOStreamBeginNodeStack(XmlIOStream* pStream, const CString& nodeName)
-: mpStream(pStream)
+: mpStream(pStream), mbSucc(false)
 {
 	if(mpStream != NULL)
-		mpStream->BeginNode(nodeName);
+	{
+		if(mpStream->IsReadStream())
+			mbSucc = mpStream->ReadNode(nodeName);
+		else
+			mbSucc = mpStream->WriteNode(nodeName);
+	}
 }
 
 XmlIOStreamBeginNodeStack::~XmlIOStreamBeginNodeStack()
 {
-	if(mpStream != NULL)
+	if(mpStream != NULL && mbSucc)
 		mpStream->CloseNode();
+}
+
+bool XmlIOStreamBeginNodeStack::IsSuccess()
+{
+	return mbSucc;
 }

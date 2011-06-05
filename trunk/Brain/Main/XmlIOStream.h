@@ -9,12 +9,18 @@ public:
 	~XmlIOStream(void);
 
 public:
-	// Only for traverse the brothers when read.
-	bool		BeginNode(const CString& nodeName, int index);
-	bool		BeginNode(const CString& nodeName);
+	// Read
+	bool		ReadNode(const CString& nodeName);
+	bool		ReadNode(const CString& nodeName, int index);
+	bool		ReadNodeText(CString& text);
+
+	// Write
+	bool		WriteNode(const CString& nodeName);
+	bool		WriteNodeText(const CString& text);
+
 	bool		CloseNode();
-	bool		SetNodeText(const CString& text);
-	bool		GetNodeText(CString& text);
+
+	bool		IsReadStream() const;
 
 public:
 	void		Clear();
@@ -34,6 +40,9 @@ public:
 	XmlIOStreamBeginNodeStack(XmlIOStream*, const CString& );
 	~XmlIOStreamBeginNodeStack();
 
+	bool			IsSuccess();
+
 private:
-	XmlIOStream* mpStream;
+	XmlIOStream*	mpStream;
+	bool			mbSucc;
 };
