@@ -262,6 +262,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Main\CloseLoopChecker.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Main\CloseLoopChecker.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Main\Condition.cpp"
 				>
 			</File>

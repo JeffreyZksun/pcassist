@@ -17,57 +17,92 @@ void TestFolderExistsCondition();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	// Test ComplexAction
-	Condition* pC  = new FileExistsCondition();
-	pC->AddParameter(Parameter(OBJECT_ID, _T("CheckFolder")));
-	pC->AddParameter(Parameter(FILE_NAME, _T("C:\\temp")));
+	/////////////////////////////////////////////////// Test ComplexAction
+	//Condition* pC  = new FileExistsCondition();
+	//pC->AddParameter(Parameter(OBJECT_ID, _T("CheckFolder")));
+	//pC->AddParameter(Parameter(FILE_NAME, _T("C:\\temp")));
 
-	Action* pPreAction = new CreateFolderAction();
-	pPreAction->AddParameter(Parameter(OBJECT_ID, _T("PreAction")));
-	pPreAction->AddParameter(Parameter(FOLDER_NAME, _T("C:\\temp\\preaction")));
+	//Action* pPreAction = new CreateFolderAction();
+	//pPreAction->AddParameter(Parameter(OBJECT_ID, _T("PreAction")));
+	//pPreAction->AddParameter(Parameter(FOLDER_NAME, _T("C:\\temp\\preaction")));
 
-	Action* pMainAction = new CreateFolderAction();
-	pMainAction->AddParameter(Parameter(OBJECT_ID, _T("MainAction")));
-	pMainAction->AddParameter(Parameter(FOLDER_NAME, _T("C:\\temp\\mainaction")));
+	//Action* pMainAction = new CreateFolderAction();
+	//pMainAction->AddParameter(Parameter(OBJECT_ID, _T("MainAction")));
+	//pMainAction->AddParameter(Parameter(FOLDER_NAME, _T("C:\\temp\\mainaction")));
 
-	Action* pPostAction = new CreateFolderAction();
-	pPostAction->AddParameter(Parameter(OBJECT_ID, _T("PostAction")));
-	pPostAction->AddParameter(Parameter(FOLDER_NAME, _T("C:\\temp\\postaction")));
+	//Action* pPostAction = new CreateFolderAction();
+	//pPostAction->AddParameter(Parameter(OBJECT_ID, _T("PostAction")));
+	//pPostAction->AddParameter(Parameter(FOLDER_NAME, _T("C:\\temp\\postaction")));
 
-	Action* pComplexAction = new ComplexAction();
-	pComplexAction->AddParameter(Parameter(OBJECT_ID, _T("CreateFolders")));
-	pComplexAction->AddParameter(Parameter(EXECUTE_CONDITION, _T("CheckFolder")));
-	pComplexAction->AddParameter(Parameter(PRE_ACTION, _T("PreAction")));
-	pComplexAction->AddParameter(Parameter(MAIN_ACTION, _T("MainAction")));
-	pComplexAction->AddParameter(Parameter(POST_ACTION, _T("PostAction")));
+	//Action* pComplexAction = new ComplexAction();
+	//pComplexAction->AddParameter(Parameter(OBJECT_ID, _T("CreateFolders")));
+	//pComplexAction->AddParameter(Parameter(EXECUTE_CONDITION, _T("CheckFolder")));
+	//pComplexAction->AddParameter(Parameter(PRE_ACTION, _T("PreAction")));
+	//pComplexAction->AddParameter(Parameter(MAIN_ACTION, _T("MainAction")));
+	//pComplexAction->AddParameter(Parameter(POST_ACTION, _T("PostAction")));
 
-	Action* pA = TaskManager::Get()->GetActionById(_T("CreateFolders"));
+	//Action* pA = TaskManager::Get()->GetActionById(_T("CreateFolders"));
 
-	bool bRet = pA->Execute();
+	//bool bRet = pA->Execute();
 
-	int i =10;
+	//int i =10;
 
-	// Test ComplexCondition
+	/////////////////////////////////////// Test ComplexAction close loop reference A<-->B
+	//Condition* pC  = new FileExistsCondition();
+	//pC->AddParameter(Parameter(OBJECT_ID, _T("CheckFolder")));
+	//pC->AddParameter(Parameter(FILE_NAME, _T("C:\\temp")));
+
+	//Action* pActionA = new ComplexAction();
+	//pActionA->AddParameter(Parameter(OBJECT_ID, _T("A")));
+	//pActionA->AddParameter(Parameter(EXECUTE_CONDITION, _T("CheckFolder")));
+	//pActionA->AddParameter(Parameter(PRE_ACTION, _T("PreAction")));
+	//pActionA->AddParameter(Parameter(MAIN_ACTION, _T("B")));
+	//pActionA->AddParameter(Parameter(POST_ACTION, _T("PostAction")));
+
+	//Action* pActionB = new ComplexAction();
+	//pActionB->AddParameter(Parameter(OBJECT_ID, _T("B")));
+	//pActionB->AddParameter(Parameter(EXECUTE_CONDITION, _T("CheckFolder")));
+	//pActionB->AddParameter(Parameter(PRE_ACTION, _T("PreAction")));
+	//pActionB->AddParameter(Parameter(MAIN_ACTION, _T("A")));
+	//pActionB->AddParameter(Parameter(POST_ACTION, _T("PostAction")));
+
+
+	//bool bRet = pActionA->Execute();
+
+	/////////////////////////////////////// Test ComplexCondition
 	//Condition* pC  = new FileExistsCondition();
 	//pC->AddParameter(Parameter(OBJECT_ID, _T("CheckDiskC")));
-	//pC->AddParameter(Parameter(FILE_NAME, _T("Z:\\")));
+	//pC->AddParameter(Parameter(FILE_NAME, _T("C:\\")));
 
 	//pC = new FileExistsCondition();
-	//pC->AddParameter(Parameter(OBJECT_ID, _T("CheckDiskD")));
-	//pC->AddParameter(Parameter(FILE_NAME, _T("D:\\")));
+	//pC->AddParameter(Parameter(OBJECT_ID, _T("CheckDiskAZ")));
+	//pC->AddParameter(Parameter(FILE_NAME, _T("AZ:\\")));
 
 	//pC = new ComplexCondition();
 	//pC->AddParameter(Parameter(OBJECT_ID, _T("CheckDiskCD")));
 	//pC->AddParameter(Parameter(BOOL_OPERATOR, _T("OR")));
 	//pC->AddParameter(Parameter(FIRST_CONDITION, _T("CheckDiskC")));
-	//pC->AddParameter(Parameter(SECOND_CONDITION, _T("CheckDiskD")));
+	//pC->AddParameter(Parameter(SECOND_CONDITION, _T("CheckDiskAZ")));
 
 	//Condition* pC2 = TaskManager::Get()->GetConditionById(_T("CheckDiskCD"));
 	//bool bIsTrue = pC2->IsTrue();
 
 
+	/////////////////////////////////////// Test ComplexCondition close loop reference A<-->B
+	//Condition* pCA = new ComplexCondition();
+	//pCA->AddParameter(Parameter(OBJECT_ID, _T("CA")));
+	//pCA->AddParameter(Parameter(BOOL_OPERATOR, _T("Not")));
+	//pCA->AddParameter(Parameter(FIRST_CONDITION, _T("CB")));
 
-	// Test GetActionById, GetConditionById
+	//Condition* pCB = new ComplexCondition();
+	////pCB->AddParameter(Parameter(OBJECT_ID, _T("CA")));
+	//pCB->AddParameter(Parameter(OBJECT_ID, _T("CB")));
+	//pCB->AddParameter(Parameter(BOOL_OPERATOR, _T("Not")));
+	//pCB->AddParameter(Parameter(FIRST_CONDITION, _T("CA")));
+
+	//bool bIsTrue = pCB->IsTrue();
+
+	///////////////////////////////////////////// Test GetActionById, GetConditionById
 	//TaskManager* pTaskMgr = TaskManager::Get();
 	//new CreateFileAction();
 	//Action* pA = new CreateFileAction();
@@ -115,6 +150,28 @@ int _tmain(int argc, _TCHAR* argv[])
 	//VariableManager::Get()->AddParameter(var4);
 
 	//CString str = var2.GetEvaluatedValue();
+
+	//////////////////////////////////////////Test dead loop
+	//Parameter var1(_T("AppPath"), _T("%ExePath%"));
+	//Parameter var2(_T("ExePath"), _T("C:\\%AppPath%"));
+
+	//VariableManager::Get()->AddParameter(var1);
+	//VariableManager::Get()->AddParameter(var2);
+
+	//var2.GetEvaluatedValue();
+
+	////////////////////////////////////////Test correct parser
+	//Parameter var1(_T("AppPath"), _T("%ExePath%"));
+	//Parameter var2(_T("ExePath"), _T("%ProgramFile%\\MyApp"));
+	//Parameter var3(_T("ProgramFile"), _T("C:\\Program Files"));
+
+	//VariableManager::Get()->AddParameter(var1);
+	//VariableManager::Get()->AddParameter(var2);
+	//VariableManager::Get()->AddParameter(var3);
+
+	//CString str = var1.GetEvaluatedValue();
+
+	//int i = 10;
 
 	//BrainUtil::DoesFileorFolderExist(_T("C:\\"));
 	//BrainUtil::DoesFileorFolderExist(_T("C:\\2"));

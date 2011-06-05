@@ -14,6 +14,9 @@ ParameterObject::~ParameterObject(void)
 
 void ParameterObject::AddParameter(const Parameter& para)
 {
+	if(!IsParameterValid(para))
+		return;
+
     CString name = para.GetName();
     name.MakeLower();
     
@@ -43,4 +46,9 @@ bool ParameterObject::GetParameter(const CString& paraName, Parameter& para) con
 
     // Not found
     return false;
+}
+
+bool ParameterObject::IsParameterValid(const Parameter& para) const
+{
+	return true;
 }
