@@ -4,7 +4,7 @@
 class BehaviorNode;
 
 // Define the creation function pointer
-typedef BehaviorNode* (*CreateBehaviorNode)();
+typedef bool (*BehaviorFunction)(BehaviorNode*);
 
 class BehaviorNodeFactory
 {
@@ -12,22 +12,22 @@ public:
 	BehaviorNodeFactory(void);
 	~BehaviorNodeFactory(void);
 
-	BehaviorNode*	CreteBehaviorNodeByType(const CString& objectType) const;
-	void			AddCreationFunction(const CString& objectType, CreateBehaviorNode pFunction);
-	void			RemoveCreationFunction(const CString& objectType);
+	BehaviorFunction	GetBehaviorFunction(const CString& objectType) const;
+	void				AddBehaviorFunction(const CString& objectType, BehaviorFunction pFunction);
+	void				RemoveBehaviorFunction(const CString& objectType);
 
 	static BehaviorNodeFactory* Get();
 
 private:
-	typedef std::map<CString, CreateBehaviorNode> FunctionMap;
-	FunctionMap mCreationFunctionMap;
+	typedef std::map<CString, BehaviorFunction> FunctionMap;
+	FunctionMap mBehaviorFunctionMap;
 };
 
-class BehaviorNodeCreationHelper
+class BehaviorFunctionHelper
 {
 public:
-	BehaviorNodeCreationHelper(const CString& objectType, CreateBehaviorNode pFunction);
-	~BehaviorNodeCreationHelper(void);
+	BehaviorFunctionHelper(const CString& objectType, BehaviorFunction pFunction);
+	~BehaviorFunctionHelper(void);
 
 private:
 	CString		mObjectType;

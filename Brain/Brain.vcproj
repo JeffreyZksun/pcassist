@@ -246,10 +246,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Main\Action.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Main\BehaviorNodeFactory.cpp"
 				>
 			</File>
@@ -279,10 +275,6 @@
 			</File>
 			<File
 				RelativePath=".\Main\Condition.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Main\Condition.h"
 				>
 			</File>
 			<File

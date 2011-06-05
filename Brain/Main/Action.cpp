@@ -1,19 +1,17 @@
 #include "StdAfx.h"
-#include "Action.h"
 #include "BrainUtil.h"
 #include "ConstantsDefinition.h"
 #include "CloseLoopChecker.h"
 #include "BehaviorNodeFactory.h"
+#include "TaskManager.h"
 
 CloseLoopChecker sComplexActionCloseLoopChecker;
 
-BEHAVIOR_CLASS_IMP(ComplexAction, Action)
-
-bool ComplexAction::Execute()
+BEHAVIOR_FUNCTION_IMP(ComplexAction)
 {
 	// Condition
 	Parameter condition;
-	bool bExist = GetParameter(EXECUTE_CONDITION, condition);
+	bool bExist = pSelf->GetParameter(EXECUTE_CONDITION, condition);
 	ASSERT(bExist);
 	if(!bExist)
 		return false;
@@ -28,7 +26,7 @@ bool ComplexAction::Execute()
 
 	// Main action, required.
 	Parameter mainAction;
-	bExist = GetParameter(MAIN_ACTION, mainAction);
+	bExist = pSelf->GetParameter(MAIN_ACTION, mainAction);
 	ASSERT(bExist);
 	if(!bExist)
 		return false;
@@ -39,7 +37,7 @@ bool ComplexAction::Execute()
 		return false;
 
 	// Detect dead loop caused by the close loop reference. Such as A<-->B
-	if(!sComplexActionCloseLoopChecker.PushOngoingItem(GetObjectId()))
+	if(!sComplexActionCloseLoopChecker.PushOngoingItem(pSelf->GetObjectId()))
 	{
 		// This variable is already in the evaluation stack. 
 		// Close  loop reference is detected.
@@ -51,7 +49,7 @@ bool ComplexAction::Execute()
 
 	// Pre action, optional.
 	Parameter preAction;
-	bExist = GetParameter(PRE_ACTION, preAction);
+	bExist = pSelf->GetParameter(PRE_ACTION, preAction);
 	if(bExist)
 	{
 		Action* pPreAction = TaskManager::Get()->GetActionById(preAction.GetEvaluatedValue());
@@ -64,7 +62,7 @@ bool ComplexAction::Execute()
 
 	// Post action, optional.
 	Parameter postAction;
-	bExist = GetParameter(POST_ACTION, postAction);
+	bExist = pSelf->GetParameter(POST_ACTION, postAction);
 	if(bExist)
 	{
 		Action* pPostAction = TaskManager::Get()->GetActionById(postAction.GetEvaluatedValue());
@@ -77,12 +75,10 @@ bool ComplexAction::Execute()
 	return bRet;
 }
 
-BEHAVIOR_CLASS_IMP(CreateFileAction, Action)
-
-bool CreateFileAction::Execute()
+BEHAVIOR_FUNCTION_IMP(CreateFileAction)
 {
     Parameter para;
-    bool bExist = GetParameter(FILE_NAME, para);
+    bool bExist = pSelf->GetParameter(FILE_NAME, para);
     ASSERT(bExist);
 
     if(bExist)
@@ -91,12 +87,10 @@ bool CreateFileAction::Execute()
     return false;
 }
 
-BEHAVIOR_CLASS_IMP(DeleteFileAction, Action)
-
-bool DeleteFileAction::Execute()
+BEHAVIOR_FUNCTION_IMP(DeleteFileAction)
 {
     Parameter para;
-    bool bExist = GetParameter(FILE_NAME, para);
+    bool bExist = pSelf->GetParameter(FILE_NAME, para);
     ASSERT(bExist);
 
     if(bExist)
@@ -105,18 +99,16 @@ bool DeleteFileAction::Execute()
     return false;
 }
 
-BEHAVIOR_CLASS_IMP(CopyFileAction, Action)
-
-bool CopyFileAction::Execute()
+BEHAVIOR_FUNCTION_IMP(CopyFileAction)
 {
     Parameter para1;
-    bool bExist = GetParameter(SRC_FILE_NAME, para1);
+    bool bExist = pSelf->GetParameter(SRC_FILE_NAME, para1);
     ASSERT(bExist);
     if(!bExist)
         return false;
 
     Parameter para2;
-    bExist = GetParameter(DEST_FILE_NAME, para2);
+    bExist = pSelf->GetParameter(DEST_FILE_NAME, para2);
     ASSERT(bExist);
     if(!bExist)
         return false;
@@ -124,12 +116,10 @@ bool CopyFileAction::Execute()
     return PcUtil::CopyFile(para1.GetEvaluatedValue(), para2.GetEvaluatedValue());
 }
 
-BEHAVIOR_CLASS_IMP(CreateFolderAction, Action)
-
-bool CreateFolderAction::Execute()
+BEHAVIOR_FUNCTION_IMP(CreateFolderAction)
 {
     Parameter para;
-    bool bExist = GetParameter(FOLDER_NAME, para);
+    bool bExist = pSelf->GetParameter(FOLDER_NAME, para);
     ASSERT(bExist);
 
     if(bExist)
@@ -138,12 +128,10 @@ bool CreateFolderAction::Execute()
     return false;
 }
 
-BEHAVIOR_CLASS_IMP(DeleteFolderAction, Action)
-
-bool DeleteFolderAction::Execute()
+BEHAVIOR_FUNCTION_IMP(DeleteFolderAction)
 {
     Parameter para;
-    bool bExist = GetParameter(FOLDER_NAME, para);
+    bool bExist = pSelf->GetParameter(FOLDER_NAME, para);
     ASSERT(bExist);
 
     if(bExist)
@@ -152,38 +140,34 @@ bool DeleteFolderAction::Execute()
     return false;
 }
 
-BEHAVIOR_CLASS_IMP(CopyFolderAction, Action)
-
-bool CopyFolderAction::Execute()
+BEHAVIOR_FUNCTION_IMP(CopyFolderAction)
 {
     Parameter para1;
-    bool bExist = GetParameter(SRC_Folder_NAME, para1);
+    bool bExist = pSelf->GetParameter(SRC_Folder_NAME, para1);
     ASSERT(bExist);
     if(!bExist)
         return false;
 
     Parameter para2;
     ASSERT(bExist);
-    bExist = GetParameter(DEST_Folder_NAME, para2);
+    bExist = pSelf->GetParameter(DEST_Folder_NAME, para2);
     if(!bExist)
         return false;
 
     return PcUtil::CopyFolder(para1.GetEvaluatedValue(), para2.GetEvaluatedValue());
 }
 
-BEHAVIOR_CLASS_IMP(MakeDirectoryLinkAction, Action)
-
-bool MakeDirectoryLinkAction::Execute()
+BEHAVIOR_FUNCTION_IMP(MakeDirectoryLinkAction)
 {
     Parameter para1;
-    bool bExist = GetParameter(LINK_NAME, para1);
+    bool bExist = pSelf->GetParameter(LINK_NAME, para1);
     ASSERT(bExist);
     if(!bExist)
         return false;
 
     Parameter para2;
     ASSERT(bExist);
-    bExist = GetParameter(LINK_TARGET, para2);
+    bExist = pSelf->GetParameter(LINK_TARGET, para2);
     if(!bExist)
         return false;
 

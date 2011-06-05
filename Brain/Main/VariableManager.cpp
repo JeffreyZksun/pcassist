@@ -111,9 +111,15 @@ VariableManager* VariableManager::Get()
 	...
  </GlobalVariables>
 ************************************************************************/
+#define GlobalVariablesNode _T("GlobalVariables")
+
 bool VariableManager::XmlIn(XmlIOStream* pXmlIOStream)
 {
 	ASSERT(pXmlIOStream != NULL);
+	{
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, GlobalVariablesNode);
+		ParameterObject::XmlIn(pXmlIOStream);
+	}
 	return true;
 }
 
@@ -122,7 +128,7 @@ bool VariableManager::XmlOut(XmlIOStream* pXmlIOStream) const
 	ASSERT(pXmlIOStream != NULL);	
 
 	{
-		XmlIOStreamBeginNodeStack stack(pXmlIOStream, _T("GlobalVariables"));
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, GlobalVariablesNode);
 		ParameterObject::XmlOut(pXmlIOStream);
 	}
 

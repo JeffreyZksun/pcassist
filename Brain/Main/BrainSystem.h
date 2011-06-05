@@ -6,15 +6,13 @@
 #define BRAINEXPORT __declspec(dllimport)
 #endif
 
-#define BEHAVIOR_CLASS_DECLARE(ClassName) ClassName();
 
-#define BEHAVIOR_CLASS_IMP(ClassName, BaseClass) \
-ClassName::ClassName() \
-	: BaseClass(_T(#ClassName)) \
-{ \
-}\
-BehaviorNode* Create##ClassName()\
-{\
-	return new ClassName();\
-}\
-BehaviorNodeCreationHelper gCreate##ClassName(_T(#ClassName), Create##ClassName);
+//#define BEHAVIOR_FUNCTION_IMP(BehaviorName) \
+//bool BehaviorName##Function(BehaviorNode* pSelf);\
+//BehaviorFunctionHelper g##BehaviorName(_T(#BehaviorName), BehaviorName##Function);\
+//bool BehaviorName##Function(BehaviorNode* pSelf)
+
+#define BEHAVIOR_FUNCTION_IMP(BehaviorName) \
+bool BehaviorName(BehaviorNode* pSelf);\
+BehaviorFunctionHelper g##BehaviorName(_T(#BehaviorName), BehaviorName);\
+bool BehaviorName(BehaviorNode* pSelf)

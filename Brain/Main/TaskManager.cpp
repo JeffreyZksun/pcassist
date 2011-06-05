@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "ConstantsDefinition.h"
 #include "XmlIOStream.h"
+#include "BehaviorNodeFactory.h"
 
 //////////////////////////////////////////////////////////////////////////
 // TaskManager
@@ -141,13 +142,82 @@ bool TaskManager::RunTasks()
 	...
  </Conditions>
 ************************************************************************/
+
+#define TaskListNode _T("TaskList")
+#define ActionsNode _T("Actions")
+#define ConditionsNode _T("Conditions")
+#define ActionIdNode _T("ActionId")
+#define ActionNode _T("Action")
+#define ConditionNode _T("Condition")
+
 bool TaskManager::XmlIn(XmlIOStream* pXmlIOStream)
 {
 	ASSERT(pXmlIOStream != NULL);
-	{
-		Action* pNewAction = NULL;
 
+	// Actions
+	{
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ActionsNode);
+		bool bHasItem = true;
+		int index = 0;
+		while(bHasItem)
+		{		
+			bHasItem = pXmlIOStream->BeginNode(ActionNode, index);
+			if(!bHasItem)
+				break;
+
+			Action* pNewAction = new Action(); // The action is registered in its ctor
+			pNewAction->XmlIn(pXmlIOStream);
+
+			index++;
+		}
+
+		pXmlIOStream->CloseNode();
 	}
+	
+	// Conditions
+	{
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ConditionsNode);
+		bool bHasItem = true;
+		int index = 0;
+		while(bHasItem)
+		{		
+			bHasItem = pXmlIOStream->BeginNode(ConditionNode, index);
+			if(!bHasItem)
+				break;
+
+			Condition* pNewCondition = new Condition(); // The action is registered in its ctor
+			pNewCondition->XmlIn(pXmlIOStream);
+
+			index++;
+		}
+
+		pXmlIOStream->CloseNode();
+	}
+
+	// TaskList 
+	{
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, TaskListNode);
+		bool bHasItem = true;
+		int index = 0;
+		while(bHasItem)
+		{		
+			bHasItem = pXmlIOStream->BeginNode(ActionIdNode, index);
+			if(!bHasItem)
+				break;
+
+			CString actionObjectId;
+			pXmlIOStream->GetNodeText(actionObjectId);
+
+			Action* pAction = GetActionById(actionObjectId);
+			if(pAction != NULL)
+				AddActionTask(pAction);
+
+			index++;
+		}
+
+		pXmlIOStream->CloseNode();
+	}
+
 	return true;
 }
 
@@ -157,34 +227,36 @@ bool TaskManager::XmlOut(XmlIOStream* pXmlIOStream) const
 
 	// TaskList
 	{
-		XmlIOStreamBeginNodeStack stack(pXmlIOStream, _T("TaskList"));
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, TaskListNode);
 
 		for (ActionList::const_iterator it = mTaskList.begin(); it != mTaskList.end(); ++it)
 		{
 			ASSERT(*it != NULL);
-			XmlIOStreamBeginNodeStack stack2(pXmlIOStream, _T("ActionId"));
+			XmlIOStreamBeginNodeStack stack2(pXmlIOStream, ActionIdNode);
 			pXmlIOStream->SetNodeText((*it)->GetObjectId());
 		}
 	}
 
 	// Actions
 	{
-		XmlIOStreamBeginNodeStack stack(pXmlIOStream, _T("Actions"));
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ActionsNode);
 
 		for (BehaviorNodeList::const_iterator it = mRegisteredActions.begin(); it != mRegisteredActions.end(); ++it)
 		{
 			ASSERT(*it != NULL);
+			XmlIOStreamBeginNodeStack stack2(pXmlIOStream, ActionNode);
 			(*it)->XmlOut(pXmlIOStream);
 		}
 	}
 
 	//Conditions
 	{
-		XmlIOStreamBeginNodeStack stack(pXmlIOStream, _T("Conditions"));
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ConditionsNode);
 
 		for (BehaviorNodeList::const_iterator it = mRegisteredContions.begin(); it != mRegisteredContions.end(); ++it)
 		{
 			ASSERT(*it != NULL);
+			XmlIOStreamBeginNodeStack stack2(pXmlIOStream, ConditionNode);
 			(*it)->XmlOut(pXmlIOStream);
 		}
 	}
@@ -274,13 +346,21 @@ void TaskManager::_DeleteBehaviorNodes(BehaviorNodeList& nodeList)
 // BehaviorNode
 //////////////////////////////////////////////////////////////////////////
 
+BehaviorNode::BehaviorNode()
+{
+	int address = (int)this;
+	CString objectId;
+	objectId.Format(_T("%d"), address);
+	AddParameter(Parameter(OBJECT_ID, objectId));	// Used for query the object
+}
+
 BehaviorNode::BehaviorNode(const CString& objetType)
 {
 	int address = (int)this;
 	CString objectId;
 	objectId.Format(_T("%d"), address);
 	AddParameter(Parameter(OBJECT_ID, objectId));	// Used for query the object
-	AddParameter(Parameter(OBJECT_TYPE, objetType));// Used for create the object by type.
+	AddParameter(Parameter(OBJECT_TYPE, objetType));// Used for select the behavior function.
 }
 
 CString BehaviorNode::GetObjectId() const
@@ -308,6 +388,11 @@ CString BehaviorNode::GetObjectType() const
 //////////////////////////////////////////////////////////////////////////
 // Action
 //////////////////////////////////////////////////////////////////////////
+Action::Action()
+{
+	TaskManager* pTaskMgr = TaskManager::Get();
+	pTaskMgr->RegisterAction(this);
+}
 
 Action::Action(const CString& objetType)
 	: BehaviorNode(objetType)
@@ -334,41 +419,26 @@ bool Action::IsParameterValid(const Parameter& para) const
 
 	return true;
 }
- 
-/************************************************************************
- The data format is:
- 
- <Action>
-	<Parameter> ...</Parameter>
-	<Parameter>...</Parameter>
-	<Parameter>...</Parameter>
-	...
- </Action>
-************************************************************************/
-bool Action::XmlIn(XmlIOStream* pXmlIOStream)
+
+bool Action::Execute()
 {
-	ASSERT(pXmlIOStream != NULL);
-	return true;
-}
+	BehaviorFunction pFunction = BehaviorNodeFactory::Get()->GetBehaviorFunction(GetObjectType());
+	if(NULL == pFunction)
+		return false;
 
-bool Action::XmlOut(XmlIOStream* pXmlIOStream) const
-{
-	ASSERT(pXmlIOStream != NULL);	
-
-
-	pXmlIOStream->BeginNode(_T("Action"));
-
-	BehaviorNode::XmlOut(pXmlIOStream);
-
-	pXmlIOStream->CloseNode();
-
-
-	return true;
+	bool bRet = pFunction(this);
+	return bRet;
 }
 
 //////////////////////////////////////////////////////////////////////////
 // Condition
 //////////////////////////////////////////////////////////////////////////
+
+Condition::Condition()
+{
+	TaskManager* pTaskMgr = TaskManager::Get();
+	pTaskMgr->RegisterCondition(this);
+}
 
 Condition::Condition(const CString& objetType)
 	: BehaviorNode(objetType)
@@ -396,33 +466,12 @@ bool Condition::IsParameterValid(const Parameter& para) const
 	return true;
 }
 
-/************************************************************************
- The data format is:
- 
- <Condition>
-	<Parameter> ...</Parameter>
-	<Parameter>...</Parameter>
-	<Parameter>...</Parameter>
-	...
- </Condition>
-************************************************************************/
-bool Condition::XmlIn(XmlIOStream* pXmlIOStream)
+bool Condition::IsTrue()
 {
-	ASSERT(pXmlIOStream != NULL);
-	return true;
-}
+	BehaviorFunction pFunction = BehaviorNodeFactory::Get()->GetBehaviorFunction(GetObjectType());
+	if(NULL == pFunction)
+		return false;
 
-bool Condition::XmlOut(XmlIOStream* pXmlIOStream) const
-{
-	ASSERT(pXmlIOStream != NULL);	
-
-
-	pXmlIOStream->BeginNode(_T("Condition"));
-
-	BehaviorNode::XmlOut(pXmlIOStream);
-
-	pXmlIOStream->CloseNode();
-
-
-	return true;
+	bool bRet = pFunction(this);
+	return bRet;
 }
