@@ -7,6 +7,8 @@
 //Disable the waring " class 'ATL::CStringT<BaseType,StringTraits>' needs to have dll-interface to be used by clients of class"
 #pragma warning( disable : 4251 ) 
 
+class XmlIOStream;
+
 class BRAINEXPORT ParameterObject
 {
 public:
@@ -18,6 +20,10 @@ public:
 
     void				AddParameter(const Parameter& para);
     bool				GetParameter(const CString& paraName, Parameter& para) const;
+
+public:
+	virtual bool		XmlIn(XmlIOStream* pXmlIOStream);
+	virtual bool		XmlOut(XmlIOStream* pXmlIOStream) const;
 
 protected:
 	virtual bool		IsParameterValid(const Parameter& para) const;

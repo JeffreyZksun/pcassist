@@ -11,6 +11,7 @@
 class BehaviorNode;
 class Action;
 class Condition;
+class XmlIOStream;
 
 //////////////////////////////////////////////////////////////////////////
 // TaskManager
@@ -37,6 +38,9 @@ public:
     void                    RemoveActionTask(Action*);
 
     bool                    RunTasks();
+
+	bool					XmlIn(XmlIOStream* pXmlIOStream);
+	bool					XmlOut(XmlIOStream* pXmlIOStream) const;
 
 private:
     void                    deleteRegisteredActions();
@@ -88,6 +92,9 @@ public:
 protected:
 	virtual bool		IsParameterValid(const Parameter& para) const;
 
+	virtual bool		XmlIn(XmlIOStream* pXmlIOStream);
+	virtual bool		XmlOut(XmlIOStream* pXmlIOStream) const;
+
 public:
     virtual bool		Execute() = 0;
 };
@@ -105,6 +112,9 @@ public:
 
 protected:
 	virtual bool		IsParameterValid(const Parameter& para) const;
+
+	virtual bool		XmlIn(XmlIOStream* pXmlIOStream);
+	virtual bool		XmlOut(XmlIOStream* pXmlIOStream) const;
 
 public:
     virtual bool		IsTrue() = 0;

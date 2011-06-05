@@ -1,6 +1,8 @@
 #pragma once
 #include "ParameterObject.h"
 
+class XmlIOStream;
+
 //////////////////////////////////////////////////////////////////////////
 // VariableManager
 //////////////////////////////////////////////////////////////////////////
@@ -14,6 +16,9 @@ public:
     static VariableManager* Get(); // Singleton
 
     CString GetEvaluatedString(const CString& variableString) const;
+
+	bool XmlIn(XmlIOStream* pXmlIOStream);
+	bool XmlOut(XmlIOStream* pXmlIOStream) const;
 
 public:
     bool GetNextVariable(const CString& variableString, CString& varItem) const;

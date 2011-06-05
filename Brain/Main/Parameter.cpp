@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "Parameter.h"
 #include "VariableManager.h"
+#include "XmlIOStream.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ComplexString
@@ -88,4 +89,41 @@ void Parameter::SetComments(const CString& comments)
 const CString& Parameter::GetComments() const
 {
     return mComments;
+}
+
+/************************************************************************
+The data format is:
+	<Name> </Name>
+	<Value> </Value>
+	<Comments> </Comments>
+
+ If comment is empty, don't output.
+************************************************************************/
+bool Parameter::XmlIn(XmlIOStream* pXmlIOStream)
+{
+	ASSERT(pXmlIOStream != NULL);
+	return true;
+}
+
+bool Parameter::XmlOut(XmlIOStream* pXmlIOStream) const
+{
+	ASSERT(pXmlIOStream != NULL);
+
+	{
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, _T("Name"));
+		pXmlIOStream->SetNodeText(mName);
+	}
+
+	{
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, _T("Value"));
+		pXmlIOStream->SetNodeText(mValue.GetRawtring());
+	}
+	
+	if(mComments.GetLength() != 0)
+	{
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, _T("Comments"));
+		pXmlIOStream->SetNodeText(mComments);
+	}
+
+	return true;
 }

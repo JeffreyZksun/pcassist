@@ -2,6 +2,7 @@
 #include "TaskManager.h"
 #include <algorithm>
 #include "ConstantsDefinition.h"
+#include "XmlIOStream.h"
 
 //////////////////////////////////////////////////////////////////////////
 // TaskManager
@@ -106,6 +107,87 @@ bool TaskManager::RunTasks()
 
     return bRet;
 }
+
+
+/************************************************************************
+ The data format is:
+ 
+ <TaskList>
+	<ActionId> (action id) </ActionId>
+	<ActionId>...</ActionId>
+	<ActionId>...</ActionId>
+	...
+ </TaskList>
+
+ <Actions>
+	 <Action> 
+		<Parameter>...</Parameter>
+		<Parameter>...</Parameter>
+		...
+	 </Action>
+	 <Action>...</Action>
+	 <Action>...</Action>
+ ...
+ </Actions>
+
+ <Conditions>
+	 <Condition> 
+		 <Parameter>...</Parameter>
+		 <Parameter>...</Parameter>
+	 ...
+	 </Condition>
+	 <Condition>...</Condition>
+	 <Condition>...</Condition>
+	...
+ </Conditions>
+************************************************************************/
+bool TaskManager::XmlIn(XmlIOStream* pXmlIOStream)
+{
+	ASSERT(pXmlIOStream != NULL);
+	return true;
+}
+
+bool TaskManager::XmlOut(XmlIOStream* pXmlIOStream) const
+{
+	ASSERT(pXmlIOStream != NULL);
+
+	// TaskList
+	{
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, _T("TaskList"));
+
+		for (ActionList::const_iterator it = mTaskList.begin(); it != mTaskList.end(); ++it)
+		{
+			ASSERT(*it != NULL);
+			XmlIOStreamBeginNodeStack stack2(pXmlIOStream, _T("ActionId"));
+			pXmlIOStream->SetNodeText((*it)->GetObjectId());
+		}
+	}
+
+	// Actions
+	{
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, _T("Actions"));
+
+		for (BehaviorNodeList::const_iterator it = mRegisteredActions.begin(); it != mRegisteredActions.end(); ++it)
+		{
+			ASSERT(*it != NULL);
+			(*it)->XmlOut(pXmlIOStream);
+		}
+	}
+
+	//Conditions
+	{
+		XmlIOStreamBeginNodeStack stack(pXmlIOStream, _T("Conditions"));
+
+		for (BehaviorNodeList::const_iterator it = mRegisteredContions.begin(); it != mRegisteredContions.end(); ++it)
+		{
+			ASSERT(*it != NULL);
+			(*it)->XmlOut(pXmlIOStream);
+		}
+	}
+
+	return true;
+}
+
 void TaskManager::deleteRegisteredActions()
 {
 	_DeleteBehaviorNodes(mRegisteredActions);
@@ -248,6 +330,37 @@ bool Action::IsParameterValid(const Parameter& para) const
 
 	return true;
 }
+ 
+/************************************************************************
+ The data format is:
+ 
+ <Action>
+	<Parameter> ...</Parameter>
+	<Parameter>...</Parameter>
+	<Parameter>...</Parameter>
+	...
+ </Action>
+************************************************************************/
+bool Action::XmlIn(XmlIOStream* pXmlIOStream)
+{
+	ASSERT(pXmlIOStream != NULL);
+	return true;
+}
+
+bool Action::XmlOut(XmlIOStream* pXmlIOStream) const
+{
+	ASSERT(pXmlIOStream != NULL);	
+
+
+	pXmlIOStream->BeginNode(_T("Action"));
+
+	BehaviorNode::XmlOut(pXmlIOStream);
+
+	pXmlIOStream->CloseNode();
+
+
+	return true;
+}
 
 //////////////////////////////////////////////////////////////////////////
 // Condition
@@ -275,6 +388,37 @@ bool Condition::IsParameterValid(const Parameter& para) const
 		if(pAction != NULL) // Duplicated Id
 			return false;
 	}
+
+	return true;
+}
+
+/************************************************************************
+ The data format is:
+ 
+ <Condition>
+	<Parameter> ...</Parameter>
+	<Parameter>...</Parameter>
+	<Parameter>...</Parameter>
+	...
+ </Condition>
+************************************************************************/
+bool Condition::XmlIn(XmlIOStream* pXmlIOStream)
+{
+	ASSERT(pXmlIOStream != NULL);
+	return true;
+}
+
+bool Condition::XmlOut(XmlIOStream* pXmlIOStream) const
+{
+	ASSERT(pXmlIOStream != NULL);	
+
+
+	pXmlIOStream->BeginNode(_T("Condition"));
+
+	BehaviorNode::XmlOut(pXmlIOStream);
+
+	pXmlIOStream->CloseNode();
+
 
 	return true;
 }

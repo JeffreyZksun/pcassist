@@ -35,6 +35,7 @@ public:
 	MSXML2::IXMLDOMNodePtr RemoveNode(MSXML2::IXMLDOMNodePtr pNode);
 	MSXML2::IXMLDOMNodePtr InsertNode(int index,LPCTSTR nodeName);
 	MSXML2::IXMLDOMNodePtr InsertNode(int index,MSXML2::IXMLDOMNodePtr pNode);
+	MSXML2::IXMLDOMNodePtr AppendNode(LPCTSTR nodeName);
 	long NumNodes();
 	MSXML2::IXMLDOMNode* Detach();
 	MSXML2::IXMLDOMNodePtr GetNode(LPCTSTR nodeName);
@@ -76,6 +77,7 @@ public:
 	CXmlDocumentWrapper(MSXML2::IXMLDOMDocumentPtr pDoc);
 	void operator=(MSXML2::IXMLDOMDocumentPtr pDoc);
 	MSXML2::IXMLDOMNodePtr AsNode();
+	MSXML2::IXMLDOMNodePtr AppendChild(LPCTSTR nodeName);
 	virtual ~CXmlDocumentWrapper();
 private:
 	MSXML2::IXMLDOMDocumentPtr m_xmldoc;
