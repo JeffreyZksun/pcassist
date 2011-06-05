@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "TaskManager.h"
 #include <algorithm>
+#include "ConstantsDefinition.h"
 
 //////////////////////////////////////////////////////////////////////////
 // TaskManager
@@ -32,12 +33,25 @@ void TaskManager::RegisterAction(Action* pAction)
     if(NULL == pAction)
         return;
 
-    ActionList::iterator it = std::find(mRegisteredActions.begin(), mRegisteredActions.end(), pAction);
-    ASSERT(mRegisteredActions.end() == it);
+	// Check if there is name conflict. We can't cached the ids in this class. 
+	// Because the object id can be changed at any time.
+	// So we need to traverse the list every time.
 
-    if(mRegisteredActions.end() == it) // not exist
-        mRegisteredActions.push_back(pAction);
+	CString objectID = pAction->GetObjectId();
+	for(ActionList::const_iterator it = mRegisteredActions.begin(); it != mRegisteredActions.end(); ++it)
+	{
+		Action* pAction = *it;
 
+		int iDiff = pAction->GetObjectId().CompareNoCase(objectID);
+		if(0 == iDiff)  //exist
+		{
+			ASSERT(false);
+			// ToDo - output error message.
+			return;
+		}
+	}
+
+    mRegisteredActions.push_back(pAction);
 }
 
 void TaskManager::UnregisterAction(Action* pAction)
@@ -49,6 +63,20 @@ void TaskManager::UnregisterAction(Action* pAction)
         mRegisteredActions.remove(pAction);
         RemoveActionTask(pAction);
     }
+}
+
+Action*	TaskManager::GetActionById(const CString& objectID) const
+{
+	for(ActionList::const_iterator it = mRegisteredActions.begin(); it != mRegisteredActions.end(); ++it)
+	{
+		Action* pAction = *it;
+
+		int iDiff = pAction->GetObjectId().CompareNoCase(objectID);
+		if(0 == iDiff)
+			return pAction;
+	}
+
+	return NULL;
 }
 
 void TaskManager::RegisterCondition(Condition* pCondition)
@@ -72,6 +100,19 @@ void TaskManager::UnregisterCondition(Condition* pCondition)
         mRegisteredContions.remove(pCondition);
 }
 
+Condition* TaskManager::GetConditionById(const CString& objectID) const
+{
+	for(ConditionList::const_iterator it = mRegisteredContions.begin(); it != mRegisteredContions.end(); ++it)
+	{
+		Condition* pCondition = *it;
+
+		int iDiff = pCondition->GetObjectId().CompareNoCase(objectID);
+		if(0 == iDiff)
+			return pCondition;
+	}
+
+	return NULL;
+}
 void TaskManager::AddActionTask(Action* pAction)
 {
     ASSERT(pAction != NULL);
@@ -125,10 +166,46 @@ void TaskManager::deleteRegisteredConditions()
 }
 
 //////////////////////////////////////////////////////////////////////////
+// BehaviorNode
+//////////////////////////////////////////////////////////////////////////
+
+BehaviorNode::BehaviorNode(const CString& objetType)
+{
+	int address = (int)this;
+	CString objectId;
+	objectId.Format(_T("%d"), address);
+	AddParameter(Parameter(OBJECT_ID, objectId));	// Used for query the object
+	AddParameter(Parameter(OBJECT_TYPE, objetType));// Used for create the object by type.
+}
+
+CString BehaviorNode::GetObjectId() const
+{
+	Parameter para;
+	bool bExist = GetParameter(OBJECT_ID, para);
+	ASSERT(bExist);
+	if(!bExist)
+		return _T("");
+
+	return para.GetEvaluatedValue();
+}
+
+CString BehaviorNode::GetObjectType() const
+{
+	Parameter para;
+	bool bExist = GetParameter(OBJECT_TYPE, para);
+	ASSERT(bExist);
+	if(!bExist)
+		return _T("");
+
+	return para.GetEvaluatedValue();
+}
+
+//////////////////////////////////////////////////////////////////////////
 // Action
 //////////////////////////////////////////////////////////////////////////
 
-Action::Action(void)
+Action::Action(const CString& objetType)
+	: BehaviorNode(objetType)
 {
     TaskManager* pTaskMgr = TaskManager::Get();
     pTaskMgr->RegisterAction(this);
@@ -144,7 +221,8 @@ Action::~Action(void)
 // Condition
 //////////////////////////////////////////////////////////////////////////
 
-Condition::Condition(void)
+Condition::Condition(const CString& objetType)
+	: BehaviorNode(objetType)
 {
     TaskManager* pTaskMgr = TaskManager::Get();
     pTaskMgr->RegisterCondition(this);

@@ -3,11 +3,39 @@
 #include <list>
 #include <algorithm>
 
+
+//////////////////////////////////////////////////////////////////////////
+// Dead loop checker
+//////////////////////////////////////////////////////////////////////////
+
+static std::list<CString> sEvaluatingParaList;
+//
+//// Dead loop checker
+//// Return value: false: no dead loop. true: dead loop is detected
+//bool PushNextItem(const CString& itemName)
+//{
+//	// Detect dead loop caused by the close loop reference. Such as (ExePath, %AppPath%/bin) (AppPath, %ExePath%/../)
+//	std::list<CString>::iterator it = std::find(sEvaluatingParaList.begin(), sEvaluatingParaList.end(), itemName);
+//	if(it != sEvaluatingParaList.end())
+//	{
+//		// This variable is already in the evaluation stack. 
+//		// Close  loop reference is detected.
+//		// Return directly to avoid dead loop.
+//		ASSERT(!_T("Close loop reference is detected"));
+//
+//		return true;  // Return empty string
+//	}
+//	else
+//		sEvaluatingParaList.push_back(itemName);
+//
+//	return false;
+//}
+
+
 //////////////////////////////////////////////////////////////////////////
 // VariableManager
 //////////////////////////////////////////////////////////////////////////
 
-static std::list<CString> sEvaluatingParaList;
 VariableManager::VariableManager(void)
 {
 }

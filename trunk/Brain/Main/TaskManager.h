@@ -26,9 +26,11 @@ public:
 public:
     void                    RegisterAction(Action*);
     void                    UnregisterAction(Action*);
+	Action*					GetActionById(const CString& objectID) const;
 
     void                    RegisterCondition(Condition*);
     void                    UnregisterCondition(Condition*);
+	Condition*				GetConditionById(const CString& objectID) const;
 
     void                    AddActionTask(Action*);
     void                    RemoveActionTask(Action*);
@@ -42,6 +44,7 @@ private:
     typedef std::list<Action*>      ActionList;
     typedef std::list<Condition*>   ConditionList;
 private:
+	// ToDo - we can use the BehaviorNode list to avoid duplication.
     ActionList              mRegisteredActions;
     ConditionList           mRegisteredContions;
 
@@ -50,13 +53,27 @@ private:
 };
 
 //////////////////////////////////////////////////////////////////////////
+// BehaviorNode
+// The base class for the action and condition.
+//////////////////////////////////////////////////////////////////////////
+
+class BRAINEXPORT BehaviorNode : public ParameterObject
+{
+public:
+	BehaviorNode(const CString& objetType);
+
+	CString			GetObjectId() const;
+	CString			GetObjectType() const;
+};
+
+//////////////////////////////////////////////////////////////////////////
 // Action
 //////////////////////////////////////////////////////////////////////////
 
-class BRAINEXPORT Action : public ParameterObject
+class BRAINEXPORT Action : public BehaviorNode
 {
 public:
-    Action(void);
+    Action(const CString& objetType);
     virtual ~Action(void);
 
 public:
@@ -68,10 +85,10 @@ public:
 // Condition
 //////////////////////////////////////////////////////////////////////////
 
-class BRAINEXPORT Condition : public ParameterObject
+class BRAINEXPORT Condition : public BehaviorNode
 {
 public:
-    Condition(void);
+    Condition(const CString& objetType);
     virtual ~Condition(void);
 
 public:

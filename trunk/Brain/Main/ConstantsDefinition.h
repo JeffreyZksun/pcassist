@@ -1,4 +1,18 @@
 
+// For object query and creation
+#define OBJECT_ID _T("ObjectId")
+#define OBJECT_TYPE _T("ObjectType")
+
+// For Complex condition
+#define BOOL_OPERATOR _T("BoolOperator")
+#define FIRST_CONDITION _T("FirstCondition")
+#define SECOND_CONDITION _T("SecondCondition")
+
+// For ComplexAction
+#define EXECUTE_CONDITION _T("ExecuteCondition")
+#define PRE_ACTION _T("PreAction")
+#define MAIN_ACTION _T("MainAction")
+#define POST_ACTION _T("PostAction")
 
 #define FILE_NAME _T("FileName")
 #define SRC_FILE_NAME _T("SourceFileName")

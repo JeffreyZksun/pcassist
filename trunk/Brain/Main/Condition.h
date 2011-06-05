@@ -2,13 +2,27 @@
 #include "TaskManager.h"
 
 //////////////////////////////////////////////////////////////////////////
+// ComplexCondition
+//////////////////////////////////////////////////////////////////////////
+
+class BRAINEXPORT ComplexCondition : public Condition
+{
+public:
+	BEHAVIOR_CLASS_DECLARE(ComplexCondition);
+
+	virtual bool IsTrue();
+};
+
+//////////////////////////////////////////////////////////////////////////
 // FileExistsCondition
 //////////////////////////////////////////////////////////////////////////
 
 class BRAINEXPORT FileExistsCondition : public Condition
 {
 public:
-    virtual bool IsTrue();
+	BEHAVIOR_CLASS_DECLARE(FileExistsCondition);
+
+	virtual bool IsTrue();
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -18,7 +32,9 @@ public:
 class BRAINEXPORT FolderExistsCondition : public Condition
 {
 public:
-    virtual bool IsTrue();
+	BEHAVIOR_CLASS_DECLARE(FolderExistsCondition);
+
+	virtual bool IsTrue();
 };
 
 

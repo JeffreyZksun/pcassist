@@ -17,6 +17,69 @@ void TestFolderExistsCondition();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	// Test ComplexAction
+	Condition* pC  = new FileExistsCondition();
+	pC->AddParameter(Parameter(OBJECT_ID, _T("CheckFolder")));
+	pC->AddParameter(Parameter(FILE_NAME, _T("C:\\temp")));
+
+	Action* pPreAction = new CreateFolderAction();
+	pPreAction->AddParameter(Parameter(OBJECT_ID, _T("PreAction")));
+	pPreAction->AddParameter(Parameter(FOLDER_NAME, _T("C:\\temp\\preaction")));
+
+	Action* pMainAction = new CreateFolderAction();
+	pMainAction->AddParameter(Parameter(OBJECT_ID, _T("MainAction")));
+	pMainAction->AddParameter(Parameter(FOLDER_NAME, _T("C:\\temp\\mainaction")));
+
+	Action* pPostAction = new CreateFolderAction();
+	pPostAction->AddParameter(Parameter(OBJECT_ID, _T("PostAction")));
+	pPostAction->AddParameter(Parameter(FOLDER_NAME, _T("C:\\temp\\postaction")));
+
+	Action* pComplexAction = new ComplexAction();
+	pComplexAction->AddParameter(Parameter(OBJECT_ID, _T("CreateFolders")));
+	pComplexAction->AddParameter(Parameter(EXECUTE_CONDITION, _T("CheckFolder")));
+	pComplexAction->AddParameter(Parameter(PRE_ACTION, _T("PreAction")));
+	pComplexAction->AddParameter(Parameter(MAIN_ACTION, _T("MainAction")));
+	pComplexAction->AddParameter(Parameter(POST_ACTION, _T("PostAction")));
+
+	Action* pA = TaskManager::Get()->GetActionById(_T("CreateFolders"));
+
+	bool bRet = pA->Execute();
+
+	int i =10;
+
+	// Test ComplexCondition
+	//Condition* pC  = new FileExistsCondition();
+	//pC->AddParameter(Parameter(OBJECT_ID, _T("CheckDiskC")));
+	//pC->AddParameter(Parameter(FILE_NAME, _T("Z:\\")));
+
+	//pC = new FileExistsCondition();
+	//pC->AddParameter(Parameter(OBJECT_ID, _T("CheckDiskD")));
+	//pC->AddParameter(Parameter(FILE_NAME, _T("D:\\")));
+
+	//pC = new ComplexCondition();
+	//pC->AddParameter(Parameter(OBJECT_ID, _T("CheckDiskCD")));
+	//pC->AddParameter(Parameter(BOOL_OPERATOR, _T("OR")));
+	//pC->AddParameter(Parameter(FIRST_CONDITION, _T("CheckDiskC")));
+	//pC->AddParameter(Parameter(SECOND_CONDITION, _T("CheckDiskD")));
+
+	//Condition* pC2 = TaskManager::Get()->GetConditionById(_T("CheckDiskCD"));
+	//bool bIsTrue = pC2->IsTrue();
+
+
+
+	// Test GetActionById, GetConditionById
+	//TaskManager* pTaskMgr = TaskManager::Get();
+	//new CreateFileAction();
+	//Action* pA = new CreateFileAction();
+	//pA->AddParameter(Parameter(OBJECT_ID, _T("CreateOS")));
+
+	//Action* pA2 = TaskManager::Get()->GetActionById(_T("CreateOS"));
+
+	//new FileExistsCondition();
+	//Condition* pC = new FileExistsCondition();
+	//pC->AddParameter(Parameter(OBJECT_ID, _T("CreateOS")));
+
+	//Condition* pC2 = TaskManager::Get()->GetConditionById(_T("CreateOS"));
 
 	//TaskManager* pTaskMgr = TaskManager::Get();
 	//CreateFileAction action;

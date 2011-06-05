@@ -84,7 +84,7 @@ bool PcUtil::DoesFileorFolderExist(const CString& fileFullName)
     // http://msdn.microsoft.com/en-us/library/1w06ktdy%28v=vs.71%29.aspx
     //Return Value
     // Each function returns 0 if the file has the given mode. 
-    // The function returns –1 if the named file does not exist 
+    // The function returns ? if the named file does not exist 
     // or is not accessible in the given mode; in this case, errno is set as follows: 
 
     //  mode value 	Checks file for
