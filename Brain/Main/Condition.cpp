@@ -2,7 +2,9 @@
 #include "Condition.h"
 #include "BrainUtil.h"
 #include "ConstantsDefinition.h"
+#include "CloseLoopChecker.h"
 
+CloseLoopChecker sComplexConditionCloseLoopChecker;
 
 //////////////////////////////////////////////////////////////////////////
 // ComplexCondition
@@ -29,35 +31,48 @@ bool ComplexCondition::IsTrue()
 	if(NULL == pFstCondition)
 		return false;
 
-	// ToDo - We should check cross reference, which will result in dead loop.
+	// Detect dead loop caused by the close loop reference. Such as A<-->B
+	if(!sComplexConditionCloseLoopChecker.PushOngoingItem(GetObjectId()))
+	{
+		// This variable is already in the evaluation stack. 
+		// Close  loop reference is detected.
+		// Return directly to avoid dead loop.
+		ASSERT(!_T("Close loop reference is detected during evaluation."));
+
+		return false;
+	}
+
+	bool bRet = false;
 	if(oper.GetEvaluatedValue().CompareNoCase(_T("Not")) == 0)
 	{
-		return !pFstCondition->IsTrue();
+		bRet = !pFstCondition->IsTrue();
 	}
 	else 
 	{
 		Parameter sndCondition;
 		bExist = GetParameter(SECOND_CONDITION, sndCondition);
 		ASSERT(bExist);
-		if(!bExist)
-			return false;
-
-		Condition* pSndCondition = TaskManager::Get()->GetConditionById(sndCondition.GetEvaluatedValue());
-		ASSERT(pSndCondition != NULL);
-		if(NULL == pSndCondition)
-			return false;
-
-		if(oper.GetEvaluatedValue().CompareNoCase(_T("AND")) == 0)
+		if(bExist)
 		{
-			return pFstCondition->IsTrue() && pSndCondition->IsTrue();
-		}
-		else if(oper.GetEvaluatedValue().CompareNoCase(_T("OR")) == 0)
-		{
-			return pFstCondition->IsTrue() || pSndCondition->IsTrue();
+			Condition* pSndCondition = TaskManager::Get()->GetConditionById(sndCondition.GetEvaluatedValue());
+			ASSERT(pSndCondition != NULL);
+			if(pSndCondition != NULL)
+			{
+				if(oper.GetEvaluatedValue().CompareNoCase(_T("AND")) == 0)
+				{
+					bRet =  pFstCondition->IsTrue() && pSndCondition->IsTrue();
+				}
+				else if(oper.GetEvaluatedValue().CompareNoCase(_T("OR")) == 0)
+				{
+					bRet =  pFstCondition->IsTrue() || pSndCondition->IsTrue();
+				}
+			}
 		}
 	}
 
-	return false;
+	sComplexConditionCloseLoopChecker.Pop();
+
+	return bRet;
 }
 
 //////////////////////////////////////////////////////////////////////////

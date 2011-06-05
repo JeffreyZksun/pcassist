@@ -18,12 +18,12 @@ public:
     ComplexString(const CString& variableString);
     ~ComplexString(void);
 
-    void    SetRawString(const CString& variableString);
-    const CString& GetRawtring() const;
-    CString GetEvaluatedString();
+    void				SetRawString(const CString& variableString);
+    const CString&		GetRawtring() const;
+    CString				GetEvaluatedString() const;
 
 private:
-    CString mRawVariableString; // %AppPath%
+    CString				mRawVariableString; // %AppPath%
 };
 
 // This class should work as a POD type. It is copied by using the operator = everywhere.
@@ -40,7 +40,7 @@ public:
 
     void            SetValue(const CString& value);
     const CString&  GetRawdValue() const;
-    const CString   GetEvaluatedValue();
+    const CString   GetEvaluatedValue() const;
 
     void            SetComments(const CString& comments);
     const CString&  GetComments() const;

@@ -8,6 +8,7 @@
 //Disable the waring " class 'ATL::CStringT<BaseType,StringTraits>' needs to have dll-interface to be used by clients of class"
 #pragma warning( disable : 4251 ) 
 
+class BehaviorNode;
 class Action;
 class Condition;
 
@@ -24,13 +25,13 @@ public:
     static TaskManager*     Get();
 
 public:
-    void                    RegisterAction(Action*);
+    bool                    RegisterAction(Action*);
     void                    UnregisterAction(Action*);
-	Action*					GetActionById(const CString& objectID) const;
+	Action*					GetActionById(const CString&) const;
 
-    void                    RegisterCondition(Condition*);
+    bool                    RegisterCondition(Condition*);
     void                    UnregisterCondition(Condition*);
-	Condition*				GetConditionById(const CString& objectID) const;
+	Condition*				GetConditionById(const CString&) const;
 
     void                    AddActionTask(Action*);
     void                    RemoveActionTask(Action*);
@@ -41,14 +42,22 @@ private:
     void                    deleteRegisteredActions();
     void                    deleteRegisteredConditions();
 
-    typedef std::list<Action*>      ActionList;
-    typedef std::list<Condition*>   ConditionList;
 private:
-	// ToDo - we can use the BehaviorNode list to avoid duplication.
-    ActionList              mRegisteredActions;
-    ConditionList           mRegisteredContions;
+	typedef std::list<BehaviorNode*>	BehaviorNodeList;
+	typedef std::list<Action*>			ActionList;
 
-    ActionList              mTaskList;
+private:
+	bool                    _RegisterBehaviorNode(BehaviorNodeList&, BehaviorNode*);
+	void                    _UnregisterBehaviorNode(BehaviorNodeList&, BehaviorNode*);
+	BehaviorNode*			_GetBehaviorNodeById(const BehaviorNodeList&, const CString&) const;
+	void					_DeleteBehaviorNodes(BehaviorNodeList&);
+
+private:
+
+    BehaviorNodeList           mRegisteredActions;
+    BehaviorNodeList           mRegisteredContions;
+
+    ActionList					mTaskList;
 
 };
 
@@ -76,8 +85,11 @@ public:
     Action(const CString& objetType);
     virtual ~Action(void);
 
+protected:
+	virtual bool		IsParameterValid(const Parameter& para) const;
+
 public:
-    virtual bool Execute() = 0;
+    virtual bool		Execute() = 0;
 };
 
 
@@ -91,8 +103,11 @@ public:
     Condition(const CString& objetType);
     virtual ~Condition(void);
 
+protected:
+	virtual bool		IsParameterValid(const Parameter& para) const;
+
 public:
-    virtual bool IsTrue() = 0;
+    virtual bool		IsTrue() = 0;
 };
 
 #pragma warning( pop ) 

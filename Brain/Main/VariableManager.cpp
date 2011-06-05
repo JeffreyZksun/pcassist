@@ -2,35 +2,13 @@
 #include "VariableManager.h"
 #include <list>
 #include <algorithm>
-
+#include "CloseLoopChecker.h"
 
 //////////////////////////////////////////////////////////////////////////
 // Dead loop checker
 //////////////////////////////////////////////////////////////////////////
 
-static std::list<CString> sEvaluatingParaList;
-//
-//// Dead loop checker
-//// Return value: false: no dead loop. true: dead loop is detected
-//bool PushNextItem(const CString& itemName)
-//{
-//	// Detect dead loop caused by the close loop reference. Such as (ExePath, %AppPath%/bin) (AppPath, %ExePath%/../)
-//	std::list<CString>::iterator it = std::find(sEvaluatingParaList.begin(), sEvaluatingParaList.end(), itemName);
-//	if(it != sEvaluatingParaList.end())
-//	{
-//		// This variable is already in the evaluation stack. 
-//		// Close  loop reference is detected.
-//		// Return directly to avoid dead loop.
-//		ASSERT(!_T("Close loop reference is detected"));
-//
-//		return true;  // Return empty string
-//	}
-//	else
-//		sEvaluatingParaList.push_back(itemName);
-//
-//	return false;
-//}
-
+CloseLoopChecker sVariableManagerCloseLoopChecker;
 
 //////////////////////////////////////////////////////////////////////////
 // VariableManager
@@ -52,8 +30,6 @@ VariableManager* VariableManager::Get()
 
  CString VariableManager::GetEvaluatedString(const CString& variableString) const
  {
-     // ToDo - 
-
      CString evaluatedString = variableString;
 
      CString varItem;
@@ -63,19 +39,16 @@ VariableManager* VariableManager::Get()
 
      while(bExist) // Parse the variable one by one.
      {
-         // Detect dead loop caused by the close loop reference. Such as (ExePath, %AppPath%/bin) (AppPath, %ExePath%/../)
-         std::list<CString>::iterator it = std::find(sEvaluatingParaList.begin(), sEvaluatingParaList.end(), varItem);
-         if(it != sEvaluatingParaList.end())
-         {
-             // This variable is already in the evaluation stack. 
-             // Close  loop reference is detected.
-             // Return directly to avoid dead loop.
-             ASSERT(!_T("Close loop reference is detected during evaluation."));
+		 // Detect dead loop caused by the close loop reference. Such as (ExePath, %AppPath%/bin) (AppPath, %ExePath%/../)
+		 if(!sVariableManagerCloseLoopChecker.PushOngoingItem(varItem))
+		 {
+			 // This variable is already in the evaluation stack. 
+			 // Close  loop reference is detected.
+			 // Return directly to avoid dead loop.
+			 ASSERT(!_T("Close loop reference is detected during evaluation."));
 
-             return _T("");  // Return empty string
-         }
-         else
-             sEvaluatingParaList.push_back(varItem);
+			 return _T("");  // Return empty string
+		 }
 
          bool bRet = GetParameter(varItem, para);
          if(!bRet) // No this variable
@@ -87,7 +60,7 @@ VariableManager* VariableManager::Get()
 
          evaluatedString.Replace(varItem, evalStr);
 
-         sEvaluatingParaList.pop_back();
+         sVariableManagerCloseLoopChecker.Pop();
 
          bExist = GetNextVariable(evaluatedString, varItem);
      }

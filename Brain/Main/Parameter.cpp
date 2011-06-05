@@ -31,7 +31,7 @@ const CString& ComplexString::GetRawtring() const
     return mRawVariableString;
 }
 
-CString ComplexString::GetEvaluatedString()
+CString ComplexString::GetEvaluatedString() const
 {
     CString evaluatedString = VariableManager::Get()->GetEvaluatedString(mRawVariableString);
     return evaluatedString;
@@ -75,7 +75,7 @@ const CString&  Parameter::GetRawdValue() const
     return  mValue.GetRawtring();
 }
 
-const CString  Parameter::GetEvaluatedValue()
+const CString  Parameter::GetEvaluatedValue() const
 {
     return  mValue.GetEvaluatedString();
 }

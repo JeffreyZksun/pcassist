@@ -2,6 +2,9 @@
 #include "Action.h"
 #include "BrainUtil.h"
 #include "ConstantsDefinition.h"
+#include "CloseLoopChecker.h"
+
+CloseLoopChecker sComplexActionCloseLoopChecker;
 
 BEHAVIOR_CLASS_IMP(ComplexAction, Action)
 
@@ -34,6 +37,17 @@ bool ComplexAction::Execute()
 	if(NULL == pMainAction)
 		return false;
 
+	// Detect dead loop caused by the close loop reference. Such as A<-->B
+	if(!sComplexActionCloseLoopChecker.PushOngoingItem(GetObjectId()))
+	{
+		// This variable is already in the evaluation stack. 
+		// Close  loop reference is detected.
+		// Return directly to avoid dead loop.
+		ASSERT(!_T("Close loop reference is detected during evaluation."));
+
+		return false; 
+	}
+
 	// Pre action, optional.
 	Parameter preAction;
 	bExist = GetParameter(PRE_ACTION, preAction);
@@ -56,6 +70,8 @@ bool ComplexAction::Execute()
 		if(pPostAction != NULL)
 			pPostAction->Execute();
 	}
+
+	sComplexActionCloseLoopChecker.Pop();
 
 	return bRet;
 }

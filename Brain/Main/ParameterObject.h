@@ -16,8 +16,11 @@ public:
 public:
     typedef std::map<CString, Parameter> ParameterMap;
 
-    void        AddParameter(const Parameter& para);
-    bool        GetParameter(const CString& paraName, Parameter& para) const;
+    void				AddParameter(const Parameter& para);
+    bool				GetParameter(const CString& paraName, Parameter& para) const;
+
+protected:
+	virtual bool		IsParameterValid(const Parameter& para) const;
 
 private:
     

@@ -27,111 +27,72 @@ TaskManager* TaskManager::Get()
     return &singleton;
 }
 
-void TaskManager::RegisterAction(Action* pAction)
+bool TaskManager::RegisterAction(Action* pAction)
 {
-    ASSERT(pAction != NULL);
-    if(NULL == pAction)
-        return;
-
-	// Check if there is name conflict. We can't cached the ids in this class. 
-	// Because the object id can be changed at any time.
-	// So we need to traverse the list every time.
-
-	CString objectID = pAction->GetObjectId();
-	for(ActionList::const_iterator it = mRegisteredActions.begin(); it != mRegisteredActions.end(); ++it)
-	{
-		Action* pAction = *it;
-
-		int iDiff = pAction->GetObjectId().CompareNoCase(objectID);
-		if(0 == iDiff)  //exist
-		{
-			ASSERT(false);
-			// ToDo - output error message.
-			return;
-		}
-	}
-
-    mRegisteredActions.push_back(pAction);
+	return _RegisterBehaviorNode(mRegisteredActions, pAction);
 }
 
 void TaskManager::UnregisterAction(Action* pAction)
 {
-    ActionList::iterator it = std::find(mRegisteredActions.begin(), mRegisteredActions.end(), pAction);
+    _UnregisterBehaviorNode(mRegisteredActions, pAction);
 
-    if(mRegisteredActions.end() != it) // exist
-    {
-        mRegisteredActions.remove(pAction);
-        RemoveActionTask(pAction);
-    }
+	RemoveActionTask(pAction);
 }
 
-Action*	TaskManager::GetActionById(const CString& objectID) const
+Action*	TaskManager::GetActionById(const CString& objectId) const
 {
-	for(ActionList::const_iterator it = mRegisteredActions.begin(); it != mRegisteredActions.end(); ++it)
-	{
-		Action* pAction = *it;
+	BehaviorNode* pNode = _GetBehaviorNodeById(mRegisteredActions, objectId);
 
-		int iDiff = pAction->GetObjectId().CompareNoCase(objectID);
-		if(0 == iDiff)
-			return pAction;
-	}
+	Action* pAction = NULL;
+	if(pNode != NULL)
+		pAction = dynamic_cast<Action*>(pNode);
 
-	return NULL;
+	return pAction;
 }
 
-void TaskManager::RegisterCondition(Condition* pCondition)
+bool TaskManager::RegisterCondition(Condition* pCondition)
 {
-    ASSERT(pCondition != NULL);
-    if(NULL == pCondition)
-        return;
-
-    ConditionList::iterator it = std::find(mRegisteredContions.begin(), mRegisteredContions.end(), pCondition);
-    ASSERT(mRegisteredContions.end() == it);
-
-    if(mRegisteredContions.end() == it) // not exist
-        mRegisteredContions.push_back(pCondition);
+	return _RegisterBehaviorNode(mRegisteredContions, pCondition);
 }
 
 void TaskManager::UnregisterCondition(Condition* pCondition)
 {
-    ConditionList::iterator it = std::find(mRegisteredContions.begin(), mRegisteredContions.end(), pCondition);
-
-    if(mRegisteredContions.end() != it) // exist
-        mRegisteredContions.remove(pCondition);
+    _UnregisterBehaviorNode(mRegisteredContions, pCondition);
 }
 
-Condition* TaskManager::GetConditionById(const CString& objectID) const
+Condition* TaskManager::GetConditionById(const CString& objectId) const
 {
-	for(ConditionList::const_iterator it = mRegisteredContions.begin(); it != mRegisteredContions.end(); ++it)
-	{
-		Condition* pCondition = *it;
+	BehaviorNode* pNode = _GetBehaviorNodeById(mRegisteredContions, objectId);
 
-		int iDiff = pCondition->GetObjectId().CompareNoCase(objectID);
-		if(0 == iDiff)
-			return pCondition;
-	}
+	Condition* pCondition = NULL;
+	if(pNode != NULL)
+		pCondition = dynamic_cast<Condition*>(pNode);
 
-	return NULL;
+	return pCondition;
 }
+
 void TaskManager::AddActionTask(Action* pAction)
 {
     ASSERT(pAction != NULL);
     if(NULL == pAction)
         return;
 
-    ActionList::iterator it = std::find(mTaskList.begin(), mTaskList.end(), pAction);
-    ASSERT(mTaskList.end() == it);
+    //ActionList::iterator it = std::find(mTaskList.begin(), mTaskList.end(), pAction);
+    //ASSERT(mTaskList.end() == it);
 
-    if(mTaskList.end() == it) // not exist
-        mTaskList.push_back(pAction);
+	// The same action can be added more than once. Don't need the duplication check.
+    mTaskList.push_back(pAction);
 }
 
 void TaskManager::RemoveActionTask(Action* pAction)
 {
     ActionList::iterator it = std::find(mTaskList.begin(), mTaskList.end(), pAction);
 
-    if(mTaskList.end() != it) // exist
+    while(mTaskList.end() != it) // exist
+	{
         mTaskList.remove(pAction);
+		it = std::find(mTaskList.begin(), mTaskList.end(), pAction);
+	}
 }
 
 bool TaskManager::RunTasks()
@@ -147,24 +108,82 @@ bool TaskManager::RunTasks()
 }
 void TaskManager::deleteRegisteredActions()
 {
-    ActionList::iterator it = mRegisteredActions.begin();
-    while(!mRegisteredActions.empty())
-    {
-        delete *it; // In its destructor, it will unregister itself from the list.
-        it = mRegisteredActions.begin();
-    }
+	_DeleteBehaviorNodes(mRegisteredActions);
 }
 
 void TaskManager::deleteRegisteredConditions()
 {
-    ConditionList::iterator it = mRegisteredContions.begin();
-    while(!mRegisteredContions.empty())
-    {
-        delete *it; // In its destructor, it will unregister itself from the list.
-        it = mRegisteredContions.begin();
-    }
+	_DeleteBehaviorNodes(mRegisteredContions);
 }
 
+bool TaskManager::_RegisterBehaviorNode(BehaviorNodeList& nodeList, BehaviorNode* pNode)
+{
+	ASSERT(pNode != NULL);
+	if(NULL == pNode)
+		return false;
+
+	// Check if there is name conflict. We can't cached the ids in this class. 
+	// Because the object id can be changed at any time.
+	// So we need to traverse the list every time.
+
+	CString objectID = pNode->GetObjectId();
+	for(BehaviorNodeList::const_iterator it = nodeList.begin(); it != nodeList.end(); ++it)
+	{
+		BehaviorNode* pAction = *it;
+
+		int iDiff = pAction->GetObjectId().CompareNoCase(objectID);
+		if(0 == iDiff)  //exist
+		{
+			ASSERT(false);
+			// ToDo - output error message.
+			return false;
+		}
+	}
+
+	nodeList.push_back(pNode);
+	return true;
+}
+
+void TaskManager::_UnregisterBehaviorNode(BehaviorNodeList& nodeList, BehaviorNode* pNode)
+{
+	ASSERT(pNode != NULL);
+	if(NULL == pNode)
+		return ;
+
+	// Compare the address is OK. There doesn't exist the nodes with the same object id but different address.
+	BehaviorNodeList::iterator it = std::find(nodeList.begin(), nodeList.end(), pNode);
+	if(nodeList.end() != it) // exist
+	{
+		nodeList.remove(pNode);
+		return ;
+	}
+
+	return ;
+}
+
+BehaviorNode* TaskManager::_GetBehaviorNodeById(const BehaviorNodeList& nodeList, const CString& objectId) const
+{
+	for(BehaviorNodeList::const_iterator it = nodeList.begin(); it != nodeList.end(); ++it)
+	{
+		BehaviorNode* pNode = *it;
+
+		int iDiff = pNode->GetObjectId().CompareNoCase(objectId);
+		if(0 == iDiff)
+			return pNode;
+	}
+
+	return NULL;
+}
+
+void TaskManager::_DeleteBehaviorNodes(BehaviorNodeList& nodeList)
+{
+	BehaviorNodeList::iterator it = nodeList.begin();
+	while(!nodeList.empty())
+	{
+		delete *it; // In its destructor, it will unregister itself from the list.
+		it = nodeList.begin();
+	}
+}
 //////////////////////////////////////////////////////////////////////////
 // BehaviorNode
 //////////////////////////////////////////////////////////////////////////
@@ -217,6 +236,19 @@ Action::~Action(void)
     pTaskMgr->UnregisterAction(this);
 }
 
+bool Action::IsParameterValid(const Parameter& para) const
+{
+	if(para.GetName().CompareNoCase(OBJECT_ID) == 0)
+	{
+		Action* pAction = TaskManager::Get()->GetActionById(para.GetEvaluatedValue());
+		ASSERT(NULL == pAction);
+		if(pAction != NULL) // Duplicated Id
+			return false;
+	}
+
+	return true;
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Condition
 //////////////////////////////////////////////////////////////////////////
@@ -232,4 +264,17 @@ Condition::~Condition(void)
 {
     TaskManager* pTaskMgr = TaskManager::Get();
     pTaskMgr->UnregisterCondition(this);
+}
+
+bool Condition::IsParameterValid(const Parameter& para) const
+{
+	if(para.GetName().CompareNoCase(OBJECT_ID) == 0)
+	{
+		Condition* pAction = TaskManager::Get()->GetConditionById(para.GetEvaluatedValue());
+		ASSERT(NULL == pAction);
+		if(pAction != NULL) // Duplicated Id
+			return false;
+	}
+
+	return true;
 }
