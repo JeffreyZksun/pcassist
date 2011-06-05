@@ -372,3 +372,47 @@ int _tmain(int argc, _TCHAR* argv[])
 //}
 
 
+
+//for(int i = 1; i < argc; i++)
+//{
+//	str = argv[i];
+//	int pos = str.Find(_T('='));
+//	if (-1 == pos) // not find
+//		continue;
+//
+//	CString varName = str.Left(pos);
+//	if(varName.GetLength() == 0)
+//		continue;
+//
+//	CString varValue = str.Right(str.GetLength() - pos - 1);
+//	if(varValue.GetLength() < 2)
+//		continue;
+//
+//	// Remove the quotation marks. They already be removed by OS.
+//	// If the command line is:		LocalISFolder="C:\Inventor Server", 
+//	// the string we get here is:	LocalISFolder=C:\Inventor Server
+//
+//	//WCHAR theChar = varValue.GetAt(varValue.GetLength() - 1);
+//	//if(theChar == _T('\"'))
+//	//{
+//	//	varValue.Truncate(varValue.GetLength() - 1); // Remove the last one
+//	//}
+//	//theChar = varValue.GetAt(0);
+//	//if(theChar == _T('\"'))
+//	//{
+//	//	varValue.Right(varValue.GetLength() - 1); // Remove the last one
+//	//}
+//
+//	Parameter varPara(varName, varValue);
+//	VariableManager::Get()->AddParameter(varPara);
+//
+//	int iDiff = varName.CompareNoCase(LOCAL_IS_FLODER);
+//	if(0 == iDiff)
+//		hasLocalISFolder = true;
+//
+//	iDiff = varName.CompareNoCase(IS_VERSION);
+//	if(0 == iDiff)
+//		hasISVersion = true;
+//}
+
+
