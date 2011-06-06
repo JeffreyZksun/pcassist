@@ -14,8 +14,23 @@ void TestFileExistsCondition();
 void TestParameterObject();
 void TestFolderExistsCondition();
 
+// Download gTest: http://code.google.com/p/googletest/downloads/list
+//The project setting should be keep consistent with gTest project. They are /MTd and /MT for debug and release build repectively. 
+//Otherwise it should result in link errors.
+//1>LIBCMTD.lib(dbgheap.obj) : error LNK2005: __CrtSetCheckCount already defined in MSVCRTD.lib(MSVCR90D.dll)
+//1>LIBCMTD.lib(_file.obj) : error LNK2005: ___iob_func already defined in MSVCRTD.lib(MSVCR90D.dll)
+//1>LIBCMTD.lib(tidtable.obj) : error LNK2005: __encode_pointer already defined in MSVCRTD.lib(MSVCR90D.dll)
+//1>LIBCMTD.lib(tidtable.obj) : error LNK2005: __decode_pointer already defined in MSVCRTD.lib(MSVCR90D.dll)
+
 int _tmain(int argc, _TCHAR* argv[])
 {
+	// Run all the test cases.
+	testing::InitGoogleTest(&argc, argv); 
+	RUN_ALL_TESTS(); 
+
+	std::getchar(); // keep console window open until Return keystroke
+		return 0;
+
 	// 
 	BrainUtil::RunSystemCommand(_T("regedit.exe"));
 	return 0;
