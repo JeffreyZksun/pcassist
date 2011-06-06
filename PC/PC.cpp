@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include <list>
+#include <algorithm>
 #include <iostream>
 
 #include "DocumentManager.h"
@@ -10,12 +11,19 @@
 
 void AnalyzeInputOptions(int argc, _TCHAR* argv[], ParameterObject& options);
 void PrintHelp();
+bool IsValidOption(const CString& option);
+void InitializeValidOptions();
+void AppendParameterValue(Parameter& para, CString& appendedValue);
+
+// define the valid options
+static std::list<CString> sValidOptions;
 
 // Define the supported parameter names.
+#define INVALID_OPTS _T("InvalidOptions") // Collect the invalid options
 #define OPT_FILE _T("file") // Read FILE as the task schema.
 #define OPT_HELP _T("help")
 
-// The command line likes PC.exe File="C:\_DemoPcUsage.xml"
+// The command line likes PC File="C:\_DemoPcUsage.xml"
 int _tmain(int argc, _TCHAR* argv[])
 {
 	ParameterObject options;
@@ -26,7 +34,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	if(options.GetParameterLength() == 0)
 	{
 		bShowHelp = true;
-
 	}
 	else if (options.GetParameterLength() == 1)
 	{
@@ -34,6 +41,18 @@ int _tmain(int argc, _TCHAR* argv[])
 		bool bHasItem = options.GetParameter(OPT_HELP, para);
 		if(bHasItem)
 			bShowHelp = true;
+	}
+
+	{
+		Parameter para;
+		bool bHasItem = options.GetParameter(INVALID_OPTS, para);
+		if(bHasItem)
+		{
+			CString prompt;
+			prompt.Format(_T("PC: invalid options %s\n"), para.GetRawdValue());
+			std::wcout <<  (LPCTSTR)prompt;
+			bShowHelp = true;
+		}
 	}
 
 	if(bShowHelp)
@@ -62,6 +81,7 @@ int _tmain(int argc, _TCHAR* argv[])
 void AnalyzeInputOptions(int argc, _TCHAR* argv[], ParameterObject& options)
 {
 	// The first parameter is the command name itself.
+	Parameter invalidOptions(INVALID_OPTS, _T(""));
 	CString str;
 	for(int i = 1; i < argc; i++)
 	{
@@ -71,37 +91,92 @@ void AnalyzeInputOptions(int argc, _TCHAR* argv[], ParameterObject& options)
 		if (-1 == pos) // not find
 		{
 			// Check if it's help;
-			if(str.CompareNoCase(_T("\\?")) == 0 || str.CompareNoCase(_T("-?")) == 0)
+			if(str.CompareNoCase(_T("/?")) == 0 || str.CompareNoCase(_T("-?")) == 0)
 			{
 				options.AddParameter(Parameter(OPT_HELP, _T("")));
+			}
+			else // Invalid
+			{
+				AppendParameterValue(invalidOptions, str);
 			}
 			continue;
 		}
 
 		// Verify name is not empty
 		CString varName = str.Left(pos);
-		if(varName.GetLength() == 0)
+		if(varName.IsEmpty())
+		{
+			AppendParameterValue(invalidOptions, str);
 			continue;
+		}
 
 		// Verify value is not empty
 		CString varValue = str.Right(str.GetLength() - pos - 1);
-		if(varValue.GetLength() < 2)
+		if(varValue.IsEmpty())
+		{
+			AppendParameterValue(invalidOptions, str);
 			continue;
+		}
 
-		// Add the parameter
-		Parameter varPara(varName, varValue);
-		options.AddParameter(varPara);
+		if(IsValidOption(varName))
+		{
+			// Add the parameter
+			Parameter varPara(varName, varValue);
+			options.AddParameter(varPara);
+		}
+		else
+		{
+			AppendParameterValue(invalidOptions, str);
+		}
 	}
+
+	if(!invalidOptions.GetRawdValue().IsEmpty())
+		options.AddParameter(invalidOptions);
 }
 
 void PrintHelp()
 {
-	std::cout << "Usage: PC [options...]\n";
-	std::cout << "Options:\n";
-	std::cout << "	-?, /?			Show help.\n";
-	std::cout << "	file=FILE		Read FILE as the task schema.\n";
-	std::cout << "\n";
-	std::cout << "This program built for i386-pc\n";
-	std::cout << "Report bugs to http://code.google.com/p/pcassist/issues/list\n";
+	std::wcout << "Usage: PC [options...]\n";
+	std::wcout << "Options:\n";
+	std::wcout << "	-?, /?			Show help.\n";
+	std::wcout << "	file=FILE		Read FILE as the task schema.\n";
+	std::wcout << "\n";
+	std::wcout << "This program built for i386-pc\n";
+	std::wcout << "Report bugs to http://code.google.com/p/pcassist/issues/list\n";
 }
 
+bool IsValidOption(const CString& option)
+{
+	if(sValidOptions.empty())
+		InitializeValidOptions();
+
+	for (std::list<CString>::iterator it = sValidOptions.begin(); it != sValidOptions.end(); ++it)
+	{
+		if(it->CompareNoCase(option) == 0)
+			return true;
+	}
+
+	return false; // Not find
+}
+
+void InitializeValidOptions()
+{
+	sValidOptions.push_back(_T("-?"));
+	sValidOptions.push_back(_T("/?"));
+	sValidOptions.push_back(_T("file"));
+}
+
+// Append value with separator
+void AppendParameterValue(Parameter& para, CString& appendedValue)
+{
+	CString newValue = para.GetRawdValue();
+	if(newValue.IsEmpty())
+	{
+		newValue = appendedValue;
+	}
+	else
+	{
+		newValue.Format(_T("%s %s"), newValue.GetBuffer(), appendedValue.GetBuffer());
+	}
+	para.SetValue(newValue);	
+}
