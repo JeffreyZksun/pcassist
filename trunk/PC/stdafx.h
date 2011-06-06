@@ -16,4 +16,6 @@
 #include <atlbase.h>
 #include <atlstr.h>
 
-// TODO: reference additional headers your program requires here
+// : reference additional headers your program requires here
+//#include <assert.h> // the assert will abort the program
+#include <afxcom_.h> // For ASSERT
