@@ -19,6 +19,8 @@ public:
     void				AddParameter(const Parameter& para);
     bool				GetParameter(const CString& paraName, Parameter& para) const;
 
+	int					GetParameterLength() const;
+
 public:
 	virtual bool		XmlIn(XmlIOStream* pXmlIOStream);
 	virtual bool		XmlOut(XmlIOStream* pXmlIOStream) const;

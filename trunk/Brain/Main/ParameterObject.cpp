@@ -54,6 +54,11 @@ bool ParameterObject::GetParameter(const CString& paraName, Parameter& para) con
     return false;
 }
 
+int ParameterObject::GetParameterLength() const
+{
+	return static_cast<int>(mParaList.size());
+}
+
 /************************************************************************
 The data format is:
 	<Parameter> ...</Parameter>
