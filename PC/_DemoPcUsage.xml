@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DocRoot>
+	<GlobalVariables>
+		<Parameter>
+			<Name>ProgramFolderx86</Name>
+			<Value>C:\Program Files (x86)</Value>
+			<Comments>The global varialbles can be referenced throughout this document by using the name surrounded by percent symbols. Such as %ProgramFolderx86%.</Comments>
+		</Parameter>
+	</GlobalVariables>
+	<TaskList>
+		<ActionId>DemoToRunSysCmd</ActionId>
+	</TaskList>
+	<Actions>
+		<Action>
+			<Parameter>
+				<Name>ObjectId</Name>
+				<Value>DemoToRunSysCmd</Value>
+				<Comments>Object Id is used to reference this object everywhere.</Comments>
+			</Parameter>
+			<Parameter>
+				<Name>ObjectType</Name>
+				<Value>RunSystemCommandAction</Value>
+				<Comments>Object type indicates which action will this object execute.</Comments>
+			</Parameter>
+			<Parameter>
+				<Name>SystemCommand</Name>
+				<Value>regedit.exe</Value>
+				<Comments>Indicate which command will be run</Comments>
+			</Parameter>
+		</Action>
+	</Actions>
+	<Conditions>
+		<Condition>
+			<Parameter>
+				<Name>ObjectId</Name>
+				<Value>IsVs10.0Installed</Value>
+			</Parameter>
+			<Parameter>
+				<Name>ObjectType</Name>
+				<Value>FolderExistsCondition</Value>
+				<Comments>Object type indicates which condition will this object detect.</Comments>
+			</Parameter>
+			<Parameter>
+				<Name>FolderName</Name>
+				<Value>%ProgramFolderx86%\Microsoft Visual Studio 10.0\VC\bin</Value>
+			</Parameter>
+		</Condition>
+	</Conditions>
+</DocRoot>

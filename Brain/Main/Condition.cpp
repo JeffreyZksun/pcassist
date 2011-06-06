@@ -87,7 +87,7 @@ BEHAVIOR_FUNCTION_IMP(FileExistsCondition)
     ASSERT(bExist);
 
     if(bExist)
-        return PcUtil::DoesFileorFolderExist(para.GetEvaluatedValue());
+        return BrainUtil::DoesFileorFolderExist(para.GetEvaluatedValue());
     
     return false;
 }
@@ -104,7 +104,7 @@ BEHAVIOR_FUNCTION_IMP(FolderExistsCondition)
     ASSERT(bExist);
 
     if(bExist)
-        return PcUtil::DoesFileorFolderExist(para.GetEvaluatedValue());
+        return BrainUtil::DoesFileorFolderExist(para.GetEvaluatedValue());
 
     return false;
 }

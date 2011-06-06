@@ -320,6 +320,14 @@
 			</File>
 		</Filter>
 		<File
+			RelativePath=".\_DemoPcUsage.bat"
+			>
+		</File>
+		<File
+			RelativePath=".\_DemoPcUsage.xml"
+			>
+		</File>
+		<File
 			RelativePath=".\ReadMe.txt"
 			>
 		</File>

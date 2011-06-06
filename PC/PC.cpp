@@ -10,7 +10,7 @@
 // Define the supported parameter names.
 #define XMLFILE _T("File")
 
-// The command line likes PC.exe File="C:\Tools\_RunAutomation.xml"
+// The command line likes PC.exe File="C:\_DemoPcUsage.xml"
 int _tmain(int argc, _TCHAR* argv[])
 {
 	ParameterObject parameters;

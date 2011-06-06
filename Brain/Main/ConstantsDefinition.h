@@ -22,6 +22,10 @@
 #define SRC_Folder_NAME _T("SourceFolderName")
 #define DEST_Folder_NAME _T("DestinationFolderName")
 
+// For MakeDirectoryLinkAction
 #define LINK_NAME _T("LinkName")
 #define LINK_TARGET _T("LinkTarget")
+
+// For RunSystemCommandAction
+#define SYSTEM_COMMAND _T("SystemCommand")
 
