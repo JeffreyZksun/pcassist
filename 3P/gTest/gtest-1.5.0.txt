@@ -1,0 +1,9 @@
+Google Test home page: http://code.google.com/p/googletest/
+
+Consumed 12/7/2010
+
+Only the sources below are necessary for Windows OS
+
+include
+src
+msvc

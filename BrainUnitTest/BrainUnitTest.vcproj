@@ -42,11 +42,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(SolutionDir)\Brain\Main"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\Brain\Main&quot;;&quot;$(SolutionDir)\3P\gTest\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;NO_BRAIN_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				DebugInformationFormat="4"
@@ -62,8 +62,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="gtestd.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="$(OutDir)"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(SolutionDir)3p\gTest\msvc\gtest\Debug&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -118,9 +119,9 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="$(SolutionDir)\Brain\Main"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\Brain\Main&quot;;&quot;$(SolutionDir)\3P\gTest\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;NO_BRAIN_EXPORTS"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
@@ -137,8 +138,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="gtest.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(OutDir)"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(SolutionDir)3p\gTest\msvc\gtest\Release&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -181,6 +183,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BrainUtilTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -206,6 +212,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\BrainUtilTest.h"
+				>
+			</File>
 			<File
 				RelativePath=".\stdafx.h"
 				>
