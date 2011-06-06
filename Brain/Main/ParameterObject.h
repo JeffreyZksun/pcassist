@@ -1,5 +1,5 @@
 #pragma once
-#include <map>
+#include <list>
 #include "Parameter.h"
 
 #pragma warning( push )
@@ -16,8 +16,6 @@ public:
     virtual ~ParameterObject(void);
 
 public:
-    typedef std::map<CString, Parameter> ParameterMap;
-
     void				AddParameter(const Parameter& para);
     bool				GetParameter(const CString& paraName, Parameter& para) const;
 
@@ -29,8 +27,12 @@ protected:
 	virtual bool		IsParameterValid(const Parameter& para) const;
 
 private:
-    
-    ParameterMap mParaMap;
+
+	// Use the list to instead the map. We want to the parameters are shown as sequence they are added. 
+	//typedef std::map<CString, Parameter> ParameterMap;
+	typedef std::list<Parameter> ParameterList;
+
+    ParameterList	mParaList;
 };
 
 #pragma warning( pop ) 

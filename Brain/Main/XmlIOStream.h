@@ -9,6 +9,7 @@ public:
 	~XmlIOStream(void);
 
 public:
+	// ToDo - we should replace the <> in the data.
 	// Read
 	bool		ReadNode(const CString& nodeName);
 	bool		ReadNode(const CString& nodeName, int index);
@@ -23,7 +24,6 @@ public:
 	bool		IsReadStream() const;
 
 public:
-	void		Clear();
 	bool		Load(const CString& docName);
 	bool		Save(const CString& docName);
 

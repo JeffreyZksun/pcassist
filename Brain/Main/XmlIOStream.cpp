@@ -10,10 +10,6 @@ XmlIOStream::~XmlIOStream(void)
 {
 	
 }
-void XmlIOStream::Clear()
-{
-
-}
 
 // Only for traverse the brothers when read.
 bool XmlIOStream::ReadNode(const CString& nodeName, int index)
@@ -43,7 +39,6 @@ bool XmlIOStream::ReadNode(const CString& nodeName, int index)
 
 	return true;
 }
-
 
 bool XmlIOStream::ReadNode(const CString& nodeName)
 {
@@ -153,7 +148,30 @@ bool XmlIOStream::Load(const CString& docName)
 
 bool XmlIOStream::Save(const CString& docName)
 {
-	BOOL bRet = mDocumentWrapper.Save(docName);
+	if(!mDocumentWrapper.Interface())
+		return false;
+
+	// Use the xslt to indent the xml nodes.
+	// http://social.msdn.microsoft.com/Forums/en-IE/xmlandnetfx/thread/61f88cf8-c019-423b-9a88-a065a4b0566d
+	CXmlDocumentWrapper xslt;
+
+	const CString strXslt = _T("<?xml version='1.0' encoding='UTF-8'?>\n\
+		<xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>\n\
+		<xsl:output method='xml' version='1.0' encoding='UTF-8' indent='yes'/>\n\
+		<xsl:template match='@* | node()'>\n\
+		<xsl:copy>\n\
+		<xsl:apply-templates select='@* | node()' />\n\
+		</xsl:copy>\n\
+		</xsl:template>\n\
+		</xsl:stylesheet>");
+	BOOL bRet = xslt.LoadXML(strXslt);
+	ASSERT(TRUE == bRet);
+	if(FALSE == bRet)
+		return false;
+
+	mDocumentWrapper.Interface()->transformNodeToObject(xslt.Interface(),CComVariant(mDocumentWrapper.Interface()));
+
+	bRet = mDocumentWrapper.Save(docName);
 	ASSERT(TRUE == bRet);
 
 	return TRUE == bRet;

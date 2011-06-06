@@ -16,6 +16,16 @@ void TestFolderExistsCondition();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	// Test parameter name 
+	//Action *pNewAction = new Action(_T("Dymmy"));
+	//Parameter para(_T("OBJECTID"), _T("Dummy"));
+	//pNewAction->AddParameter(para);
+	//Parameter newPara;
+	//bool bRet1 = pNewAction->GetParameter(OBJECT_ID, newPara);
+
+	//return 0;
+
+
 
 	DocumentManager* pDoc = new DocumentManager();
 	//pDoc->SetDocumentName(_T("C:\\My.xml"));
@@ -32,15 +42,15 @@ int _tmain(int argc, _TCHAR* argv[])
 	//delete pDoc;
 
 	// Define system variables
-	//Parameter var1(_T("LocalISFolder"), _T("C:\\Inventor Server"));
-	//Parameter var2(_T("ISVersion"), _T("M17_22_x64_srv"));
+	Parameter var1(_T("LocalISFolder"), _T("C:\\Inventor Server"));
+	Parameter var2(_T("ISVersion"), _T("M17_22_x64_srv"));
 
 	Parameter var3(_T("ServerISFolder"), _T("\\\\panda\\BRE_MASTERS_MFG\\INV\\Goodyear\\px64\\%ISVersion%\\Server\\x64\\Setup\\Program Files\\Autodesk\\Inventor Server 2013\\Inventor Server"));
 	Parameter var4(_T("InvBin"), _T("r:\\lib\\Debug_x64"));
 	Parameter var5(_T("AcadISFolder"), _T("U:\\develop\\RunRoot\\Debug64\\acad\\Program Files\\AutoCAD Jaws - English\\Inventor Server"));
 
-	//VariableManager::Get()->AddParameter(var1);
-	//VariableManager::Get()->AddParameter(var2);
+	VariableManager::Get()->AddParameter(var1);
+	VariableManager::Get()->AddParameter(var2);
 	VariableManager::Get()->AddParameter(var3);
 	VariableManager::Get()->AddParameter(var4);
 	VariableManager::Get()->AddParameter(var5);
