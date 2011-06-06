@@ -109,17 +109,24 @@ bool Parameter::XmlIn(XmlIOStream* pXmlIOStream)
 	ASSERT(pXmlIOStream != NULL);
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, NameNode);
-		pXmlIOStream->ReadNodeText(mName);
+		ASSERT(stack.IsSuccess());
+		if(stack.IsSuccess())
+			pXmlIOStream->ReadNodeText(mName);
 	}
 
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ValueNode);
-		CString rawStr;
-		pXmlIOStream->ReadNodeText(rawStr);
-		mValue.SetRawString(rawStr);
+		ASSERT(stack.IsSuccess());
+		if(stack.IsSuccess())
+		{
+			CString rawStr;
+			pXmlIOStream->ReadNodeText(rawStr);
+			mValue.SetRawString(rawStr);
+		}
 	}
 
 	{
+		// Optional data.
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, CommentsNode);
 		if(stack.IsSuccess())
 			pXmlIOStream->ReadNodeText(mComments);
@@ -133,17 +140,26 @@ bool Parameter::XmlOut(XmlIOStream* pXmlIOStream) const
 
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, NameNode);
+		ASSERT(stack.IsSuccess());
+		if(!stack.IsSuccess())
+			return false;
 		pXmlIOStream->WriteNodeText(mName);
 	}
 
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ValueNode);
+		ASSERT(stack.IsSuccess());
+		if(!stack.IsSuccess())
+			return false;
 		pXmlIOStream->WriteNodeText(mValue.GetRawtring());
 	}
 	
 	if(mComments.GetLength() != 0)
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, CommentsNode);
+		ASSERT(stack.IsSuccess());
+		if(!stack.IsSuccess())
+			return false;
 		pXmlIOStream->WriteNodeText(mComments);
 	}
 

@@ -159,11 +159,10 @@ bool TaskManager::XmlIn(XmlIOStream* pXmlIOStream)
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ActionsNode);
 		if(stack.IsSuccess())
 		{
-			bool bHasItem = true;
 			int index = 0;
-			while(bHasItem)
+			while(true)
 			{		
-				bHasItem = pXmlIOStream->ReadNode(ActionNode, index);
+				bool bHasItem = pXmlIOStream->ReadNode(ActionNode, index);
 				if(!bHasItem)
 					break;
 
@@ -182,11 +181,10 @@ bool TaskManager::XmlIn(XmlIOStream* pXmlIOStream)
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ConditionsNode);
 		if(stack.IsSuccess())
 		{
-			bool bHasItem = true;
 			int index = 0;
-			while(bHasItem)
+			while(true)
 			{		
-				bHasItem = pXmlIOStream->ReadNode(ConditionNode, index);
+				bool bHasItem = pXmlIOStream->ReadNode(ConditionNode, index);
 				if(!bHasItem)
 					break;
 
@@ -205,11 +203,10 @@ bool TaskManager::XmlIn(XmlIOStream* pXmlIOStream)
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, TaskListNode);
 		if(stack.IsSuccess())
 		{
-			bool bHasItem = true;
 			int index = 0;
-			while(bHasItem)
+			while(true)
 			{		
-				bHasItem = pXmlIOStream->ReadNode(ActionIdNode, index);
+				bool bHasItem = pXmlIOStream->ReadNode(ActionIdNode, index);
 				if(!bHasItem)
 					break;
 
@@ -237,36 +234,45 @@ bool TaskManager::XmlOut(XmlIOStream* pXmlIOStream) const
 	// TaskList
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, TaskListNode);
-
-		for (ActionList::const_iterator it = mTaskList.begin(); it != mTaskList.end(); ++it)
+		if(stack.IsSuccess())
 		{
-			ASSERT(*it != NULL);
-			XmlIOStreamBeginNodeStack stack2(pXmlIOStream, ActionIdNode);
-			pXmlIOStream->WriteNodeText((*it)->GetObjectId());
+			for (ActionList::const_iterator it = mTaskList.begin(); it != mTaskList.end(); ++it)
+			{
+				ASSERT(*it != NULL);
+				XmlIOStreamBeginNodeStack stack2(pXmlIOStream, ActionIdNode);
+				if(stack2.IsSuccess())
+					pXmlIOStream->WriteNodeText((*it)->GetObjectId());
+			}
 		}
 	}
 
 	// Actions
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ActionsNode);
-
-		for (BehaviorNodeList::const_iterator it = mRegisteredActions.begin(); it != mRegisteredActions.end(); ++it)
+		if(stack.IsSuccess())
 		{
-			ASSERT(*it != NULL);
-			XmlIOStreamBeginNodeStack stack2(pXmlIOStream, ActionNode);
-			(*it)->XmlOut(pXmlIOStream);
+			for (BehaviorNodeList::const_iterator it = mRegisteredActions.begin(); it != mRegisteredActions.end(); ++it)
+			{
+				ASSERT(*it != NULL);
+				XmlIOStreamBeginNodeStack stack2(pXmlIOStream, ActionNode);
+				if(stack2.IsSuccess())
+					(*it)->XmlOut(pXmlIOStream);
+			}
 		}
 	}
 
 	//Conditions
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ConditionsNode);
-
-		for (BehaviorNodeList::const_iterator it = mRegisteredContions.begin(); it != mRegisteredContions.end(); ++it)
+		if(stack.IsSuccess())
 		{
-			ASSERT(*it != NULL);
-			XmlIOStreamBeginNodeStack stack2(pXmlIOStream, ConditionNode);
-			(*it)->XmlOut(pXmlIOStream);
+			for (BehaviorNodeList::const_iterator it = mRegisteredContions.begin(); it != mRegisteredContions.end(); ++it)
+			{
+				ASSERT(*it != NULL);
+				XmlIOStreamBeginNodeStack stack2(pXmlIOStream, ConditionNode);
+				if(stack2.IsSuccess())
+					(*it)->XmlOut(pXmlIOStream);
+			}
 		}
 	}
 

@@ -71,6 +71,9 @@ bool DocumentManager::XmlIn()
 
 	XmlIOStream* pXmlIOStream = new XmlIOStream(true);
 	bool bRet = pXmlIOStream->Load(mDocumentName); // Load root
+	ASSERT(bRet);
+	if(!bRet)
+		return false;
 
 	{
 		// The pointer has already points to the root. Don't need to move.
@@ -97,6 +100,9 @@ bool DocumentManager::XmlOut()
 	{
 		// Save root
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, DocRootNode);
+		ASSERT(stack.IsSuccess());
+		if(!stack.IsSuccess())
+			return false;
 
 		// Save variable manager
 		VariableManager::Get()->XmlOut(pXmlIOStream);
