@@ -17,23 +17,28 @@ void TestFolderExistsCondition();
 int _tmain(int argc, _TCHAR* argv[])
 {
 	// Test parameter name 
-	//Action *pNewAction = new Action(_T("Dymmy"));
-	//Parameter para(_T("OBJECTID"), _T("Dummy"));
-	//pNewAction->AddParameter(para);
-	//Parameter newPara;
-	//bool bRet1 = pNewAction->GetParameter(OBJECT_ID, newPara);
-
-	//return 0;
-
-
+	Action *pNewAction = new Action(_T("Dymmy"));
+	Parameter para(_T("OBJECTID"), _T("<Dummy>"));
+	pNewAction->AddParameter(para);
+	Parameter newPara;
+	bool bRet1 = pNewAction->GetParameter(OBJECT_ID, newPara);
 
 	DocumentManager* pDoc = new DocumentManager();
+	pDoc->SetDocumentName(_T("C:\\My.xml"));
+	pDoc->XmlOut();
+	delete pDoc;
+
+	return 0;
+
+
+
+	//DocumentManager* pDoc = new DocumentManager();
 	//pDoc->SetDocumentName(_T("C:\\My.xml"));
 	//pDoc->XmlIn();
 	//delete pDoc;
 
 	//TaskManager::Get()->RunTasks();
-	//return 0;
+	return 0;
 
 	////////////////// Test DocumentManager
 	//DocumentManager* pDoc = new DocumentManager();
@@ -41,134 +46,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	//pDoc->XmlOut();
 	//delete pDoc;
 
-	// Define system variables
-	Parameter var1(_T("LocalISFolder"), _T("C:\\Inventor Server"));
-	Parameter var2(_T("ISVersion"), _T("M17_22_x64_srv"));
-
-	Parameter var3(_T("ServerISFolder"), _T("\\\\panda\\BRE_MASTERS_MFG\\INV\\Goodyear\\px64\\%ISVersion%\\Server\\x64\\Setup\\Program Files\\Autodesk\\Inventor Server 2013\\Inventor Server"));
-	Parameter var4(_T("InvBin"), _T("r:\\lib\\Debug_x64"));
-	Parameter var5(_T("AcadISFolder"), _T("U:\\develop\\RunRoot\\Debug64\\acad\\Program Files\\AutoCAD Jaws - English\\Inventor Server"));
-
-	VariableManager::Get()->AddParameter(var1);
-	VariableManager::Get()->AddParameter(var2);
-	VariableManager::Get()->AddParameter(var3);
-	VariableManager::Get()->AddParameter(var4);
-	VariableManager::Get()->AddParameter(var5);
-
-	// Create tasks
-	TaskManager* pTaskMgr = TaskManager::Get();
-
-	// 1.       Create a new folder D:\Inventor Server. This can be any folder.
-	{
-		Action* pAction = new Action(_T("DeleteFolderAction"));
-		Parameter localFolderName(FOLDER_NAME, _T("%LocalISFolder%"));
-		pAction->AddParameter(localFolderName);
-		pTaskMgr->AddActionTask(pAction);
-
-		pAction = new Action(_T("CreateFolderAction"));
-		pAction->AddParameter(localFolderName);
-		pTaskMgr->AddActionTask(pAction);
-	}
-
-	// 2.       Under D:\Inventor Server, make a link “Bin?to F:\Inventor\Main\lib\debug_x64.  Note F:\Inventor\Main is where R: is mapped.
-	{
-		Action* pAction = new Action(_T("MakeDirectoryLinkAction"));
-		Parameter linkName(LINK_NAME, _T("%LocalISFolder%\\bin"));
-		Parameter linkTarget(LINK_TARGET, _T("%InvBin%"));
-		pAction->AddParameter(linkName);
-		pAction->AddParameter(linkTarget);
-		pTaskMgr->AddActionTask(pAction);
-	}
-
-	//3.       Make a link “Inventor Server?from the AutoCAD run root to D:\Inventor Server
-	{
-		Action* pAction = new Action(_T("MakeDirectoryLinkAction"));
-		Parameter linkName2(LINK_NAME, _T("%AcadISFolder%"));
-		Parameter linkTarget2(LINK_TARGET, _T("%LocalISFolder%"));
-		pAction->AddParameter(linkName2);
-		pAction->AddParameter(linkTarget2);
-		pTaskMgr->AddActionTask(pAction);
-	}
-
-
-	// 4.       Copy folders Configuration, Design Data, etc from local server to D:\Inventor Server. For example, 
-	// I use \\novistore\BRE_MASTERS_MFG\INV\Brunel\px86\M16_79_x86_srv\Server\x86\Setup\Program Files\Autodesk\Inventor Server 2012\Inventor Server
-	{
-		Action* pAction = new Action(_T("CopyFolderAction"));
-		Parameter srcFolder(SRC_Folder_NAME, _T("%ServerISFolder%\\Common Files"));
-		Parameter destFolder(DEST_Folder_NAME, _T("%LocalISFolder%\\Common Files"));
-		pAction->AddParameter(srcFolder);
-		pAction->AddParameter(destFolder);
-		pTaskMgr->AddActionTask(pAction);
-	}
-
-	{
-		Action* pAction = new Action(_T("CopyFolderAction"));
-		Parameter srcFolder(SRC_Folder_NAME, _T("%ServerISFolder%\\Configuration"));
-		Parameter destFolder(DEST_Folder_NAME, _T("%LocalISFolder%\\Configuration"));
-		pAction->AddParameter(srcFolder);
-		pAction->AddParameter(destFolder);
-		pTaskMgr->AddActionTask(pAction);
-	}
-
-	{
-		Action* pAction = new Action(_T("CopyFolderAction"));
-		Parameter srcFolder(SRC_Folder_NAME, _T("%ServerISFolder%\\Design Data"));
-		Parameter destFolder(DEST_Folder_NAME, _T("%LocalISFolder%\\Design Data"));
-		pAction->AddParameter(srcFolder);
-		pAction->AddParameter(destFolder);
-		pTaskMgr->AddActionTask(pAction);
-	}
-
-	{
-		Action* pAction = new Action(_T("CopyFolderAction"));
-		Parameter srcFolder(SRC_Folder_NAME, _T("%ServerISFolder%\\Templates"));
-		Parameter destFolder(DEST_Folder_NAME, _T("%LocalISFolder%\\Templates"));
-		pAction->AddParameter(srcFolder);
-		pAction->AddParameter(destFolder);
-		pTaskMgr->AddActionTask(pAction);
-	}
-
-	{
-		Action* pAction = new Action(_T("CopyFolderAction"));
-		Parameter srcFolder(SRC_Folder_NAME, _T("%ServerISFolder%\\Textures"));
-		Parameter destFolder(DEST_Folder_NAME, _T("%LocalISFolder%\\Textures"));
-		pAction->AddParameter(srcFolder);
-		pAction->AddParameter(destFolder);
-		pTaskMgr->AddActionTask(pAction);
-	}
-
-	{
-		Action* pAction = new Action(_T("CopyFolderAction"));
-		Parameter srcFolder(SRC_Folder_NAME, _T("%ServerISFolder%\\Translation"));
-		Parameter destFolder(DEST_Folder_NAME, _T("%LocalISFolder%\\Translation"));
-		pAction->AddParameter(srcFolder);
-		pAction->AddParameter(destFolder);
-		pTaskMgr->AddActionTask(pAction);
-	}
-
-	// 5.       Make sure your R:\ is mapped correctly, for example, subst R: F:\Inventor\Main.
-
-	// 6.       Copy R:\Server\Framework\Utx\HardwareLibraryDM.xml to F:\Inventor\Main\lib. 
-	{
-		Action* pAction = new Action(_T("DeleteFileAction"));
-		Parameter HardwareLibraryDM(FILE_NAME, _T("R:\\lib\\HardwareLibraryDM.xml"));
-		pAction->AddParameter(HardwareLibraryDM);
-		pTaskMgr->AddActionTask(pAction);
-	}
-
-	{
-		Action* pAction = new Action(_T("CopyFileAction"));
-		Parameter srcFile(SRC_FILE_NAME, _T("R:\\Server\\Framework\\Utx\\HardwareLibraryDM.xml"));
-		Parameter destFile(DEST_FILE_NAME, _T("R:\\lib\\HardwareLibraryDM.xml"));
-		pAction->AddParameter(srcFile);
-		pAction->AddParameter(destFile);
-		pTaskMgr->AddActionTask(pAction);
-	}
-	//DocumentManager* pDoc = new DocumentManager();
-	pDoc->SetDocumentName(_T("C:\\My.xml"));
-	pDoc->XmlOut();
-	delete pDoc;
 	/////////////////////////////////////////////////// Test ComplexAction
 	//Condition* pC  = new FileExistsCondition();
 	//pC->AddParameter(Parameter(OBJECT_ID, _T("CheckFolder")));
