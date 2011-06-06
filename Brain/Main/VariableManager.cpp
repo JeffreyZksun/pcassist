@@ -121,7 +121,8 @@ bool VariableManager::XmlIn(XmlIOStream* pXmlIOStream)
 	ASSERT(pXmlIOStream != NULL);
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, GlobalVariablesNode);
-		ParameterObject::XmlIn(pXmlIOStream);
+		if(stack.IsSuccess())
+			ParameterObject::XmlIn(pXmlIOStream);
 	}
 	return true;
 }
@@ -132,6 +133,9 @@ bool VariableManager::XmlOut(XmlIOStream* pXmlIOStream) const
 
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, GlobalVariablesNode);
+		ASSERT(stack.IsSuccess());
+		if(!stack.IsSuccess())
+			return false;
 		ParameterObject::XmlOut(pXmlIOStream);
 	}
 

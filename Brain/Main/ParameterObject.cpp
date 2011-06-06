@@ -68,18 +68,18 @@ bool ParameterObject::XmlIn(XmlIOStream* pXmlIOStream)
 {
 	ASSERT(pXmlIOStream != NULL);
 	{
-		bool bHasParameter = true;
 		int index = 0;
-		while(bHasParameter)
+		while(true)
 		{		
-			bHasParameter = pXmlIOStream->ReadNode(ParameterNode, index);
+			bool bHasParameter = pXmlIOStream->ReadNode(ParameterNode, index);
 			if(!bHasParameter)
 				break;
 
 			Parameter newPara;
-			newPara.XmlIn(pXmlIOStream);
+			bool bRet = newPara.XmlIn(pXmlIOStream);
 
-			AddParameter(newPara);
+			if(bRet)
+				AddParameter(newPara);
 
 			index++;
 
@@ -96,6 +96,9 @@ bool ParameterObject::XmlOut(XmlIOStream* pXmlIOStream) const
 	for(ParameterList::const_iterator it = mParaList.begin(); it != mParaList.end(); ++it)
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ParameterNode);
+		ASSERT(stack.IsSuccess());
+		if(!stack.IsSuccess())
+			return false;
 		it->XmlOut(pXmlIOStream);
 	}
 
