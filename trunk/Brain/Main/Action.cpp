@@ -82,7 +82,7 @@ BEHAVIOR_FUNCTION_IMP(CreateFileAction)
     ASSERT(bExist);
 
     if(bExist)
-        return PcUtil::CreateFile(para.GetEvaluatedValue());
+        return BrainUtil::CreateFile(para.GetEvaluatedValue());
 
     return false;
 }
@@ -94,7 +94,7 @@ BEHAVIOR_FUNCTION_IMP(DeleteFileAction)
     ASSERT(bExist);
 
     if(bExist)
-        return PcUtil::DeleteFile(para.GetEvaluatedValue());
+        return BrainUtil::DeleteFile(para.GetEvaluatedValue());
 
     return false;
 }
@@ -113,7 +113,7 @@ BEHAVIOR_FUNCTION_IMP(CopyFileAction)
     if(!bExist)
         return false;
 
-    return PcUtil::CopyFile(para1.GetEvaluatedValue(), para2.GetEvaluatedValue());
+    return BrainUtil::CopyFile(para1.GetEvaluatedValue(), para2.GetEvaluatedValue());
 }
 
 BEHAVIOR_FUNCTION_IMP(CreateFolderAction)
@@ -123,7 +123,7 @@ BEHAVIOR_FUNCTION_IMP(CreateFolderAction)
     ASSERT(bExist);
 
     if(bExist)
-        return PcUtil::CreateFolder(para.GetEvaluatedValue());
+        return BrainUtil::CreateFolder(para.GetEvaluatedValue());
 
     return false;
 }
@@ -135,7 +135,7 @@ BEHAVIOR_FUNCTION_IMP(DeleteFolderAction)
     ASSERT(bExist);
 
     if(bExist)
-        return PcUtil::DeleteFolder(para.GetEvaluatedValue());
+        return BrainUtil::DeleteFolder(para.GetEvaluatedValue());
 
     return false;
 }
@@ -154,7 +154,7 @@ BEHAVIOR_FUNCTION_IMP(CopyFolderAction)
     if(!bExist)
         return false;
 
-    return PcUtil::CopyFolder(para1.GetEvaluatedValue(), para2.GetEvaluatedValue());
+    return BrainUtil::CopyFolder(para1.GetEvaluatedValue(), para2.GetEvaluatedValue());
 }
 
 BEHAVIOR_FUNCTION_IMP(MakeDirectoryLinkAction)
@@ -171,6 +171,17 @@ BEHAVIOR_FUNCTION_IMP(MakeDirectoryLinkAction)
     if(!bExist)
         return false;
 
-    return PcUtil::MakeLink(para1.GetEvaluatedValue(), para2.GetEvaluatedValue());
+    return BrainUtil::MakeLink(para1.GetEvaluatedValue(), para2.GetEvaluatedValue());
+}
+
+BEHAVIOR_FUNCTION_IMP(RunSystemCommandAction)
+{
+	Parameter para;
+	bool bExist = pSelf->GetParameter(SYSTEM_COMMAND, para);
+	ASSERT(bExist);
+	if(!bExist)
+		return false;
+
+	return BrainUtil::RunSystemCommand(para.GetEvaluatedValue());
 }
 

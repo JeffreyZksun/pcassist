@@ -21,7 +21,7 @@ CString GetParentFolderName(const CString& fileOrFolderName)
     return folderName;
 }
 
-bool PcUtil::DoesLocalFileExist(const CString& fileFullName)
+bool BrainUtil::DoesLocalFileExist(const CString& fileFullName)
 {
     CString tmpFileFullName = fileFullName;
     struct _stat stFileInfo;
@@ -47,7 +47,7 @@ bool PcUtil::DoesLocalFileExist(const CString& fileFullName)
     return(blnReturn); 
 }
 
-bool PcUtil::DoesLocalFolderExist(const CString& folderFullName)
+bool BrainUtil::DoesLocalFolderExist(const CString& folderFullName)
 {
     CString tmpFolderFullName = folderFullName;
 
@@ -74,10 +74,10 @@ bool PcUtil::DoesLocalFolderExist(const CString& folderFullName)
     return(blnReturn); 
 }
 
-// PcUtil::DoesFileorFolderExist(_T("\\\\dataServer\\Folder\\"));
-// PcUtil::DoesFileorFolderExist(_T("\\\\dataServer\\Folder\\readme.txt"));
-// PcUtil::DoesFileorFolderExist(_T("C:\\readme.txt"));
-bool PcUtil::DoesFileorFolderExist(const CString& fileFullName)
+// BrainUtil::DoesFileorFolderExist(_T("\\\\dataServer\\Folder\\"));
+// BrainUtil::DoesFileorFolderExist(_T("\\\\dataServer\\Folder\\readme.txt"));
+// BrainUtil::DoesFileorFolderExist(_T("C:\\readme.txt"));
+bool BrainUtil::DoesFileorFolderExist(const CString& fileFullName)
 {
     CString tmpFileFullName = fileFullName;
 
@@ -97,8 +97,8 @@ bool PcUtil::DoesFileorFolderExist(const CString& fileFullName)
     return 0 == ret;
 }
 
-// PcUtil::CopyFile(_T("\\\\server\\dataFolder\\readme.log"), _T("C:\\readme.log"));
-bool PcUtil::CopyFile(const CString& srcFileFullName, const CString& destFileFullName)
+// BrainUtil::CopyFile(_T("\\\\server\\dataFolder\\readme.log"), _T("C:\\readme.log"));
+bool BrainUtil::CopyFile(const CString& srcFileFullName, const CString& destFileFullName)
 {
     if(!DoesFileorFolderExist(srcFileFullName))
         return false;
@@ -123,10 +123,10 @@ bool PcUtil::CopyFile(const CString& srcFileFullName, const CString& destFileFul
     return bSucc;
 }
 
-// PcUtil::CopyFolder(_T("C:\\srcFolder\"), _T("C:\\destFolder\\"));
-// PcUtil::CopyFolder(_T("C:\\srcFolder"), _T("C:\\newFolderRoot\\newFolder\\destFolder"));
+// BrainUtil::CopyFolder(_T("C:\\srcFolder\"), _T("C:\\destFolder\\"));
+// BrainUtil::CopyFolder(_T("C:\\srcFolder"), _T("C:\\newFolderRoot\\newFolder\\destFolder"));
 // The directory tree will be created by xcopy if the parent of the dest doesn't exist.
-bool PcUtil::CopyFolder(const CString& srcFolderFullName, const CString& destFolderFullName)
+bool BrainUtil::CopyFolder(const CString& srcFolderFullName, const CString& destFolderFullName)
 {
     if(!DoesFileorFolderExist(srcFolderFullName))
         return false;
@@ -152,8 +152,8 @@ bool PcUtil::CopyFolder(const CString& srcFolderFullName, const CString& destFol
     return bSucc;
 }
 
-// PcUtil::DeleteFile(_T("C:\\readme.txt"));
-bool PcUtil::DeleteFile(const CString& fileFullName)
+// BrainUtil::DeleteFile(_T("C:\\readme.txt"));
+bool BrainUtil::DeleteFile(const CString& fileFullName)
 {
     if(!DoesFileorFolderExist(fileFullName))
         return true;
@@ -166,9 +166,9 @@ bool PcUtil::DeleteFile(const CString& fileFullName)
     bool bSucc = !DoesFileorFolderExist(fileFullName);
     return bSucc;
 }
-// PcUtil::DeleteFolder(_T("C:\\DestFolder\\"));
-// PcUtil::DeleteFolder(_T("C:\\DestFolder"));
-bool PcUtil::DeleteFolder(const CString& folderFullName)
+// BrainUtil::DeleteFolder(_T("C:\\DestFolder\\"));
+// BrainUtil::DeleteFolder(_T("C:\\DestFolder"));
+bool BrainUtil::DeleteFolder(const CString& folderFullName)
 {
     if(!DoesFileorFolderExist(folderFullName))
         return true;
@@ -182,8 +182,8 @@ bool PcUtil::DeleteFolder(const CString& folderFullName)
     return bSucc;
 }
 
-// PcUtil::CreateFile(_T("C:\\newFolderRoot\\newFolder\\newFile.txt"));
-bool PcUtil::CreateFile(const CString& fileFullName)
+// BrainUtil::CreateFile(_T("C:\\newFolderRoot\\newFolder\\newFile.txt"));
+bool BrainUtil::CreateFile(const CString& fileFullName)
 {
     if(DoesFileorFolderExist(fileFullName))
         return true;
@@ -206,9 +206,9 @@ bool PcUtil::CreateFile(const CString& fileFullName)
 }
 
 // md "C:\newFolderRoot\newFolder\destFolder"
-// PcUtil::CreateFolder(_T("C:\\newFolderRoot\\newFolder\\destFolder"));
+// BrainUtil::CreateFolder(_T("C:\\newFolderRoot\\newFolder\\destFolder"));
 // The directory tree will be created if the parent doesn't exist. This is done by the md command.
-bool PcUtil::CreateFolder(const CString& folderFullName)
+bool BrainUtil::CreateFolder(const CString& folderFullName)
 {
     if(DoesFileorFolderExist(folderFullName))
         return true;
@@ -225,7 +225,7 @@ bool PcUtil::CreateFolder(const CString& folderFullName)
 // mklink /D "C:\existingFolder\Link" "C:\Target"
 // mklink /D "C:\existingFolder\Link\" "C:\Target\"
 // The ending slash is optional. The parent directory of the link must exist.
-bool PcUtil::MakeLink(const CString& link, const CString& target, bool bIsDirectory/* = true*/)
+bool BrainUtil::MakeLink(const CString& link, const CString& target, bool bIsDirectory/* = true*/)
 {
     CString temLink = link;
     CString temTarget = target;
@@ -279,7 +279,7 @@ bool PcUtil::MakeLink(const CString& link, const CString& target, bool bIsDirect
     return bSucc;
 }
 
-bool PcUtil::RunSystemCommand(const CString& cmd)
+bool BrainUtil::RunSystemCommand(const CString& cmd)
 {
     CString tempCmd = cmd;
     int ret = _wsystem(tempCmd.GetBuffer());
