@@ -1,10 +1,11 @@
 #include "StdAfx.h"
 #include "ParameterObject.h"
 #include "XmlIOStream.h"
+#include <algorithm>
 
 
 ParameterObject::ParameterObject(void)
-    : mParaMap()
+    : mParaList()
 {
 }
 
@@ -22,15 +23,17 @@ void ParameterObject::AddParameter(const Parameter& para)
     name.MakeLower();
     
     // If exist, update it.
-    ParameterMap::iterator it = mParaMap.find(name);
-    if (it != mParaMap.end())
-    {
-        it->second = para;
-        return;
-    }
+	for(ParameterList::iterator it = mParaList.begin(); it != mParaList.end(); ++it)
+	{
+		if(it->GetName().CompareNoCase(name) == 0)
+		{
+			(*it) = para;
+			return;
+		}
+	}
 
     // Add new one
-    mParaMap.insert(std::make_pair(name, para));
+	mParaList.push_back(para);
 }
 
 bool ParameterObject::GetParameter(const CString& paraName, Parameter& para) const
@@ -38,12 +41,14 @@ bool ParameterObject::GetParameter(const CString& paraName, Parameter& para) con
     CString name = paraName;
     name.MakeLower();
 
-    ParameterMap::const_iterator it = mParaMap.find(name);
-    if (it != mParaMap.end())
-    {
-        para = it->second;
-        return true;
-    }
+	for(ParameterList::const_iterator it = mParaList.begin(); it != mParaList.end(); ++it)
+	{
+		if(it->GetName().CompareNoCase(name) == 0)
+		{
+			para = (*it);
+			return true;
+		}
+	}
 
     // Not found
     return false;
@@ -88,10 +93,10 @@ bool ParameterObject::XmlOut(XmlIOStream* pXmlIOStream) const
 {
 	ASSERT(pXmlIOStream != NULL);	
 
-	for (ParameterMap::const_iterator it = mParaMap.begin(); it != mParaMap.end(); ++it)
+	for(ParameterList::const_iterator it = mParaList.begin(); it != mParaList.end(); ++it)
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ParameterNode);
-		(it->second).XmlOut(pXmlIOStream);
+		it->XmlOut(pXmlIOStream);
 	}
 
 	return true;
