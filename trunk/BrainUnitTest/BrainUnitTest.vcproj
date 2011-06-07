@@ -62,9 +62,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gtestd.lib"
+				AdditionalDependencies="gtestd.lib Brain.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(SolutionDir)3p\gTest\msvc\gtest\Debug&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)3P\gTest\msvc\gtest\Debug&quot;;&quot;$(OutDir)&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -138,9 +138,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gtest.lib"
+				AdditionalDependencies="gtest.lib Brain.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(SolutionDir)3p\gTest\msvc\gtest\Release&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)3P\gTest\msvc\gtest\Release&quot;;&quot;$(OutDir)&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -226,106 +226,6 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
-		</Filter>
-		<Filter
-			Name="Main"
-			>
-			<File
-				RelativePath="..\Brain\Main\Action.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\BehaviorNodeFactory.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\BehaviorNodeFactory.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\BrainSystem.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\BrainUtil.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\BrainUtil.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\CloseLoopChecker.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\CloseLoopChecker.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\Condition.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\ConstantsDefinition.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\DocumentManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\DocumentManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\Parameter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\Parameter.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\ParameterObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\ParameterObject.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\TaskManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\TaskManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\VariableManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\VariableManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\XmlIOStream.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\XmlIOStream.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\XmlNodeWrapper.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Brain\Main\XmlNodeWrapper.h"
-				>
-			</File>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
