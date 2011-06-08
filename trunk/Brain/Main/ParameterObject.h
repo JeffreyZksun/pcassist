@@ -17,9 +17,10 @@ public:
 
 public:
     void				AddParameter(const Parameter& para);
-    bool				GetParameter(const CString& paraName, Parameter& para) const;
+	bool				GetParameter(const CString& paraName, Parameter& para) const;
+	bool				GetParameter(unsigned int index, Parameter& para) const;
 
-	int					GetParameterLength() const;
+	unsigned int		GetParameterLength() const;
 
 public:
 	virtual bool		XmlIn(XmlIOStream* pXmlIOStream);

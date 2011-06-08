@@ -54,9 +54,28 @@ bool ParameterObject::GetParameter(const CString& paraName, Parameter& para) con
     return false;
 }
 
-int ParameterObject::GetParameterLength() const
+bool ParameterObject::GetParameter(unsigned int index, Parameter& para) const
 {
-	return static_cast<int>(mParaList.size());
+	if(index >= static_cast<unsigned int>(mParaList.size()))
+		return false;
+
+	int pos = 0;
+	for(ParameterList::const_iterator it = mParaList.begin(); it != mParaList.end(); ++it)
+	{
+		if(pos == index)
+		{
+			para = *it;
+			break;
+		}
+		pos++;
+	}
+
+	return true;
+}
+
+unsigned int ParameterObject::GetParameterLength() const
+{
+	return static_cast<unsigned int>(mParaList.size());
 }
 
 /************************************************************************
