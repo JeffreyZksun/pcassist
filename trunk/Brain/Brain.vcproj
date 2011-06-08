@@ -47,7 +47,7 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
 			/>
@@ -110,7 +110,7 @@
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;NO_BRAIN_EXPORTS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -146,16 +146,6 @@
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
-			<File
-				RelativePath=".\stdafx.h"
-				>
-			</File>
-		</Filter>
 		<Filter
 			Name="Inc"
 			>
@@ -245,6 +235,10 @@
 			</File>
 			<File
 				RelativePath=".\Main\RegistryKey.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Main\stdafx.h"
 				>
 			</File>
 			<File
