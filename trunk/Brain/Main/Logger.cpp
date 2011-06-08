@@ -61,7 +61,7 @@ bool Logger::DoesOuputParameter()
 	return mDoesOutputParameter;
 }
 
-bool Logger::SetDoesOutputParameter( bool bOutput)
+void Logger::SetDoesOutputParameter( bool bOutput)
 {
 	mDoesOutputParameter = bOutput;
 }
