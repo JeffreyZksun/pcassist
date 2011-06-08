@@ -42,6 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="$(ProjectDir)Inc\"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;NO_BRAIN_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -105,6 +106,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)Inc\&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;NO_BRAIN_EXPORTS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -211,10 +213,36 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			Name="Inc"
 			>
+			<File
+				RelativePath=".\inc\BrainSystem.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\ConstantsDefinition.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\DocumentManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\Logger.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\Parameter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\ParameterObject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\TaskManager.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Main"
@@ -229,10 +257,6 @@
 			</File>
 			<File
 				RelativePath=".\Main\BehaviorNodeFactory.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Main\BrainSystem.h"
 				>
 			</File>
 			<File
@@ -256,15 +280,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Main\ConstantsDefinition.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Main\DocumentManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Main\DocumentManager.h"
 				>
 			</File>
 			<File
@@ -272,23 +288,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Main\Logger.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Main\Parameter.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Main\Parameter.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Main\ParameterObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Main\ParameterObject.h"
 				>
 			</File>
 			<File
@@ -301,10 +305,6 @@
 			</File>
 			<File
 				RelativePath=".\Main\TaskManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Main\TaskManager.h"
 				>
 			</File>
 			<File

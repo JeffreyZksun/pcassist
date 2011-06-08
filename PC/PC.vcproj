@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(SolutionDir)\Brain\Main"
+				AdditionalIncludeDirectories="$(SolutionDir)\Brain\Inc"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;NO_BRAIN_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -119,7 +119,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="$(SolutionDir)\Brain\Main"
+				AdditionalIncludeDirectories="$(SolutionDir)\Brain\Inc"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;NO_BRAIN_EXPORTS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"

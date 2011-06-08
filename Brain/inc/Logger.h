@@ -18,7 +18,7 @@ public:
 	static Logger*	Get();
 
 	bool			DoesOuputParameter();
-	bool			SetDoesOutputParameter( bool bOutput);
+	void			SetDoesOutputParameter( bool bOutput);
 
 private:
 	bool			mDoesOutputParameter;
