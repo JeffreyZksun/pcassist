@@ -11,7 +11,7 @@ public:
 	~RegistryKey(void);
 
 public:
-	BOOL Create(HKEY hKey, LPCTSTR lpSubKey = NULL);
+	//BOOL Create(HKEY hKey, LPCTSTR lpSubKey = NULL);
 
 	BOOL CreateEx(HKEY hKey, LPCTSTR lpSubKey, LPTSTR lpClass = NULL
 		, DWORD dwOptions = REG_OPTION_NON_VOLATILE
