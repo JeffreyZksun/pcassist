@@ -78,6 +78,9 @@ public:
 
 	CString			GetObjectId() const;
 	CString			GetObjectType() const;
+
+protected:
+	bool			ExecuteBehavior();
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -95,7 +98,7 @@ protected:
 	virtual bool		IsParameterValid(const Parameter& para) const;
 
 public:
-    virtual bool		Execute();
+    bool		Execute();
 };
 
 
@@ -114,7 +117,7 @@ protected:
 	virtual bool		IsParameterValid(const Parameter& para) const;
 
 public:
-    virtual bool		IsTrue();
+    bool		IsTrue();
 };
 
 #pragma warning( pop ) 

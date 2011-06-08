@@ -62,9 +62,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gtestd.lib Brain.lib"
+				AdditionalDependencies="gtestd.lib Brain.lib Action.obj Condition.obj"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)3P\gTest\msvc\gtest\Debug&quot;;&quot;$(OutDir)&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)3P\gTest\msvc\gtest\Debug&quot;;&quot;$(OutDir)&quot;;&quot;$(OutDir)intermediate\Brain\&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -138,9 +138,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gtest.lib Brain.lib"
+				AdditionalDependencies="gtest.lib Brain.lib Action.obj Condition.obj"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)3P\gTest\msvc\gtest\Release&quot;;&quot;$(OutDir)&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)3P\gTest\msvc\gtest\Release&quot;;&quot;$(OutDir)&quot;;&quot;$(OutDir)intermediate\Brain\&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -179,11 +179,19 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\ActionTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\BrainUnitTest.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\BrainUtilTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ParameterObjectTest.cpp"
 				>
 			</File>
 			<File
