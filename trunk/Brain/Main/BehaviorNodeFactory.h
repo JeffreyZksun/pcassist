@@ -6,6 +6,13 @@ class BehaviorNode;
 // Define the creation function pointer
 typedef bool (*BehaviorFunction)(BehaviorNode*);
 
+
+#define BEHAVIOR_FUNCTION_IMP(BehaviorName) \
+	bool BehaviorName(BehaviorNode* pSelf);\
+	BehaviorFunctionHelper g##BehaviorName(_T(#BehaviorName), BehaviorName);\
+	bool BehaviorName(BehaviorNode* pSelf)
+
+
 class BehaviorNodeFactory
 {
 public:
@@ -20,7 +27,8 @@ public:
 
 private:
 	typedef std::map<CString, BehaviorFunction> FunctionMap;
-	FunctionMap mBehaviorFunctionMap;
+
+	FunctionMap			mBehaviorFunctionMap;
 };
 
 class BehaviorFunctionHelper
@@ -30,5 +38,5 @@ public:
 	~BehaviorFunctionHelper(void);
 
 private:
-	CString		mObjectType;
+	CString				mObjectType;
 };

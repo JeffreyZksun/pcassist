@@ -8,7 +8,7 @@ RegistryKey::RegistryKey(void) : mhKey(NULL)
 
 RegistryKey::RegistryKey(HKEY hKey, LPCTSTR lpSubKey/* = NULL*/)
 {
-	Create(hKey, lpSubKey);
+	CreateEx(hKey, lpSubKey);
 }
 
 RegistryKey::~RegistryKey(void)
@@ -21,17 +21,17 @@ void RegistryKey::Close()
 	if (IsValid()) ::RegCloseKey(mhKey), mhKey = NULL; 
 }
 
-BOOL RegistryKey::Create(HKEY hKey, LPCTSTR lpSubKey/* = NULL*/)
-{
-	HKEY hResultKey = NULL;
-
-	if (ERROR_SUCCESS != ::RegCreateKey(hKey, lpSubKey, &hResultKey))
-		Close();
-	else
-		Attach(hResultKey);
-
-	return IsValid();
-}
+//BOOL RegistryKey::Create(HKEY hKey, LPCTSTR lpSubKey/* = NULL*/)
+//{
+//	HKEY hResultKey = NULL;
+//
+//	if (ERROR_SUCCESS != ::RegCreateKey(hKey, lpSubKey, &hResultKey))
+//		Close();
+//	else
+//		Attach(hResultKey);
+//
+//	return IsValid();
+//}
 
 BOOL RegistryKey::CreateEx(HKEY hKey, LPCTSTR lpSubKey, LPTSTR lpClass/* = NULL*/
 						   , DWORD dwOptions/* = REG_OPTION_NON_VOLATILE*/

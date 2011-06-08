@@ -58,8 +58,8 @@ private:
 
 private:
 
-    BehaviorNodeList           mRegisteredActions;
-    BehaviorNodeList           mRegisteredContions;
+    BehaviorNodeList			mRegisteredActions;
+    BehaviorNodeList			mRegisteredContions;
 
     ActionList					mTaskList;
 
@@ -98,7 +98,7 @@ protected:
 	virtual bool		IsParameterValid(const Parameter& para) const;
 
 public:
-    bool		Execute();
+    bool				Execute();
 };
 
 
@@ -117,7 +117,7 @@ protected:
 	virtual bool		IsParameterValid(const Parameter& para) const;
 
 public:
-    bool		IsTrue();
+    bool				IsTrue();
 };
 
 #pragma warning( pop ) 
