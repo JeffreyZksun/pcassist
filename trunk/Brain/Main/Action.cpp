@@ -177,11 +177,42 @@ BEHAVIOR_FUNCTION_IMP(MakeDirectoryLinkAction)
 BEHAVIOR_FUNCTION_IMP(RunSystemCommandAction)
 {
 	Parameter para;
-	bool bExist = pSelf->GetParameter(SYSTEM_COMMAND, para);
+	bool bExist = pSelf->GetParameter(APPLICATION_NAME, para);
 	ASSERT(bExist);
 	if(!bExist)
 		return false;
 
 	return BrainUtil::RunSystemCommand(para.GetEvaluatedValue());
 }
+
+BEHAVIOR_FUNCTION_IMP(RunProcessAction)
+{
+	Parameter para;
+	bool bExist = pSelf->GetParameter(APPLICATION_NAME, para);
+	ASSERT(bExist);
+	if(!bExist)
+		return false;
+
+	CString applicationName = para.GetEvaluatedValue();
+	// Create process
+	//
+	STARTUPINFO startupInfo;
+	memset(&startupInfo, 0, sizeof(startupInfo));
+	startupInfo.cb = sizeof(STARTUPINFO);
+	startupInfo.dwFlags = STARTF_USESHOWWINDOW;
+	startupInfo.wShowWindow = SW_HIDE;
+
+	PROCESS_INFORMATION processInformation;
+
+	BOOL ret = CreateProcess(applicationName, NULL, NULL, NULL, FALSE, NORMAL_PRIORITY_CLASS, NULL, NULL, &startupInfo, &processInformation);
+	if (!ret || !processInformation.hThread || !processInformation.hProcess)
+		return false;
+
+	WaitForSingleObject( processInformation.hProcess, INFINITE );
+	CloseHandle( processInformation.hProcess );
+	CloseHandle( processInformation.hThread );
+
+	return true;
+}
+
 

@@ -27,5 +27,5 @@
 #define LINK_TARGET _T("LinkTarget")
 
 // For RunSystemCommandAction
-#define SYSTEM_COMMAND _T("SystemCommand")
+#define APPLICATION_NAME _T("ApplicationName")
 
