@@ -53,10 +53,20 @@ BOOL RegistryKey::OpenEx(HKEY hKey, LPCTSTR lpSubKey, REGSAM samDesired/* = KEY_
 {
 	HKEY hResultKey = NULL;
 
-	if (ERROR_SUCCESS != ::RegOpenKeyEx(hKey, lpSubKey, 0, samDesired, &hResultKey))
+	LONG isGood = ::RegOpenKeyEx(hKey, lpSubKey, 0, samDesired, &hResultKey);
+	if (ERROR_SUCCESS != isGood)
 		Close();
 	else
 		Attach(hResultKey);
+
+	return IsValid();
+}
+
+BOOL RegistryKey::OpenSubKey(LPCTSTR lpSubKey, REGSAM samDesired/* = KEY_ALL_ACCESS*/)
+{
+	ATLASSERT(IsValid());
+	if(IsValid())
+		OpenEx(mhKey, lpSubKey, samDesired);
 
 	return IsValid();
 }

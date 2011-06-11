@@ -25,12 +25,12 @@ void TestFolderExistsCondition();
 int _tmain(int argc, _TCHAR* argv[])
 {
 	// Run all the test cases.
-	//testing::InitGoogleTest(&argc, argv); 
-	//RUN_ALL_TESTS(); 
+	testing::InitGoogleTest(&argc, argv); 
+	RUN_ALL_TESTS(); 
 
-	//std::getchar(); // keep console window open until Return keystroke
-	//
-	//return 0;
+	std::getchar(); // keep console window open until Return keystroke
+	
+	return 0;
 
 
 	//// Generate Demo xml

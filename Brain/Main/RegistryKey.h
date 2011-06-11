@@ -20,6 +20,7 @@ public:
 		, LPDWORD lpdwDisposition = NULL);
 
 	BOOL OpenEx(HKEY hKey, LPCTSTR lpSubKey, REGSAM samDesired = KEY_ALL_ACCESS);
+	BOOL OpenSubKey(LPCTSTR lpSubKey, REGSAM samDesired = KEY_ALL_ACCESS);
 
 	LONG QueryValueEx(LPCTSTR lpValueName, LPDWORD lpType, LPBYTE lpData, LPDWORD lpcbData) const;
 

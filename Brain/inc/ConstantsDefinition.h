@@ -30,3 +30,10 @@
 #define APPLICATION_NAME _T("ApplicationName")
 #define APPLICATION_PARAMETER _T("ApplicationParameter")
 
+// For register
+#define ROOT_KEY _T("RootKey")
+#define SUB_KEY _T("SubKey")
+#define VALUE _T("Value")
+#define DATA _T("Data")
+
+

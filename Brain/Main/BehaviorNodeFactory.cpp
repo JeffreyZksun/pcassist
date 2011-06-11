@@ -12,7 +12,10 @@ BehaviorNodeFactory::~BehaviorNodeFactory(void)
 
 BehaviorFunction BehaviorNodeFactory::GetBehaviorFunction(const CString& objectType) const
 {
-	FunctionMap::const_iterator it = mBehaviorFunctionMap.find(objectType);
+	CString objType = objectType;
+	objType.MakeLower();
+
+	FunctionMap::const_iterator it = mBehaviorFunctionMap.find(objType);
 	
 	if(it != mBehaviorFunctionMap.end())
 		return it->second;
@@ -22,15 +25,21 @@ BehaviorFunction BehaviorNodeFactory::GetBehaviorFunction(const CString& objectT
 
 void BehaviorNodeFactory::AddBehaviorFunction(const CString& objectType, BehaviorFunction pFunction)
 {
-	FunctionMap::iterator it = mBehaviorFunctionMap.find(objectType);
+	CString objType = objectType;
+	objType.MakeLower();
+
+	FunctionMap::iterator it = mBehaviorFunctionMap.find(objType);
 	ASSERT(mBehaviorFunctionMap.end() == it); // Check duplication.
 	if(mBehaviorFunctionMap.end() == it)
-		mBehaviorFunctionMap.insert(std::make_pair(objectType, pFunction));
+		mBehaviorFunctionMap.insert(std::make_pair(objType, pFunction));
 }
 
 void BehaviorNodeFactory::RemoveBehaviorFunction(const CString& objectType)
 {
-	FunctionMap::iterator it = mBehaviorFunctionMap.find(objectType);
+	CString objType = objectType;
+	objType.MakeLower();
+
+	FunctionMap::iterator it = mBehaviorFunctionMap.find(objType);
 	if(it != mBehaviorFunctionMap.end())
 		mBehaviorFunctionMap.erase(it);
 }

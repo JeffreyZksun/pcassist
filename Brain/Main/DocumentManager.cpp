@@ -6,7 +6,7 @@
 
 /************************************************************************/
 /* The document schema/format is as below:
-<DocRoot version="1.0">
+<DocRoot Version="1.0">
 	<GlobalVariables>
 		<Parameter> 
 			<Name> </Name>
