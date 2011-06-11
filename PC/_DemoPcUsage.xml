@@ -23,7 +23,7 @@
 				<Comments>Object type indicates which action will this object execute.</Comments>
 			</Parameter>
 			<Parameter>
-				<Name>SystemCommand</Name>
+				<Name>ApplicationName</Name>
 				<Value>regedit.exe</Value>
 				<Comments>Indicate which command will be run</Comments>
 			</Parameter>
