@@ -6,7 +6,7 @@
 
 /************************************************************************/
 /* The document schema/format is as below:
-<DocRoot>
+<DocRoot version="1.0">
 	<GlobalVariables>
 		<Parameter> 
 			<Name> </Name>
@@ -63,7 +63,11 @@ void DocumentManager::SetDocumentName(const CString& docName)
 	mDocumentName = docName;
 }
 
+#define DOC_ORIGINAL_VERSION 1
+#define DOC_CURRENT_VERSION 1
+
 #define DocRootNode _T("DocRoot")
+#define VERSION_ATTR _T("Version")
 
 bool DocumentManager::XmlIn()
 {
@@ -78,6 +82,19 @@ bool DocumentManager::XmlIn()
 	{
 		// The pointer has already points to the root. Don't need to move.
 		//XmlIOStreamBeginNodeStack stack(pXmlIOStream, DocRootNode);
+
+		// version
+		CString docVersion;
+		bool bExist = pXmlIOStream->ReadNodeAttribute(VERSION_ATTR, docVersion);
+		if(bExist)
+		{
+			unsigned int ver = _ttoi(docVersion);
+			pXmlIOStream->SetDocVersion(ver);
+		}
+		else
+		{
+			pXmlIOStream->SetDocVersion(DOC_ORIGINAL_VERSION);
+		}
 
 		// Load variable manager
 		VariableManager::Get()->XmlIn(pXmlIOStream);
@@ -96,6 +113,7 @@ bool DocumentManager::XmlOut()
 	::CoInitialize(NULL);
 
 	XmlIOStream* pXmlIOStream = new XmlIOStream(false);
+	pXmlIOStream->SetDocVersion(DOC_CURRENT_VERSION);
 
 	{
 		// Save root
@@ -103,6 +121,11 @@ bool DocumentManager::XmlOut()
 		ASSERT(stack.IsSuccess());
 		if(!stack.IsSuccess())
 			return false;
+
+		// version
+		CString docVersion;
+		docVersion.Format(_T("%u"), pXmlIOStream->GetDocVersion());
+		pXmlIOStream->WriteNodeAttribute(VERSION_ATTR, docVersion);
 
 		// Save variable manager
 		VariableManager::Get()->XmlOut(pXmlIOStream);

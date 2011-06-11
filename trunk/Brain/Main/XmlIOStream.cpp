@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "XmlIOStream.h"
 
-XmlIOStream::XmlIOStream(bool bIsRead) : mbIsRead(bIsRead), mpCurrentNode(NULL), mDocumentWrapper()
+XmlIOStream::XmlIOStream(bool bIsRead) : mbIsRead(bIsRead), mpCurrentNode(NULL), mDocumentWrapper(), mDocVersion(0)
 {
 
 }
@@ -73,6 +73,22 @@ bool XmlIOStream::ReadNodeText(CString& text)
 	return true;
 }
 
+bool XmlIOStream::ReadNodeAttribute(const CString& attrName, CString& attrValue)
+{
+	ASSERT(mpCurrentNode != NULL);
+	if(NULL == mpCurrentNode)
+		return false;
+
+	MSXML2::IXMLDOMNamedNodeMapPtr attribs = mpCurrentNode->Getattributes();
+	
+	MSXML2::IXMLDOMNodePtr pAttr = attribs->getNamedItem((LPCTSTR)attrName);
+	if(NULL == pAttr)
+		return false;
+
+	attrValue = pAttr->GetnodeValue();
+	return true;
+}
+
 bool XmlIOStream::WriteNode(const CString& nodeName)
 {
 	ASSERT(!mbIsRead);
@@ -116,6 +132,37 @@ bool XmlIOStream::WriteNodeText(const CString& text)
 	return true;
 }
 
+bool XmlIOStream::WriteNodeAttribute(const CString& attrName, const CString& attrValue)
+{
+	ASSERT(!mbIsRead);
+	if(mbIsRead)
+		return false; // Can't write to the read stream.
+
+	ASSERT(mpCurrentNode != NULL);
+	if(NULL == mpCurrentNode)
+		return false;
+
+	MSXML2::IXMLDOMDocumentPtr xmlDocument = mpCurrentNode->GetownerDocument();
+	if (xmlDocument)
+	{
+		// Create attribute node
+		MSXML2::IXMLDOMAttributePtr attr = xmlDocument->createAttribute((LPCTSTR)attrName);
+
+		VARIANT va;
+		va.vt=VT_BSTR;
+		va.bstrVal = attrValue.AllocSysString();
+		attr->put_value(va);
+
+		mpCurrentNode->attributes->setNamedItem(attr);
+
+		VariantClear(&va);
+
+		return true;
+	}
+
+	return false;
+}
+
 bool XmlIOStream::CloseNode()
 {
 	// Back to parent
@@ -133,6 +180,16 @@ bool XmlIOStream::CloseNode()
 bool XmlIOStream::IsReadStream() const
 {
 	return mbIsRead;
+}
+
+void XmlIOStream::SetDocVersion(unsigned int ver)
+{
+	mDocVersion = ver;
+}
+
+unsigned int XmlIOStream::GetDocVersion() const
+{
+	return mDocVersion;
 }
 
 bool XmlIOStream::Load(const CString& docName)
