@@ -49,7 +49,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		Parameter objectType;
 		pNewAction->GetParameter(OBJECT_TYPE, objectType);
 		objectType.SetComments(_T("Object type indicates which action will this object execute."));
-		Parameter cmd(SYSTEM_COMMAND, _T("regedit.exe"));
+		Parameter cmd(APPLICATION_NAME, _T("regedit.exe"));
 		cmd.SetComments(_T("Indicate which command will be run"));
 		pNewAction->AddParameter(objectId);
 		pNewAction->AddParameter(objectType);

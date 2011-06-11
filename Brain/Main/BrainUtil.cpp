@@ -1,6 +1,9 @@
 #include "StdAfx.h"
 #include "BrainUtil.h"
 #include <sys/stat.h> 
+#include <windows.h>
+#include <strsafe.h>
+#include "Logger.h"
 
 // GetParentFolderName(_T("C:\\RootFolder\\ChildFolder\\")); return C:\RootFolder\
 // GetParentFolderName(_T("C:\\RootFolder\\ChildFolder\\readme.txt")); return C:\RootFolder\ChildFolder\
@@ -285,4 +288,37 @@ bool BrainUtil::RunSystemCommand(const CString& cmd)
     int ret = _wsystem(tempCmd.GetBuffer());
     //ASSERT(0 == ret); // Don't aseert the failure is accepted.
     return 0 == ret;
+}
+
+void BrainUtil::LogOutLastError(const CString& lpszFunction)
+{
+	// Retrieve the system error message for the last-error code
+
+	LPVOID lpMsgBuf;
+	LPVOID lpDisplayBuf;
+	DWORD dw = GetLastError(); 
+
+	FormatMessage(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | 
+		FORMAT_MESSAGE_FROM_SYSTEM |
+		FORMAT_MESSAGE_IGNORE_INSERTS,
+		NULL,
+		dw,
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		(LPTSTR) &lpMsgBuf,
+		0, NULL );
+
+	// Display the error message and exit the process
+
+	lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, 
+		(lstrlen((LPCTSTR)lpMsgBuf) + lstrlen((LPCTSTR)lpszFunction) + 40) * sizeof(TCHAR)); 
+	StringCchPrintf((LPTSTR)lpDisplayBuf, 
+		LocalSize(lpDisplayBuf) / sizeof(TCHAR),
+		TEXT("%s failed with error %d: %s"), 
+		(LPCTSTR)lpszFunction, dw, lpMsgBuf); 
+	LogOut((LPTSTR)lpDisplayBuf, COLOR_RED);
+
+	LocalFree(lpMsgBuf);
+	LocalFree(lpDisplayBuf);
+	//ExitProcess(dw); 
 }

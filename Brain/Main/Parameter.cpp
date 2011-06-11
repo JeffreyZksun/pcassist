@@ -71,7 +71,7 @@ void Parameter::SetValue(const CString& value)
     mValue = value;
 }
 
-const CString&  Parameter::GetRawdValue() const
+const CString&  Parameter::GetRawValue() const
 {
     return  mValue.GetRawtring();
 }
