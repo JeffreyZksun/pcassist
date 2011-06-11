@@ -41,7 +41,7 @@ public:
     const CString&  GetName() const;
 
     void            SetValue(const CString& value);
-    const CString&  GetRawdValue() const;
+    const CString&  GetRawValue() const;
     const CString   GetEvaluatedValue() const;
 
     void            SetComments(const CString& comments);

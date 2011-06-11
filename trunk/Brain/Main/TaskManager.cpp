@@ -288,6 +288,12 @@ bool TaskManager::XmlIn(XmlIOStream* pXmlIOStream)
 				Action* pAction = GetActionById(actionObjectId);
 				if(pAction != NULL)
 					AddActionTask(pAction);
+				else
+				{
+					LogOut(_T("Invalid Task: "), COLOR_RED);
+					LogOut(actionObjectId, COLOR_RED);
+					LogOut(_T("\n"));
+				}
 
 				index++;
 

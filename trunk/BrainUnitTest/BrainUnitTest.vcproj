@@ -214,6 +214,10 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\TaskManagerTest.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"

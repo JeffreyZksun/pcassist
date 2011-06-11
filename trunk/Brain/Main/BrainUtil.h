@@ -22,5 +22,6 @@ namespace BrainUtil
     bool MakeLink(const CString& link, const CString& target, bool bIsDirectory = true);
 
     bool RunSystemCommand(const CString& cmd);
+	void LogOutLastError(const CString& lpszFunction);
 };
 

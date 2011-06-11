@@ -194,6 +194,15 @@ BEHAVIOR_FUNCTION_IMP(RunProcessAction)
 		return false;
 
 	CString applicationName = para.GetEvaluatedValue();
+
+	bExist = pSelf->GetParameter(APPLICATION_PARAMETER, para);
+	CString applicationParameter;
+	if(bExist)
+	{
+		applicationParameter = para.GetEvaluatedValue();
+	}
+
+	// http://msdn.microsoft.com/en-us/library/ms682425%28v=vs.85%29.aspx
 	// Create process
 	//
 	STARTUPINFO startupInfo;
@@ -204,9 +213,63 @@ BEHAVIOR_FUNCTION_IMP(RunProcessAction)
 
 	PROCESS_INFORMATION processInformation;
 
-	BOOL ret = CreateProcess(applicationName, NULL, NULL, NULL, FALSE, NORMAL_PRIORITY_CLASS, NULL, NULL, &startupInfo, &processInformation);
+	// We need the application name is the first parameter
+	// When there is parameter, we need start the process with cmd line only.
+	// We need to avoid the case below.
+
+	//Test Running...
+	//	AppName:  C:\CreateProcessBug\Debug\ParamTest.exe
+	//	CmdLine:  Param1 Param2 Param3
+	//ParamTest Output:
+	//	Number of parameters: 3
+	//	Parameter Info:
+	//		Param #0: Param1
+	//		Param #1: Param2
+	//		Param #2: Param3
+
+	CString cmdLine;
+	BOOL ret = FALSE;
+	if(applicationParameter.IsEmpty())
+	{
+		//Test Running...
+		//	AppName:  C:\CreateProcessBug\Debug\ParamTest.exe
+		//	CmdLine:  (null)
+		//ParamTest Output:
+		//	Number of parameters: 1
+		//	Parameter Info:
+		//		Param #0: C:\CreateProcessBug\Debug\ParamTest.exe
+		ret = CreateProcess((LPCTSTR)applicationName, NULL, NULL, NULL, FALSE, NORMAL_PRIORITY_CLASS, NULL, NULL, &startupInfo, &processInformation);
+	}
+	else
+	{
+		//Test Running...
+		//	AppName:  (null)
+		//	CmdLine:  "C:\CreateProcessBug\Debug\ParamTest.exe" Param1 Param2 Param3
+		//ParamTest Output:
+		//	Number of parameters: 4
+		//	Parameter Info:
+		//		Param #0: C:\CreateProcessBug\Debug\ParamTest.exe
+		//		Param #1: Param1
+		//		Param #2: Param2
+		//		Param #3: Param3
+
+		cmdLine = applicationName + _T(" ") + applicationParameter;
+
+		TCHAR tempCmdLine[MAX_PATH * 2];  //Needed since CreateProcessW may change the contents of CmdLine
+		_tcscpy_s(tempCmdLine, MAX_PATH *2, (LPCTSTR)cmdLine);
+
+		ret = CreateProcess(NULL, tempCmdLine, NULL, NULL, FALSE, NORMAL_PRIORITY_CLASS, NULL, NULL, &startupInfo, &processInformation);
+	}
+
 	if (!ret || !processInformation.hThread || !processInformation.hProcess)
+	{
+		if(applicationParameter.IsEmpty())
+			BrainUtil::LogOutLastError(applicationName);
+		else
+			BrainUtil::LogOutLastError(cmdLine);
+
 		return false;
+	}
 
 	WaitForSingleObject( processInformation.hProcess, INFINITE );
 	CloseHandle( processInformation.hProcess );

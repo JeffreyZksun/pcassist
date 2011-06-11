@@ -1,7 +1,6 @@
 #include "StdAfx.h"
 #include "ParameterObject.h"
 
-
 TEST(ParameterObject, GetParameter_index)
 {
 	ParameterObject paraObj;
@@ -16,6 +15,6 @@ TEST(ParameterObject, GetParameter_index)
 
 	bool bmatch = para0.GetName().Compare(para3.GetName()) == 0;
 	EXPECT_EQ(true, bmatch);
-	bmatch = para0.GetRawdValue().Compare(para3.GetRawdValue()) == 0;
+	bmatch = para0.GetRawValue().Compare(para3.GetRawValue()) == 0;
 	EXPECT_EQ(true, bmatch);
 }
