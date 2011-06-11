@@ -191,7 +191,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ConditionTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ParameterObjectTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RegistyTest.cpp"
 				>
 			</File>
 			<File

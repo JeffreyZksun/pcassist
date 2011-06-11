@@ -4,6 +4,7 @@
 #include "CloseLoopChecker.h"
 #include "BehaviorNodeFactory.h"
 #include "TaskManager.h"
+#include "RegistryKey.h"
 
 CloseLoopChecker sComplexConditionCloseLoopChecker;
 
@@ -107,4 +108,55 @@ BEHAVIOR_FUNCTION_IMP(FolderExistsCondition)
         return BrainUtil::DoesFileorFolderExist(para.GetEvaluatedValue());
 
     return false;
+}
+
+BEHAVIOR_FUNCTION_IMP(RegisterKeyExistsCondition)
+{
+	Parameter para;
+	bool bExist = pSelf->GetParameter(ROOT_KEY, para);
+	ASSERT(bExist);
+	if(!bExist)
+		return false;
+	CString rootKey = para.GetEvaluatedValue();
+
+	bExist = pSelf->GetParameter(SUB_KEY, para);
+	ASSERT(bExist);
+	if(!bExist)
+		return false;
+
+	CString subKeyName = para.GetEvaluatedValue();
+
+	rootKey.MakeLower();
+	HKEY hRootKey = NULL;
+
+	if(rootKey.Find(_T("root")) != -1)
+	{
+		hRootKey = HKEY_CLASSES_ROOT;
+	}
+	else if(rootKey.Find(_T("current")) != -1)
+	{
+		hRootKey = HKEY_CURRENT_USER;
+	}
+	else if(rootKey.Find(_T("machine")) != -1)
+	{
+		hRootKey = HKEY_LOCAL_MACHINE;
+	}
+	else if(rootKey.Find(_T("users")) != -1)
+	{
+		hRootKey = HKEY_USERS;
+	}
+	else if(rootKey.Find(_T("config")) != -1)
+	{
+		hRootKey = HKEY_CURRENT_CONFIG;
+	}
+
+	if(NULL == hRootKey)
+	{
+		return false;
+	}
+
+	RegistryKey subKey;
+	BOOL bRet = subKey.OpenEx(hRootKey, (LPCTSTR)subKeyName);
+
+	return TRUE == bRet;
 }
