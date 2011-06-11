@@ -25,58 +25,56 @@ void TestFolderExistsCondition();
 int _tmain(int argc, _TCHAR* argv[])
 {
 	// Run all the test cases.
-	testing::InitGoogleTest(&argc, argv); 
-	RUN_ALL_TESTS(); 
+	//testing::InitGoogleTest(&argc, argv); 
+	//RUN_ALL_TESTS(); 
 
-	std::getchar(); // keep console window open until Return keystroke
-	
-	return 0;
-
-	// 
-	BrainUtil::RunSystemCommand(_T("regedit.exe"));
-	return 0;
-	// Generate Demo xml
-	{
-		Parameter para(_T("ProgramFolderx86"), _T("C:\\Program Files (x86)"));
-		para.SetComments(_T("The global varialbles can be referenced throughout this document by using the name surrounded by percent symbols. Such as %ProgramFolderx86%."));
-		VariableManager::Get()->AddParameter(para);
-	}
-
-	{
-		Action *pNewAction = new Action(_T("RunSystemCommandAction"));
-		Parameter objectId(OBJECT_ID, _T("DemoToRunSysCmd"));
-		objectId.SetComments(_T("Object Id is used to reference this object everywhere."));
-		Parameter objectType;
-		pNewAction->GetParameter(OBJECT_TYPE, objectType);
-		objectType.SetComments(_T("Object type indicates which action will this object execute."));
-		Parameter cmd(APPLICATION_NAME, _T("regedit.exe"));
-		cmd.SetComments(_T("Indicate which command will be run"));
-		pNewAction->AddParameter(objectId);
-		pNewAction->AddParameter(objectType);
-		pNewAction->AddParameter(cmd);
-
-		TaskManager::Get()->AddActionTask(pNewAction);
-	}
-
-	{
-		Condition *pVSInstalled = new Condition(_T("FolderExistsCondition"));
-		Parameter objectId(OBJECT_ID, _T("IsVs10.0Installed"));
-		Parameter objectType;
-		pVSInstalled->GetParameter(OBJECT_TYPE, objectType);
-		objectType.SetComments(_T("Object type indicates which condition will this object detect."));
-		Parameter para(FOLDER_NAME, _T("%ProgramFolderx86%\\Microsoft Visual Studio 10.0\\VC\\bin"));
-		pVSInstalled->AddParameter(objectId);
-		pVSInstalled->AddParameter(objectType);
-		pVSInstalled->AddParameter(para);
-	}
+	//std::getchar(); // keep console window open until Return keystroke
+	//
+	//return 0;
 
 
-	DocumentManager* pDoc = new DocumentManager();
-	pDoc->SetDocumentName(_T("C:\\_DemoPcUsage.xml"));
-	pDoc->XmlOut();
-	delete pDoc;
+	//// Generate Demo xml
+	//{
+	//	Parameter para(_T("ProgramFolderx86"), _T("C:\\Program Files (x86)"));
+	//	para.SetComments(_T("The global varialbles can be referenced throughout this document by using the name surrounded by percent symbols. Such as %ProgramFolderx86%."));
+	//	VariableManager::Get()->AddParameter(para);
+	//}
 
-	return 0;
+	//{
+	//	Action *pNewAction = new Action(_T("RunSystemCommandAction"));
+	//	Parameter objectId(OBJECT_ID, _T("DemoToRunSysCmd"));
+	//	objectId.SetComments(_T("Object Id is used to reference this object everywhere."));
+	//	Parameter objectType;
+	//	pNewAction->GetParameter(OBJECT_TYPE, objectType);
+	//	objectType.SetComments(_T("Object type indicates which action will this object execute."));
+	//	Parameter cmd(APPLICATION_NAME, _T("regedit.exe"));
+	//	cmd.SetComments(_T("Indicate which command will be run"));
+	//	pNewAction->AddParameter(objectId);
+	//	pNewAction->AddParameter(objectType);
+	//	pNewAction->AddParameter(cmd);
+
+	//	TaskManager::Get()->AddActionTask(pNewAction);
+	//}
+
+	//{
+	//	Condition *pVSInstalled = new Condition(_T("FolderExistsCondition"));
+	//	Parameter objectId(OBJECT_ID, _T("IsVs10.0Installed"));
+	//	Parameter objectType;
+	//	pVSInstalled->GetParameter(OBJECT_TYPE, objectType);
+	//	objectType.SetComments(_T("Object type indicates which condition will this object detect."));
+	//	Parameter para(FOLDER_NAME, _T("%ProgramFolderx86%\\Microsoft Visual Studio 10.0\\VC\\bin"));
+	//	pVSInstalled->AddParameter(objectId);
+	//	pVSInstalled->AddParameter(objectType);
+	//	pVSInstalled->AddParameter(para);
+	//}
+
+
+	//DocumentManager* pDoc = new DocumentManager();
+	//pDoc->SetDocumentName(_T("C:\\_DemoPcUsage.xml"));
+	//pDoc->XmlOut();
+	//delete pDoc;
+
+	//return 0;
 
 	// Test parameter name 
 	//Action *pNewAction = new Action(_T("Dymmy"));
@@ -85,12 +83,12 @@ int _tmain(int argc, _TCHAR* argv[])
 	//Parameter newPara;
 	//bool bRet1 = pNewAction->GetParameter(OBJECT_ID, newPara);
 
-	//DocumentManager* pDoc = new DocumentManager();
-	//pDoc->SetDocumentName(_T("C:\\My.xml"));
-	//pDoc->XmlOut();
-	//delete pDoc;
+	DocumentManager* pDoc = new DocumentManager();
+	pDoc->SetDocumentName(_T("C:\\_DemoPcUsage.xml"));
+	pDoc->XmlIn();
+	delete pDoc;
 
-	//return 0;
+	return 0;
 
 
 
