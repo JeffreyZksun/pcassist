@@ -182,7 +182,17 @@ BEHAVIOR_FUNCTION_IMP(RunSystemCommandAction)
 	if(!bExist)
 		return false;
 
-	return BrainUtil::RunSystemCommand(para.GetEvaluatedValue());
+	CString applicationName = para.GetEvaluatedValue();
+
+	bExist = pSelf->GetParameter(APPLICATION_PARAMETER, para);
+	if(bExist)
+	{
+		CString applicationParameter = para.GetEvaluatedValue();
+
+		applicationName = applicationName + _T(" ") + applicationParameter;
+	}
+
+	return BrainUtil::RunSystemCommand(applicationName);
 }
 
 BEHAVIOR_FUNCTION_IMP(RunProcessAction)
