@@ -23,8 +23,6 @@ public:
     TaskManager(void);
     ~TaskManager(void);
 
-    //static TaskManager*     Get();
-
 public:
     bool                    RegisterAction(Action*);
     void                    UnregisterAction(Action*);
