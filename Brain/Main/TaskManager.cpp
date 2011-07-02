@@ -26,12 +26,6 @@ TaskManager::~TaskManager(void)
     ASSERT(mTaskList.empty());
 }
 
-//TaskManager* TaskManager::Get()
-//{
-//    static TaskManager singleton;
-//    return &singleton;
-//}
-
 bool TaskManager::RegisterAction(Action* pAction)
 {
 	return _RegisterBehaviorNode(mRegisteredActions, pAction);
