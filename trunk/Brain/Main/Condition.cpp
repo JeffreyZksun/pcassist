@@ -161,3 +161,11 @@ BEHAVIOR_FUNCTION_IMP(RegisterKeyExistsCondition)
 
 	return TRUE == bRet;
 }
+
+void BrainApplication::AddBuiltInConditionBehaivor() const
+{
+	ADD_BEHAVIOR_TO_FACTORY(ComplexCondition);
+	ADD_BEHAVIOR_TO_FACTORY(FileExistsCondition);
+	ADD_BEHAVIOR_TO_FACTORY(FolderExistsCondition);
+	ADD_BEHAVIOR_TO_FACTORY(RegisterKeyExistsCondition);
+}

@@ -28,6 +28,13 @@ public:
 	bool		XmlOut(const CString& docName) const;
 
 private:
+	void		Initialize() const;
+
+	// We can combain the two functions together.
+	void		AddBuiltInActionBehaivor() const; // Defined in Action.cpp
+	void		AddBuiltInConditionBehaivor() const; // Defined in Condition.cpp
+
+private:
 	TaskManager*			mpTaskManager;
 	BehaviorNodeFactory*	mpBehaviorNodeFactory;
 	VariableManager*		mpVariableManager;

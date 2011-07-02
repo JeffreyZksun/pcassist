@@ -17,11 +17,15 @@ public:
 
 	static Logger*	Get();
 
-	bool			DoesOuputParameter();
+	bool			DoesOuputParameter() const;
 	void			SetDoesOutputParameter( bool bOutput);
+
+	bool			GetEnable() const;
+	void			SetEnable(bool bEnable);
 
 private:
 	bool			mDoesOutputParameter;
+	bool			mbEnable;
 
 };
 

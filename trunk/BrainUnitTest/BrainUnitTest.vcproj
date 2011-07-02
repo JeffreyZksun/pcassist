@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gtestd.lib Brain.lib Action.obj Condition.obj"
+				AdditionalDependencies="gtestd.lib Brain.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)3P\gTest\msvc\gtest\Debug&quot;;&quot;$(OutDir)&quot;;&quot;$(OutDir)intermediate\Brain\&quot;"
 				GenerateDebugInformation="true"
@@ -138,7 +138,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gtest.lib Brain.lib Action.obj Condition.obj"
+				AdditionalDependencies="gtest.lib Brain.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)3P\gTest\msvc\gtest\Release&quot;;&quot;$(OutDir)&quot;;&quot;$(OutDir)intermediate\Brain\&quot;"
 				GenerateDebugInformation="true"

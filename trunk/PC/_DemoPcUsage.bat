@@ -1,1 +1,1 @@
-PC.exe FILE=_DemoPcUsage.xml
+PC.exe FILE=_DemoPcUsage.xml show-parameters=true
