@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "BehaviorNodeFactory.h"
+#include "BrainApplication.h"
 
 BehaviorNodeFactory::BehaviorNodeFactory(void) : mBehaviorFunctionMap()
 {
@@ -44,19 +45,19 @@ void BehaviorNodeFactory::RemoveBehaviorFunction(const CString& objectType)
 		mBehaviorFunctionMap.erase(it);
 }
 
-BehaviorNodeFactory* BehaviorNodeFactory::Get()
-{
-	static BehaviorNodeFactory singleton;
-	return &singleton;
-}
+//BehaviorNodeFactory* BrainApplication::GetWorkingBrain()->GetBehaviorNodeFactory()
+//{
+//	static BehaviorNodeFactory singleton;
+//	return &singleton;
+//}
 
 BehaviorFunctionHelper::BehaviorFunctionHelper(const CString& objectType, BehaviorFunction pFunction) 
 	: mObjectType(objectType)
 {
-	BehaviorNodeFactory::Get()->AddBehaviorFunction(objectType, pFunction);
+	BrainApplication::GetWorkingBrain()->GetBehaviorNodeFactory()->AddBehaviorFunction(objectType, pFunction);
 }
 
 BehaviorFunctionHelper::~BehaviorFunctionHelper(void)
 {
-	BehaviorNodeFactory::Get()->RemoveBehaviorFunction(mObjectType);
+	BrainApplication::GetWorkingBrain()->GetBehaviorNodeFactory()->RemoveBehaviorFunction(mObjectType);
 }

@@ -13,7 +13,7 @@ public:
     VariableManager(void);
     ~VariableManager(void);
 
-    static VariableManager* Get(); // Singleton
+    //static VariableManager* Get(); // Singleton
 
     CString GetEvaluatedString(const CString& variableString) const;
 

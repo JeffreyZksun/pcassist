@@ -5,6 +5,7 @@
 #include "BehaviorNodeFactory.h"
 #include "TaskManager.h"
 #include "RegistryKey.h"
+#include "BrainApplication.h"
 
 CloseLoopChecker sComplexConditionCloseLoopChecker;
 
@@ -28,7 +29,7 @@ BEHAVIOR_FUNCTION_IMP(ComplexCondition)
 	if(!bExist)
 		return false;
 
-	Condition* pFstCondition = TaskManager::Get()->GetConditionById(firstCondition.GetEvaluatedValue());
+	Condition* pFstCondition = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetConditionById(firstCondition.GetEvaluatedValue());
 	ASSERT(pFstCondition != NULL);
 	if(NULL == pFstCondition)
 		return false;
@@ -56,7 +57,7 @@ BEHAVIOR_FUNCTION_IMP(ComplexCondition)
 		ASSERT(bExist);
 		if(bExist)
 		{
-			Condition* pSndCondition = TaskManager::Get()->GetConditionById(sndCondition.GetEvaluatedValue());
+			Condition* pSndCondition = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetConditionById(sndCondition.GetEvaluatedValue());
 			ASSERT(pSndCondition != NULL);
 			if(pSndCondition != NULL)
 			{

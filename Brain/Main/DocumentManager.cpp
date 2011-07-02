@@ -3,6 +3,7 @@
 #include "XmlIOStream.h"
 #include "TaskManager.h"
 #include "VariableManager.h"
+#include "BrainApplication.h"
 
 /************************************************************************/
 /* The document schema/format is as below:
@@ -69,8 +70,12 @@ void DocumentManager::SetDocumentName(const CString& docName)
 #define DocRootNode _T("DocRoot")
 #define VERSION_ATTR _T("Version")
 
-bool DocumentManager::XmlIn()
+bool DocumentManager::XmlIn(const BrainApplication* pBrainApp)
 {
+	if(NULL == pBrainApp)
+		return false;
+	ASSERT(pBrainApp != NULL);
+
 	::CoInitialize(NULL);
 
 	XmlIOStream* pXmlIOStream = new XmlIOStream(true);
@@ -97,10 +102,10 @@ bool DocumentManager::XmlIn()
 		}
 
 		// Load variable manager
-		VariableManager::Get()->XmlIn(pXmlIOStream);
+		pBrainApp->GetVariableManager()->XmlIn(pXmlIOStream);
 
 		// Load task manager
-		TaskManager::Get()->XmlIn(pXmlIOStream);
+		pBrainApp->GetTaskManager()->XmlIn(pXmlIOStream);
 	}
 
 	::CoUninitialize();
@@ -108,8 +113,12 @@ bool DocumentManager::XmlIn()
 	return bRet;
 }
 
-bool DocumentManager::XmlOut()
+bool DocumentManager::XmlOut(const BrainApplication* pBrainApp)
 {
+	if(NULL == pBrainApp)
+		return false;
+	ASSERT(pBrainApp != NULL);
+
 	::CoInitialize(NULL);
 
 	XmlIOStream* pXmlIOStream = new XmlIOStream(false);
@@ -128,10 +137,10 @@ bool DocumentManager::XmlOut()
 		pXmlIOStream->WriteNodeAttribute(VERSION_ATTR, docVersion);
 
 		// Save variable manager
-		VariableManager::Get()->XmlOut(pXmlIOStream);
+		pBrainApp->GetVariableManager()->XmlOut(pXmlIOStream);
 
 		// Save task manager
-		TaskManager::Get()->XmlOut(pXmlIOStream);
+		pBrainApp->GetTaskManager()->XmlOut(pXmlIOStream);
 	}
 
 	bool bRet = pXmlIOStream->Save(mDocumentName);

@@ -23,11 +23,11 @@ VariableManager::~VariableManager(void)
 {
 }
 
-VariableManager* VariableManager::Get()
-{
-    static VariableManager singleton;
-    return &singleton;
-}
+//VariableManager* VariableManager::Get()
+//{
+//    static VariableManager singleton;
+//    return &singleton;
+//}
 
  CString VariableManager::GetEvaluatedString(const CString& variableString) const
  {
