@@ -29,6 +29,7 @@
 // For RunSystemCommandAction
 #define APPLICATION_NAME _T("ApplicationName")
 #define APPLICATION_PARAMETER _T("ApplicationParameter")
+#define APPLICATION_SHOWWINDOW _T("ShowWindow")
 
 // For register
 #define ROOT_KEY _T("RootKey")

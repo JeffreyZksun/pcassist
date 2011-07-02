@@ -5,6 +5,7 @@
 #include "BehaviorNodeFactory.h"
 #include "TaskManager.h"
 #include "BrainApplication.h"
+#include "Logger.h"
 
 CloseLoopChecker sComplexActionCloseLoopChecker;
 
@@ -220,7 +221,17 @@ BEHAVIOR_FUNCTION_IMP(RunProcessAction)
 	memset(&startupInfo, 0, sizeof(startupInfo));
 	startupInfo.cb = sizeof(STARTUPINFO);
 	startupInfo.dwFlags = STARTF_USESHOWWINDOW;
-	startupInfo.wShowWindow = SW_HIDE;
+
+	bExist = pSelf->GetParameter(APPLICATION_SHOWWINDOW, para);
+	bool bShowWindow = true;
+	if(bExist)
+	{
+		CString strShowWindow;
+		strShowWindow = para.GetEvaluatedValue();
+		if(strShowWindow.CompareNoCase(_T("false")) == 0)
+			bShowWindow = false;
+	}
+	startupInfo.wShowWindow = bShowWindow ? SW_NORMAL : SW_HIDE;
 
 	PROCESS_INFORMATION processInformation;
 
