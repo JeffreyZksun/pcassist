@@ -6,6 +6,7 @@
 #include "XmlIOStream.h"
 #include "BehaviorNodeFactory.h"
 #include "Logger.h"
+#include "BrainApplication.h"
 
 //////////////////////////////////////////////////////////////////////////
 // TaskManager
@@ -25,11 +26,11 @@ TaskManager::~TaskManager(void)
     ASSERT(mTaskList.empty());
 }
 
-TaskManager* TaskManager::Get()
-{
-    static TaskManager singleton;
-    return &singleton;
-}
+//TaskManager* TaskManager::Get()
+//{
+//    static TaskManager singleton;
+//    return &singleton;
+//}
 
 bool TaskManager::RegisterAction(Action* pAction)
 {
@@ -514,7 +515,7 @@ bool BehaviorNode::ExecuteBehavior()
 	}
 
 
-	const BehaviorFunction pFunction = BehaviorNodeFactory::Get()->GetBehaviorFunction(GetObjectType());
+	const BehaviorFunction pFunction = BrainApplication::GetWorkingBrain()->GetBehaviorNodeFactory()->GetBehaviorFunction(GetObjectType());
 	if(NULL == pFunction)
 	{
 		// 12 + 1 empty chars
@@ -532,20 +533,20 @@ bool BehaviorNode::ExecuteBehavior()
 //////////////////////////////////////////////////////////////////////////
 Action::Action()
 {
-	TaskManager* pTaskMgr = TaskManager::Get();
+	TaskManager* pTaskMgr = BrainApplication::GetWorkingBrain()->GetTaskManager();
 	pTaskMgr->RegisterAction(this);
 }
 
 Action::Action(const CString& objetType)
 	: BehaviorNode(objetType)
 {
-    TaskManager* pTaskMgr = TaskManager::Get();
+    TaskManager* pTaskMgr = BrainApplication::GetWorkingBrain()->GetTaskManager();
     pTaskMgr->RegisterAction(this);
 }
 
 Action::~Action(void)
 {
-    TaskManager* pTaskMgr = TaskManager::Get();
+    TaskManager* pTaskMgr = BrainApplication::GetWorkingBrain()->GetTaskManager();
     pTaskMgr->UnregisterAction(this);
 }
 
@@ -553,7 +554,7 @@ bool Action::IsParameterValid(const Parameter& para) const
 {
 	if(para.GetName().CompareNoCase(OBJECT_ID) == 0)
 	{
-		Action* pAction = TaskManager::Get()->GetActionById(para.GetEvaluatedValue());
+		Action* pAction = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetActionById(para.GetEvaluatedValue());
 		ASSERT(NULL == pAction);
 		if(pAction != NULL) // Duplicated Id
 			return false;
@@ -584,20 +585,20 @@ bool Action::Execute()
 
 Condition::Condition()
 {
-	TaskManager* pTaskMgr = TaskManager::Get();
+	TaskManager* pTaskMgr = BrainApplication::GetWorkingBrain()->GetTaskManager();
 	pTaskMgr->RegisterCondition(this);
 }
 
 Condition::Condition(const CString& objetType)
 	: BehaviorNode(objetType)
 {
-    TaskManager* pTaskMgr = TaskManager::Get();
+    TaskManager* pTaskMgr = BrainApplication::GetWorkingBrain()->GetTaskManager();
     pTaskMgr->RegisterCondition(this);
 }
 
 Condition::~Condition(void)
 {
-    TaskManager* pTaskMgr = TaskManager::Get();
+    TaskManager* pTaskMgr = BrainApplication::GetWorkingBrain()->GetTaskManager();
     pTaskMgr->UnregisterCondition(this);
 }
 
@@ -605,7 +606,7 @@ bool Condition::IsParameterValid(const Parameter& para) const
 {
 	if(para.GetName().CompareNoCase(OBJECT_ID) == 0)
 	{
-		Condition* pAction = TaskManager::Get()->GetConditionById(para.GetEvaluatedValue());
+		Condition* pAction = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetConditionById(para.GetEvaluatedValue());
 		ASSERT(NULL == pAction);
 		if(pAction != NULL) // Duplicated Id
 			return false;

@@ -9,6 +9,7 @@
 #include "ConstantsDefinition.h"
 #include "VariableManager.h"
 #include "DocumentManager.h"
+#include "BrainApplication.h"
 
 void TestFileExistsCondition();
 void TestParameterObject();
@@ -83,10 +84,12 @@ int _tmain(int argc, _TCHAR* argv[])
 	//Parameter newPara;
 	//bool bRet1 = pNewAction->GetParameter(OBJECT_ID, newPara);
 
-	DocumentManager* pDoc = new DocumentManager();
-	pDoc->SetDocumentName(_T("C:\\_DemoPcUsage.xml"));
-	pDoc->XmlIn();
-	delete pDoc;
+	//DocumentManager* pDoc = new DocumentManager();
+	//pDoc->SetDocumentName(_T("C:\\_DemoPcUsage.xml"));
+	//pDoc->XmlIn(BrainApplication::GetWorkingBrain());
+	//delete pDoc;
+
+	BrainApplication::GetWorkingBrain()->XmlIn(_T("C:\\_DemoPcUsage.xml"));
 
 	return 0;
 

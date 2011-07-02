@@ -23,7 +23,7 @@ public:
 	void				AddBehaviorFunction(const CString& objectType, BehaviorFunction pFunction);
 	void				RemoveBehaviorFunction(const CString& objectType);
 
-	static BehaviorNodeFactory* Get();
+	//static BehaviorNodeFactory* Get();
 
 private:
 	typedef std::map<CString, BehaviorFunction> FunctionMap;

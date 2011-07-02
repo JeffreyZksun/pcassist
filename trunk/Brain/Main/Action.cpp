@@ -4,6 +4,7 @@
 #include "CloseLoopChecker.h"
 #include "BehaviorNodeFactory.h"
 #include "TaskManager.h"
+#include "BrainApplication.h"
 
 CloseLoopChecker sComplexActionCloseLoopChecker;
 
@@ -16,7 +17,7 @@ BEHAVIOR_FUNCTION_IMP(ComplexAction)
 	if(!bExist)
 		return false;
 
-	Condition* pExeCondition = TaskManager::Get()->GetConditionById(condition.GetEvaluatedValue());
+	Condition* pExeCondition = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetConditionById(condition.GetEvaluatedValue());
 	ASSERT(pExeCondition != NULL);
 	if(NULL == pExeCondition)
 		return false;
@@ -31,7 +32,7 @@ BEHAVIOR_FUNCTION_IMP(ComplexAction)
 	if(!bExist)
 		return false;
 
-	Action* pMainAction = TaskManager::Get()->GetActionById(mainAction.GetEvaluatedValue());
+	Action* pMainAction = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetActionById(mainAction.GetEvaluatedValue());
 	ASSERT(pMainAction != NULL);
 	if(NULL == pMainAction)
 		return false;
@@ -52,7 +53,7 @@ BEHAVIOR_FUNCTION_IMP(ComplexAction)
 	bExist = pSelf->GetParameter(PRE_ACTION, preAction);
 	if(bExist)
 	{
-		Action* pPreAction = TaskManager::Get()->GetActionById(preAction.GetEvaluatedValue());
+		Action* pPreAction = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetActionById(preAction.GetEvaluatedValue());
 		if(pPreAction != NULL)
 			pPreAction->Execute();
 	}
@@ -65,7 +66,7 @@ BEHAVIOR_FUNCTION_IMP(ComplexAction)
 	bExist = pSelf->GetParameter(POST_ACTION, postAction);
 	if(bExist)
 	{
-		Action* pPostAction = TaskManager::Get()->GetActionById(postAction.GetEvaluatedValue());
+		Action* pPostAction = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetActionById(postAction.GetEvaluatedValue());
 		if(pPostAction != NULL)
 			pPostAction->Execute();
 	}

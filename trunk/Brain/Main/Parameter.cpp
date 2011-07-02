@@ -2,6 +2,7 @@
 #include "Parameter.h"
 #include "VariableManager.h"
 #include "XmlIOStream.h"
+#include "BrainApplication.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ComplexString
@@ -34,7 +35,7 @@ const CString& ComplexString::GetRawtring() const
 
 CString ComplexString::GetEvaluatedString() const
 {
-    CString evaluatedString = VariableManager::Get()->GetEvaluatedString(mRawVariableString);
+	CString evaluatedString = BrainApplication::GetWorkingBrain()->GetVariableManager()->GetEvaluatedString(mRawVariableString);
     return evaluatedString;
 }
 

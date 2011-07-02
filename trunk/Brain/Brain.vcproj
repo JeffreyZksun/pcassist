@@ -150,6 +150,10 @@
 			Name="Inc"
 			>
 			<File
+				RelativePath=".\inc\BrainApplication.h"
+				>
+			</File>
+			<File
 				RelativePath=".\inc\BrainSystem.h"
 				>
 			</File>
@@ -191,6 +195,10 @@
 			</File>
 			<File
 				RelativePath=".\Main\BehaviorNodeFactory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Main\BrainApplication.cpp"
 				>
 			</File>
 			<File
