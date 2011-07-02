@@ -162,10 +162,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\inc\DocumentManager.h"
-				>
-			</File>
-			<File
 				RelativePath=".\inc\Logger.h"
 				>
 			</File>
@@ -223,6 +219,10 @@
 			</File>
 			<File
 				RelativePath=".\Main\DocumentManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Main\DocumentManager.h"
 				>
 			</File>
 			<File

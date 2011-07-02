@@ -8,7 +8,7 @@
 
 class BrainApplication;
 
-class BRAINEXPORT DocumentManager
+class DocumentManager
 {
 public:
 	DocumentManager(void);
