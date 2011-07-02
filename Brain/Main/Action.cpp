@@ -289,4 +289,16 @@ BEHAVIOR_FUNCTION_IMP(RunProcessAction)
 	return true;
 }
 
-
+void BrainApplication::AddBuiltInActionBehaivor() const
+{
+	ADD_BEHAVIOR_TO_FACTORY(ComplexAction);
+	ADD_BEHAVIOR_TO_FACTORY(CreateFileAction);
+	ADD_BEHAVIOR_TO_FACTORY(DeleteFileAction);
+	ADD_BEHAVIOR_TO_FACTORY(CopyFileAction);
+	ADD_BEHAVIOR_TO_FACTORY(CreateFolderAction);
+	ADD_BEHAVIOR_TO_FACTORY(DeleteFolderAction);
+	ADD_BEHAVIOR_TO_FACTORY(CopyFolderAction);
+	ADD_BEHAVIOR_TO_FACTORY(MakeDirectoryLinkAction);
+	ADD_BEHAVIOR_TO_FACTORY(RunSystemCommandAction);
+	ADD_BEHAVIOR_TO_FACTORY(RunProcessAction);
+}

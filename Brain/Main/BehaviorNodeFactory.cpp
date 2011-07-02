@@ -4,6 +4,7 @@
 
 BehaviorNodeFactory::BehaviorNodeFactory(void) : mBehaviorFunctionMap()
 {
+	mBehaviorFunctionMap.clear();
 }
 
 BehaviorNodeFactory::~BehaviorNodeFactory(void)
@@ -50,14 +51,14 @@ void BehaviorNodeFactory::RemoveBehaviorFunction(const CString& objectType)
 //	static BehaviorNodeFactory singleton;
 //	return &singleton;
 //}
-
-BehaviorFunctionHelper::BehaviorFunctionHelper(const CString& objectType, BehaviorFunction pFunction) 
-	: mObjectType(objectType)
-{
-	BrainApplication::GetWorkingBrain()->GetBehaviorNodeFactory()->AddBehaviorFunction(objectType, pFunction);
-}
-
-BehaviorFunctionHelper::~BehaviorFunctionHelper(void)
-{
-	BrainApplication::GetWorkingBrain()->GetBehaviorNodeFactory()->RemoveBehaviorFunction(mObjectType);
-}
+//
+//BehaviorFunctionHelper::BehaviorFunctionHelper(const CString& objectType, BehaviorFunction pFunction) 
+//	: mObjectType(objectType)
+//{
+//	BrainApplication::GetWorkingBrain()->GetBehaviorNodeFactory()->AddBehaviorFunction(objectType, pFunction);
+//}
+//
+//BehaviorFunctionHelper::~BehaviorFunctionHelper(void)
+//{
+//	BrainApplication::GetWorkingBrain()->GetBehaviorNodeFactory()->RemoveBehaviorFunction(mObjectType);
+//}

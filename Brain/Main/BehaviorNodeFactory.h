@@ -7,10 +7,16 @@ class BehaviorNode;
 typedef bool (*BehaviorFunction)(BehaviorNode*);
 
 
+//#define BEHAVIOR_FUNCTION_IMP(BehaviorName) \
+//	bool BehaviorName(BehaviorNode* pSelf);\
+//	BehaviorFunctionHelper g##BehaviorName(_T(#BehaviorName), BehaviorName);\
+//	bool BehaviorName(BehaviorNode* pSelf)
+
 #define BEHAVIOR_FUNCTION_IMP(BehaviorName) \
-	bool BehaviorName(BehaviorNode* pSelf);\
-	BehaviorFunctionHelper g##BehaviorName(_T(#BehaviorName), BehaviorName);\
 	bool BehaviorName(BehaviorNode* pSelf)
+
+#define ADD_BEHAVIOR_TO_FACTORY(BehaviorName) \
+	BrainApplication::GetWorkingBrain()->GetBehaviorNodeFactory()->AddBehaviorFunction(_T(#BehaviorName), BehaviorName);
 
 
 class BehaviorNodeFactory
@@ -30,13 +36,13 @@ private:
 
 	FunctionMap			mBehaviorFunctionMap;
 };
-
-class BehaviorFunctionHelper
-{
-public:
-	BehaviorFunctionHelper(const CString& objectType, BehaviorFunction pFunction);
-	~BehaviorFunctionHelper(void);
-
-private:
-	CString				mObjectType;
-};
+//
+//class BehaviorFunctionHelper
+//{
+//public:
+//	BehaviorFunctionHelper(const CString& objectType, BehaviorFunction pFunction);
+//	~BehaviorFunctionHelper(void);
+//
+//private:
+//	CString				mObjectType;
+//};

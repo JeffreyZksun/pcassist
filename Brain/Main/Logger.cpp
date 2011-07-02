@@ -8,6 +8,9 @@ WORD GetColorAttribute(TextColor color);
 
 void LogOut(const CString& message, TextColor color/* = COLOR_DEFAULT*/)
 {
+	if(!Logger::Get()->GetEnable())
+		return;
+
 	if(COLOR_DEFAULT == color)
 	{
 		std::wcout << (LPCTSTR)message;
@@ -45,7 +48,7 @@ WORD GetColorAttribute(TextColor color) {
 	}
 }
 
-Logger::Logger() : mDoesOutputParameter(false)
+Logger::Logger() : mDoesOutputParameter(false), mbEnable(true)
 {
 
 }
@@ -56,7 +59,7 @@ Logger* Logger::Get()
 	return &singleton;
 }
 
-bool Logger::DoesOuputParameter()
+bool Logger::DoesOuputParameter() const
 {
 	return mDoesOutputParameter;
 }
@@ -64,4 +67,14 @@ bool Logger::DoesOuputParameter()
 void Logger::SetDoesOutputParameter( bool bOutput)
 {
 	mDoesOutputParameter = bOutput;
+}
+
+bool Logger::GetEnable() const
+{
+	return mbEnable;
+}
+
+void Logger::SetEnable(bool bEnable)
+{
+	mbEnable = bEnable;
 }

@@ -10,6 +10,7 @@
 #include "VariableManager.h"
 #include "DocumentManager.h"
 #include "BrainApplication.h"
+#include "Logger.h"
 
 void TestFileExistsCondition();
 void TestParameterObject();
@@ -25,6 +26,7 @@ void TestFolderExistsCondition();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	Logger::Get()->SetEnable(false);
 	// Run all the test cases.
 	testing::InitGoogleTest(&argc, argv); 
 	RUN_ALL_TESTS(); 

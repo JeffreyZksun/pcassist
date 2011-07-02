@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Brain.lib Action.obj Condition.obj"
+				AdditionalDependencies="Brain.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(OutDir)intermediate\Brain\&quot;"
 				GenerateDebugInformation="true"
@@ -138,7 +138,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Brain.lib Action.obj Condition.obj"
+				AdditionalDependencies="Brain.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;$(OutDir)intermediate\Brain\&quot;"
 				GenerateDebugInformation="true"

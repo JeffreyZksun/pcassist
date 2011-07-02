@@ -7,8 +7,8 @@
 
 BrainApplication::BrainApplication()
 		: mpTaskManager(new TaskManager())
-		, mpBehaviorNodeFactory(new BehaviorNodeFactory)
-		, mpVariableManager(new VariableManager)
+		, mpBehaviorNodeFactory(new BehaviorNodeFactory())
+		, mpVariableManager(new VariableManager())
 {
 
 }
@@ -19,10 +19,16 @@ BrainApplication::~BrainApplication()
 	delete mpBehaviorNodeFactory;
 	delete mpVariableManager;
 }
+static bool bInitialized = false;
 
 BrainApplication* BrainApplication::GetWorkingBrain()
 {
 	static BrainApplication singleton;
+	if(!bInitialized)
+	{
+		bInitialized = true;
+		singleton.Initialize();
+	}
 	return &singleton;
 }
 
@@ -59,4 +65,9 @@ bool BrainApplication::XmlOut(const CString& docName) const
 	return bRet;
 }
 
+void BrainApplication::Initialize() const
+{
+	AddBuiltInActionBehaivor();
+	AddBuiltInConditionBehaivor();
+}
 
