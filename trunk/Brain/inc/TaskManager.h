@@ -27,6 +27,8 @@ public:
     bool                    RegisterAction(Action*);
     void                    UnregisterAction(Action*);
 	Action*					GetActionById(const CString&) const;
+	Action*					GetActionByIndex(size_t index) const;
+	size_t					GetActionCount() const;
 
     bool                    RegisterCondition(Condition*);
     void                    UnregisterCondition(Condition*);
@@ -40,7 +42,7 @@ public:
 	bool					XmlIn(XmlIOStream* pXmlIOStream);
 	bool					XmlOut(XmlIOStream* pXmlIOStream) const;
 
-private:
+public:
     void                    deleteRegisteredActions();
     void                    deleteRegisteredConditions();
 
