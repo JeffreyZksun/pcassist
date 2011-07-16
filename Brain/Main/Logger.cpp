@@ -14,6 +14,7 @@ void LogOut(const CString& message, TextColor color/* = COLOR_DEFAULT*/)
 	if(COLOR_DEFAULT == color)
 	{
 		std::wcout << (LPCTSTR)message;
+		fflush(stdout);
 		return;
 	}
 

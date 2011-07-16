@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "BrainApplication.h"
 #include "TaskManager.h"
 #include "BehaviorNodeFactory.h"

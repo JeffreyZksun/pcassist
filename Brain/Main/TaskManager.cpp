@@ -49,6 +49,32 @@ Action*	TaskManager::GetActionById(const CString& objectId) const
 	return pAction;
 }
 
+Action* TaskManager::GetActionByIndex(size_t index) const
+{
+	if(index <0 || index >= GetActionCount())
+		return NULL;
+
+	BehaviorNode* pNode = NULL;
+	size_t i = 0;
+	for(BehaviorNodeList::const_iterator it = mRegisteredActions.begin(); it != mRegisteredActions.end(); ++it)
+	{
+		if(i == index)
+			pNode = *it;
+		i++;
+	}
+
+	Action* pAction = NULL;
+	if(pNode != NULL)
+		pAction = dynamic_cast<Action*>(pNode);
+
+	return pAction;
+}
+
+size_t TaskManager::GetActionCount() const
+{
+	return mRegisteredActions.size();
+}
+
 bool TaskManager::RegisterCondition(Condition* pCondition)
 {
 	return _RegisterBehaviorNode(mRegisteredContions, pCondition);
