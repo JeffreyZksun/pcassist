@@ -66,11 +66,16 @@ namespace ET
                 ExternalTool et = mExtToolMgr.GetAllExternalTools()[iSelectedIndex];
                 if (et != null)
                 {
-                    exToolContent.Items.Clear();
-                    exToolContent.Items.Add("Title            : " + et.GetTitle());
-                    exToolContent.Items.Add("Command          : " + et.GetCommand());
-                    exToolContent.Items.Add("Parameter        : " + et.GetParameter());
-                    exToolContent.Items.Add("WorkingDirectoty : " + et.GetWorkingDirectoty());
+                    exToolContent.Text = "";
+                    exToolContent.Text += "Title            : " + et.GetTitle();
+                    exToolContent.Text += Environment.NewLine + "Command          : " + et.GetCommand();
+                    exToolContent.Text += Environment.NewLine + "Parameter        : " + et.GetParameter();
+                    exToolContent.Text += Environment.NewLine + "WorkingDirectoty : " + et.GetWorkingDirectoty();
+                    //exToolContent.Items.Clear();
+                    //exToolContent.Items.Add("Title            : " + et.GetTitle());
+                    //exToolContent.Items.Add("Command          : " + et.GetCommand());
+                    //exToolContent.Items.Add("Parameter        : " + et.GetParameter());
+                    //exToolContent.Items.Add("WorkingDirectoty : " + et.GetWorkingDirectoty());
                 }
             }
         }

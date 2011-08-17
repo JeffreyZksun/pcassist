@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="FlashGo" Class="SharedDbTableDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=shacng6120067,5013\SQLEXPRESS;Initial Catalog=FlashGo;Integrated Security=True" SettingsObjectName="Assist.DataSource.Properties.Settings" SettingsPropertyName="FlashGoConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.TBL_Information" Member="TBL_Informations">
+    <Type Name="TBL_Information">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="[_Key]" Member="_Key" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Title" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Link" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Comments" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Category" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="AccessCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Visible" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Added_by" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="Modified_by" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>
