@@ -32,7 +32,7 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.outputWindow = new System.Windows.Forms.RichTextBox();
             this.TitleList = new System.Windows.Forms.ListBox();
-            this.exToolContent = new System.Windows.Forms.ListBox();
+            this.exToolContent = new System.Windows.Forms.TextBox();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -102,10 +102,10 @@
             // exToolContent
             // 
             this.exToolContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.exToolContent.FormattingEnabled = true;
             this.exToolContent.Location = new System.Drawing.Point(0, 0);
+            this.exToolContent.Multiline = true;
             this.exToolContent.Name = "exToolContent";
-            this.exToolContent.Size = new System.Drawing.Size(418, 381);
+            this.exToolContent.Size = new System.Drawing.Size(418, 384);
             this.exToolContent.TabIndex = 0;
             // 
             // Form1
@@ -122,6 +122,7 @@
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
+            this.splitContainer2.Panel2.PerformLayout();
             this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -133,7 +134,7 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.RichTextBox outputWindow;
         private System.Windows.Forms.ListBox TitleList;
-        private System.Windows.Forms.ListBox exToolContent;
+        private System.Windows.Forms.TextBox exToolContent;
 
     }
 }

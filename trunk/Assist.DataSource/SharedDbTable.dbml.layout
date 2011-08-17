@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="SharedDbTable">
+  <DataContextMoniker Name="/SharedDbTableDataContext" />
+  <nestedChildShapes>
+    <classShape Id="9e336c11-5d59-4ddd-95e3-f575296debed" absoluteBounds="2.625, 0.875, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/SharedDbTableDataContext/TBL_Information" />
+      <nestedChildShapes>
+        <elementListCompartment Id="a6698131-c6ad-4c52-9bdc-0bed87b9cc05" absoluteBounds="2.64, 1.335, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
