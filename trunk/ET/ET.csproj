@@ -97,6 +97,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Assist.SearchEngine\Assist.SearchEngine.csproj">
+      <Project>{0433224F-ABE2-4A3B-BE77-6709DB5C44C2}</Project>
+      <Name>Assist.SearchEngine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BrainWrapper\BrainWrapper.vcproj">
       <Project>{6585C1DC-F766-4E0B-B532-830B31565510}</Project>
       <Name>BrainWrapper</Name>

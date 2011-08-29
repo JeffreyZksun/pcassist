@@ -22,6 +22,9 @@ namespace Assist.SearchEngine
             if (Content == null)
                 return 100;
 
+            if (Content.Length == 0)
+                return 100;
+
             if (item.Key.Equals(Content, StringComparison.CurrentCultureIgnoreCase))
                 return 100;
 
