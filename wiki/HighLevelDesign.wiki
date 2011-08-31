@@ -1,0 +1,32 @@
+#labels Featured,Phase-Design
+=Design=
+When the condition is met, do the action.
+
+The condition is
+     * The scheduled time is up
+     * The notification is received
+    ...
+    
+The action is
+    * Start process.
+    * Create/delete/copy folder/file.
+    ...
+
+=Modules=
+==Monitor.exe==
+A monitor process is always on live. It monitors the conditions and exectes the related action when the condition is meet.
+
+ * It is lightweight and with high performance.
+ * It consumes very little system resources.
+
+==Executor.exe==
+ * It accepts a transcript, analyze and execute it immediately.
+ * It won't be blocked during execution.
+ * It logs all the execution results and then exit.
+
+==Analyzer.exe==
+ * It analyzes the log results.
+
+==Brain.dll==
+ * It defines the data models of the system. All other assemblies only define the logic.
+ * Support the data types the less the better.
