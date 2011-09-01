@@ -1,5 +1,4 @@
 #labels Featured,Phase-Design
-
 This page defines the responsibility of the classes.	
 	
 =IDataObject=	
@@ -16,16 +15,17 @@ IDataObject
 		Condition
 }}}
 ==Description==
-	The Behavior class represents behavior to be executed. Its general workflow is doing something based on the input and generate the output.
-	In logic, the condition and action are the same. They represent behaviors. The minor difference is condition generally makes some CHECKS and action generally makes some CHANGES. 
+The Behavior class represents behavior to be executed. Its general workflow is doing something based on the input and generate the output.
+
+In logic, the condition and action are the same. They represent behaviors. The minor difference is condition generally makes some CHECKS and action generally makes some CHANGES. 
 	
-	The Behavior class only maintains the ParameterSet for the input and output. All the execution logic is delegated to the BehaviorExecutor.
+The Behavior class only maintains the ParameterSet for the input and output. All the execution logic is delegated to the BehaviorExecutor.
 	
-	The input ParameterSet contains a ObjectId and BehaviorExecutor. The ObjectId is a unique id which is used to retrieve this behavior. The ExecutorName is a name which is used to get the related BehaviorExecutor from the BehaviorExecutorFactor.
+The input ParameterSet contains a ObjectId and BehaviorExecutor. The ObjectId is a unique id which is used to retrieve this behavior. The ExecutorName is a name which is used to get the related BehaviorExecutor from the BehaviorExecutorFactor.
 
 =BehaviorExecutor=
 ==Description==
-	The behavior executor is nothing than a function. It does something based on the input and return output.
+The behavior executor is nothing than a function. It does something based on the input and return output.
 
 {{{	
 	ParameterSet BehaviorExecutor(ParameterSet input)
@@ -38,5 +38,5 @@ IDataObject
 	}
 }}}
 
-	BehaviorExecutorFactory is a singleton which maintains a map of the executor name and function pointer.
+BehaviorExecutorFactory is a singleton which maintains a map of the executor name and function pointer.
 	
