@@ -1,0 +1,18 @@
+#labels Phase-Requirements
+=Action Executor=
+AAU, I want to pass the result of the action to the next one.
+
+AAU, I want to save out the execution result for the further analysis.
+
+=Monitor=
+AAU, I want the monitor supports the timer event.
+
+AAU, I want the monitor supports the network event.
+
+AAU, I want the monitor is live all the time, so that it doesn't miss any event.
+
+AAU, I want the monitor consumes the CPU and memory as little as possible.
+
+AAU, I want to set the event to be monitored to the monitor, and specify an action for this event.
+
+AAU, I want the monitor execute the specified action when the enent is fired.
