@@ -613,7 +613,7 @@ bool Action::Execute()
 	bool bSucc = ExecuteBehavior();
 
 	if(bSucc)
-		LogOut(_T("[    SUCESS]\n"), COLOR_GREEN);
+		LogOut(_T("[   SUCCESS]\n"), COLOR_GREEN);
 	else
 		LogOut(_T("[      FAIL]\n"), COLOR_RED);
 
