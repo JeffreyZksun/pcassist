@@ -1,19 +1,21 @@
 #include "StdAfx.h"
+#include "Actions.h"
 #include "BrainUtil.h"
 #include "ConstantsDefinition.h"
 #include "CloseLoopChecker.h"
-#include "BehaviorNodeFactory.h"
+#include "BehaviorBodyFactory.h"
 #include "TaskManager.h"
 #include "BrainApplication.h"
 #include "Logger.h"
+#include "ExecutionContext.h"
 
 CloseLoopChecker sComplexActionCloseLoopChecker;
 
-BEHAVIOR_FUNCTION_IMP(ComplexAction)
+BEHAVIORBODY_IMP(ComplexAction)
 {
 	// Condition
 	Parameter condition;
-	bool bExist = pSelf->GetParameter(EXECUTE_CONDITION, condition);
+	bool bExist = pContext->GetInputParameterTable()->GetParameter(EXECUTE_CONDITION, condition);
 	ASSERT(bExist);
 	if(!bExist)
 		return false;
@@ -28,7 +30,7 @@ BEHAVIOR_FUNCTION_IMP(ComplexAction)
 
 	// Main action, required.
 	Parameter mainAction;
-	bExist = pSelf->GetParameter(MAIN_ACTION, mainAction);
+	bExist = pContext->GetInputParameterTable()->GetParameter(MAIN_ACTION, mainAction);
 	ASSERT(bExist);
 	if(!bExist)
 		return false;
@@ -39,7 +41,7 @@ BEHAVIOR_FUNCTION_IMP(ComplexAction)
 		return false;
 
 	// Detect dead loop caused by the close loop reference. Such as A<-->B
-	if(!sComplexActionCloseLoopChecker.PushOngoingItem(pSelf->GetObjectId()))
+	if(!sComplexActionCloseLoopChecker.PushOngoingItem(pContext->GetBehaviorNode()->GetObjectId()))
 	{
 		// This variable is already in the evaluation stack. 
 		// Close  loop reference is detected.
@@ -51,7 +53,7 @@ BEHAVIOR_FUNCTION_IMP(ComplexAction)
 
 	// Pre action, optional.
 	Parameter preAction;
-	bExist = pSelf->GetParameter(PRE_ACTION, preAction);
+	bExist = pContext->GetInputParameterTable()->GetParameter(PRE_ACTION, preAction);
 	if(bExist)
 	{
 		Action* pPreAction = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetActionById(preAction.GetEvaluatedValue());
@@ -64,7 +66,7 @@ BEHAVIOR_FUNCTION_IMP(ComplexAction)
 
 	// Post action, optional.
 	Parameter postAction;
-	bExist = pSelf->GetParameter(POST_ACTION, postAction);
+	bExist = pContext->GetInputParameterTable()->GetParameter(POST_ACTION, postAction);
 	if(bExist)
 	{
 		Action* pPostAction = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetActionById(postAction.GetEvaluatedValue());
@@ -77,10 +79,10 @@ BEHAVIOR_FUNCTION_IMP(ComplexAction)
 	return bRet;
 }
 
-BEHAVIOR_FUNCTION_IMP(CreateFileAction)
+BEHAVIORBODY_IMP(CreateFileAction)
 {
     Parameter para;
-    bool bExist = pSelf->GetParameter(FILE_NAME, para);
+    bool bExist = pContext->GetInputParameterTable()->GetParameter(FILE_NAME, para);
     ASSERT(bExist);
 
     if(bExist)
@@ -89,10 +91,10 @@ BEHAVIOR_FUNCTION_IMP(CreateFileAction)
     return false;
 }
 
-BEHAVIOR_FUNCTION_IMP(DeleteFileAction)
+BEHAVIORBODY_IMP(DeleteFileAction)
 {
     Parameter para;
-    bool bExist = pSelf->GetParameter(FILE_NAME, para);
+    bool bExist = pContext->GetInputParameterTable()->GetParameter(FILE_NAME, para);
     ASSERT(bExist);
 
     if(bExist)
@@ -101,16 +103,16 @@ BEHAVIOR_FUNCTION_IMP(DeleteFileAction)
     return false;
 }
 
-BEHAVIOR_FUNCTION_IMP(CopyFileAction)
+BEHAVIORBODY_IMP(CopyFileAction)
 {
     Parameter para1;
-    bool bExist = pSelf->GetParameter(SRC_FILE_NAME, para1);
+    bool bExist = pContext->GetInputParameterTable()->GetParameter(SRC_FILE_NAME, para1);
     ASSERT(bExist);
     if(!bExist)
         return false;
 
     Parameter para2;
-    bExist = pSelf->GetParameter(DEST_FILE_NAME, para2);
+    bExist = pContext->GetInputParameterTable()->GetParameter(DEST_FILE_NAME, para2);
     ASSERT(bExist);
     if(!bExist)
         return false;
@@ -118,10 +120,10 @@ BEHAVIOR_FUNCTION_IMP(CopyFileAction)
     return BrainUtil::CopyFile(para1.GetEvaluatedValue(), para2.GetEvaluatedValue());
 }
 
-BEHAVIOR_FUNCTION_IMP(CreateFolderAction)
+BEHAVIORBODY_IMP(CreateFolderAction)
 {
     Parameter para;
-    bool bExist = pSelf->GetParameter(FOLDER_NAME, para);
+    bool bExist = pContext->GetInputParameterTable()->GetParameter(FOLDER_NAME, para);
     ASSERT(bExist);
 
     if(bExist)
@@ -130,10 +132,10 @@ BEHAVIOR_FUNCTION_IMP(CreateFolderAction)
     return false;
 }
 
-BEHAVIOR_FUNCTION_IMP(DeleteFolderAction)
+BEHAVIORBODY_IMP(DeleteFolderAction)
 {
     Parameter para;
-    bool bExist = pSelf->GetParameter(FOLDER_NAME, para);
+    bool bExist = pContext->GetInputParameterTable()->GetParameter(FOLDER_NAME, para);
     ASSERT(bExist);
 
     if(bExist)
@@ -142,51 +144,51 @@ BEHAVIOR_FUNCTION_IMP(DeleteFolderAction)
     return false;
 }
 
-BEHAVIOR_FUNCTION_IMP(CopyFolderAction)
+BEHAVIORBODY_IMP(CopyFolderAction)
 {
     Parameter para1;
-    bool bExist = pSelf->GetParameter(SRC_Folder_NAME, para1);
+    bool bExist = pContext->GetInputParameterTable()->GetParameter(SRC_Folder_NAME, para1);
     ASSERT(bExist);
     if(!bExist)
         return false;
 
     Parameter para2;
     ASSERT(bExist);
-    bExist = pSelf->GetParameter(DEST_Folder_NAME, para2);
+    bExist = pContext->GetInputParameterTable()->GetParameter(DEST_Folder_NAME, para2);
     if(!bExist)
         return false;
 
     return BrainUtil::CopyFolder(para1.GetEvaluatedValue(), para2.GetEvaluatedValue());
 }
 
-BEHAVIOR_FUNCTION_IMP(MakeDirectoryLinkAction)
+BEHAVIORBODY_IMP(MakeDirectoryLinkAction)
 {
     Parameter para1;
-    bool bExist = pSelf->GetParameter(LINK_NAME, para1);
+    bool bExist = pContext->GetInputParameterTable()->GetParameter(LINK_NAME, para1);
     ASSERT(bExist);
     if(!bExist)
         return false;
 
     Parameter para2;
     ASSERT(bExist);
-    bExist = pSelf->GetParameter(LINK_TARGET, para2);
+    bExist = pContext->GetInputParameterTable()->GetParameter(LINK_TARGET, para2);
     if(!bExist)
         return false;
 
     return BrainUtil::MakeLink(para1.GetEvaluatedValue(), para2.GetEvaluatedValue());
 }
 
-BEHAVIOR_FUNCTION_IMP(RunSystemCommandAction)
+BEHAVIORBODY_IMP(RunSystemCommandAction)
 {
 	Parameter para;
-	bool bExist = pSelf->GetParameter(APPLICATION_NAME, para);
+	bool bExist = pContext->GetInputParameterTable()->GetParameter(APPLICATION_NAME, para);
 	ASSERT(bExist);
 	if(!bExist)
 		return false;
 
 	CString applicationName = para.GetEvaluatedValue();
 
-	bExist = pSelf->GetParameter(APPLICATION_PARAMETER, para);
+	bExist = pContext->GetInputParameterTable()->GetParameter(APPLICATION_PARAMETER, para);
 	if(bExist)
 	{
 		CString applicationParameter = para.GetEvaluatedValue();
@@ -197,17 +199,17 @@ BEHAVIOR_FUNCTION_IMP(RunSystemCommandAction)
 	return BrainUtil::RunSystemCommand(applicationName);
 }
 
-BEHAVIOR_FUNCTION_IMP(RunProcessAction)
+BEHAVIORBODY_IMP(RunProcessAction)
 {
 	Parameter para;
-	bool bExist = pSelf->GetParameter(APPLICATION_NAME, para);
+	bool bExist = pContext->GetInputParameterTable()->GetParameter(APPLICATION_NAME, para);
 	ASSERT(bExist);
 	if(!bExist)
 		return false;
 
 	CString applicationName = para.GetEvaluatedValue();
 
-	bExist = pSelf->GetParameter(APPLICATION_PARAMETER, para);
+	bExist = pContext->GetInputParameterTable()->GetParameter(APPLICATION_PARAMETER, para);
 	CString applicationParameter;
 	if(bExist)
 	{
@@ -222,7 +224,7 @@ BEHAVIOR_FUNCTION_IMP(RunProcessAction)
 	startupInfo.cb = sizeof(STARTUPINFO);
 	startupInfo.dwFlags = STARTF_USESHOWWINDOW;
 
-	bExist = pSelf->GetParameter(APPLICATION_SHOWWINDOW, para);
+	bExist = pContext->GetInputParameterTable()->GetParameter(APPLICATION_SHOWWINDOW, para);
 	bool bShowWindow = true;
 	if(bExist)
 	{
@@ -300,16 +302,3 @@ BEHAVIOR_FUNCTION_IMP(RunProcessAction)
 	return true;
 }
 
-void BrainApplication::AddBuiltInActionBehaivor() const
-{
-	ADD_BEHAVIOR_TO_FACTORY(ComplexAction);
-	ADD_BEHAVIOR_TO_FACTORY(CreateFileAction);
-	ADD_BEHAVIOR_TO_FACTORY(DeleteFileAction);
-	ADD_BEHAVIOR_TO_FACTORY(CopyFileAction);
-	ADD_BEHAVIOR_TO_FACTORY(CreateFolderAction);
-	ADD_BEHAVIOR_TO_FACTORY(DeleteFolderAction);
-	ADD_BEHAVIOR_TO_FACTORY(CopyFolderAction);
-	ADD_BEHAVIOR_TO_FACTORY(MakeDirectoryLinkAction);
-	ADD_BEHAVIOR_TO_FACTORY(RunSystemCommandAction);
-	ADD_BEHAVIOR_TO_FACTORY(RunProcessAction);
-}

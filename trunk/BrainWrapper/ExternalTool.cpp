@@ -52,10 +52,10 @@ bool ExternalToolManager::Save(System::String^ fileName)
 		Parameter para3(ET_PARAMETER, CString(et->GetParameter()));
 		Parameter para4(ET_WORKINGDIRECTORY, CString(et->GetWorkingDirectoty()));
 
-		pExtAction->AddParameter(para1);
-		pExtAction->AddParameter(para2);
-		pExtAction->AddParameter(para3);
-		pExtAction->AddParameter(para4);
+		pExtAction->GetParameterTable().AddParameter(para1);
+		pExtAction->GetParameterTable().AddParameter(para2);
+		pExtAction->GetParameterTable().AddParameter(para3);
+		pExtAction->GetParameterTable().AddParameter(para4);
 	}
 
 	CString strFileName(fileName);
@@ -81,7 +81,7 @@ bool ExternalToolManager::Load(System::String^ fileName)
 			System::String^ strDir = nullptr;
 
 			Parameter para;
-			bool bRet = pAction->GetParameter(ET_TITLE, para);
+			bool bRet = pAction->GetParameterTable().GetParameter(ET_TITLE, para);
 			if(!bRet)
 				continue;
 
@@ -90,7 +90,7 @@ bool ExternalToolManager::Load(System::String^ fileName)
 				strTitle = gcnew System::String(value);
 			}
 
-			bRet = pAction->GetParameter(ET_COMMAND, para);
+			bRet = pAction->GetParameterTable().GetParameter(ET_COMMAND, para);
 			if(!bRet)
 				continue;
 
@@ -99,7 +99,7 @@ bool ExternalToolManager::Load(System::String^ fileName)
 				strCmd = gcnew System::String(value);
 			}
 
-			bRet = pAction->GetParameter(ET_PARAMETER, para);
+			bRet = pAction->GetParameterTable().GetParameter(ET_PARAMETER, para);
 			if(!bRet)
 				continue;
 
@@ -108,7 +108,7 @@ bool ExternalToolManager::Load(System::String^ fileName)
 				strPara = gcnew System::String(value);
 			}
 
-			bRet = pAction->GetParameter(ET_WORKINGDIRECTORY, para);
+			bRet = pAction->GetParameterTable().GetParameter(ET_WORKINGDIRECTORY, para);
 			if(!bRet)
 				continue;
 

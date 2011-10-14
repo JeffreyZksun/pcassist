@@ -1,6 +1,7 @@
 #pragma once
 #include <list>
 #include "Parameter.h"
+#include "IDatabaseObject.h"
 
 #pragma warning( push )
 // http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
@@ -9,11 +10,11 @@
 
 class XmlIOStream;
 
-class BRAINEXPORT ParameterObject
+class BRAINEXPORT ParameterTable : IDataBaseObject
 {
 public:
-    ParameterObject(void);
-    virtual ~ParameterObject(void);
+    ParameterTable(void);
+    virtual ~ParameterTable(void);
 
 public:
     void				AddParameter(const Parameter& para);

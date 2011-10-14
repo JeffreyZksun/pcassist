@@ -1,5 +1,6 @@
 #pragma once
 #include "BrainSystem.h"
+#include "IDatabaseObject.h"
 
 #pragma warning( push )
 // http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
@@ -29,7 +30,7 @@ private:
 };
 
 // This class should work as a POD type. It is copied by using the operator = everywhere.
-class BRAINEXPORT Parameter
+class BRAINEXPORT Parameter : IDataBaseObject
 {
 public:
     Parameter();
@@ -47,8 +48,8 @@ public:
     void            SetComments(const CString& comments);
     const CString&  GetComments() const;
 
-	bool XmlIn(XmlIOStream* pXmlIOStream);
-	bool XmlOut(XmlIOStream* pXmlIOStream) const;
+	virtual bool XmlIn(XmlIOStream* pXmlIOStream);
+	virtual bool XmlOut(XmlIOStream* pXmlIOStream) const;
 
 private:
     // Note: POD can't have pointer.

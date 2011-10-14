@@ -1,7 +1,8 @@
 #pragma once
 
 #include <list>
-#include "ParameterObject.h"
+#include "ParameterTable.h"
+#include "IDataBaseObject.h"
 
 #pragma warning( push )
 // http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
@@ -17,7 +18,7 @@ class XmlIOStream;
 // TaskManager
 //////////////////////////////////////////////////////////////////////////
 
-class BRAINEXPORT TaskManager
+class BRAINEXPORT TaskManager : IDataBaseObject
 {
 public:
     TaskManager(void);
@@ -39,8 +40,8 @@ public:
 
     bool                    RunTasks();
 
-	bool					XmlIn(XmlIOStream* pXmlIOStream);
-	bool					XmlOut(XmlIOStream* pXmlIOStream) const;
+	virtual bool			XmlIn(XmlIOStream* pXmlIOStream);
+	virtual bool			XmlOut(XmlIOStream* pXmlIOStream) const;
 
 public:
     void                    deleteRegisteredActions();
@@ -70,17 +71,25 @@ private:
 // The base class for the action and condition.
 //////////////////////////////////////////////////////////////////////////
 
-class BRAINEXPORT BehaviorNode : public ParameterObject
+class BRAINEXPORT BehaviorNode : IDataBaseObject
 {
 public:
 	BehaviorNode();
 	BehaviorNode(const CString& objetType);
+	virtual ~BehaviorNode();
 
 	CString			GetObjectId() const;
 	CString			GetObjectType() const;
 
+	ParameterTable& GetParameterTable();
+
+	virtual bool	XmlIn(XmlIOStream* pXmlIOStream);
+	virtual bool	XmlOut(XmlIOStream* pXmlIOStream) const;
+
 protected:
 	bool			ExecuteBehavior();
+
+	ParameterTable	mParameterTable;
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -119,5 +128,6 @@ protected:
 public:
     bool				IsTrue();
 };
+
 
 #pragma warning( pop ) 

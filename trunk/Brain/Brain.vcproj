@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(ProjectDir)Inc\"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)Inc\&quot;;&quot;$(ProjectDir)Main\&quot;;&quot;$(ProjectDir)Framework\&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;NO_BRAIN_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -106,7 +106,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)Inc\&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)Inc\&quot;;&quot;$(ProjectDir)Main\&quot;;&quot;$(ProjectDir)Framework\&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;NO_BRAIN_EXPORTS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -162,6 +162,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\inc\IDatabaseObject.h"
+				>
+			</File>
+			<File
 				RelativePath=".\inc\Logger.h"
 				>
 			</File>
@@ -170,7 +174,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\inc\ParameterObject.h"
+				RelativePath=".\inc\ParameterTable.h"
 				>
 			</File>
 			<File
@@ -182,19 +186,11 @@
 			Name="Main"
 			>
 			<File
-				RelativePath=".\Main\Action.cpp"
+				RelativePath=".\Main\Actions.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Main\BehaviorNodeFactory.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Main\BehaviorNodeFactory.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Main\BrainApplication.cpp"
+				RelativePath=".\Main\Actions.h"
 				>
 			</File>
 			<File
@@ -214,27 +210,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Main\Condition.cpp"
+				RelativePath=".\Main\Conditions.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Main\DocumentManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Main\DocumentManager.h"
+				RelativePath=".\Main\Conditions.h"
 				>
 			</File>
 			<File
 				RelativePath=".\Main\Logger.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Main\Parameter.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Main\ParameterObject.cpp"
 				>
 			</File>
 			<File
@@ -247,18 +231,6 @@
 			</File>
 			<File
 				RelativePath=".\Main\stdafx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Main\TaskManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Main\VariableManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Main\VariableManager.h"
 				>
 			</File>
 			<File
@@ -275,6 +247,62 @@
 			</File>
 			<File
 				RelativePath=".\Main\XmlNodeWrapper.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Framework"
+			>
+			<File
+				RelativePath=".\Framework\BehaviorBodyFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Framework\BehaviorBodyFactory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Framework\BrainApplication.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Framework\DocumentManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Framework\DocumentManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Framework\ExecutionContext.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Framework\ExecutionContext.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Framework\IBehaviorBody.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Framework\Parameter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Framework\ParameterTable.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Framework\TaskManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Framework\VariableManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Framework\VariableManager.h"
 				>
 			</File>
 		</Filter>
