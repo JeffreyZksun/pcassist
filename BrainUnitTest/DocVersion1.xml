@@ -20,7 +20,7 @@
 			<Parameter>
 				<Name>ObjectType</Name>
 				<Value>RunSystemCommandAction</Value>
-				<Comments>Object type indicates which action will this object execute.</Comments>
+				<Comments>Object type indicates which behavior body will this action invokes.</Comments>
 			</Parameter>
 			<Parameter>
 				<Name>ApplicationName</Name>

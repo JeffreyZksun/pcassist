@@ -39,7 +39,7 @@ TEST(SaveLoadTest, SaveLoadLatestVersion)
 		objectId.SetComments(_T("Object Id is used to reference this object everywhere."));
 		Parameter objectType;
 		pNewAction->GetParameterTable().GetParameter(OBJECT_TYPE, objectType);
-		objectType.SetComments(_T("Object type indicates which action will this object execute."));
+		objectType.SetComments(_T("Object type indicates which behavior body will this action invokes."));
 		Parameter cmd(APPLICATION_NAME, _T("regedit.exe"));
 		cmd.SetComments(_T("Indicate which command will be run"));
 		pNewAction->GetParameterTable().AddParameter(objectId);
