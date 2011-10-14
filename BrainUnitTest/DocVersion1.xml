@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DocRoot Version="1">
+	<GlobalVariables>
+		<Parameter>
+			<Name>OS</Name>
+			<Value>Windows7</Value>
+			<Comments>global</Comments>
+		</Parameter>
+	</GlobalVariables>
+	<TaskList>
+		<ActionId>DemoToRunSysCmd</ActionId>
+	</TaskList>
+	<Actions>
+		<Action>
+			<Parameter>
+				<Name>ObjectId</Name>
+				<Value>DemoToRunSysCmd</Value>
+				<Comments>Object Id is used to reference this object everywhere.</Comments>
+			</Parameter>
+			<Parameter>
+				<Name>ObjectType</Name>
+				<Value>RunSystemCommandAction</Value>
+				<Comments>Object type indicates which action will this object execute.</Comments>
+			</Parameter>
+			<Parameter>
+				<Name>ApplicationName</Name>
+				<Value>regedit.exe</Value>
+				<Comments>Indicate which command will be run</Comments>
+			</Parameter>
+		</Action>
+	</Actions>
+	<Conditions>
+		<Condition>
+			<Parameter>
+				<Name>ObjectId</Name>
+				<Value>DoesRegExist</Value>
+			</Parameter>
+			<Parameter>
+				<Name>ObjectType</Name>
+				<Value>RegisterKeyExistsCondition</Value>
+			</Parameter>
+			<Parameter>
+				<Name>RootKey</Name>
+				<Value>HKEY_LOCAL_MACHINE</Value>
+			</Parameter>
+			<Parameter>
+				<Name>SubKey</Name>
+				<Value>Software\Microsoft</Value>
+			</Parameter>
+		</Condition>
+	</Conditions>
+</DocRoot>
