@@ -13,7 +13,7 @@
 #include "Logger.h"
 
 void TestFileExistsCondition();
-void TestParameterObject();
+void TestParameterTable();
 void TestFolderExistsCondition();
 
 // Download gTest: http://code.google.com/p/googletest/downloads/list
@@ -229,7 +229,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	//BrainUtil::RunSystemCommand(_T("mklink /D \"C:\\new FolderRoot\\new Folder\\reason\\Root\" \"C:\\Root\""));
 
-	//TestParameterObject();
+	//TestParameterTable();
 	//TestFileExistsCondition();
 	//TestFolderExistsCondition();
 
@@ -305,10 +305,10 @@ int _tmain(int argc, _TCHAR* argv[])
 //	bool ret = condition.IsTrue();
 //}
 //
-//void TestParameterObject()
+//void TestParameterTable()
 //{
 //	Parameter fileNamePara(_T("FileName"), _T("C:\\test.txt"));
-//	ParameterObject paraObj;
+//	ParameterTable paraObj;
 //	paraObj.AddParameter(fileNamePara);
 //
 //	Parameter para;

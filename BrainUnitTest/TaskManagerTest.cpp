@@ -25,8 +25,8 @@ TEST(TaskManager, GetActionByIndex)
 	Action* pAction = new Action(_T("RunProcessAction"));
 	Parameter para(APPLICATION_NAME, appName);
 	Parameter para2(APPLICATION_PARAMETER, _T("as  ds -?"));
-	pAction->AddParameter(para);
-	pAction->AddParameter(para2);
+	pAction->GetParameterTable().AddParameter(para);
+	pAction->GetParameterTable().AddParameter(para2);
 
 	Action* pTmpAction = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetActionByIndex(1);
 	EXPECT_EQ(true, NULL == pTmpAction);
@@ -37,7 +37,7 @@ TEST(TaskManager, GetActionByIndex)
 	if(pTmpAction != NULL)
 	{
 		Parameter tampPara;
-		pTmpAction->GetParameter(APPLICATION_NAME, tampPara);
+		pTmpAction->GetParameterTable().GetParameter(APPLICATION_NAME, tampPara);
 
 		bool bmatch = appName.Compare(appName) == 0;
 		EXPECT_EQ(true, bmatch);

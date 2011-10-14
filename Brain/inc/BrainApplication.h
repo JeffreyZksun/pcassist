@@ -8,7 +8,7 @@
 #pragma warning( disable : 4251 ) 
 
 class TaskManager;
-class BehaviorNodeFactory;
+class BehaviorBodyFactory;
 class VariableManager;
 
 class BRAINEXPORT BrainApplication
@@ -19,16 +19,17 @@ public:
 
 public:
 	TaskManager*			GetTaskManager() const;
-	BehaviorNodeFactory*	GetBehaviorNodeFactory() const;
+	BehaviorBodyFactory*	GetBehaviorBodyFactory() const;
 	VariableManager*		GetVariableManager() const;
 	static BrainApplication* GetWorkingBrain();
+	static BrainApplication* SetWorkingBrain(BrainApplication*);
 
 public:
 	bool		XmlIn(const CString& docName) const;
 	bool		XmlOut(const CString& docName) const;
 
 private:
-	void		Initialize() const;
+	void		Initialize();
 
 	// We can combain the two functions together.
 	void		AddBuiltInActionBehaivor() const; // Defined in Action.cpp
@@ -36,8 +37,9 @@ private:
 
 private:
 	TaskManager*			mpTaskManager;
-	BehaviorNodeFactory*	mpBehaviorNodeFactory;
+	BehaviorBodyFactory*	mpBehaviorBodyFactory;
 	VariableManager*		mpVariableManager;
+
 };
 
 #pragma warning( pop ) 

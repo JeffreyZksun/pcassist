@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\Brain\Inc&quot;;&quot;$(SolutionDir)\Brain\Main&quot;;&quot;$(SolutionDir)\3P\gTest\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\Brain\Inc&quot;;&quot;$(SolutionDir)\Brain\Main&quot;;&quot;$(SolutionDir)\Brain\Framework&quot;;&quot;$(SolutionDir)\3P\gTest\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;NO_BRAIN_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -89,6 +89,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Copy data files"
+				CommandLine="xcopy $(ProjectDir)DocVersion1.xml $(OutDir) /Y"
 			/>
 		</Configuration>
 		<Configuration
@@ -119,7 +121,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\Brain\Inc&quot;;&quot;$(SolutionDir)\Brain\Main&quot;;&quot;$(SolutionDir)\3P\gTest\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\Brain\Inc&quot;;&quot;$(SolutionDir)\Brain\Main&quot;;&quot;$(SolutionDir)\Brain\Framework&quot;;&quot;$(SolutionDir)\3P\gTest\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;NO_BRAIN_EXPORTS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -167,6 +169,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Copy data files"
+				CommandLine="xcopy $(ProjectDir)DocVersion1.xml $(OutDir) /Y"
 			/>
 		</Configuration>
 	</Configurations>
@@ -195,11 +199,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ParameterObjectTest.cpp"
+				RelativePath=".\ParameterTableTest.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\RegistyTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SaveLoadTest.cpp"
 				>
 			</File>
 			<File
@@ -242,10 +250,12 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			Name="Data"
 			>
+			<File
+				RelativePath=".\DocVersion1.xml"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
