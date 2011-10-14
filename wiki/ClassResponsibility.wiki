@@ -44,12 +44,12 @@ Member functions
 }}}	
 
 
-=IExecutorBody=
+=IBehaviorBody=
 ==Description==
-This is the interface for the executor. It declares the general behaviors which all the concrete exectors should have. Its basic behavior is doing something based on the input and generate output.
+This is the interface for the executor. It declares the general behaviors which all the concrete behavior bodies should have. Its basic behavior is doing something based on the input and generate output.
 
 {{{	
-	bool Execute(BehaviorContext)
+	void Execute(ExecutionContext)
 	{
 		// Get input
 		
@@ -57,7 +57,7 @@ This is the interface for the executor. It declares the general behaviors which 
 		
 		// Generate output 
 
-		// Return result
+		// Set result
 	}
 }}}
 
@@ -65,6 +65,6 @@ This is the interface for the executor. It declares the general behaviors which 
 || *Name* || *Description* ||
 || Execute || Execute the action this exectuor should do ||
 
-=ExecutorFactory=
-ExecutorFactory is a singleton which maintains a map of the executor name and the concrete executor.
+=BehaviorBodyFactory=
+BehaviorBodyFactoryis a singleton which maintains a map of the name and the concrete behavior body.
 	
