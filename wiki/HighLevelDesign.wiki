@@ -1,6 +1,6 @@
 #labels Featured,Phase-Design
 =Design=
-When the condition is met, do the action.
+Thetool chain composes of several modules. They coordinate with each other to implement the automation. The automation process can be summarized by a single sentence "When the condition is met, do the action".
 
 The condition is
      * The scheduled time is up
@@ -13,7 +13,7 @@ The action is
     ...
 
 =Modules=
-==Monitor.exe==
+==Commander.exe==
 A monitor process is always on live. It monitors the conditions and exectes the related action when the condition is meet.
 
  * It is lightweight and with high performance.
@@ -24,8 +24,14 @@ A monitor process is always on live. It monitors the conditions and exectes the 
  * It won't be blocked during execution.
  * It logs all the execution results and then exit.
 
-==Analyzer.exe==
+==Reporter.exe==
  * It analyzes the log results.
+
+==Communicator.exe==
+ * Communicate cross network.
+
+
+
 
 ==Brain.dll==
  * It defines the data models of the system. All other assemblies only define the logic.
