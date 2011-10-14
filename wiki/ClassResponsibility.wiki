@@ -1,9 +1,16 @@
 #labels Featured,Phase-Design
 This page defines the responsibility of the classes.	
+
 	
 =IDataObject=	
 ==Description==
 It is an interface. All the classes which need persist data are derived from this class.	
+
+=Parameter=
+
+
+=ParameterTable=
+
 	
 =Behavior, Action, Condition=	
 	
@@ -23,7 +30,7 @@ The Behavior class only maintains the ParameterSet for the input and output. All
 	
 The input ParameterSet contains a ObjectId and ExecutorName. The ObjectId is a unique id which is used to retrieve this behavior. The ExecutorName is a name which is used to get the related executor from the ExecutorFactory.
 
-=BehaviorContext=
+=ExecutionContext=
 ==Description==
 It works as the medium to pass though the data from action to action. It resolves the problem when pass the result of an action to its following one.
 
@@ -37,7 +44,7 @@ Member functions
 }}}	
 
 
-=IExecutor=
+=IExecutorBody=
 ==Description==
 This is the interface for the executor. It declares the general behaviors which all the concrete exectors should have. Its basic behavior is doing something based on the input and generate output.
 
