@@ -3,7 +3,9 @@
 
 Task Automation Transformation Protocol (TATP) is a text-based protocol, in which a sender communicates with a receiver by issuing command strings and supplying necessary data over a reliable ordered data stream channel, typically a Transmission Control Protocol (TCP) connection.
 
-The basic character set consists 94 characters: 3 control characters: space ({{{<SPACE>}}}), carriage return ({{{<CR>}}}), line feed ({{{<LF>}}}) and the 91 graphic characters below.
+An TATP session consists of commands originated by an client (the initiating agent, sender, or transmitter) and corresponding responses from the TATP server (the listening agent, or receiver) so that the session is opened, and session datas are exchanged.
+
+During the communication session, only the basic character set is used. The basic character set consists 94 characters: 3 control characters: space ({{{<SPACE>}}}), carriage return ({{{<CR>}}}), line feed ({{{<LF>}}}) and the 91 graphic characters below.
 {{{
 abcdefghijklmnopqrstuvwxyz
 ABCDEFGHIJKLMNOPQRSTUVWXYZ
@@ -11,7 +13,7 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZ
 _{ }[]#()<>%:;.?*+-/ˆ&| ̃!=,\"’
 }}}
 =Command format=
-Normally every line is a command. 
+Normally each line ends with {{{<CR><LF>}}}is a complete command string. 
 
 ==Request data from client to server==
 {{{
