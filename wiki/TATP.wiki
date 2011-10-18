@@ -11,12 +11,19 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZ
 _{ }[]#()<>%:;.?*+-/ˆ&| ̃!=,\"’
 }}}
 =Command format=
-==One line command==
+Normally every line is a command. 
+
+==Request data from client to server==
 {{{
-xxx<SPACE>xxx<CR><LF>
+command-name<SPACE>string-data<CR><LF>
+}}}
+==Response data from server to client==
+{{{
+result-code-number<SPACE>string-data<CR><LF>
 }}}
 
-
+==non-command line==
+Normally every line is a command, except the session enters the data transformation context. Such as the SCRIPT command.
 
 
 =TATP transport example=
