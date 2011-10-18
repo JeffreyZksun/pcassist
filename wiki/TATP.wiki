@@ -12,7 +12,7 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZ
 0123456789
 _{ }[]#()<>%:;.?*+-/ˆ&| ̃!=,\"’
 }}}
-=Command format=
+=Command string=
 Normally each line ends with {{{<CR><LF>}}}is a complete command string, except the commands requiring multi-line data.
 
 The command string is formatted. There are two formats, one is that from client to server, the other is that from server to client.
