@@ -13,19 +13,21 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZ
 _{ }[]#()<>%:;.?*+-/ˆ&| ̃!=,\"’
 }}}
 =Command format=
-Normally each line ends with {{{<CR><LF>}}}is a complete command string. 
+Normally each line ends with {{{<CR><LF>}}}is a complete command string, except the commands requiring multi-line data.
 
-==Request data from client to server==
+The command string is formatted. There are two formats, one is that from client to server, the other is that from server to client.
+
+==Command string from client to server==
 {{{
 command-name<SPACE>string-data<CR><LF>
 }}}
-==Response data from server to client==
+==Command string from server to client==
 {{{
 result-code-number<SPACE>string-data<CR><LF>
 }}}
 
-==non-command line==
-Normally every line is a command, except the session enters the data transformation context. Such as the SCRIPT command.
+==multi-line command data==
+For some commands, they require multi-line data. As long as the data transformation is started, the {{{<CR><LF>}}} will not be treated as the notion of the complete of the command string until the data transformation is finished.
 
 
 =TATP transport example=
