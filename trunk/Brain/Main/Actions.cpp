@@ -196,7 +196,12 @@ BEHAVIORBODY_IMP(RunSystemCommandAction)
 		applicationName = applicationName + _T(" ") + applicationParameter;
 	}
 
-	return BrainUtil::RunSystemCommand(applicationName);
+	bool bSucc =  BrainUtil::RunSystemCommand(applicationName);
+
+	if(!bSucc)
+		BrainUtil::LogOutLastError(applicationName);
+
+	return bSucc;
 }
 
 BEHAVIORBODY_IMP(RunProcessAction)

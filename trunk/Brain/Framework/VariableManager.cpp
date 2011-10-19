@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "CloseLoopChecker.h"
 #include "XmlIOStream.h"
+#include "ConstantsDefinition.h"
 
 //////////////////////////////////////////////////////////////////////////
 // Dead loop checker
@@ -17,6 +18,7 @@ CloseLoopChecker sVariableManagerCloseLoopChecker;
 
 VariableManager::VariableManager(void) : mParameterTable()
 {
+	InitializeBuiltInGlobalVariables();
 }
 
 VariableManager::~VariableManager(void)
@@ -102,6 +104,21 @@ VariableManager::~VariableManager(void)
  ParameterTable& VariableManager::GetParameterTable()
 {
 	return mParameterTable;
+}
+
+void VariableManager::InitializeBuiltInGlobalVariables()
+{
+	{
+		TCHAR exeName[MAX_PATH];
+		if (GetModuleFileName(NULL, exeName, MAX_PATH) != 0)
+		{
+			CString strExeName = exeName; // such as C:\Program file\PC.exe
+			int pos = strExeName.ReverseFind(_T('\\'));
+			CString strExePath = strExeName.Left(pos);
+			Parameter para(EXE_MODULE_PATH, strExePath);
+			mParameterTable.AddParameter(para);
+		}
+	}
 }
  
 /************************************************************************

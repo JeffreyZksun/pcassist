@@ -1,4 +1,8 @@
 
+// For the global variables
+#define EXE_MODULE_PATH _T("ExeModulePath")
+
+
 // For object query and creation
 #define OBJECT_ID _T("ObjectId")
 #define OBJECT_TYPE _T("ObjectType")
