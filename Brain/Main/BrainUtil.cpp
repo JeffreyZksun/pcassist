@@ -298,6 +298,9 @@ void BrainUtil::LogOutLastError(const CString& lpszFunction)
 	LPVOID lpDisplayBuf;
 	DWORD dw = GetLastError(); 
 
+	if(0 == dw)
+		return; // Don't need to log out the success information.
+
 	FormatMessage(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | 
 		FORMAT_MESSAGE_FROM_SYSTEM |
