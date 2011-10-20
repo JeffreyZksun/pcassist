@@ -1,6 +1,6 @@
 
-// For the global variables
-#define EXE_MODULE_PATH _T("ExeModulePath")
+// For the global variables. All the built in variables preceded by *.
+#define EXE_MODULE_PATH _T("*ExeModulePath")
 
 
 // For object query and creation
