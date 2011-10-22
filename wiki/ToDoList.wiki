@@ -13,6 +13,8 @@ List the tasks to be done.
 = P2 =
  # Add a new action named TaskListAction. Its responsibility is to run the referenced task one by one.
  # Rename ComplexCondition as CompositeCondition. Change the implementation to support the expression. Such as C1 && C2 || ( C3 && C4).
+ # Add a new condition named ErrorLevelCondition. It will start a process. And check if the exit code of the process is equal to the specified number. If equal, the condition is true.
+ # Add a new action named 
 
 
 = P3 (Will be done but long lead) =
