@@ -25,5 +25,9 @@ List the tasks to be done.
  # Support load migrate and downgrade save.
  # Make the task automation logical platform independent.
 
+= P4 (wish list) =
+ # Support multiple file format.
+ # Support thread safe.
+
 
 = Task items done =
