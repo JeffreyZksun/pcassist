@@ -1,6 +1,6 @@
 #labels Featured,Phase-Design
 =Design=
-Thetool chain composes of several modules. They coordinate with each other to implement the automation. The automation process can be summarized by a single sentence "*When the condition is met, execute the action*".
+The tool chain composes of several modules. They coordinate with each other to implement the distributed automation. The automation process can be summarized by a single sentence "*When the condition is met, execute the action*".
 
 The condition is
      * The scheduled time is up
@@ -13,7 +13,7 @@ The action is
     ...
 
 =Modules=
-==Commander.exe==
+==Coordinator.exe==
 A monitor process is always on live. It monitors the conditions and exectes the related action when the condition is meet.
 
  * It is lightweight and with high performance.
