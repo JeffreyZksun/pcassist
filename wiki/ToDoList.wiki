@@ -5,25 +5,25 @@ List the tasks to be done.
  # Refactor: Make the behavior factor as a singleton. There doesn't need a factory for each application instance.
  # Refactor: Rename ComplexAction as ConditionalAction.
  # Refactor: In task manager, save the list of action ids as the task list. Currently, it saves the list of pointer points to the registered action. Register and unregister action don't affect the task list. Task list can save a action id which is NOT registered. When add a action id to task list, don't check if the action exists. Just add it. When execute the task list, log out warnings for the missed action.
-
 # Avoid dead loop for behavior execution. Add a member variable bool mbIsWorking to Behavior class. Before executing check if its value is true, if yes, a dead loop is detected. Log error and return. If no, set it to be true, do the execution. After the execution, set its value to false. Delete the dead loop check for condition and action.
+ # Refactor the dead loop check for the parameter evaluation.Use the same algorithm as behavior execution.
 
  
 
 = P2 =
-# Add a new action named TaskListAction. Its responsibility is to run the referenced task one by one.
-
+ # Add a new action named TaskListAction. Its responsibility is to run the referenced task one by one.
  # Rename ComplexCondition as CompositeCondition. Change the implementation to support the expression. Such as C1 && C2 || ( C3 && C4).
 
 
 = P3 (Will be done but long lead) =
  # Rename ObjectID to Name.
  # Rename ObjectType to Type.
-
  # Change Comments to xData in the Parameter
  # Update the xml doc version. save the paramter name, value, xdata as attributes.
  # Support load migrate and downgrade save.
-
  # Make the task automation logical platform independent.
 
 = P4 (Wish list) =
+
+
+= Task items done =
