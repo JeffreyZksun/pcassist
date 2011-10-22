@@ -4,10 +4,10 @@ List the supported behaviors.
 
 = Actions =
 
- * ComplexAction
- * CreateFileAction
+ * ComplexAction 
+ * CreateFileAction 
  * DeleteFileAction
-  * CopyFileAction
+ * CopyFileAction
  * CreateFolderAction
  * DeleteFolderAction
  * CopyFolderAction
