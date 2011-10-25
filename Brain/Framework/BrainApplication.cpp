@@ -91,6 +91,7 @@ void BrainApplication::AddBuiltInConditionBehaivor() const
 	ADD_BEHAVIORBODY_TO_FACTORY(FileExistsCondition);
 	ADD_BEHAVIORBODY_TO_FACTORY(FolderExistsCondition);
 	ADD_BEHAVIORBODY_TO_FACTORY(RegisterKeyExistsCondition);
+	ADD_BEHAVIORBODY_TO_FACTORY(ProcessRunningCondition);
 }
 
 
@@ -106,5 +107,6 @@ void BrainApplication::AddBuiltInActionBehaivor() const
 	ADD_BEHAVIORBODY_TO_FACTORY(MakeDirectoryLinkAction);
 	ADD_BEHAVIORBODY_TO_FACTORY(RunSystemCommandAction);
 	ADD_BEHAVIORBODY_TO_FACTORY(RunProcessAction);
+	ADD_BEHAVIORBODY_TO_FACTORY(ConditionBlockAction);
 }
 

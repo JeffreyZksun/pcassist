@@ -36,3 +36,12 @@ TEST(ConditionTest, RegisterKeyExistsCondition)
 	}
 
 }
+
+TEST(ConditionTest, ProcessRunningCondition)
+{
+	Condition procCondition(_T("ProcessRunningCondition"));
+	Parameter para1(_T("ProcessName"), _T("svchost.exe")); //msiexec.exe setup.exe  svchost.exe
+	procCondition.GetParameterTable().AddParameter(para1);
+	bool bRet = procCondition.IsTrue();
+	EXPECT_EQ(true, bRet);
+}

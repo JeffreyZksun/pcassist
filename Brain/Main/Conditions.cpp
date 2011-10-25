@@ -164,4 +164,18 @@ BEHAVIORBODY_IMP(RegisterKeyExistsCondition)
 	return TRUE == bRet;
 }
 
+BEHAVIORBODY_IMP(ProcessRunningCondition)
+{
+	Parameter para;
+	bool bExist = pContext->GetInputParameterTable()->GetParameter(PROCESS_NAME, para);
+	ASSERT(bExist);
+	if(!bExist)
+		return false;
+	CString strPorcessName = para.GetEvaluatedValue();
+
+	bool bRet = BrainUtil::IsProcessRunning(strPorcessName);
+
+	return bRet;
+}
+
 

@@ -5,6 +5,8 @@
 #include <strsafe.h>
 #include "Logger.h"
 
+#include <Psapi.h> // EnumProcesses, Link Psapi.lib
+
 // GetParentFolderName(_T("C:\\RootFolder\\ChildFolder\\")); return C:\RootFolder\
 // GetParentFolderName(_T("C:\\RootFolder\\ChildFolder\\readme.txt")); return C:\RootFolder\ChildFolder\
 // GetParentFolderName(_T("RootFolder\\")); return .\
@@ -325,3 +327,56 @@ void BrainUtil::LogOutLastError(const CString& lpszFunction)
 	LocalFree(lpDisplayBuf);
 	//ExitProcess(dw); 
 }
+
+bool BrainUtil::IsProcessRunning(const CString &strProcessName, bool bCompareNameOnly)
+{
+	// Get the list of process identifiers.
+	DWORD dwProcesses[2048];
+	DWORD dwSizeNeeded = 0;
+	DWORD dwProcessesCount = 0;
+	if ( !EnumProcesses( dwProcesses, sizeof(dwProcesses), &dwSizeNeeded ) )
+	{
+		return false;
+	}
+
+	dwProcessesCount = dwSizeNeeded / sizeof(DWORD);
+	CString strToCheck = strProcessName;
+	strToCheck.MakeLower();
+
+	for(int i=0; i<(int)dwProcessesCount; i++ )
+	{        
+		if( dwProcesses[i] != 0 )
+		{
+			HANDLE hProcess = OpenProcess( PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, dwProcesses[i]);
+			if(hProcess)
+			{
+				HMODULE hModule = NULL;
+				dwSizeNeeded = 0;
+				TCHAR cName[MAX_PATH];
+				if(EnumProcessModules(hProcess, &hModule, sizeof(DWORD), &dwSizeNeeded) )
+				{                
+					if(GetModuleFileNameEx(hProcess, hModule, cName, MAX_PATH ) != 0)
+					{
+						CString strFullName(cName); // C:\Windows\SysWOW64\vmnat.exe
+
+						CString strProcName = strFullName;
+						if(bCompareNameOnly)
+						{
+							int pos = strFullName.ReverseFind('\\');
+
+							if(-1 != pos)
+								strProcName = strFullName.Right(strFullName.GetLength() - pos - 1);
+						}
+
+						strProcName.MakeLower();
+						if(strProcName == strToCheck)
+							return true;
+					}
+				}
+				CloseHandle(hProcess);
+
+			}
+		}
+	}
+	return false;
+} 

@@ -5,4 +5,4 @@ BEHAVIORBODY_DEC(ComplexCondition)
 BEHAVIORBODY_DEC(FileExistsCondition)
 BEHAVIORBODY_DEC(FolderExistsCondition)
 BEHAVIORBODY_DEC(RegisterKeyExistsCondition)
-
+BEHAVIORBODY_DEC(ProcessRunningCondition)

@@ -23,5 +23,7 @@ namespace BrainUtil
 
     bool RunSystemCommand(const CString& cmd);
 	void LogOutLastError(const CString& lpszFunction);
+
+	bool IsProcessRunning(const CString &strProcessName, bool bCompareNameOnly = true);
 };
 
