@@ -7,6 +7,11 @@
 #define OBJECT_ID _T("ObjectId")
 #define OBJECT_TYPE _T("ObjectType")
 
+// For ConditionBlockAction
+#define CONDITION_ID _T("ConditionId")
+#define EXPECTED_RESULT _T("ExpectedResult")
+#define TIME_OUT _T("TimeOut")
+
 // For Complex condition
 #define BOOL_OPERATOR _T("BoolOperator")
 #define FIRST_CONDITION _T("FirstCondition")
@@ -34,6 +39,10 @@
 #define APPLICATION_NAME _T("ApplicationName")
 #define APPLICATION_PARAMETER _T("ApplicationParameter")
 #define APPLICATION_SHOWWINDOW _T("ShowWindow")
+
+// For ProcessRunningCondition
+#define PROCESS_NAME _T("ProcessName")
+
 
 // For register
 #define ROOT_KEY _T("RootKey")

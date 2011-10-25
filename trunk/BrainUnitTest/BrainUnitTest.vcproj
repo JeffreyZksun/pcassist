@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gtestd.lib Brain.lib"
+				AdditionalDependencies="gtestd.lib Brain.lib Psapi.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)3P\gTest\msvc\gtest\Debug&quot;;&quot;$(OutDir)&quot;"
 				GenerateDebugInformation="true"
@@ -140,7 +140,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gtest.lib Brain.lib"
+				AdditionalDependencies="gtest.lib Brain.lib Psapi.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)3P\gTest\msvc\gtest\Release&quot;;&quot;$(OutDir)&quot;"
 				GenerateDebugInformation="true"

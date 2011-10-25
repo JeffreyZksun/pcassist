@@ -307,3 +307,38 @@ BEHAVIORBODY_IMP(RunProcessAction)
 	return true;
 }
 
+BEHAVIORBODY_IMP(ConditionBlockAction)
+{
+	Parameter para;
+	bool bExist = pContext->GetInputParameterTable()->GetParameter(CONDITION_ID, para);
+	ASSERT(bExist);
+	if(!bExist)
+		return true;
+
+	Parameter para2;
+	bExist = pContext->GetInputParameterTable()->GetParameter(EXPECTED_RESULT, para2);
+	ASSERT(bExist);
+	if(!bExist)
+		return true;
+	CString strExpectedRet = para2.GetEvaluatedValue();
+	strExpectedRet.MakeLower();
+	bool bExpectedResult = strExpectedRet == _T("true");
+
+	// ToDo - Support time out.
+	//Parameter para3;
+	//bExist = pContext->GetInputParameterTable()->GetParameter(EXPECTED_RESULT, para3);
+
+	Condition* pCondition = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetConditionById(para.GetEvaluatedValue());
+
+	ASSERT(pCondition);
+	bool bTimeOut = false;
+	while(pCondition->IsTrue() != bExpectedResult)
+	{
+		// Sleep
+		Sleep(1000);
+	}
+
+
+	return !bTimeOut;
+}
+
