@@ -7,13 +7,12 @@ List the tasks to be done.
  # Refactor: In task manager, save the list of action ids as the task list. Currently, it saves the list of pointer points to the registered action. Register and unregister action don't affect the task list. Task list can save a action id which is NOT registered. When add a action id to task list, don't check if the action exists. Just add it. When execute the task list, log out warnings for the missed action.
  # Avoid dead loop for behavior execution. Add a member variable bool mbIsWorking to Behavior class. Before executing check if its value is true, if yes, a dead loop is detected. Log error and return. If no, set it to be true, do the execution. After the execution, set its value to false. Delete the dead loop check for condition and action.
  # Refactor the dead loop check for the parameter evaluation.Use the same algorithm as behavior execution.
-
+ # Don't write the built in global variables to the xml.
  
 
 = P2 =
  # Add a new action named TaskListAction. It references a action id list. During execution it executes the referenced action one by one. The result of the last action is result.
  # Add a new condition named ActionResultCondition. It executes an action. And check if the result is equal to the expected result. If equal, the condition is true.
- # Add a new action named ConditionBlockAction. It will loop to check the specified condition with the specified interval. It is blocked until the condition is true or time is out. If condition is met, return true. Otherwise, it means timeout, return false.
  # Rename ComplexCondition as CompositeCondition. Change the implementation to support the expression. Such as C1 && C2 || ( C3 && C4).
 
 
@@ -31,3 +30,5 @@ List the tasks to be done.
 
 
 = Task items done =
+
+ # Add a new action named ConditionBlockAction. It will loop to check the specified condition with the specified interval. It is blocked until the condition is true or time is out. If condition is met, return true. Otherwise, it means timeout, return false.
