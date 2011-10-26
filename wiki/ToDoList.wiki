@@ -7,7 +7,7 @@ List the tasks to be done.
  # Refactor: In task manager, save the list of action ids as the task list. Currently, it saves the list of pointer points to the registered action. Register and unregister action don't affect the task list. Task list can save a action id which is NOT registered. When add a action id to task list, don't check if the action exists. Just add it. When execute the task list, log out warnings for the missed action.
  # Avoid dead loop for behavior execution. Add a member variable bool mbIsWorking to Behavior class. Before executing check if its value is true, if yes, a dead loop is detected. Log error and return. If no, set it to be true, do the execution. After the execution, set its value to false. Delete the dead loop check for condition and action.
  # Refactor the dead loop check for the parameter evaluation.Use the same algorithm as behavior execution.
- # Don't write the built in global variables to the xml.
+ # Don't write the built in global variables to the xml. Use mUserParamterTable to save the user defined parameters and mBuiltinParamterTable to save the built-in parameters.
  
 
 = P2 =
