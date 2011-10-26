@@ -1,6 +1,8 @@
 
 // For the global variables. All the built in variables preceded by *.
 #define EXE_MODULE_PATH _T("*ExeModulePath")
+#define USER_NAME _T("*UserName")
+#define COMPUTER_NAME _T("*ComputerName")
 
 
 // For object query and creation

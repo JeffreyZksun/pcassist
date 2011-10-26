@@ -5,6 +5,7 @@
 #include "CloseLoopChecker.h"
 #include "XmlIOStream.h"
 #include "ConstantsDefinition.h"
+#include <lmcons.h> // UNLEN CNLEN
 
 //////////////////////////////////////////////////////////////////////////
 // Dead loop checker
@@ -108,7 +109,9 @@ VariableManager::~VariableManager(void)
 
 void VariableManager::InitializeBuiltInGlobalVariables()
 {
+	// ToDo - Don't save the built in variables.
 	{
+		// *ExeModulePath
 		TCHAR exeName[MAX_PATH];
 		if (GetModuleFileName(NULL, exeName, MAX_PATH) != 0)
 		{
@@ -118,6 +121,33 @@ void VariableManager::InitializeBuiltInGlobalVariables()
 			Parameter para(EXE_MODULE_PATH, strExePath);
 			mParameterTable.AddParameter(para);
 		}
+	}
+	{
+		// *UserName
+		DWORD unMaxLength = UNLEN + 1;
+		TCHAR userName [ UNLEN + 1 ];
+
+		CString strUserName;
+		if (::GetUserName( (TCHAR*)userName, &unMaxLength ))
+			strUserName = userName;
+		else
+			strUserName = _T("UnknownUserName");
+
+		Parameter para(USER_NAME, strUserName);
+		mParameterTable.AddParameter(para);
+	}
+	{
+		// *ComputerName
+		DWORD cnMaxLenggh = CNLEN + 1;
+		TCHAR computerName[CNLEN + 1];
+		CString strComputerName;
+		if(::GetComputerName(computerName, &cnMaxLenggh))
+			strComputerName = computerName;
+		else
+			strComputerName = _T("UnknownComputerName");
+
+		Parameter para(COMPUTER_NAME, strComputerName);
+		mParameterTable.AddParameter(para);
 	}
 }
  
