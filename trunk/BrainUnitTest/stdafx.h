@@ -21,3 +21,5 @@
 #include <afxcom_.h> // For ASSERT
 #include <gtest/gtest.h>
 #include <iostream>
+
+#include "ApplicationSwitchHelper.h"

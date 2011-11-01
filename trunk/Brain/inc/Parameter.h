@@ -13,7 +13,7 @@ class XmlIOStream;
 // ComplexString
 //////////////////////////////////////////////////////////////////////////
 
-// Define a POD type
+// This class should work as a POD type. The operator = is deep copy.
 class BRAINEXPORT ComplexString
 {
 public:
@@ -29,14 +29,13 @@ private:
     CString				mRawVariableString; // %AppPath%
 };
 
-// This class should work as a POD type. It is copied by using the operator = everywhere.
+// This class should work as a POD type. The operator = is deep copy.
 class BRAINEXPORT Parameter : IDataBaseObject
 {
 public:
     Parameter();
     Parameter(const CString& name);
     Parameter(const CString& name, const CString& value);
-    ~Parameter(void); // Note: POD can't be virtual.
 
 public:
     const CString&  GetName() const;
@@ -48,11 +47,11 @@ public:
     void            SetComments(const CString& comments);
     const CString&  GetComments() const;
 
-	virtual bool XmlIn(XmlIOStream* pXmlIOStream);
-	virtual bool XmlOut(XmlIOStream* pXmlIOStream) const;
+	virtual bool	XmlIn(XmlIOStream* pXmlIOStream);
+	virtual bool	XmlOut(XmlIOStream* pXmlIOStream) const;
 
 private:
-    // Note: POD can't have pointer.
+    // 
     CString         mName;
     ComplexString   mValue;
     CString         mComments;

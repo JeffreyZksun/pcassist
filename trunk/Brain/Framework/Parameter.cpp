@@ -36,6 +36,7 @@ const CString& ComplexString::GetRawtring() const
 CString ComplexString::GetEvaluatedString() const
 {
 	CString evaluatedString = BrainApplication::GetWorkingBrain()->GetVariableManager()->GetEvaluatedString(mRawVariableString);
+
     return evaluatedString;
 }
 
@@ -55,10 +56,6 @@ Parameter::Parameter(const CString& name)
 
 Parameter::Parameter(const CString& name, const CString& value)
     : mName(name), mValue(value), mComments()
-{
-}
-
-Parameter::~Parameter(void)
 {
 }
 

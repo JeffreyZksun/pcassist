@@ -15,7 +15,7 @@ TEST(SaveLoadTest, SaveLoadLatestVersion)
 	{
 		Parameter para(_T("OS"), _T("Windows7"));
 		para.SetComments(_T("global"));
-		BrainApplication::GetWorkingBrain()->GetVariableManager()->GetParameterTable().AddParameter(para);
+		BrainApplication::GetWorkingBrain()->GetVariableManager()->AddUserParameter(para);
 	}
 
 	CString conditionId = _T("DoesRegExist");
@@ -80,11 +80,11 @@ TEST(SaveLoadTest, SaveLoadLatestVersion)
 
 TEST(SaveLoadTest, LoadDocVersion1)
 {
-	
+	ApplicationSwitchHelper helper;
 
 	// Use the temp application.
-	BrainApplication *pTempApp1 = new BrainApplication();
-	BrainApplication* pPreviousApp = BrainApplication::SetWorkingBrain(pTempApp1);
+	//BrainApplication *pTempApp1 = new BrainApplication();
+	//BrainApplication* pPreviousApp = BrainApplication::SetWorkingBrain(pTempApp1);
 
 	CString fileName(_T("DocVersion1.xml"));
 	bool ret = BrainApplication::GetWorkingBrain()->XmlIn(fileName);
@@ -105,7 +105,7 @@ TEST(SaveLoadTest, LoadDocVersion1)
 	// ToDo - we need to check more items here.
 
 	// Recover
-	BrainApplication::SetWorkingBrain(pPreviousApp);
+	//BrainApplication::SetWorkingBrain(pPreviousApp);
 }
 
 TEST(SaveLoadTest, SaveLoadDocVersion1)

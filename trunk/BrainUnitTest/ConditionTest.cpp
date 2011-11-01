@@ -45,3 +45,12 @@ TEST(ConditionTest, ProcessRunningCondition)
 	bool bRet = procCondition.IsTrue();
 	EXPECT_EQ(true, bRet);
 }
+
+TEST(ConditionTest, FolderExistsCondition)
+{
+	Condition folderCondition(_T("FolderExistsCondition"));
+	Parameter para1(_T("FolderName"), _T("C:\\")); 
+	folderCondition.GetParameterTable().AddParameter(para1);
+	bool bRet = folderCondition.IsTrue();
+	EXPECT_EQ(true, bRet);
+}

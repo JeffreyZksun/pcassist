@@ -87,7 +87,7 @@ void BrainApplication::Initialize()
 
 void BrainApplication::AddBuiltInConditionBehaivor() const
 {
-	ADD_BEHAVIORBODY_TO_FACTORY(ComplexCondition);
+	ADD_BEHAVIORBODY_TO_FACTORY(CompositeCondition);
 	ADD_BEHAVIORBODY_TO_FACTORY(FileExistsCondition);
 	ADD_BEHAVIORBODY_TO_FACTORY(FolderExistsCondition);
 	ADD_BEHAVIORBODY_TO_FACTORY(RegisterKeyExistsCondition);

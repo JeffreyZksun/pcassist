@@ -6,18 +6,19 @@
 #include "XmlIOStream.h"
 #include "ConstantsDefinition.h"
 #include <lmcons.h> // UNLEN CNLEN
+#include "Logger.h"
 
 //////////////////////////////////////////////////////////////////////////
 // Dead loop checker
 //////////////////////////////////////////////////////////////////////////
 
-CloseLoopChecker sVariableManagerCloseLoopChecker;
+static CloseLoopChecker sVariableManagerCloseLoopChecker;
 
 //////////////////////////////////////////////////////////////////////////
 // VariableManager
 //////////////////////////////////////////////////////////////////////////
 
-VariableManager::VariableManager(void) : mParameterTable()
+VariableManager::VariableManager(void) : mUserParameterTable(), mBuiltinParameterTable()
 {
 	InitializeBuiltInGlobalVariables();
 }
@@ -37,19 +38,21 @@ VariableManager::~VariableManager(void)
 
      while(bExist) // Parse the variable one by one.
      {
-         bool bRet = mParameterTable.GetParameter(varItem, para);
+         bool bRet = GetParameter(varItem, para);
          if(!bRet) // No this variable
              break;
 
 		 // Detect dead loop caused by the close loop reference. Such as (ExePath, %AppPath%/bin) (AppPath, %ExePath%/../)
 		 if(!sVariableManagerCloseLoopChecker.PushOngoingItem(varItem))
 		 {
-			 // This variable is already in the evaluation stack. 
-			 // Close  loop reference is detected.
-			 // Return directly to avoid dead loop.
-			 ASSERT(!_T("Close loop reference is detected during evaluation."));
+			 ASSERT(!_T("Error: Parameter evalation loop is detected"));
+			 LogOut(_T("Error: Parameter evalation loop is detected=> "), COLOR_RED);
+			 LogOut(varItem, COLOR_RED);
+			 LogOut(_T("\n"), COLOR_RED);
 
-			 return _T("");  // Return empty string
+			// Return empty string. Can't return para.GetRawValue() here,
+			 // otherwise the variable in the raw value will be evaluated again.
+			 return _T("");  
 		 }
 
          CString evalStr = para.GetEvaluatedValue();
@@ -69,6 +72,21 @@ VariableManager::~VariableManager(void)
      evaluatedString.Replace(_T("%%"), _T("%")); // Replace the %% to be %
 
      return evaluatedString;
+ }
+
+ void VariableManager::AddUserParameter(const Parameter& para)
+ {
+	mUserParameterTable.AddParameter(para);
+ }
+
+ bool VariableManager::GetParameter(const CString& paraName, Parameter& para) const
+ {
+	 bool bRet = mUserParameterTable.GetParameter(paraName, para);
+	 if(bRet) 
+		 return true;
+
+	 bRet = mBuiltinParameterTable.GetParameter(paraName, para);
+	 return bRet;
  }
 
  // GetNextVariable(_T("C:\\temp%%\\%userPath%\\local\\%NextOne%\\readme.txt")); return userPath
@@ -102,9 +120,14 @@ VariableManager::~VariableManager(void)
      return true;
  }
 
- ParameterTable& VariableManager::GetParameterTable()
+// ParameterTable& VariableManager::GetParameterTable()
+//{
+//	return mUserParameterTable;
+//}
+
+void VariableManager::AddBuiltinParameter(const Parameter& para)
 {
-	return mParameterTable;
+	mBuiltinParameterTable.AddParameter(para);
 }
 
 void VariableManager::InitializeBuiltInGlobalVariables()
@@ -119,7 +142,7 @@ void VariableManager::InitializeBuiltInGlobalVariables()
 			int pos = strExeName.ReverseFind(_T('\\'));
 			CString strExePath = strExeName.Left(pos);
 			Parameter para(EXE_MODULE_PATH, strExePath);
-			mParameterTable.AddParameter(para);
+			AddBuiltinParameter(para);
 		}
 	}
 	{
@@ -134,7 +157,7 @@ void VariableManager::InitializeBuiltInGlobalVariables()
 			strUserName = _T("UnknownUserName");
 
 		Parameter para(USER_NAME, strUserName);
-		mParameterTable.AddParameter(para);
+		AddBuiltinParameter(para);
 	}
 	{
 		// *ComputerName
@@ -147,7 +170,7 @@ void VariableManager::InitializeBuiltInGlobalVariables()
 			strComputerName = _T("UnknownComputerName");
 
 		Parameter para(COMPUTER_NAME, strComputerName);
-		mParameterTable.AddParameter(para);
+		AddBuiltinParameter(para);
 	}
 }
  
@@ -169,7 +192,7 @@ bool VariableManager::XmlIn(XmlIOStream* pXmlIOStream)
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, GlobalVariablesNode);
 		if(stack.IsSuccess())
-			mParameterTable.XmlIn(pXmlIOStream);
+			mUserParameterTable.XmlIn(pXmlIOStream);
 	}
 	return true;
 }
@@ -183,7 +206,7 @@ bool VariableManager::XmlOut(XmlIOStream* pXmlIOStream) const
 		ASSERT(stack.IsSuccess());
 		if(!stack.IsSuccess())
 			return false;
-		mParameterTable.XmlOut(pXmlIOStream);
+		mUserParameterTable.XmlOut(pXmlIOStream);
 	}
 
 	return true;
