@@ -27,7 +27,7 @@ BEHAVIORBODY_IMP(CompositeCondition)
 	if(!bExist)
 		return false;
 
-	Condition* pFstCondition = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetConditionById(firstCondition.GetEvaluatedValue());
+	Condition* pFstCondition = pContext->GetApplication()->GetTaskManager()->GetConditionById(firstCondition.GetEvaluatedValue());
 	ASSERT(pFstCondition != NULL);
 	if(NULL == pFstCondition)
 		return false;

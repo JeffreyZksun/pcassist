@@ -17,7 +17,7 @@ BEHAVIORBODY_IMP(ComplexAction)
 	if(!bExist)
 		return false;
 
-	Condition* pExeCondition = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetConditionById(condition.GetEvaluatedValue());
+	Condition* pExeCondition = pContext->GetApplication()->GetTaskManager()->GetConditionById(condition.GetEvaluatedValue());
 	ASSERT(pExeCondition != NULL);
 	if(NULL == pExeCondition)
 		return false;
@@ -42,7 +42,7 @@ BEHAVIORBODY_IMP(ComplexAction)
 	bExist = pContext->GetInputParameterTable()->GetParameter(PRE_ACTION, preAction);
 	if(bExist)
 	{
-		Action* pPreAction = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetActionById(preAction.GetEvaluatedValue());
+		Action* pPreAction = pContext->GetApplication()->GetTaskManager()->GetActionById(preAction.GetEvaluatedValue());
 		if(pPreAction != NULL)
 			pPreAction->Execute();
 	}
@@ -55,7 +55,7 @@ BEHAVIORBODY_IMP(ComplexAction)
 	bExist = pContext->GetInputParameterTable()->GetParameter(POST_ACTION, postAction);
 	if(bExist)
 	{
-		Action* pPostAction = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetActionById(postAction.GetEvaluatedValue());
+		Action* pPostAction = pContext->GetApplication()->GetTaskManager()->GetActionById(postAction.GetEvaluatedValue());
 		if(pPostAction != NULL)
 			pPostAction->Execute();
 	}
@@ -312,7 +312,7 @@ BEHAVIORBODY_IMP(ConditionBlockAction)
 	//Parameter para3;
 	//bExist = pContext->GetInputParameterTable()->GetParameter(EXPECTED_RESULT, para3);
 
-	Condition* pCondition = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetConditionById(para.GetEvaluatedValue());
+	Condition* pCondition = pContext->GetApplication()->GetTaskManager()->GetConditionById(para.GetEvaluatedValue());
 
 	ASSERT(pCondition);
 	bool bTimeOut = false;

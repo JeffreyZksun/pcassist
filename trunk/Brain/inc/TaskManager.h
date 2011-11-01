@@ -87,9 +87,10 @@ public:
 	virtual bool	XmlIn(XmlIOStream* pXmlIOStream);
 	virtual bool	XmlOut(XmlIOStream* pXmlIOStream) const;
 
+	BrainApplication* GetApplication() const;
+
 protected:
 	bool			ExecuteBehavior();
-	BrainApplication* GetApplication() const;
 
 	ParameterTable	mParameterTable;
 

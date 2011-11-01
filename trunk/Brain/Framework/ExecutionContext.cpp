@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "ExecutionContext.h"
+#include "TaskManager.h"
 
 
 ExecutionContext::ExecutionContext(BehaviorNode* pBehavior, ParameterTable* pInTable)
@@ -30,4 +31,13 @@ BehaviorNode* const ExecutionContext::GetBehaviorNode() const
 {
 	ASSERT(mpCurrentBehavior != NULL);
 	return mpCurrentBehavior;
+}
+
+BrainApplication* ExecutionContext::GetApplication() const
+{
+	ASSERT(mpCurrentBehavior != NULL);
+	if(mpCurrentBehavior != NULL)
+		return mpCurrentBehavior->GetApplication();
+
+	return NULL;
 }

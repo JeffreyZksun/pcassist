@@ -2,6 +2,8 @@
 
 class ParameterTable;
 class BehaviorNode;
+class BrainApplication;
+
 
 class ExecutionContext
 {
@@ -13,6 +15,8 @@ public:
 
 	void					SetBehaviorNode(BehaviorNode*);
 	BehaviorNode* const		GetBehaviorNode() const;
+
+	BrainApplication*		GetApplication() const;
 
 private:
 	ParameterTable*			mpInputTable;
