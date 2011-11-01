@@ -2,22 +2,18 @@
 #include "Conditions.h"
 #include "BrainUtil.h"
 #include "ConstantsDefinition.h"
-#include "CloseLoopChecker.h"
 #include "BehaviorBodyFactory.h"
 #include "TaskManager.h"
 #include "RegistryKey.h"
 #include "BrainApplication.h"
 #include "ExecutionContext.h"
 
-CloseLoopChecker sComplexConditionCloseLoopChecker;
-
 //////////////////////////////////////////////////////////////////////////
 // ComplexCondition
 //////////////////////////////////////////////////////////////////////////
 
-//BehaviorFunctionHelper gComplexCondition(_T("ComplexCondition"), ComplexConditionFunction);
-//bool ComplexConditionFunction(BehaviorNode* pSelf)
-BEHAVIORBODY_IMP(ComplexCondition)
+
+BEHAVIORBODY_IMP(CompositeCondition)
 {
 	Parameter oper;
 	bool bExist = pContext->GetInputParameterTable()->GetParameter(BOOL_OPERATOR, oper);
@@ -35,17 +31,6 @@ BEHAVIORBODY_IMP(ComplexCondition)
 	ASSERT(pFstCondition != NULL);
 	if(NULL == pFstCondition)
 		return false;
-
-	// Detect dead loop caused by the close loop reference. Such as A<-->B
-	if(!sComplexConditionCloseLoopChecker.PushOngoingItem(pContext->GetBehaviorNode()->GetObjectId()))
-	{
-		// This variable is already in the evaluation stack. 
-		// Close  loop reference is detected.
-		// Return directly to avoid dead loop.
-		ASSERT(!_T("Close loop reference is detected during evaluation."));
-
-		return false;
-	}
 
 	bool bRet = false;
 	if(oper.GetEvaluatedValue().CompareNoCase(_T("Not")) == 0)
@@ -74,8 +59,6 @@ BEHAVIORBODY_IMP(ComplexCondition)
 			}
 		}
 	}
-
-	sComplexConditionCloseLoopChecker.Pop();
 
 	return bRet;
 }

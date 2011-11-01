@@ -24,8 +24,7 @@ TaskManager::~TaskManager(void)
     deleteRegisteredActions();
     deleteRegisteredConditions();
 
-    // All the tasks should be registered actions.
-    ASSERT(mTaskList.empty());
+	mTaskList.clear();
 }
 
 bool TaskManager::RegisterAction(Action* pAction)
@@ -37,7 +36,7 @@ void TaskManager::UnregisterAction(Action* pAction)
 {
     _UnregisterBehaviorNode(mRegisteredActions, pAction);
 
-	RemoveActionTask(pAction);
+	//RemoveActionTask(pAction);
 }
 
 Action*	TaskManager::GetActionById(const CString& objectId) const
@@ -104,21 +103,23 @@ void TaskManager::AddActionTask(Action* pAction)
     if(NULL == pAction)
         return;
 
-    //ActionList::iterator it = std::find(mTaskList.begin(), mTaskList.end(), pAction);
-    //ASSERT(mTaskList.end() == it);
-
 	// The same action can be added more than once. Don't need the duplication check.
-    mTaskList.push_back(pAction);
+    mTaskList.push_back(pAction->GetObjectId().MakeLower());
 }
 
 void TaskManager::RemoveActionTask(Action* pAction)
 {
-    ActionList::iterator it = std::find(mTaskList.begin(), mTaskList.end(), pAction);
+	ASSERT(pAction != NULL);
+	if(NULL == pAction)
+		return;
+
+	CString actionId = pAction->GetObjectId().MakeLower();
+    ActionList::iterator it = std::find(mTaskList.begin(), mTaskList.end(), actionId);
 
     while(mTaskList.end() != it) // exist
 	{
-        mTaskList.remove(pAction);
-		it = std::find(mTaskList.begin(), mTaskList.end(), pAction);
+        mTaskList.remove(actionId);
+		it = std::find(mTaskList.begin(), mTaskList.end(), actionId);
 	}
 }
 
@@ -157,12 +158,23 @@ bool TaskManager::RunTasks()
 
     for (ActionList::iterator it = mTaskList.begin(); it != mTaskList.end(); ++it)
     {
-        ASSERT(*it != NULL);
 		LogOut(_T("[----------]\n"), COLOR_GREEN); // 10 chars
 
 		CTime actionBeginTime = CTime::GetCurrentTime();
 
-        bRet = (*it)->Execute();
+		Action* pCurrentAction = GetActionById(*it);
+		ASSERT(pCurrentAction != NULL);
+		if(NULL != pCurrentAction)
+		{
+			bRet = pCurrentAction->Execute();
+		}
+		else
+		{
+			LogOut(_T("Error: The action ["), COLOR_RED); 
+			LogOut(*it, COLOR_RED); 
+			LogOut(_T("] isn't registered.\n"), COLOR_RED); 
+			bRet = false;
+		}
 
 		CTimeSpan elapsedTime = CTime::GetCurrentTime() - actionBeginTime;
 
@@ -306,16 +318,7 @@ bool TaskManager::XmlIn(XmlIOStream* pXmlIOStream)
 
 				CString actionObjectId;
 				pXmlIOStream->ReadNodeText(actionObjectId);
-
-				Action* pAction = GetActionById(actionObjectId);
-				if(pAction != NULL)
-					AddActionTask(pAction);
-				else
-				{
-					LogOut(_T("Invalid Task: "), COLOR_RED);
-					LogOut(actionObjectId, COLOR_RED);
-					LogOut(_T("\n"));
-				}
+				mTaskList.push_back(actionObjectId);
 
 				index++;
 
@@ -338,10 +341,9 @@ bool TaskManager::XmlOut(XmlIOStream* pXmlIOStream) const
 		{
 			for (ActionList::const_iterator it = mTaskList.begin(); it != mTaskList.end(); ++it)
 			{
-				ASSERT(*it != NULL);
 				XmlIOStreamBeginNodeStack stack2(pXmlIOStream, ActionIdNode);
 				if(stack2.IsSuccess())
-					pXmlIOStream->WriteNodeText((*it)->GetObjectId());
+					pXmlIOStream->WriteNodeText(*it);
 			}
 		}
 	}
@@ -454,6 +456,7 @@ void TaskManager::_DeleteBehaviorNodes(BehaviorNodeList& nodeList)
 	while(!nodeList.empty())
 	{
 		delete *it; // In its destructor, it will unregister itself from the list.
+		//nodeList.pop_front(); // Don't need the pop operation.
 		it = nodeList.begin();
 	}
 }
@@ -462,6 +465,8 @@ void TaskManager::_DeleteBehaviorNodes(BehaviorNodeList& nodeList)
 //////////////////////////////////////////////////////////////////////////
 
 BehaviorNode::BehaviorNode() : mParameterTable()
+	, mpBrainApplication(BrainApplication::GetWorkingBrain())
+	, mbIsExecuting(false)
 {
 	int address = (int)this;
 	CString objectId;
@@ -470,6 +475,8 @@ BehaviorNode::BehaviorNode() : mParameterTable()
 }
 
 BehaviorNode::BehaviorNode(const CString& objetType) : mParameterTable()
+	, mpBrainApplication(BrainApplication::GetWorkingBrain())
+	, mbIsExecuting(false)
 {
 	int address = (int)this;
 	CString objectId;
@@ -480,7 +487,7 @@ BehaviorNode::BehaviorNode(const CString& objetType) : mParameterTable()
 
 BehaviorNode::~BehaviorNode()
 {
-
+	mpBrainApplication = NULL;
 }
 
 CString BehaviorNode::GetObjectId() const
@@ -520,6 +527,11 @@ bool BehaviorNode::XmlOut(XmlIOStream* pXmlIOStream) const
 	return mParameterTable.XmlOut(pXmlIOStream);
 }
 
+BrainApplication* BehaviorNode::GetApplication() const
+{
+	return mpBrainApplication;
+}
+
 bool BehaviorNode::ExecuteBehavior()
 {
 	// Log message format.
@@ -535,7 +547,16 @@ bool BehaviorNode::ExecuteBehavior()
 	//	[      TRUE]
 	//	[     FALSE]
 
+	if(true == mbIsExecuting)
+	{
+		ASSERT(!_T("Error: Behavior execution loop is detected"));
+		LogOut(_T("Error: Behavior execution loop is detected=> "), COLOR_RED);
+		LogOut(GetObjectId(), COLOR_RED);
+		LogOut(_T("\n"), COLOR_RED);
+		return false;
+	}
 
+	mbIsExecuting = true;
 	LogOut(_T(" [")); LogOut(GetObjectType()); LogOut(_T("] - ")); LogOut(GetObjectId()); LogOut(_T("\n"));
 	if(Logger::Get()->DoesOuputParameter())
 	{
@@ -555,18 +576,23 @@ bool BehaviorNode::ExecuteBehavior()
 		}
 	}
 
+	bool bSucc = true;
 
-	IBehaviorBody *pBody = BrainApplication::GetWorkingBrain()->GetBehaviorBodyFactory()->GetBehaviorBody(GetObjectType());
-	if(NULL == pBody)
+	IBehaviorBody *pBody = GetApplication()->GetBehaviorBodyFactory()->GetBehaviorBody(GetObjectType());
+	if(NULL != pBody)
+	{
+		ExecutionContext context(this, &mParameterTable);
+
+		bSucc = pBody->Execute(&context);
+	}
+	else
 	{
 		// 12 + 1 empty chars
 		LogOut(_T("             "));LogOut(_T("Unknown object type.\n"));
-		return false;
+		bSucc = false;
 	}
 
-	ExecutionContext context(this, &mParameterTable);
-
-	bool bSucc = pBody->Execute(&context);
+	mbIsExecuting = false;
 
 	return bSucc;
 }
@@ -576,20 +602,20 @@ bool BehaviorNode::ExecuteBehavior()
 //////////////////////////////////////////////////////////////////////////
 Action::Action()
 {
-	TaskManager* pTaskMgr = BrainApplication::GetWorkingBrain()->GetTaskManager();
+	TaskManager* pTaskMgr = GetApplication()->GetTaskManager();
 	pTaskMgr->RegisterAction(this);
 }
 
 Action::Action(const CString& objetType)
 	: BehaviorNode(objetType)
 {
-    TaskManager* pTaskMgr = BrainApplication::GetWorkingBrain()->GetTaskManager();
+    TaskManager* pTaskMgr = GetApplication()->GetTaskManager();
     pTaskMgr->RegisterAction(this);
 }
 
 Action::~Action(void)
 {
-    TaskManager* pTaskMgr = BrainApplication::GetWorkingBrain()->GetTaskManager();
+    TaskManager* pTaskMgr = GetApplication()->GetTaskManager();
     pTaskMgr->UnregisterAction(this);
 }
 
@@ -597,7 +623,7 @@ bool Action::IsParameterValid(const Parameter& para) const
 {
 	if(para.GetName().CompareNoCase(OBJECT_ID) == 0)
 	{
-		Action* pAction = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetActionById(para.GetEvaluatedValue());
+		Action* pAction = GetApplication()->GetTaskManager()->GetActionById(para.GetEvaluatedValue());
 		ASSERT(NULL == pAction);
 		if(pAction != NULL) // Duplicated Id
 			return false;
@@ -628,20 +654,20 @@ bool Action::Execute()
 
 Condition::Condition()
 {
-	TaskManager* pTaskMgr = BrainApplication::GetWorkingBrain()->GetTaskManager();
+	TaskManager* pTaskMgr = GetApplication()->GetTaskManager();
 	pTaskMgr->RegisterCondition(this);
 }
 
 Condition::Condition(const CString& objetType)
 	: BehaviorNode(objetType)
 {
-    TaskManager* pTaskMgr = BrainApplication::GetWorkingBrain()->GetTaskManager();
+    TaskManager* pTaskMgr = GetApplication()->GetTaskManager();
     pTaskMgr->RegisterCondition(this);
 }
 
 Condition::~Condition(void)
 {
-    TaskManager* pTaskMgr = BrainApplication::GetWorkingBrain()->GetTaskManager();
+    TaskManager* pTaskMgr = GetApplication()->GetTaskManager();
     pTaskMgr->UnregisterCondition(this);
 }
 
@@ -649,7 +675,7 @@ bool Condition::IsParameterValid(const Parameter& para) const
 {
 	if(para.GetName().CompareNoCase(OBJECT_ID) == 0)
 	{
-		Condition* pAction = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetConditionById(para.GetEvaluatedValue());
+		Condition* pAction = GetApplication()->GetTaskManager()->GetConditionById(para.GetEvaluatedValue());
 		ASSERT(NULL == pAction);
 		if(pAction != NULL) // Duplicated Id
 			return false;

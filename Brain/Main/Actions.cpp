@@ -2,14 +2,11 @@
 #include "Actions.h"
 #include "BrainUtil.h"
 #include "ConstantsDefinition.h"
-#include "CloseLoopChecker.h"
 #include "BehaviorBodyFactory.h"
 #include "TaskManager.h"
 #include "BrainApplication.h"
 #include "Logger.h"
 #include "ExecutionContext.h"
-
-CloseLoopChecker sComplexActionCloseLoopChecker;
 
 BEHAVIORBODY_IMP(ComplexAction)
 {
@@ -40,17 +37,6 @@ BEHAVIORBODY_IMP(ComplexAction)
 	if(NULL == pMainAction)
 		return false;
 
-	// Detect dead loop caused by the close loop reference. Such as A<-->B
-	if(!sComplexActionCloseLoopChecker.PushOngoingItem(pContext->GetBehaviorNode()->GetObjectId()))
-	{
-		// This variable is already in the evaluation stack. 
-		// Close  loop reference is detected.
-		// Return directly to avoid dead loop.
-		ASSERT(!_T("Close loop reference is detected during evaluation."));
-
-		return false; 
-	}
-
 	// Pre action, optional.
 	Parameter preAction;
 	bExist = pContext->GetInputParameterTable()->GetParameter(PRE_ACTION, preAction);
@@ -73,8 +59,6 @@ BEHAVIORBODY_IMP(ComplexAction)
 		if(pPostAction != NULL)
 			pPostAction->Execute();
 	}
-
-	sComplexActionCloseLoopChecker.Pop();
 
 	return bRet;
 }

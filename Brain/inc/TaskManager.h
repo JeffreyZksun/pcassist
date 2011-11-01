@@ -13,6 +13,7 @@ class BehaviorNode;
 class Action;
 class Condition;
 class XmlIOStream;
+class BrainApplication;
 
 //////////////////////////////////////////////////////////////////////////
 // TaskManager
@@ -49,7 +50,7 @@ public:
 
 private:
 	typedef std::list<BehaviorNode*>	BehaviorNodeList;
-	typedef std::list<Action*>			ActionList;
+	typedef std::list<CString>			ActionList;
 
 private:
 	bool                    _RegisterBehaviorNode(BehaviorNodeList&, BehaviorNode*);
@@ -88,8 +89,13 @@ public:
 
 protected:
 	bool			ExecuteBehavior();
+	BrainApplication* GetApplication() const;
 
 	ParameterTable	mParameterTable;
+
+	BrainApplication* mpBrainApplication; // Back-pointer
+
+	bool			mbIsExecuting; // Don't persist. Used for reference loop check.
 };
 
 //////////////////////////////////////////////////////////////////////////
