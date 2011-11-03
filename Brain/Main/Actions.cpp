@@ -188,6 +188,8 @@ BEHAVIORBODY_IMP(RunSystemCommandAction)
 	return bSucc;
 }
 
+// Refer to http://msdn.microsoft.com/en-us/library/ms682499%28VS.85%29.aspx
+// For the stream indirection.
 BEHAVIORBODY_IMP(RunProcessAction)
 {
 	Parameter para;
