@@ -1,21 +1,23 @@
 #include "StdAfx.h"
 #include "TaskManager.h"
 
+#define THIS_APP_NAME _T("BrainUnitTest.exe")
+
 TEST(ActionTest, ConditionBlockAction)
 {
 	Condition procCondition(_T("ProcessRunningCondition"));
 	{
-		Parameter para1(_T("ObjectId"), _T("IsSvchost_exeRunning")); 
+		Parameter para1(_T("ObjectId"), _T("IsUnitTest_exeRunning")); 
 		procCondition.GetParameterTable().AddParameter(para1);
 
-		Parameter para2(_T("ProcessName"), _T("svchost.exe")); 
+		Parameter para2(_T("ProcessName"), THIS_APP_NAME); 
 		procCondition.GetParameterTable().AddParameter(para2);
 	}
 
 	
 	Action blockAction(_T("ConditionBlockAction"));
 	{
-		Parameter para1(_T("ConditionId"), _T("IsSvchost_exeRunning")); 
+		Parameter para1(_T("ConditionId"), _T("IsUnitTest_exeRunning")); 
 		blockAction.GetParameterTable().AddParameter(para1);
 
 		Parameter para2(_T("ExpectedResult"), _T("true")); 
@@ -24,7 +26,6 @@ TEST(ActionTest, ConditionBlockAction)
 
 	bool bRet = blockAction.Execute();
 	EXPECT_EQ(true, bRet);
-
 }
 
 // 
@@ -66,5 +67,26 @@ TEST(ActionTest, ReferenceLoopAction)
 
 	bool bRet = A2.Execute(); // The assert is expected.
 	EXPECT_EQ(false, bRet);
+}
+
+
+TEST(ActionTest, RunProcessAction)
+{
+
+	Action processAction(_T("RunProcessAction"));
+	{
+		Parameter para1(_T("ApplicationName"), _T("C:\\Windows\\System32\\notepad.exe")); 
+		Parameter para2(_T("ApplicationParameter"), _T("")); 
+		Parameter para3(_T("ShowWindow"), _T("true")); 
+		Parameter para4(_T("WaitForExit"), _T("false")); 
+
+		processAction.GetParameterTable().AddParameter(para1);
+		processAction.GetParameterTable().AddParameter(para2);
+		processAction.GetParameterTable().AddParameter(para3);
+		processAction.GetParameterTable().AddParameter(para4);
+	}
+
+	bool bRet = processAction.Execute();
+	EXPECT_EQ(true, bRet);
 }
 

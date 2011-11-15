@@ -2,6 +2,8 @@
 #include "TaskManager.h"
 #include "BrainUtil.h"
 
+#define THIS_APP_NAME _T("BrainUnitTest.exe")
+
 TEST(ConditionTest, RegisterKeyExistsCondition)
 {
 	{
@@ -37,13 +39,72 @@ TEST(ConditionTest, RegisterKeyExistsCondition)
 
 }
 
-TEST(ConditionTest, ProcessRunningCondition)
+TEST(ConditionTest, ProcessRunningCondition_Name_1)
 {
 	Condition procCondition(_T("ProcessRunningCondition"));
-	Parameter para1(_T("ProcessName"), _T("svchost.exe")); //msiexec.exe setup.exe  svchost.exe
+	Parameter para1(_T("ProcessName"), THIS_APP_NAME); //msiexec.exe setup.exe  svchost.exe
 	procCondition.GetParameterTable().AddParameter(para1);
 	bool bRet = procCondition.IsTrue();
 	EXPECT_EQ(true, bRet);
+}
+
+TEST(ConditionTest, ProcessRunningCondition_Name_2)
+{
+	Condition procCondition(_T("ProcessRunningCondition"));
+	Parameter para1(_T("ProcessName"), _T("NotExist.exe")); //Use a process name not exist at all.
+	procCondition.GetParameterTable().AddParameter(para1);
+	bool bRet = procCondition.IsTrue();
+	EXPECT_EQ(false, bRet);
+}
+
+// Verify existence
+TEST(ConditionTest, ProcessRunningCondition_FullName_1)
+{
+	Parameter path;
+	bool bExist = BrainApplication::GetWorkingBrain()->GetVariableManager()->GetParameter(_T("*ExeModulePath"), path);
+	EXPECT_EQ(true, bExist);
+
+	CString strPath = path.GetEvaluatedValue();
+	strPath += _T("\\") THIS_APP_NAME;
+
+	Condition procCondition(_T("ProcessRunningCondition"));
+	Parameter para1(_T("ProcessName"),strPath);
+	procCondition.GetParameterTable().AddParameter(para1);
+	bool bRet = procCondition.IsTrue();
+	EXPECT_EQ(true, bRet);
+}
+
+// Verify forward slash
+TEST(ConditionTest, ProcessRunningCondition_FullName_2)
+{
+	Parameter path;
+	bool bExist = BrainApplication::GetWorkingBrain()->GetVariableManager()->GetParameter(_T("*ExeModulePath"), path);
+	EXPECT_EQ(true, bExist);
+
+	CString strPath = path.GetEvaluatedValue();
+	strPath += _T("/") THIS_APP_NAME;
+
+	Condition procCondition(_T("ProcessRunningCondition"));
+	Parameter para1(_T("ProcessName"), strPath); 
+	procCondition.GetParameterTable().AddParameter(para1);
+	bool bRet = procCondition.IsTrue();
+	EXPECT_EQ(true, bRet);
+}
+
+TEST(ConditionTest, ProcessRunningCondition_FullName_3)
+{
+	Parameter path;
+	bool bExist = BrainApplication::GetWorkingBrain()->GetVariableManager()->GetParameter(_T("*ExeModulePath"), path);
+	EXPECT_EQ(true, bExist);
+
+	CString strPath = path.GetEvaluatedValue();
+	strPath += _T("\\NotExistPath\\") THIS_APP_NAME;
+
+	Condition procCondition(_T("ProcessRunningCondition"));
+	Parameter para1(_T("ProcessName"), strPath);
+	procCondition.GetParameterTable().AddParameter(para1);
+	bool bRet = procCondition.IsTrue();
+	EXPECT_EQ(false, bRet);
 }
 
 TEST(ConditionTest, FolderExistsCondition)

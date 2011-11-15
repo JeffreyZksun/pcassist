@@ -155,8 +155,14 @@ BEHAVIORBODY_IMP(ProcessRunningCondition)
 	if(!bExist)
 		return false;
 	CString strPorcessName = para.GetEvaluatedValue();
+	strPorcessName.Replace(_T('/'), _T('\\'));
 
-	bool bRet = BrainUtil::IsProcessRunning(strPorcessName);
+	bool bCompareNameOnly = true;
+
+	if(strPorcessName.Find(_T('\\')) != -1)
+		bCompareNameOnly = false; // Include back slash meaning this is a full path name.
+
+	bool bRet = BrainUtil::IsProcessRunning(strPorcessName, bCompareNameOnly);
 
 	return bRet;
 }

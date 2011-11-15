@@ -37,10 +37,11 @@
 #define LINK_NAME _T("LinkName")
 #define LINK_TARGET _T("LinkTarget")
 
-// For RunSystemCommandAction
+// For RunSystemCommandAction, RunProcessAction
 #define APPLICATION_NAME _T("ApplicationName")
 #define APPLICATION_PARAMETER _T("ApplicationParameter")
 #define APPLICATION_SHOWWINDOW _T("ShowWindow")
+#define WAIT_FOR_EXIT _T("WaitForExit")
 
 // For ProcessRunningCondition
 #define PROCESS_NAME _T("ProcessName")

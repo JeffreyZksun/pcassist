@@ -219,11 +219,20 @@ BEHAVIORBODY_IMP(RunProcessAction)
 	bool bShowWindow = true;
 	if(bExist)
 	{
-		CString strShowWindow;
-		strShowWindow = para.GetEvaluatedValue();
+		CString strShowWindow = para.GetEvaluatedValue();
 		if(strShowWindow.CompareNoCase(_T("false")) == 0)
 			bShowWindow = false;
 	}
+
+	bExist = pContext->GetInputParameterTable()->GetParameter(WAIT_FOR_EXIT, para);
+	bool bWaitForExit = true;
+	if(bExist)
+	{
+		CString strWaitForExit = para.GetEvaluatedValue();
+		if(strWaitForExit.CompareNoCase(_T("false")) == 0)
+			bWaitForExit = false;
+	}
+
 	startupInfo.wShowWindow = bShowWindow ? SW_NORMAL : SW_HIDE;
 
 	PROCESS_INFORMATION processInformation;
@@ -286,7 +295,9 @@ BEHAVIORBODY_IMP(RunProcessAction)
 		return false;
 	}
 
-	WaitForSingleObject( processInformation.hProcess, INFINITE );
+	if(bWaitForExit)
+		WaitForSingleObject( processInformation.hProcess, INFINITE );
+
 	CloseHandle( processInformation.hProcess );
 	CloseHandle( processInformation.hThread );
 
