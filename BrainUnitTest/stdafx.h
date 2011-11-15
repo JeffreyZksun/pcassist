@@ -23,3 +23,11 @@
 #include <iostream>
 
 #include "ApplicationSwitchHelper.h"
+
+#include "BrainApplication.h"
+#include "TaskManager.h"
+#include "BehaviorBodyFactory.h"
+#include "VariableManager.h"
+#include "DocumentManager.h"
+#include "Actions.h"
+#include "Conditions.h"
