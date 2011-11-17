@@ -1,18 +1,18 @@
  * [Introduction Introduction]
- * [Design Design]
+ * Design Design
      * [UserStories UserStories]
      * [HighLevelDesign HighLevelDesign]
      * [ClassResponsibility ClassResponsibility]
      * [TATP TATP]
 
- * Tutorial Tutorial
+ * Tutorial
      * [SupportedBehaviors SupportedBehaviors]
      * [CommandLineParameters CommandLineParameters]
 
- * [Comparison]
+ * Comparison
      * [OSXAutomator OSX Automator]
 
- * [Technology Tutorial]
+ * Technology
      * [TCPLibrary TCPLibrary]
      * [SendEmailMessage SendEmailMessage]
 
