@@ -7,14 +7,10 @@
  * Tutorial
      * [SupportedBehaviors SupportedBehaviors]
      * [CommandLineParameters CommandLineParameters]
-
  * Comparison
      * [OSXAutomator OSX Automator]
-
  * Technology
      * [TCPLibrary TCPLibrary]
      * [SendEmailMessage SendEmailMessage]
-
  * [ToDoList ToDoList]
-
 * [http://code.google.com/p/pcassist/w/list List All]
