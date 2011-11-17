@@ -1,11 +1,11 @@
  * [Introduction Introduction]
- * [Design Tutorial]
+ * [Design Design]
      * [UserStories UserStories]
      * [HighLevelDesign HighLevelDesign]
      * [ClassResponsibility ClassResponsibility]
      * [TATP TATP]
 
- * [Tutorial Tutorial]
+ * Tutorial Tutorial
      * [SupportedBehaviors SupportedBehaviors]
      * [CommandLineParameters CommandLineParameters]
 
