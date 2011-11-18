@@ -3,6 +3,22 @@ List the tasks to be done.
 
 = P1 (Will be done soon) =
 
+ConditionListCheckAction
+Check all the conditions in the list. Return true if all the conditions are true. Otherwise return false.
+
+The syntax for condition list parameter is like 
+{{{
+<Parameter>
+	<Name>ConditionList</Name>
+	<value>
+		{1.1 Is there running process setup.exe}
+		{1.2 Is there running process misc}
+		{1.3 Does zip work}
+		{1.4 Does the compiler work.}
+	</value>
+</Parameter>
+}}}
+
  * Refactor: In task manager, save the list of action ids as the task list. Currently, it saves the list of pointer points to the registered action. Register and unregister action don't affect the task list. Task list can save a action id which is NOT registered. When add a action id to task list, don't check if the action exists. Just add it. When execute the task list, log out warnings for the missed action.
  * Refactor the dead loop check for the parameter evaluation.Use the same algorithm as behavior execution.
  * Refactor: Make the behavior factor as a singleton. There doesn't need a factory for each application instance.
