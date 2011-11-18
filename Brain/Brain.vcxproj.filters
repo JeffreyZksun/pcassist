@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Inc">
+      <UniqueIdentifier>{f391fc4b-981d-4013-bb8f-845c80e4c61f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{fb16ee4b-4b6a-461e-8f1c-c33a2c63c237}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework">
+      <UniqueIdentifier>{b8d41804-cb20-47c5-b3e7-85187d4bb7b8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\BrainApplication.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\BrainSystem.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ConstantsDefinition.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\IDatabaseObject.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Logger.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Parameter.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ParameterTable.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TaskManager.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Main\Actions.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Main\BrainUtil.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Main\CloseLoopChecker.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Main\Conditions.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Main\RegistryKey.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Main\stdafx.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Main\XmlIOStream.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Main\XmlNodeWrapper.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\BehaviorBodyFactory.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\DocumentManager.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ExecutionContext.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\IBehaviorBody.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\VariableManager.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main\Actions.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Main\BrainUtil.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Main\CloseLoopChecker.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Main\Conditions.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Main\Logger.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Main\RegistryKey.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Main\XmlIOStream.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Main\XmlNodeWrapper.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\BehaviorBodyFactory.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\BrainApplication.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\DocumentManager.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\ExecutionContext.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Parameter.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\ParameterTable.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\TaskManager.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\VariableManager.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+</Project>
