@@ -3,8 +3,10 @@ List the tasks to be done.
 
 = P1 (Will be done soon) =
 
-ConditionListCheckAction
+ * Add new action ConditionListCheckAction
 Check all the conditions in the list. Return true if all the conditions are true. Otherwise return false.
+
+This action can be used as sanity check.
 
 The syntax for condition list parameter is like 
 {{{
