@@ -1,5 +1,5 @@
-
-= Advantages =
+[http://mac.appstorm.net/wp-content/uploads/2010/12/automator-logo.jpg]
+= Introduction =
  * It provides many kinds of actions.
  * The action has the input and output.
  * The automator connects several actions as the workflow.
@@ -10,4 +10,3 @@
 = Disadvantages =
  * It doesn't supper the condition.
  * There is no formatted log message to reflect the action result.
-
