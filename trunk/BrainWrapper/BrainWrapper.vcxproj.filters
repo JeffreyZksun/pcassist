@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Native">
+      <UniqueIdentifier>{95866fa6-5bd2-4922-aae9-c7312447c7f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Native\Inc">
+      <UniqueIdentifier>{3b40b12b-f664-44ec-8135-5ef6e822bfee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Native\Main">
+      <UniqueIdentifier>{34537e76-f5c9-4eaa-b069-7e01550c4af1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Native\Framework">
+      <UniqueIdentifier>{985e61c8-4b37-472e-a63c-e800b8a56b86}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AssemblyInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BrainWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExternalTool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Brain\Main\Actions.cpp">
+      <Filter>Native\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Brain\Main\BrainUtil.cpp">
+      <Filter>Native\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Brain\Main\CloseLoopChecker.cpp">
+      <Filter>Native\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Brain\Main\Conditions.cpp">
+      <Filter>Native\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Brain\Main\Logger.cpp">
+      <Filter>Native\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Brain\Main\RegistryKey.cpp">
+      <Filter>Native\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Brain\Main\XmlIOStream.cpp">
+      <Filter>Native\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Brain\Main\XmlNodeWrapper.cpp">
+      <Filter>Native\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Brain\Framework\BehaviorBodyFactory.cpp">
+      <Filter>Native\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Brain\Framework\BrainApplication.cpp">
+      <Filter>Native\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Brain\Framework\DocumentManager.cpp">
+      <Filter>Native\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Brain\Framework\ExecutionContext.cpp">
+      <Filter>Native\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Brain\Framework\Parameter.cpp">
+      <Filter>Native\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Brain\Framework\ParameterTable.cpp">
+      <Filter>Native\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Brain\Framework\TaskManager.cpp">
+      <Filter>Native\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Brain\Framework\VariableManager.cpp">
+      <Filter>Native\Framework</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BrainWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExternalTool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\inc\BrainApplication.h">
+      <Filter>Native\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\inc\BrainSystem.h">
+      <Filter>Native\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\inc\ConstantsDefinition.h">
+      <Filter>Native\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\inc\Logger.h">
+      <Filter>Native\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\inc\Parameter.h">
+      <Filter>Native\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\inc\ParameterTable.h">
+      <Filter>Native\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\inc\TaskManager.h">
+      <Filter>Native\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\Main\Actions.h">
+      <Filter>Native\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\Main\BrainUtil.h">
+      <Filter>Native\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\Main\CloseLoopChecker.h">
+      <Filter>Native\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\Main\Conditions.h">
+      <Filter>Native\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\Main\RegistryKey.h">
+      <Filter>Native\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\Main\stdafx.h">
+      <Filter>Native\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\Main\XmlIOStream.h">
+      <Filter>Native\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\Main\XmlNodeWrapper.h">
+      <Filter>Native\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\Framework\BehaviorBodyFactory.h">
+      <Filter>Native\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\Framework\DocumentManager.h">
+      <Filter>Native\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\Framework\ExecutionContext.h">
+      <Filter>Native\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\Framework\IBehaviorBody.h">
+      <Filter>Native\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Brain\Framework\VariableManager.h">
+      <Filter>Native\Framework</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="app.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
