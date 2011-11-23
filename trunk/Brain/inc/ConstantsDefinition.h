@@ -14,6 +14,9 @@
 #define EXPECTED_RESULT _T("ExpectedResult")
 #define TIME_OUT _T("TimeOut")
 
+// For ActionResultCondition
+#define ACTION_ID _T("ActionId")
+
 // For Complex condition
 #define BOOL_OPERATOR _T("BoolOperator")
 #define FIRST_CONDITION _T("FirstCondition")

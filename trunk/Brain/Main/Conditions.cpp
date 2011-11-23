@@ -167,4 +167,24 @@ BEHAVIORBODY_IMP(ProcessRunningCondition)
 	return bRet;
 }
 
+// It executes an action. And check if the result is equal to the expected result. If equal, the condition is true. 
+BEHAVIORBODY_IMP(ActionResultCondition)
+{
+    Parameter para;
+    bool bExist = pContext->GetInputParameterTable()->GetParameter(ACTION_ID, para);
+    ASSERT(bExist);
+    if(!bExist)
+        return false;
+    CString strActionId = para.GetEvaluatedValue();
+  
+    Action* pAction = pContext->GetApplication()->GetTaskManager()->GetActionById(strActionId);
+    ASSERT(pAction != NULL);
+    if(NULL == pAction)
+        return false;
+
+    bool bRet = pAction->Execute();
+
+    return bRet;
+}
+
 
