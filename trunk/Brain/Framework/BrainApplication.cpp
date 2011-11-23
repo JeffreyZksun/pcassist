@@ -92,7 +92,7 @@ void BrainApplication::AddBuiltInConditionBehaivor() const
 	ADD_BEHAVIORBODY_TO_FACTORY(FolderExistsCondition);
 	ADD_BEHAVIORBODY_TO_FACTORY(RegisterKeyExistsCondition);
     ADD_BEHAVIORBODY_TO_FACTORY(ProcessRunningCondition);
-	ADD_BEHAVIORBODY_TO_FACTORY(ActionResultCondition);
+    ADD_BEHAVIORBODY_TO_FACTORY(ActionResultCondition);
 }
 
 
@@ -109,5 +109,7 @@ void BrainApplication::AddBuiltInActionBehaivor() const
 	ADD_BEHAVIORBODY_TO_FACTORY(RunSystemCommandAction);
 	ADD_BEHAVIORBODY_TO_FACTORY(RunProcessAction);
 	ADD_BEHAVIORBODY_TO_FACTORY(ConditionBlockAction);
+    ADD_BEHAVIORBODY_TO_FACTORY(TaskListAction);
+    ADD_BEHAVIORBODY_TO_FACTORY(ConditionListCheckAction);
 }
 

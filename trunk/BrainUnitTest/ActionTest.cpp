@@ -90,3 +90,140 @@ TEST(ActionTest, RunProcessAction)
 	EXPECT_EQ(true, bRet);
 }
 
+TEST(ActionTest, TaskListAction)
+{
+    ApplicationSwitchHelper helper;
+
+    {
+        Action* pAction = new Action(_T("RunSystemCommandAction"));
+        Parameter para0(_T("ObjectId"), _T("EchoMessage")); 
+        Parameter para1(_T("ApplicationName"), _T("echo Hello world")); 
+        Parameter para2(_T("ApplicationParameter"), _T("")); 
+
+
+        pAction->GetParameterTable().AddParameter(para0);
+        pAction->GetParameterTable().AddParameter(para1);
+        pAction->GetParameterTable().AddParameter(para2);
+    }
+
+    Action taskList(_T("TaskListAction"));
+    {
+
+        Parameter para1(_T("IdList"), _T("{EchoMessage}")); 
+        taskList.GetParameterTable().AddParameter(para1);
+    }
+
+    bool bRet = taskList.Execute();
+
+    EXPECT_EQ(true, bRet);
+}
+
+TEST(ActionTest, TaskListAction_2)
+{
+    ApplicationSwitchHelper helper;
+
+    {
+        Action* pAction = new Action(_T("RunSystemCommandAction"));
+        Parameter para0(_T("ObjectId"), _T("EchoMessage")); 
+        Parameter para1(_T("ApplicationName"), _T("echo Hello world")); 
+        Parameter para2(_T("ApplicationParameter"), _T("")); 
+
+
+        pAction->GetParameterTable().AddParameter(para0);
+        pAction->GetParameterTable().AddParameter(para1);
+        pAction->GetParameterTable().AddParameter(para2);
+    }
+
+    Action taskList(_T("TaskListAction"));
+    {
+
+        Parameter para1(_T("IdList"), _T("{EchoMessage}{DummyAction}")); 
+        taskList.GetParameterTable().AddParameter(para1);
+    }
+
+    bool bRet = taskList.Execute();
+
+    EXPECT_EQ(false, bRet);
+}
+
+TEST(ActionTest, ConditionListCheckAction_1)
+{
+    ApplicationSwitchHelper helper;
+
+    {
+        Condition* pFolderCondition = new Condition(_T("FolderExistsCondition"));
+        Parameter para1(_T("ObjectId"), _T("VerifyFolderCExist")); 
+        Parameter para2(_T("FolderName"), _T("C:\\")); 
+
+        pFolderCondition->GetParameterTable().AddParameter(para1);
+        pFolderCondition->GetParameterTable().AddParameter(para2);
+    }
+
+    Action sanityCheck(_T("ConditionListCheckAction"));
+    {
+
+        Parameter para1(_T("IdList"), _T("{VerifyFolderCExist}")); 
+        sanityCheck.GetParameterTable().AddParameter(para1);
+    }
+
+    bool bRet = sanityCheck.Execute();
+    EXPECT_EQ(true, bRet);
+}
+
+TEST(ActionTest, ConditionListCheckAction_2)
+{
+    ApplicationSwitchHelper helper;
+
+    {
+        Condition* pFolderCondition = new Condition(_T("FolderExistsCondition"));
+        Parameter para1(_T("ObjectId"), _T("VerifyFolderCExist")); 
+        Parameter para2(_T("FolderName"), _T("C:\\")); 
+
+        pFolderCondition->GetParameterTable().AddParameter(para1);
+        pFolderCondition->GetParameterTable().AddParameter(para2);
+    }
+
+    {
+        Condition* pFolderCondition = new Condition(_T("FolderExistsCondition"));
+        Parameter para1(_T("ObjectId"), _T("VerifyFolderZZExist")); 
+        Parameter para2(_T("FolderName"), _T("ZZ:\\")); 
+
+        pFolderCondition->GetParameterTable().AddParameter(para1);
+        pFolderCondition->GetParameterTable().AddParameter(para2);
+    }
+
+    Action sanityCheck(_T("ConditionListCheckAction"));
+    {
+
+        Parameter para1(_T("IdList"), _T("{VerifyFolderCExist} {VerifyFolderZZExist}")); 
+        sanityCheck.GetParameterTable().AddParameter(para1);
+    }
+
+    bool bRet = sanityCheck.Execute();
+    EXPECT_EQ(false, bRet);
+}
+
+
+TEST(ActionTest, ConditionListCheckAction_3)
+{
+    ApplicationSwitchHelper helper;
+
+    {
+        Condition* pFolderCondition = new Condition(_T("FolderExistsCondition"));
+        Parameter para1(_T("ObjectId"), _T("VerifyFolderCExist")); 
+        Parameter para2(_T("FolderName"), _T("C:\\")); 
+
+        pFolderCondition->GetParameterTable().AddParameter(para1);
+        pFolderCondition->GetParameterTable().AddParameter(para2);
+    }
+
+    Action sanityCheck(_T("ConditionListCheckAction"));
+    {
+
+        Parameter para1(_T("IdList"), _T("{VerifyFolderCExist} {dummy}")); 
+        sanityCheck.GetParameterTable().AddParameter(para1);
+    }
+
+    bool bRet = sanityCheck.Execute();
+    EXPECT_EQ(false, bRet);
+}
