@@ -480,3 +480,27 @@ bool BrainUtil::IsProcessRunning(const CString &strProcessName, bool bCompareNam
 	}
 	return false;
 } 
+
+// {item 1} {item 2} {item 3}
+void BrainUtil::ExtractSubItems(const CString& strGroup, std::vector<CString>& subItems)
+{
+    TCHAR delimiterStart = _T('{');
+    TCHAR delimiterEnd = _T('}');
+
+    int endPos = 0; 
+
+    while(true)
+    {
+        int startPos = strGroup.Find(delimiterStart, endPos);
+        if(-1 == startPos) // Not found
+            return;
+
+        endPos = strGroup.Find(delimiterEnd, startPos);
+        if(-1 == endPos) // Not found
+            return;
+
+        CString strItem = strGroup.Mid(startPos + 1, endPos - startPos - 1); //ToDo
+        subItems.push_back(strItem);
+    }
+}
+

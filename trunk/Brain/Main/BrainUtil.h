@@ -1,5 +1,6 @@
 #pragma once
 #include "BrainSystem.h"
+#include <vector>
 
 namespace BrainUtil
 {
@@ -29,6 +30,8 @@ namespace BrainUtil
 
 	void LogOutLastError(const CString& lpszFunction);
 
-	bool IsProcessRunning(const CString &strProcessName, bool bCompareNameOnly = true);
+	bool IsProcessRunning(const CString& strProcessName, bool bCompareNameOnly = true);
+
+    void ExtractSubItems(const CString& strGroup, std::vector<CString>& subItems);
 };
 
