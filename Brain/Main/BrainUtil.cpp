@@ -310,6 +310,88 @@ bool BrainUtil::RunSystemCommand(const CString& cmd)
     return 0 == ret;
 }
 
+// Return error level.
+// Refer to http://msdn.microsoft.com/en-us/library/ms682499%28VS.85%29.aspx
+// For the stream indirection.
+unsigned long BrainUtil::RunProcess(const CString& applicationName
+    , const CString& applicationParameter
+    , bool bShowWindow
+    , bool bWaitForExit)
+{
+
+    // http://msdn.microsoft.com/en-us/library/ms682425%28v=vs.85%29.aspx
+    // Create process
+    //
+    STARTUPINFO startupInfo;
+    memset(&startupInfo, 0, sizeof(startupInfo));
+    startupInfo.cb = sizeof(STARTUPINFO);
+    startupInfo.dwFlags = STARTF_USESHOWWINDOW;
+    startupInfo.wShowWindow = bShowWindow ? SW_NORMAL : SW_HIDE;
+
+    PROCESS_INFORMATION processInformation;
+
+    // We need the application name is the first parameter
+    // When there is parameter, we need start the process with cmd line only.
+    // We need to avoid the case below.
+
+    //Test Running...
+    //	AppName:  C:\CreateProcessBug\Debug\ParamTest.exe
+    //	CmdLine:  Param1 Param2 Param3
+    //ParamTest Output:
+    //	Number of parameters: 3
+    //	Parameter Info:
+    //		Param #0: Param1
+    //		Param #1: Param2
+    //		Param #2: Param3
+
+    CString cmdLine;
+    BOOL ret = FALSE;
+    if(applicationParameter.IsEmpty())
+    {
+        //Test Running...
+        //	AppName:  C:\CreateProcessBug\Debug\ParamTest.exe
+        //	CmdLine:  (null)
+        //ParamTest Output:
+        //	Number of parameters: 1
+        //	Parameter Info:
+        //		Param #0: C:\CreateProcessBug\Debug\ParamTest.exe
+        ret = CreateProcess((LPCTSTR)applicationName, NULL, NULL, NULL, FALSE, NORMAL_PRIORITY_CLASS, NULL, NULL, &startupInfo, &processInformation);
+    }
+    else
+    {
+        //Test Running...
+        //	AppName:  (null)
+        //	CmdLine:  "C:\CreateProcessBug\Debug\ParamTest.exe" Param1 Param2 Param3
+        //ParamTest Output:
+        //	Number of parameters: 4
+        //	Parameter Info:
+        //		Param #0: C:\CreateProcessBug\Debug\ParamTest.exe
+        //		Param #1: Param1
+        //		Param #2: Param2
+        //		Param #3: Param3
+
+        cmdLine = applicationName + _T(" ") + applicationParameter;
+
+        TCHAR tempCmdLine[MAX_PATH * 2];  //Needed since CreateProcessW may change the contents of CmdLine
+        _tcscpy_s(tempCmdLine, MAX_PATH *2, (LPCTSTR)cmdLine);
+
+        ret = CreateProcess(NULL, tempCmdLine, NULL, NULL, FALSE, NORMAL_PRIORITY_CLASS, NULL, NULL, &startupInfo, &processInformation);
+    }
+
+    if (!ret || !processInformation.hThread || !processInformation.hProcess)
+    {
+        return GetLastError(); // Fail
+    }
+
+    if(bWaitForExit)
+        WaitForSingleObject( processInformation.hProcess, INFINITE );
+
+    CloseHandle( processInformation.hProcess );
+    CloseHandle( processInformation.hThread );
+
+    return 0; // Success
+}
+
 void BrainUtil::LogOutLastError(const CString& lpszFunction)
 {
 	// Retrieve the system error message for the last-error code

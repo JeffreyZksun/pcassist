@@ -22,6 +22,11 @@ namespace BrainUtil
     bool MakeLink(const CString& link, const CString& target, bool bIsDirectory = true);
 
     bool RunSystemCommand(const CString& cmd);
+    unsigned long RunProcess(const CString& applicationName
+        , const CString& applicationParameter
+        , bool bShowWindow
+        , bool bWaitForExit);
+
 	void LogOutLastError(const CString& lpszFunction);
 
 	bool IsProcessRunning(const CString &strProcessName, bool bCompareNameOnly = true);
