@@ -30,7 +30,6 @@ The syntax for condition list parameter is like
 
 = P2 =
  * Add a new action named TaskListAction. It references a action id list. During execution it executes the referenced action one by one. The result of the last action is result.
- * Add a new condition named ActionResultCondition. It executes an action. And check if the result is equal to the expected result. If equal, the condition is true.
  * Rename ComplexCondition as CompositeCondition. Change the implementation to support the expression. Such as C1 && C2 || ( C3 && C4).
 
 
@@ -52,3 +51,4 @@ The syntax for condition list parameter is like
  * Add a new action named ConditionBlockAction. It will loop to check the specified condition with the specified interval. It is blocked until the condition is true or time is out. If condition is met, return true. Otherwise, it means timeout, return false.
  * Avoid dead loop for behavior execution. Add a member variable bool mbIsWorking to Behavior class. Before executing check if its value is true, if yes, a dead loop is detected. Log error and return. If no, set it to be true, do the execution. After the execution, set its value to false. Delete the dead loop check for condition and action.
  * Don't write the built in global variables to the xml. Use mUserParamterTable to save the user defined parameters and mBuiltinParamterTable to save the built-in parameters.
+ * Add a new condition named ActionResultCondition. It executes an action. And check if the result is equal to the expected result. If equal, the condition is true.
