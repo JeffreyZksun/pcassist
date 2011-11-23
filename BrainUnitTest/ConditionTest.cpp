@@ -6,6 +6,8 @@
 
 TEST(ConditionTest, RegisterKeyExistsCondition)
 {
+    ApplicationSwitchHelper helper;
+
 	{
 		Condition regCondition(_T("RegisterKeyExistsCondition"));
 		Parameter para1(_T("RootKey"), _T("HKEY_LOCAL_MACHINE"));
@@ -41,6 +43,8 @@ TEST(ConditionTest, RegisterKeyExistsCondition)
 
 TEST(ConditionTest, ProcessRunningCondition_Name_1)
 {
+    ApplicationSwitchHelper helper;
+
 	Condition procCondition(_T("ProcessRunningCondition"));
 	Parameter para1(_T("ProcessName"), THIS_APP_NAME); //msiexec.exe setup.exe  svchost.exe
 	procCondition.GetParameterTable().AddParameter(para1);
@@ -60,6 +64,8 @@ TEST(ConditionTest, ProcessRunningCondition_Name_2)
 // Verify existence
 TEST(ConditionTest, ProcessRunningCondition_FullName_1)
 {
+    ApplicationSwitchHelper helper;
+
 	Parameter path;
 	bool bExist = BrainApplication::GetWorkingBrain()->GetVariableManager()->GetParameter(_T("*ExeModulePath"), path);
 	EXPECT_EQ(true, bExist);
@@ -77,6 +83,8 @@ TEST(ConditionTest, ProcessRunningCondition_FullName_1)
 // Verify forward slash
 TEST(ConditionTest, ProcessRunningCondition_FullName_2)
 {
+    ApplicationSwitchHelper helper;
+
 	Parameter path;
 	bool bExist = BrainApplication::GetWorkingBrain()->GetVariableManager()->GetParameter(_T("*ExeModulePath"), path);
 	EXPECT_EQ(true, bExist);
@@ -93,6 +101,8 @@ TEST(ConditionTest, ProcessRunningCondition_FullName_2)
 
 TEST(ConditionTest, ProcessRunningCondition_FullName_3)
 {
+    ApplicationSwitchHelper helper;
+
 	Parameter path;
 	bool bExist = BrainApplication::GetWorkingBrain()->GetVariableManager()->GetParameter(_T("*ExeModulePath"), path);
 	EXPECT_EQ(true, bExist);
@@ -109,9 +119,42 @@ TEST(ConditionTest, ProcessRunningCondition_FullName_3)
 
 TEST(ConditionTest, FolderExistsCondition)
 {
+    ApplicationSwitchHelper helper;
+
 	Condition folderCondition(_T("FolderExistsCondition"));
 	Parameter para1(_T("FolderName"), _T("C:\\")); 
 	folderCondition.GetParameterTable().AddParameter(para1);
 	bool bRet = folderCondition.IsTrue();
 	EXPECT_EQ(true, bRet);
+}
+
+TEST(ConditionTest, ActionResultCondition)
+{
+    ApplicationSwitchHelper helper;
+
+    {
+        Action* pAction = new Action(_T("RunProcessAction"));
+        Parameter para0(_T("ObjectId"), _T("StartNotepad")); 
+        Parameter para1(_T("ApplicationName"), _T("C:\\Windows\\System32\\notepad.exe")); 
+        Parameter para2(_T("ApplicationParameter"), _T("")); 
+        Parameter para3(_T("ShowWindow"), _T("true")); 
+        Parameter para4(_T("WaitForExit"), _T("false")); 
+
+        pAction->GetParameterTable().AddParameter(para0);
+        pAction->GetParameterTable().AddParameter(para1);
+        pAction->GetParameterTable().AddParameter(para2);
+        pAction->GetParameterTable().AddParameter(para3);
+        pAction->GetParameterTable().AddParameter(para4);
+    }
+
+    Condition checker(_T("ActionResultCondition"));
+    {
+        
+        Parameter para1(_T("ActionId"), _T("StartNotepad")); 
+        checker.GetParameterTable().AddParameter(para1);
+    }
+
+    bool bRet = checker.IsTrue();
+
+    EXPECT_EQ(true, bRet);
 }

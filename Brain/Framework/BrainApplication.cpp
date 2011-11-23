@@ -91,7 +91,8 @@ void BrainApplication::AddBuiltInConditionBehaivor() const
 	ADD_BEHAVIORBODY_TO_FACTORY(FileExistsCondition);
 	ADD_BEHAVIORBODY_TO_FACTORY(FolderExistsCondition);
 	ADD_BEHAVIORBODY_TO_FACTORY(RegisterKeyExistsCondition);
-	ADD_BEHAVIORBODY_TO_FACTORY(ProcessRunningCondition);
+    ADD_BEHAVIORBODY_TO_FACTORY(ProcessRunningCondition);
+	ADD_BEHAVIORBODY_TO_FACTORY(ActionResultCondition);
 }
 
 
