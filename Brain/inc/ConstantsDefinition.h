@@ -49,6 +49,8 @@
 // For ProcessRunningCondition
 #define PROCESS_NAME _T("ProcessName")
 
+// For ConditionListCheckAction, TaskListAction
+#define ID_LIST _T("IdList")
 
 // For register
 #define ROOT_KEY _T("RootKey")

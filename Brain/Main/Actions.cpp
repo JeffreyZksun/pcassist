@@ -272,3 +272,119 @@ BEHAVIORBODY_IMP(ConditionBlockAction)
 	return !bTimeOut;
 }
 
+// It references a action id list. 
+// During execution it executes the referenced action one by one. 
+// Return true if all the actions are success, otherwise return false.
+//    The syntax for condition list parameter is like
+//
+//    <Parameter>
+//      <Name>IdList</Name>
+//      <value>
+//          {1.1 Action 1}
+//          {1.2 Action 2}
+//          {1.3 Action 3}
+//          {1.4 Action 4}
+//      </value>
+//    </Parameter>
+BEHAVIORBODY_IMP(TaskListAction)
+{
+    Parameter para;
+    bool bExist = pContext->GetInputParameterTable()->GetParameter(ID_LIST, para);
+    ASSERT(bExist);
+    if(!bExist)
+        return true;
+
+    CString strGroup = para.GetEvaluatedValue();
+
+    std::vector<CString> actionIds;
+
+    BrainUtil::ExtractSubItems(strGroup, actionIds);
+
+    int succNum = 0;
+    int failNum = 0;
+
+    bool bRet = false;
+
+    for(std::vector<CString>::const_iterator it = actionIds.begin(); it != actionIds.end(); it++)
+    {
+        Action* pCurrentAction = pContext->GetApplication()->GetTaskManager()->GetActionById(*it);
+        ASSERT(pCurrentAction != NULL);
+        if(NULL != pCurrentAction)
+        {
+            bRet = pCurrentAction->Execute();
+        }
+        else
+        {
+            LogOut(_T("Error: The action ["), COLOR_RED); 
+            LogOut(*it, COLOR_RED); 
+            LogOut(_T("] isn't registered.\n"), COLOR_RED); 
+            bRet = false;
+        }
+
+        if(bRet)
+            succNum++;
+        else
+            failNum++;
+    }
+
+    return (0 == failNum);
+}
+
+//Check all the conditions in the list. Return true if all the conditions are true. Otherwise return false.
+//
+//    This action can be used as sanity check.
+//    The syntax for condition list parameter is like
+//
+//    <Parameter>
+//      <Name>IdList</Name>
+//      <value>
+//          {1.1 Condition 1}
+//          {1.2 Condition 2}
+//          {1.3 Condition 3}
+//          {1.4 Condition 4}
+//      </value>
+//    </Parameter>
+BEHAVIORBODY_IMP(ConditionListCheckAction)
+{
+    Parameter para;
+    bool bExist = pContext->GetInputParameterTable()->GetParameter(ID_LIST, para);
+    ASSERT(bExist);
+    if(!bExist)
+        return true;
+
+    CString strGroup = para.GetEvaluatedValue();
+
+    std::vector<CString> actionIds;
+
+    BrainUtil::ExtractSubItems(strGroup, actionIds);
+
+    int trueNum = 0;
+    int falseNum = 0;
+
+    bool bRet = false;
+
+    for(std::vector<CString>::const_iterator it = actionIds.begin(); it != actionIds.end(); it++)
+    {
+        Condition* pCurrentCondition = pContext->GetApplication()->GetTaskManager()->GetConditionById(*it);
+        ASSERT(pCurrentCondition != NULL);
+        if(NULL != pCurrentCondition)
+        {
+            bRet = pCurrentCondition->IsTrue();
+        }
+        else
+        {
+            LogOut(_T("Error: The Condition ["), COLOR_RED); 
+            LogOut(*it, COLOR_RED); 
+            LogOut(_T("] isn't registered.\n"), COLOR_RED); 
+            bRet = false;
+        }
+
+        if(bRet)
+            trueNum++;
+        else
+            falseNum++;
+    }
+
+    return (0 == falseNum);
+}
+
