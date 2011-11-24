@@ -3,6 +3,7 @@
 #define EXE_MODULE_PATH _T("*ExeModulePath")
 #define USER_NAME _T("*UserName")
 #define COMPUTER_NAME _T("*ComputerName")
+#define PLATFORM _T("*Platform")
 
 
 // For object query and creation
