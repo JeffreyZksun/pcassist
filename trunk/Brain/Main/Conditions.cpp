@@ -141,8 +141,19 @@ BEHAVIORBODY_IMP(RegisterKeyExistsCondition)
 		return false;
 	}
 
+    // On a Windows 64-bit system the Registry is actually divided into two parts. 
+    // One section is used by 64-bit processes, and one part by 32-bit processes.
+    //
+    // For example, if a 32-bit application programatically writes to what it believes is 
+    // HKLM\SOFTWARE\Company\Application, it's actually redirected by the WoW64-layer to 
+    // HKLM\SOFTWARE\Wow6432Node\Company\Application.
+    //
+    // Use the flag KEY_WOW64_64KEY can indicate the correct path.
+    // 
+    // See the discussion regarding this below
+    // http://stackoverflow.com/questions/252297/why-is-regopenkeyex-returning-error-code-2-on-vista-64bit
 	RegistryKey subKey;
-	BOOL bRet = subKey.OpenEx(hRootKey, (LPCTSTR)subKeyName);
+	BOOL bRet = subKey.OpenEx(hRootKey, (LPCTSTR)subKeyName, KEY_READ|KEY_WOW64_64KEY);
 
 	return TRUE == bRet;
 }
