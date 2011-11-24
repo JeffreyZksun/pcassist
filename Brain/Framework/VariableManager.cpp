@@ -7,6 +7,7 @@
 #include "ConstantsDefinition.h"
 #include <lmcons.h> // UNLEN CNLEN
 #include "Logger.h"
+#include "BrainUtil.h"
 
 //////////////////////////////////////////////////////////////////////////
 // Dead loop checker
@@ -172,6 +173,18 @@ void VariableManager::InitializeBuiltInGlobalVariables()
 		Parameter para(COMPUTER_NAME, strComputerName);
 		AddBuiltinParameter(para);
 	}
+    {
+        // *Platform
+        CString folderName = _T("C:\\Program Files (x86)");
+
+        bool bIsx64 = BrainUtil::DoesFileorFolderExist(folderName);
+        CString strPlatfrom = _T("x86");
+        if(bIsx64)
+            strPlatfrom = _T("x64");
+
+        Parameter para(PLATFORM, strPlatfrom);
+        AddBuiltinParameter(para);
+    }
 }
  
 /************************************************************************
