@@ -7,7 +7,7 @@
 #include "ConstantsDefinition.h"
 #include <lmcons.h> // UNLEN CNLEN
 #include "Logger.h"
-#include "BrainUtil.h"
+#include "BrainUtil.h" // ToDo remove this reference later.
 
 //////////////////////////////////////////////////////////////////////////
 // Dead loop checker

@@ -188,6 +188,24 @@ bool TaskManager::RunTasks()
 		actionDuration.Format(_T(" (%d s)"), elapsedTime.GetTotalSeconds());
 		LogOut(actionDuration);
 		LogOut(_T("\n\n")); 
+
+        // Check the BreakOnFail.
+        if(pCurrentAction != NULL && !bRet)
+        {
+            Parameter para;
+            bool bExit = pCurrentAction->GetParameterTable().GetParameter(BREAK_ON_FAIL, para);
+            if(bExit)
+            {
+                if( para.GetEvaluatedValue().CompareNoCase(_T("true")) == 0)
+                {
+                    LogOut(_T("ERROR: Break the task due to the failed action ["), COLOR_RED); 
+                    LogOut(*it, COLOR_RED); 
+                    LogOut(_T("] \n\n"), COLOR_RED); 
+                    break;
+                }
+            }
+        }
+
     }
 
 	bRet = (0 == failNum);
@@ -202,10 +220,18 @@ bool TaskManager::RunTasks()
 	LogOut(taskDuration);
 	LogOut(_T("\n")); 
 
+    // Total
+    LogOut(_T("[ TOTAL    ]")); // 10 chars
+    CString strNum;
+    strNum.Format(_T(" %d actions\n"), mTaskList.size());
+    LogOut(strNum);
+
+    // Success
 	LogOut(_T("[ SUCCESS  ]"), COLOR_GREEN); // 10 chars
-	CString strNum;
 	strNum.Format(_T(" %d actions\n"), succNum);
 	LogOut(strNum);
+
+    // Fail
 	if(!bRet)
 	{
 		LogOut(_T("[  FAIL    ]"), COLOR_RED); // 10 chars

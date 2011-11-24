@@ -5,10 +5,13 @@
 #define COMPUTER_NAME _T("*ComputerName")
 #define PLATFORM _T("*Platform")
 
-
+// Generic parameter name for behavior node.
 // For object query and creation
 #define OBJECT_ID _T("ObjectId")
 #define OBJECT_TYPE _T("ObjectType")
+
+// For task work flow control runtime
+#define BREAK_ON_FAIL _T("BreakOnFail")
 
 // For ConditionBlockAction
 #define CONDITION_ID _T("ConditionId")
