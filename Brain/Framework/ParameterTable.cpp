@@ -73,6 +73,25 @@ bool ParameterTable::GetParameter(unsigned int index, Parameter& para) const
 	return true;
 }
 
+const Parameter* ParameterTable::GetParameter(const CString& paraName) const
+{
+	const Parameter* pResult = NULL;
+
+	CString name = paraName;
+	name.MakeLower();
+
+	for(ParameterList::const_iterator it = mParaList.begin(); it != mParaList.end(); ++it)
+	{
+		if(it->GetName().CompareNoCase(name) == 0)
+		{
+			pResult = &(*it);
+			break;
+		}
+	}
+
+	return pResult;
+}
+
 unsigned int ParameterTable::GetParameterLength() const
 {
 	return static_cast<unsigned int>(mParaList.size());

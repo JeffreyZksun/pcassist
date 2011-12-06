@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assist.DataSource", "Assist
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "formatxml", "tools\formatxml\formatxml.vcxproj", "{F2950C60-E718-4BEE-B6F4-6C5F6125B280}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AddExtToolToVS", "tools\AddExtToolToVS\AddExtToolToVS.vcxproj", "{A5BE0EFA-B4B0-4A9A-96B9-B1F76FA1161A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -177,6 +179,18 @@ Global
 		{F2950C60-E718-4BEE-B6F4-6C5F6125B280}.Release|Win32.ActiveCfg = Release|Win32
 		{F2950C60-E718-4BEE-B6F4-6C5F6125B280}.Release|Win32.Build.0 = Release|Win32
 		{F2950C60-E718-4BEE-B6F4-6C5F6125B280}.Release|x86.ActiveCfg = Release|Win32
+		{A5BE0EFA-B4B0-4A9A-96B9-B1F76FA1161A}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{A5BE0EFA-B4B0-4A9A-96B9-B1F76FA1161A}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{A5BE0EFA-B4B0-4A9A-96B9-B1F76FA1161A}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{A5BE0EFA-B4B0-4A9A-96B9-B1F76FA1161A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A5BE0EFA-B4B0-4A9A-96B9-B1F76FA1161A}.Debug|Win32.Build.0 = Debug|Win32
+		{A5BE0EFA-B4B0-4A9A-96B9-B1F76FA1161A}.Debug|x86.ActiveCfg = Debug|Win32
+		{A5BE0EFA-B4B0-4A9A-96B9-B1F76FA1161A}.Release|Any CPU.ActiveCfg = Release|Win32
+		{A5BE0EFA-B4B0-4A9A-96B9-B1F76FA1161A}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{A5BE0EFA-B4B0-4A9A-96B9-B1F76FA1161A}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{A5BE0EFA-B4B0-4A9A-96B9-B1F76FA1161A}.Release|Win32.ActiveCfg = Release|Win32
+		{A5BE0EFA-B4B0-4A9A-96B9-B1F76FA1161A}.Release|Win32.Build.0 = Release|Win32
+		{A5BE0EFA-B4B0-4A9A-96B9-B1F76FA1161A}.Release|x86.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -190,5 +204,6 @@ Global
 		{6834F582-0BF8-4EB4-8820-A54BB4528ECA} = {B1E28D17-33E0-4702-9AEE-919E56E02E64}
 		{DCD5BB06-7FDD-4FE9-B8D1-DB6A4CA99750} = {B1E28D17-33E0-4702-9AEE-919E56E02E64}
 		{F2950C60-E718-4BEE-B6F4-6C5F6125B280} = {2023D64C-502A-43C7-B54E-1E57EEA7E3DC}
+		{A5BE0EFA-B4B0-4A9A-96B9-B1F76FA1161A} = {2023D64C-502A-43C7-B54E-1E57EEA7E3DC}
 	EndGlobalSection
 EndGlobal
