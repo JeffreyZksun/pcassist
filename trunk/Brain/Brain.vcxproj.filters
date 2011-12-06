@@ -75,6 +75,9 @@
     <ClInclude Include="Framework\VariableManager.h">
       <Filter>Framework</Filter>
     </ClInclude>
+    <ClInclude Include="Main\CommandLineService.h">
+      <Filter>Main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Actions.cpp">
@@ -124,6 +127,9 @@
     </ClCompile>
     <ClCompile Include="Framework\VariableManager.cpp">
       <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Main\CommandLineService.cpp">
+      <Filter>Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

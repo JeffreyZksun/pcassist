@@ -87,6 +87,7 @@
     <ClInclude Include="inc\ParameterTable.h" />
     <ClInclude Include="inc\TaskManager.h" />
     <ClInclude Include="Main\Actions.h" />
+    <ClInclude Include="Main\CommandLineService.h" />
     <ClInclude Include="Main\BrainUtil.h" />
     <ClInclude Include="Main\CloseLoopChecker.h" />
     <ClInclude Include="Main\Conditions.h" />
@@ -102,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Actions.cpp" />
+    <ClCompile Include="Main\CommandLineService.cpp" />
     <ClCompile Include="Main\BrainUtil.cpp" />
     <ClCompile Include="Main\CloseLoopChecker.cpp" />
     <ClCompile Include="Main\Conditions.cpp" />

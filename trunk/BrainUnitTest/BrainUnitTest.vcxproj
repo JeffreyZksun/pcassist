@@ -107,6 +107,7 @@
     <ClCompile Include="ApplicationSwitchHelper.cpp" />
     <ClCompile Include="BrainUnitTest.cpp" />
     <ClCompile Include="BrainUtilTest.cpp" />
+    <ClCompile Include="CommandLineServiceTest.cpp" />
     <ClCompile Include="ConditionTest.cpp" />
     <ClCompile Include="ParameterTableTest.cpp" />
     <ClCompile Include="ParameterTest.cpp" />

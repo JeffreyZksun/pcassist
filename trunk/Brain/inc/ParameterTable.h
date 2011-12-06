@@ -21,6 +21,8 @@ public:
 	bool				GetParameter(const CString& paraName, Parameter& para) const;
 	bool				GetParameter(unsigned int index, Parameter& para) const;
 
+	const Parameter*	GetParameter(const CString& paraName) const;
+
 	unsigned int		GetParameterLength() const;
 
 public:
