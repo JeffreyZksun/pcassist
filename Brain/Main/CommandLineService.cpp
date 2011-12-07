@@ -6,6 +6,10 @@ CommandLineService::CommandLineService(void)
 {
 }
 
+CommandLineService::~CommandLineService(void)
+{
+}
+
 void CommandLineService::AddSupportedArgumentName(const CString& name)
 {
 	CString tmpName = name;
