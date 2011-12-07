@@ -8,6 +8,7 @@ class CommandLineService
 {
 public:
 	CommandLineService(void);
+	virtual ~CommandLineService(void);
 
 public:
 	void				AddSupportedArgumentName(const CString& name);
