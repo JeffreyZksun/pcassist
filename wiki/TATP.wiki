@@ -15,6 +15,10 @@ _{ }[]#()<>%:;.?*+-/ˆ&| ̃!=,\"’
 =Command string=
 Normally each line ends with {{{<CR><LF>}}}is a complete command string, except the commands requiring multi-line data.
 
+<CR>: '\r' = 0x0D
+
+<LF>: '\n' = 0x0A
+
 The command string is formatted. There are two formats, one is that from client to server, the other is that from server to client.
 
 ==Command string from client to server==
