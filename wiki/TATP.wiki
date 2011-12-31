@@ -52,7 +52,6 @@ C:    <parameter> ... </parameter>
 C:    <parameter> ... </parameter>
 C: </action>
 C: .
-C:
 S: 250 ok: queued as 12345
 C: QUIT
 S: 221 Bye
