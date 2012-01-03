@@ -40,13 +40,13 @@ For illustration purposes here (not part of protocol), the protocol exchanges ar
 
 Every line ends with {{{<CR><LF>}}}. They are omitted for the sake of brevity.
 
-==Client send script data to server==
+==Client send data to server==
 Client sends the connection request, and server accepts it. Then
 {{{
 C: HELLO my client id
 S: 250 WELCOME v2.54
-C: SCRIPT
-S: 250 SCRIPT End data with <CR><LF>.<CR><LF>
+C: DATA
+S: 250 DATA End data with <CR><LF>.<CR><LF>
 C: <action>
 C:    <parameter> ... </parameter>
 C:    <parameter> ... </parameter>
