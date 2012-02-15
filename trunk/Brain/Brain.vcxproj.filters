@@ -10,6 +10,15 @@
     <Filter Include="Framework">
       <UniqueIdentifier>{b8d41804-cb20-47c5-b3e7-85187d4bb7b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="OS">
+      <UniqueIdentifier>{2e2035e2-9733-46c2-841d-0625d08b1dc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OS\Windows">
+      <UniqueIdentifier>{15f276e7-8100-4bb6-a25e-de1fe9b5b4a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OS\MacOSX">
+      <UniqueIdentifier>{944592fa-8f4c-4560-a8c2-4084b115f48f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\BrainApplication.h">
@@ -78,6 +87,24 @@
     <ClInclude Include="Main\CommandLineService.h">
       <Filter>Main</Filter>
     </ClInclude>
+    <ClInclude Include="inc\IHostService.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\IOSProvider.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Main\HostService.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="OS\Windows\WindowsProvider.h">
+      <Filter>OS\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\IBehaviorBuilder.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Main\BehaviorBuilder.h">
+      <Filter>Main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Actions.cpp">
@@ -129,6 +156,15 @@
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="Main\CommandLineService.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Main\HostService.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="OS\Windows\WindowsProvider.cpp">
+      <Filter>OS\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Main\BehaviorBuilder.cpp">
       <Filter>Main</Filter>
     </ClCompile>
   </ItemGroup>

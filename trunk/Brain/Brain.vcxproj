@@ -52,8 +52,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NO_BRAIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WINOS;WIN32;_DEBUG;_WINDOWS;_USRDLL;NO_BRAIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -67,8 +67,8 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NO_BRAIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WINOS;WIN32;NDEBUG;_WINDOWS;_USRDLL;NO_BRAIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
@@ -78,19 +78,24 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Framework\IBehaviorBuilder.h" />
+    <ClInclude Include="Framework\IOSProvider.h" />
     <ClInclude Include="inc\BrainApplication.h" />
     <ClInclude Include="inc\BrainSystem.h" />
     <ClInclude Include="inc\ConstantsDefinition.h" />
     <ClInclude Include="inc\IDatabaseObject.h" />
+    <ClInclude Include="inc\IHostService.h" />
     <ClInclude Include="inc\Logger.h" />
     <ClInclude Include="inc\Parameter.h" />
     <ClInclude Include="inc\ParameterTable.h" />
     <ClInclude Include="inc\TaskManager.h" />
     <ClInclude Include="Main\Actions.h" />
+    <ClInclude Include="Main\BehaviorBuilder.h" />
     <ClInclude Include="Main\CommandLineService.h" />
     <ClInclude Include="Main\BrainUtil.h" />
     <ClInclude Include="Main\CloseLoopChecker.h" />
     <ClInclude Include="Main\Conditions.h" />
+    <ClInclude Include="Main\HostService.h" />
     <ClInclude Include="Main\RegistryKey.h" />
     <ClInclude Include="Main\stdafx.h" />
     <ClInclude Include="Main\XmlIOStream.h" />
@@ -100,13 +105,16 @@
     <ClInclude Include="Framework\ExecutionContext.h" />
     <ClInclude Include="Framework\IBehaviorBody.h" />
     <ClInclude Include="Framework\VariableManager.h" />
+    <ClInclude Include="OS\Windows\WindowsProvider.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Actions.cpp" />
+    <ClCompile Include="Main\BehaviorBuilder.cpp" />
     <ClCompile Include="Main\CommandLineService.cpp" />
     <ClCompile Include="Main\BrainUtil.cpp" />
     <ClCompile Include="Main\CloseLoopChecker.cpp" />
     <ClCompile Include="Main\Conditions.cpp" />
+    <ClCompile Include="Main\HostService.cpp" />
     <ClCompile Include="Main\Logger.cpp" />
     <ClCompile Include="Main\RegistryKey.cpp" />
     <ClCompile Include="Main\XmlIOStream.cpp" />
@@ -119,6 +127,7 @@
     <ClCompile Include="Framework\ParameterTable.cpp" />
     <ClCompile Include="Framework\TaskManager.cpp" />
     <ClCompile Include="Framework\VariableManager.cpp" />
+    <ClCompile Include="OS\Windows\WindowsProvider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
