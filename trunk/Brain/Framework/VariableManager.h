@@ -2,6 +2,7 @@
 #include "ParameterTable.h"
 
 class XmlIOStream;
+class IOSProvider;
 
 //////////////////////////////////////////////////////////////////////////
 // VariableManager
@@ -10,7 +11,7 @@ class XmlIOStream;
 class BRAINEXPORT VariableManager : public IDataBaseObject
 {
 public:
-    VariableManager(void);
+    VariableManager(IOSProvider* pOSProvider);
     ~VariableManager(void);
 
     CString				GetEvaluatedString(const CString& variableString) const;
@@ -27,7 +28,7 @@ public:
 private:
 	// Add the supported global variables to the table.
 	// This function is called when construct this manager.
-	void				InitializeBuiltInGlobalVariables();
+	void				InitializeBuiltInGlobalVariables(IOSProvider* pOSProvider);
 
 	void				AddBuiltinParameter(const Parameter& para);
 private:

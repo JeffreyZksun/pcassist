@@ -9,6 +9,7 @@
 #include "BrainUtil.h" // ToDo remove this reference later.
 #include "IOSProvider.h"
 #include "BrainApplication.h"
+#include "IOSProvider.h"
 
 //////////////////////////////////////////////////////////////////////////
 // Dead loop checker
@@ -20,9 +21,9 @@ static CloseLoopChecker sVariableManagerCloseLoopChecker;
 // VariableManager
 //////////////////////////////////////////////////////////////////////////
 
-VariableManager::VariableManager(void) : mUserParameterTable(), mBuiltinParameterTable()
+VariableManager::VariableManager(IOSProvider* pOSProvider) : mUserParameterTable(), mBuiltinParameterTable()
 {
-	InitializeBuiltInGlobalVariables();
+	InitializeBuiltInGlobalVariables(pOSProvider);
 }
 
 VariableManager::~VariableManager(void)
@@ -132,9 +133,8 @@ void VariableManager::AddBuiltinParameter(const Parameter& para)
 	mBuiltinParameterTable.AddParameter(para);
 }
 
-void VariableManager::InitializeBuiltInGlobalVariables()
+void VariableManager::InitializeBuiltInGlobalVariables(IOSProvider* pOSProvider)
 {
-	IOSProvider* pOSProvider = BrainApplication::GetWorkingBrain()->GetOSProvider();
 	if(pOSProvider)
 	{
 		{
