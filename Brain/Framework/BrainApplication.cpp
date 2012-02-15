@@ -12,8 +12,8 @@
 BrainApplication::BrainApplication()
 		: mpTaskManager(new TaskManager())
 		, mpBehaviorBodyFactory(new BehaviorBodyFactory())
-		, mpVariableManager(new VariableManager())
 		, mpHostService(new HostService()) // ToDo - This data should be set by client.
+		, mpVariableManager(NULL)
 {
 	Initialize();
 }
@@ -90,9 +90,14 @@ bool BrainApplication::XmlOut(const CString& docName) const
 
 void BrainApplication::Initialize()
 {
+	ASSERT(mpHostService != NULL);
 	if(mpHostService)
 	{
+		mpVariableManager = new VariableManager(mpHostService->GetOSProvider());
+
 		IBehaviorBuilder* pBuilder = mpHostService->GetBehaviorBuilder();
-		pBuilder->InitializeBehaviorBodyFactory(GetBehaviorBodyFactory());
+		ASSERT(pBuilder != NULL);
+		if(pBuilder)
+			pBuilder->InitializeBehaviorBodyFactory(GetBehaviorBodyFactory());
 	}
 }
