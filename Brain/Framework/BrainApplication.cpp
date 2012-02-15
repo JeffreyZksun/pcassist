@@ -4,14 +4,16 @@
 #include "BehaviorBodyFactory.h"
 #include "VariableManager.h"
 #include "DocumentManager.h"
-#include "Actions.h"
-#include "Conditions.h"
+
+#include "HostService.h"
+#include "IBehaviorBuilder.h"
 
 
 BrainApplication::BrainApplication()
 		: mpTaskManager(new TaskManager())
 		, mpBehaviorBodyFactory(new BehaviorBodyFactory())
 		, mpVariableManager(new VariableManager())
+		, mpHostService(new HostService()) // ToDo - This data should be set by client.
 {
 	Initialize();
 }
@@ -58,6 +60,16 @@ VariableManager* BrainApplication::GetVariableManager() const
 	return mpVariableManager;
 }
 
+IOSProvider* BrainApplication::GetOSProvider() const
+{
+	if(mpHostService)
+	{
+		return mpHostService->GetOSProvider();
+	}
+
+	return NULL;
+}
+
 bool BrainApplication::XmlIn(const CString& docName) const
 {
 	DocumentManager* pDoc = new DocumentManager();
@@ -78,38 +90,9 @@ bool BrainApplication::XmlOut(const CString& docName) const
 
 void BrainApplication::Initialize()
 {
-	AddBuiltInActionBehaivor();
-	AddBuiltInConditionBehaivor();
+	if(mpHostService)
+	{
+		IBehaviorBuilder* pBuilder = mpHostService->GetBehaviorBuilder();
+		pBuilder->InitializeBehaviorBodyFactory(GetBehaviorBodyFactory());
+	}
 }
-
-#define ADD_BEHAVIORBODY_TO_FACTORY(BehaviorName) \
-	this->GetBehaviorBodyFactory()->AddBehaviorBody(_T(#BehaviorName), new BehaviorName());
-
-void BrainApplication::AddBuiltInConditionBehaivor() const
-{
-	ADD_BEHAVIORBODY_TO_FACTORY(CompositeCondition);
-	ADD_BEHAVIORBODY_TO_FACTORY(FileExistsCondition);
-	ADD_BEHAVIORBODY_TO_FACTORY(FolderExistsCondition);
-	ADD_BEHAVIORBODY_TO_FACTORY(RegisterKeyExistsCondition);
-    ADD_BEHAVIORBODY_TO_FACTORY(ProcessRunningCondition);
-    ADD_BEHAVIORBODY_TO_FACTORY(ActionResultCondition);
-}
-
-
-void BrainApplication::AddBuiltInActionBehaivor() const
-{
-	ADD_BEHAVIORBODY_TO_FACTORY(ComplexAction);
-	ADD_BEHAVIORBODY_TO_FACTORY(CreateFileAction);
-	ADD_BEHAVIORBODY_TO_FACTORY(DeleteFileAction);
-	ADD_BEHAVIORBODY_TO_FACTORY(CopyFileAction);
-	ADD_BEHAVIORBODY_TO_FACTORY(CreateFolderAction);
-	ADD_BEHAVIORBODY_TO_FACTORY(DeleteFolderAction);
-	ADD_BEHAVIORBODY_TO_FACTORY(CopyFolderAction);
-	ADD_BEHAVIORBODY_TO_FACTORY(MakeDirectoryLinkAction);
-	ADD_BEHAVIORBODY_TO_FACTORY(RunSystemCommandAction);
-	ADD_BEHAVIORBODY_TO_FACTORY(RunProcessAction);
-	ADD_BEHAVIORBODY_TO_FACTORY(ConditionBlockAction);
-    ADD_BEHAVIORBODY_TO_FACTORY(TaskListAction);
-    ADD_BEHAVIORBODY_TO_FACTORY(ConditionListCheckAction);
-}
-

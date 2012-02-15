@@ -5,9 +5,10 @@
 #include "CloseLoopChecker.h"
 #include "XmlIOStream.h"
 #include "ConstantsDefinition.h"
-#include <lmcons.h> // UNLEN CNLEN
 #include "Logger.h"
 #include "BrainUtil.h" // ToDo remove this reference later.
+#include "IOSProvider.h"
+#include "BrainApplication.h"
 
 //////////////////////////////////////////////////////////////////////////
 // Dead loop checker
@@ -133,58 +134,35 @@ void VariableManager::AddBuiltinParameter(const Parameter& para)
 
 void VariableManager::InitializeBuiltInGlobalVariables()
 {
-	// ToDo - Don't save the built in variables.
+	IOSProvider* pOSProvider = BrainApplication::GetWorkingBrain()->GetOSProvider();
+	if(pOSProvider)
 	{
-		// *ExeModulePath
-		TCHAR exeName[MAX_PATH];
-		if (GetModuleFileName(NULL, exeName, MAX_PATH) != 0)
 		{
-			CString strExeName = exeName; // such as C:\Program file\PC.exe
-			int pos = strExeName.ReverseFind(_T('\\'));
-			CString strExePath = strExeName.Left(pos);
+			// *ExeModulePath
+			CString strExePath = pOSProvider->GetExeModulePath();
 			Parameter para(EXE_MODULE_PATH, strExePath);
 			AddBuiltinParameter(para);
+
 		}
-	}
-	{
-		// *UserName
-		DWORD unMaxLength = UNLEN + 1;
-		TCHAR userName [ UNLEN + 1 ];
-
-		CString strUserName;
-		if (::GetUserName( (TCHAR*)userName, &unMaxLength ))
-			strUserName = userName;
-		else
-			strUserName = _T("UnknownUserName");
-
-		Parameter para(USER_NAME, strUserName);
-		AddBuiltinParameter(para);
-	}
-	{
-		// *ComputerName
-		DWORD cnMaxLenggh = CNLEN + 1;
-		TCHAR computerName[CNLEN + 1];
-		CString strComputerName;
-		if(::GetComputerName(computerName, &cnMaxLenggh))
-			strComputerName = computerName;
-		else
-			strComputerName = _T("UnknownComputerName");
-
-		Parameter para(COMPUTER_NAME, strComputerName);
-		AddBuiltinParameter(para);
-	}
-    {
-        // *Platform
-        CString folderName = _T("C:\\Program Files (x86)");
-
-        bool bIsx64 = BrainUtil::DoesFileorFolderExist(folderName);
-        CString strPlatfrom = _T("x86");
-        if(bIsx64)
-            strPlatfrom = _T("x64");
-
-        Parameter para(PLATFORM, strPlatfrom);
-        AddBuiltinParameter(para);
-    }
+		{
+			// *UserName
+			CString strUserName = pOSProvider->GetUserName();
+			Parameter para(USER_NAME, strUserName);
+			AddBuiltinParameter(para);
+		}
+		{
+			// *ComputerName
+			CString strComputerName = pOSProvider->GetComputerName();
+			Parameter para(COMPUTER_NAME, strComputerName);
+			AddBuiltinParameter(para);
+		}
+		{
+			// *Platform
+			CString strPlatfrom = pOSProvider->GetPlatformString();
+			Parameter para(PLATFORM, strPlatfrom);
+			AddBuiltinParameter(para);
+		}
+	}	
 }
  
 /************************************************************************

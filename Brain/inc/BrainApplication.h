@@ -10,6 +10,8 @@
 class TaskManager;
 class BehaviorBodyFactory;
 class VariableManager;
+class IHostService;
+class IOSProvider;
 
 class BRAINEXPORT BrainApplication
 {
@@ -21,6 +23,11 @@ public:
 	TaskManager*			GetTaskManager() const;
 	BehaviorBodyFactory*	GetBehaviorBodyFactory() const;
 	VariableManager*		GetVariableManager() const;
+	IOSProvider*			GetOSProvider() const;
+
+
+public:
+	// singleton
 	static BrainApplication* GetWorkingBrain();
 	static BrainApplication* SetWorkingBrain(BrainApplication*);
 
@@ -31,14 +38,12 @@ public:
 private:
 	void		Initialize();
 
-	// We can combain the two functions together.
-	void		AddBuiltInActionBehaivor() const; // Defined in Action.cpp
-	void		AddBuiltInConditionBehaivor() const; // Defined in Condition.cpp
 
 private:
 	TaskManager*			mpTaskManager;
 	BehaviorBodyFactory*	mpBehaviorBodyFactory;
 	VariableManager*		mpVariableManager;
+	IHostService*			mpHostService;
 
 };
 
