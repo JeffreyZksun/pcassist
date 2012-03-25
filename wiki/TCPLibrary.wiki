@@ -6,6 +6,5 @@ http://lundman.net/wiki/index.php/Main_Page
 http://doc.qt.nokia.com/4.7-snapshot/qtnetwork.html
 
  * boost::asio
-
-
+http://www.boost.org/doc/libs/1_49_0/doc/html/boost_asio.html
 
