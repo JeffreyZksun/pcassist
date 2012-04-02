@@ -52,7 +52,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;$(ProjectDir);$(ProjectDir)XML\;$(ProjectDir)Network\;$(ProjectDir)Event\;MultiThreading;$(SolutionDir)Boost\boost_1_49_0\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;$(ProjectDir);$(ProjectDir)XML\;$(ProjectDir)Network\;$(ProjectDir)Event\;MultiThreading;$(SolutionDir)3p\Boost\boost_1_49_0\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINOS;WIN32;_DEBUG;_WINDOWS;_USRDLL;NO_BRAIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -72,7 +72,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;$(ProjectDir);$(ProjectDir)XML\;$(ProjectDir)Network\;$(ProjectDir)Event\;MultiThreading;$(SolutionDir)Boost\boost_1_49_0\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;$(ProjectDir);$(ProjectDir)XML\;$(ProjectDir)Network\;$(ProjectDir)Event\;MultiThreading;$(SolutionDir)3p\Boost\boost_1_49_0\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINOS;WIN32;NDEBUG;_WINDOWS;_USRDLL;NO_BRAIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -88,6 +88,14 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Event\IEvent.h" />
+    <ClInclude Include="Event\IEventDispatcher.h" />
+    <ClInclude Include="Event\IEventFilter.h" />
+    <ClInclude Include="Event\IEventSink.h" />
+    <ClInclude Include="Event\IEventSource.h" />
+    <ClInclude Include="Event\INotificationMgr.h" />
+    <ClInclude Include="Event\NotificationMgr.h" />
+    <ClInclude Include="Event\NotificationMgrImp.h" />
     <ClInclude Include="Framework\IBehaviorBuilder.h" />
     <ClInclude Include="Framework\IOSProvider.h" />
     <ClInclude Include="inc\BrainApplication.h" />
@@ -113,6 +121,17 @@
     <ClInclude Include="Framework\ExecutionContext.h" />
     <ClInclude Include="Framework\IBehaviorBody.h" />
     <ClInclude Include="Framework\VariableManager.h" />
+    <ClInclude Include="MultiThreading\ThreadSafeSingleton.h" />
+    <ClInclude Include="Network\ConnectionPoint.h" />
+    <ClInclude Include="Network\ConnectionPointImp.h" />
+    <ClInclude Include="Network\IConnectionPoint.h" />
+    <ClInclude Include="Network\ITCPClient.h" />
+    <ClInclude Include="Network\ITCPServer.h" />
+    <ClInclude Include="Network\NetworkMessageEvent.h" />
+    <ClInclude Include="Network\TCPClient.h" />
+    <ClInclude Include="Network\TCPClientImp.h" />
+    <ClInclude Include="Network\TCPServer.h" />
+    <ClInclude Include="Network\TCPServerImp.h" />
     <ClInclude Include="OS\Windows\WindowsProvider.h" />
     <ClInclude Include="XML\IXmlIOStream.h" />
     <ClInclude Include="XML\XmlIOStream.h" />
@@ -120,6 +139,8 @@
     <ClInclude Include="XML\XmlNodeWrapper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Event\NotificationMgr.cpp" />
+    <ClCompile Include="Event\NotificationMgrImp.cpp" />
     <ClCompile Include="Main\Actions.cpp" />
     <ClCompile Include="Main\BehaviorBuilder.cpp" />
     <ClCompile Include="Main\CommandLineService.cpp" />
@@ -137,6 +158,13 @@
     <ClCompile Include="Framework\ParameterTable.cpp" />
     <ClCompile Include="Framework\TaskManager.cpp" />
     <ClCompile Include="Framework\VariableManager.cpp" />
+    <ClCompile Include="Network\ConnectionPoint.cpp" />
+    <ClCompile Include="Network\ConnectionPointImp.cpp" />
+    <ClCompile Include="Network\NetworkMessageEvent.cpp" />
+    <ClCompile Include="Network\TCPClient.cpp" />
+    <ClCompile Include="Network\TCPClientImp.cpp" />
+    <ClCompile Include="Network\TCPServer.cpp" />
+    <ClCompile Include="Network\TCPServerImp.cpp" />
     <ClCompile Include="OS\Windows\WindowsProvider.cpp" />
     <ClCompile Include="XML\XmlIOStream.cpp" />
     <ClCompile Include="XML\XmlIOStreamImp.cpp" />

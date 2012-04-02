@@ -28,6 +28,15 @@
     <Filter Include="Framework\XML">
       <UniqueIdentifier>{bf390d8b-4a69-4d35-ae1c-20070a6a475a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Event">
+      <UniqueIdentifier>{01928f89-a8f2-471b-b688-c7a13cfb05b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Networks">
+      <UniqueIdentifier>{c16a3173-25ea-423f-9922-84faa66b0d6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\MultiThreading">
+      <UniqueIdentifier>{606e8347-d661-4218-8fdb-04fb99771957}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\BrainApplication.h">
@@ -120,6 +129,63 @@
     <ClInclude Include="XML\XmlNodeWrapper.h">
       <Filter>Framework\XML</Filter>
     </ClInclude>
+    <ClInclude Include="Event\IEvent.h">
+      <Filter>Framework\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\IEventDispatcher.h">
+      <Filter>Framework\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\IEventFilter.h">
+      <Filter>Framework\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\IEventSink.h">
+      <Filter>Framework\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\IEventSource.h">
+      <Filter>Framework\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\INotificationMgr.h">
+      <Filter>Framework\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\NotificationMgr.h">
+      <Filter>Framework\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\NotificationMgrImp.h">
+      <Filter>Framework\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\ConnectionPoint.h">
+      <Filter>Framework\Networks</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\ConnectionPointImp.h">
+      <Filter>Framework\Networks</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\IConnectionPoint.h">
+      <Filter>Framework\Networks</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\ITCPClient.h">
+      <Filter>Framework\Networks</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\ITCPServer.h">
+      <Filter>Framework\Networks</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\NetworkMessageEvent.h">
+      <Filter>Framework\Networks</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\TCPClient.h">
+      <Filter>Framework\Networks</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\TCPClientImp.h">
+      <Filter>Framework\Networks</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\TCPServer.h">
+      <Filter>Framework\Networks</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\TCPServerImp.h">
+      <Filter>Framework\Networks</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiThreading\ThreadSafeSingleton.h">
+      <Filter>Framework\MultiThreading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Actions.cpp">
@@ -184,6 +250,33 @@
     </ClCompile>
     <ClCompile Include="XML\XmlNodeWrapper.cpp">
       <Filter>Framework\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="Event\NotificationMgr.cpp">
+      <Filter>Framework\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Event\NotificationMgrImp.cpp">
+      <Filter>Framework\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\ConnectionPoint.cpp">
+      <Filter>Framework\Networks</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\ConnectionPointImp.cpp">
+      <Filter>Framework\Networks</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\NetworkMessageEvent.cpp">
+      <Filter>Framework\Networks</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\TCPClient.cpp">
+      <Filter>Framework\Networks</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\TCPClientImp.cpp">
+      <Filter>Framework\Networks</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\TCPServer.cpp">
+      <Filter>Framework\Networks</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\TCPServerImp.cpp">
+      <Filter>Framework\Networks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
