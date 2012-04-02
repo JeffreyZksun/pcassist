@@ -1,6 +1,16 @@
+List the open source log libraries.
 
- * [http://nlog-project.org/ NLog] (.Net, Silverlight and Windows Phone, Opensource)
-Supported targets include:
+ * [http://boost-log.sourceforge.net/libs/log/doc/html/index.html boost log] (C++)
+ 
+ 
+ 
+ * [log4cpp] (C++)
+ 
+ * [log4cplus] (C++)
+ 
+ * [log4cx] (C++)
+
+ * [http://nlog-project.org/ NLog] (.Net, Silverlight and Windows Phone)
     * Files – single file or multiple, with automatic file naming and archival
     * Event Log – local or remote
     * Database – store your logs in databases supported by .NET
@@ -11,8 +21,7 @@ Supported targets include:
     … and many more
 
  
- * [http://logging.apache.org/log4net/index.html Log4Net] (.Net, Opensource)
-Supported targets include:
+ * [http://logging.apache.org/log4net/index.html Log4Net] (.Net)
     * log4net.Appender.AdoNetAppender 	Writes logging events to a database using either prepared statements or stored procedures.
     * log4net.Appender.AnsiColorTerminalAppender 	Writes color highlighted logging events to a an ANSI terminal window.
     * log4net.Appender.AspNetTraceAppender 	Writes logging events to the ASP trace context. These can then be rendered at the end of the ASP page or on the ASP trace page.
