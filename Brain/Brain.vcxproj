@@ -52,7 +52,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;$(ProjectDir);$(ProjectDir)XML\;$(ProjectDir)Network\;$(ProjectDir)Event\;MultiThreading;$(SolutionDir)Boost\boost_1_49_0\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINOS;WIN32;_DEBUG;_WINDOWS;_USRDLL;NO_BRAIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -62,12 +62,17 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
+    <Lib>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Boost\boost_1_49_0\stage\lib-$(Platform)\</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;$(ProjectDir);$(ProjectDir)XML\;$(ProjectDir)Network\;$(ProjectDir)Event\;MultiThreading;$(SolutionDir)Boost\boost_1_49_0\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINOS;WIN32;NDEBUG;_WINDOWS;_USRDLL;NO_BRAIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -76,6 +81,11 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
+    <Lib>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Boost\boost_1_49_0\stage\lib-$(Platform)\</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Framework\IBehaviorBuilder.h" />
@@ -98,14 +108,16 @@
     <ClInclude Include="Main\HostService.h" />
     <ClInclude Include="Main\RegistryKey.h" />
     <ClInclude Include="Main\stdafx.h" />
-    <ClInclude Include="Main\XmlIOStream.h" />
-    <ClInclude Include="Main\XmlNodeWrapper.h" />
     <ClInclude Include="Framework\BehaviorBodyFactory.h" />
     <ClInclude Include="Framework\DocumentManager.h" />
     <ClInclude Include="Framework\ExecutionContext.h" />
     <ClInclude Include="Framework\IBehaviorBody.h" />
     <ClInclude Include="Framework\VariableManager.h" />
     <ClInclude Include="OS\Windows\WindowsProvider.h" />
+    <ClInclude Include="XML\IXmlIOStream.h" />
+    <ClInclude Include="XML\XmlIOStream.h" />
+    <ClInclude Include="XML\XmlIOStreamImp.h" />
+    <ClInclude Include="XML\XmlNodeWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Actions.cpp" />
@@ -117,8 +129,6 @@
     <ClCompile Include="Main\HostService.cpp" />
     <ClCompile Include="Main\Logger.cpp" />
     <ClCompile Include="Main\RegistryKey.cpp" />
-    <ClCompile Include="Main\XmlIOStream.cpp" />
-    <ClCompile Include="Main\XmlNodeWrapper.cpp" />
     <ClCompile Include="Framework\BehaviorBodyFactory.cpp" />
     <ClCompile Include="Framework\BrainApplication.cpp" />
     <ClCompile Include="Framework\DocumentManager.cpp" />
@@ -128,6 +138,9 @@
     <ClCompile Include="Framework\TaskManager.cpp" />
     <ClCompile Include="Framework\VariableManager.cpp" />
     <ClCompile Include="OS\Windows\WindowsProvider.cpp" />
+    <ClCompile Include="XML\XmlIOStream.cpp" />
+    <ClCompile Include="XML\XmlIOStreamImp.cpp" />
+    <ClCompile Include="XML\XmlNodeWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

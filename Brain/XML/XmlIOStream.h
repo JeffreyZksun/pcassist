@@ -1,12 +1,14 @@
 #pragma once
 
-#include "XmlNodeWrapper.h"
+#include "IXmlIOStream.h"
 
-class XmlIOStream
+class XmlIOStreamImp;
+
+class XmlIOStream : IXmlIOStream
 {
 public:
 	XmlIOStream(bool bIsRead);
-	~XmlIOStream(void);
+	virtual ~XmlIOStream(void);
 
 public:
 	// ToDo - we should replace the <> in the data.
@@ -33,11 +35,7 @@ public:
 	bool		Save(const CString& docName);
 
 private:
-	bool			mbIsRead;
-	unsigned int	mDocVersion;
-
-	MSXML2::IXMLDOMNodePtr	mpCurrentNode;
-	CXmlDocumentWrapper		mDocumentWrapper;
+	XmlIOStreamImp*		m_pImp;
 };
 
 class XmlIOStreamBeginNodeStack
