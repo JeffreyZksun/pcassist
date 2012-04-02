@@ -1,18 +1,19 @@
 #include "StdAfx.h"
-#include "XmlIOStream.h"
+#include "XmlIOStreamImp.h"
 
-XmlIOStream::XmlIOStream(bool bIsRead) : mbIsRead(bIsRead), mpCurrentNode(NULL), mDocumentWrapper(), mDocVersion(0)
+XmlIOStreamImp::XmlIOStreamImp(XmlIOStream* pSelf, bool bIsRead) 
+	:m_pSelf(pSelf), mbIsRead(bIsRead), mpCurrentNode(NULL), mDocumentWrapper(), mDocVersion(0)
 {
 
 }
 
-XmlIOStream::~XmlIOStream(void)
+XmlIOStreamImp::~XmlIOStreamImp(void)
 {
 	
 }
 
 // Only for traverse the brothers when read.
-bool XmlIOStream::ReadNode(const CString& nodeName, int index)
+bool XmlIOStreamImp::ReadNode(const CString& nodeName, int index)
 {
 	ASSERT(mbIsRead); 
 	if(!mbIsRead)
@@ -40,7 +41,7 @@ bool XmlIOStream::ReadNode(const CString& nodeName, int index)
 	return true;
 }
 
-bool XmlIOStream::ReadNode(const CString& nodeName)
+bool XmlIOStreamImp::ReadNode(const CString& nodeName)
 {
 	ASSERT(mbIsRead);
 	if(!mbIsRead)
@@ -61,7 +62,7 @@ bool XmlIOStream::ReadNode(const CString& nodeName)
 	return true;
 }
 
-bool XmlIOStream::ReadNodeText(CString& text)
+bool XmlIOStreamImp::ReadNodeText(CString& text)
 {
 	ASSERT(mpCurrentNode != NULL);
 	if(NULL == mpCurrentNode)
@@ -73,7 +74,7 @@ bool XmlIOStream::ReadNodeText(CString& text)
 	return true;
 }
 
-bool XmlIOStream::ReadNodeAttribute(const CString& attrName, CString& attrValue)
+bool XmlIOStreamImp::ReadNodeAttribute(const CString& attrName, CString& attrValue)
 {
 	ASSERT(mpCurrentNode != NULL);
 	if(NULL == mpCurrentNode)
@@ -89,7 +90,7 @@ bool XmlIOStream::ReadNodeAttribute(const CString& attrName, CString& attrValue)
 	return true;
 }
 
-bool XmlIOStream::WriteNode(const CString& nodeName)
+bool XmlIOStreamImp::WriteNode(const CString& nodeName)
 {
 	ASSERT(!mbIsRead);
 	if(mbIsRead)
@@ -116,7 +117,7 @@ bool XmlIOStream::WriteNode(const CString& nodeName)
 	return true;
 }
 
-bool XmlIOStream::WriteNodeText(const CString& text)
+bool XmlIOStreamImp::WriteNodeText(const CString& text)
 {
 	ASSERT(!mbIsRead);
 	if(mbIsRead)
@@ -132,7 +133,7 @@ bool XmlIOStream::WriteNodeText(const CString& text)
 	return true;
 }
 
-bool XmlIOStream::WriteNodeAttribute(const CString& attrName, const CString& attrValue)
+bool XmlIOStreamImp::WriteNodeAttribute(const CString& attrName, const CString& attrValue)
 {
 	ASSERT(!mbIsRead);
 	if(mbIsRead)
@@ -163,7 +164,7 @@ bool XmlIOStream::WriteNodeAttribute(const CString& attrName, const CString& att
 	return false;
 }
 
-bool XmlIOStream::CloseNode()
+bool XmlIOStreamImp::CloseNode()
 {
 	// Back to parent
 	ASSERT(mpCurrentNode != NULL);
@@ -177,22 +178,22 @@ bool XmlIOStream::CloseNode()
 	return true;
 }
 
-bool XmlIOStream::IsReadStream() const
+bool XmlIOStreamImp::IsReadStream() const
 {
 	return mbIsRead;
 }
 
-void XmlIOStream::SetDocVersion(unsigned int ver)
+void XmlIOStreamImp::SetDocVersion(unsigned int ver)
 {
 	mDocVersion = ver;
 }
 
-unsigned int XmlIOStream::GetDocVersion() const
+unsigned int XmlIOStreamImp::GetDocVersion() const
 {
 	return mDocVersion;
 }
 
-bool XmlIOStream::Load(const CString& docName)
+bool XmlIOStreamImp::Load(const CString& docName)
 {
 	BOOL bRet = mDocumentWrapper.Load(docName);
 	ASSERT(TRUE == bRet);
@@ -203,7 +204,7 @@ bool XmlIOStream::Load(const CString& docName)
 	return TRUE == bRet;
 }
 
-bool XmlIOStream::Save(const CString& docName)
+bool XmlIOStreamImp::Save(const CString& docName)
 {
 	if(!mDocumentWrapper.Interface())
 		return false;
@@ -234,7 +235,7 @@ bool XmlIOStream::Save(const CString& docName)
 	return TRUE == bRet;
 }
 
-XmlIOStreamBeginNodeStack::XmlIOStreamBeginNodeStack(XmlIOStream* pStream, const CString& nodeName)
+XmlIOStreamImpBeginNodeStack::XmlIOStreamImpBeginNodeStack(XmlIOStreamImp* pStream, const CString& nodeName)
 : mpStream(pStream), mbSucc(false)
 {
 	if(mpStream != NULL)
@@ -246,13 +247,13 @@ XmlIOStreamBeginNodeStack::XmlIOStreamBeginNodeStack(XmlIOStream* pStream, const
 	}
 }
 
-XmlIOStreamBeginNodeStack::~XmlIOStreamBeginNodeStack()
+XmlIOStreamImpBeginNodeStack::~XmlIOStreamImpBeginNodeStack()
 {
 	if(mpStream != NULL && mbSucc)
 		mpStream->CloseNode();
 }
 
-bool XmlIOStreamBeginNodeStack::IsSuccess()
+bool XmlIOStreamImpBeginNodeStack::IsSuccess()
 {
 	return mbSucc;
 }

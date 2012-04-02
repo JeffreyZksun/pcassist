@@ -19,6 +19,15 @@
     <Filter Include="OS\MacOSX">
       <UniqueIdentifier>{944592fa-8f4c-4560-a8c2-4084b115f48f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Server">
+      <UniqueIdentifier>{3612ab28-cc6d-4db0-a414-7dd46800a66d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\UI">
+      <UniqueIdentifier>{4275826c-3696-441b-87ef-078a8c1bb94e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\XML">
+      <UniqueIdentifier>{bf390d8b-4a69-4d35-ae1c-20070a6a475a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\BrainApplication.h">
@@ -63,35 +72,11 @@
     <ClInclude Include="Main\stdafx.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="Main\XmlIOStream.h">
-      <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="Main\XmlNodeWrapper.h">
-      <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\BehaviorBodyFactory.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\DocumentManager.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\ExecutionContext.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\IBehaviorBody.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\VariableManager.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="Main\CommandLineService.h">
       <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="inc\IHostService.h">
       <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\IOSProvider.h">
-      <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="Main\HostService.h">
       <Filter>Main</Filter>
@@ -99,11 +84,41 @@
     <ClInclude Include="OS\Windows\WindowsProvider.h">
       <Filter>OS\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\IBehaviorBuilder.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="Main\BehaviorBuilder.h">
       <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\VariableManager.h">
+      <Filter>Framework\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\BehaviorBodyFactory.h">
+      <Filter>Framework\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\DocumentManager.h">
+      <Filter>Framework\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ExecutionContext.h">
+      <Filter>Framework\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\IBehaviorBody.h">
+      <Filter>Framework\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\IBehaviorBuilder.h">
+      <Filter>Framework\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\IOSProvider.h">
+      <Filter>Framework\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="XML\IXmlIOStream.h">
+      <Filter>Framework\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="XML\XmlIOStream.h">
+      <Filter>Framework\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="XML\XmlIOStreamImp.h">
+      <Filter>Framework\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="XML\XmlNodeWrapper.h">
+      <Filter>Framework\XML</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -125,36 +140,6 @@
     <ClCompile Include="Main\RegistryKey.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="Main\XmlIOStream.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
-    <ClCompile Include="Main\XmlNodeWrapper.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\BehaviorBodyFactory.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\BrainApplication.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\DocumentManager.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\ExecutionContext.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Parameter.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\ParameterTable.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\TaskManager.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\VariableManager.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
     <ClCompile Include="Main\CommandLineService.cpp">
       <Filter>Main</Filter>
     </ClCompile>
@@ -166,6 +151,39 @@
     </ClCompile>
     <ClCompile Include="Main\BehaviorBuilder.cpp">
       <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\BehaviorBodyFactory.cpp">
+      <Filter>Framework\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\BrainApplication.cpp">
+      <Filter>Framework\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\DocumentManager.cpp">
+      <Filter>Framework\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\ExecutionContext.cpp">
+      <Filter>Framework\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Parameter.cpp">
+      <Filter>Framework\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\ParameterTable.cpp">
+      <Filter>Framework\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\TaskManager.cpp">
+      <Filter>Framework\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\VariableManager.cpp">
+      <Filter>Framework\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="XML\XmlIOStream.cpp">
+      <Filter>Framework\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="XML\XmlIOStreamImp.cpp">
+      <Filter>Framework\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="XML\XmlNodeWrapper.cpp">
+      <Filter>Framework\XML</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
