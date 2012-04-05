@@ -27,4 +27,3 @@ private:
 	VariableManager*		m_pVariableManager;
 };
 
-#pragma warning( pop ) 
