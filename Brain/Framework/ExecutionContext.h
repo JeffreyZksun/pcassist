@@ -15,7 +15,7 @@ public:
 	void					SetBehaviorNode(BehaviorNode*);
 	BehaviorNode* const		GetBehaviorNode() const;
 
-	BrainApplication*		GetApplication() const;
+	BrainApplication*		GetBrainApplication() const;
 
 private:
 	BrainApplication*		mpBrainApplication;

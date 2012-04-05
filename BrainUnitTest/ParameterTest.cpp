@@ -7,7 +7,7 @@ TEST(ParameterTest, EvaluationLoop)
 {
 	ApplicationSwitchHelper helper;
 
-	VariableManager* pVM = BrainApplication::GetWorkingBrain()->GetVariableManager();
+	VariableManager* pVM = GetWorkingBrain()->GetVariableManager();
 	{
 		Parameter para1(_T("A"), _T("A%B%A"));
 		pVM->AddUserParameter(para1);
@@ -21,7 +21,7 @@ TEST(ParameterTest, EvaluationLoop)
 	Parameter para3(_T("C"), _T("C%A%C"));
 	pVM->AddUserParameter(para3);
 
-	CString actual = para3.GetEvaluatedValue(BrainApplication::GetWorkingBrain()->GetVariableManager()); // There is an expected assert.
+	CString actual = para3.GetEvaluatedValue(GetWorkingBrain()->GetVariableManager()); // There is an expected assert.
 	CString expected = _T("CABBAC");
 
 	bool bmatch = actual.Compare(expected) == 0;
@@ -32,7 +32,7 @@ TEST(ParameterTest, Evaluation)
 {
 	ApplicationSwitchHelper helper;
 
-	VariableManager* pVM = BrainApplication::GetWorkingBrain()->GetVariableManager();
+	VariableManager* pVM = GetWorkingBrain()->GetVariableManager();
 	{
 		Parameter para1(_T("ParameterTest_A"), _T("A%ParameterTest_B%A"));
 		pVM->AddUserParameter(para1);
@@ -46,7 +46,7 @@ TEST(ParameterTest, Evaluation)
 	Parameter para3(_T("ParameterTest_C"), _T("C%ParameterTest_A%C"));
 	pVM->AddUserParameter(para3);
 
-	CString actual = para3.GetEvaluatedValue(BrainApplication::GetWorkingBrain()->GetVariableManager()); 
+	CString actual = para3.GetEvaluatedValue(GetWorkingBrain()->GetVariableManager()); 
 	CString expected = _T("CAParameterTest_B_ValueAC");
 
 	bool bmatch = actual.Compare(expected) == 0;

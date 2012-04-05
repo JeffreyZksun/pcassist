@@ -88,10 +88,10 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	//DocumentManager* pDoc = new DocumentManager();
 	//pDoc->SetDocumentName(_T("C:\\_DemoPcUsage.xml"));
-	//pDoc->XmlIn(BrainApplication::GetWorkingBrain());
+	//pDoc->XmlIn(GetWorkingBrain());
 	//delete pDoc;
 
-	BrainApplication::GetWorkingBrain()->XmlIn(_T("C:\\_DemoPcUsage.xml"));
+	GetWorkingBrain()->XmlIn(_T("C:\\_DemoPcUsage.xml"));
 
 	return 0;
 

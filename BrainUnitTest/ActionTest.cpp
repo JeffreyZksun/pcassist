@@ -5,7 +5,7 @@
 
 TEST(ActionTest, ConditionBlockAction)
 {
-	Condition procCondition(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("ProcessRunningCondition"));
+	Condition procCondition(GetWorkingBrain()->GetTaskManager(), _T("ProcessRunningCondition"));
 	{
 		Parameter para1(_T("ObjectId"), _T("IsUnitTest_exeRunning")); 
 		procCondition.GetParameterTable().AddParameter(para1);
@@ -15,7 +15,7 @@ TEST(ActionTest, ConditionBlockAction)
 	}
 
 	
-	Action blockAction(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("ConditionBlockAction"));
+	Action blockAction(GetWorkingBrain()->GetTaskManager(), _T("ConditionBlockAction"));
 	{
 		Parameter para1(_T("ConditionId"), _T("IsUnitTest_exeRunning")); 
 		blockAction.GetParameterTable().AddParameter(para1);
@@ -37,7 +37,7 @@ TEST(ActionTest, ReferenceLoopAction)
 	ApplicationSwitchHelper helper;
 
 	{
-		Condition *pC = new Condition(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("FolderExistsCondition"));
+		Condition *pC = new Condition(GetWorkingBrain()->GetTaskManager(), _T("FolderExistsCondition"));
 		Parameter para1(_T("ObjectId"), _T("C")); 
 		Parameter para2(_T("FolderName"), _T("C:\\")); 
 		pC->GetParameterTable().AddParameter(para1);
@@ -45,7 +45,7 @@ TEST(ActionTest, ReferenceLoopAction)
 	}
 
 	{
-		Action *pA1 = new Action(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("ComplexAction"));
+		Action *pA1 = new Action(GetWorkingBrain()->GetTaskManager(), _T("ComplexAction"));
 		Parameter para1(_T("ObjectId"), _T("A1")); 
 		Parameter para2(_T("MainAction"), _T("A2"));
 		Parameter para3(_T("ExecuteCondition"), _T("C"));
@@ -55,7 +55,7 @@ TEST(ActionTest, ReferenceLoopAction)
 
 	}
 
-	Action A2(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("ComplexAction"));
+	Action A2(GetWorkingBrain()->GetTaskManager(), _T("ComplexAction"));
 	{
 		Parameter para1(_T("ObjectId"), _T("A2")); 
 		Parameter para2(_T("MainAction"), _T("A1"));
@@ -73,7 +73,7 @@ TEST(ActionTest, ReferenceLoopAction)
 TEST(ActionTest, RunProcessAction)
 {
 
-	Action processAction(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("RunProcessAction"));
+	Action processAction(GetWorkingBrain()->GetTaskManager(), _T("RunProcessAction"));
 	{
 		Parameter para1(_T("ApplicationName"), _T("C:\\Windows\\System32\\notepad.exe")); 
 		Parameter para2(_T("ApplicationParameter"), _T("")); 
@@ -95,7 +95,7 @@ TEST(ActionTest, TaskListAction)
     ApplicationSwitchHelper helper;
 
     {
-        Action* pAction = new Action(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("RunSystemCommandAction"));
+        Action* pAction = new Action(GetWorkingBrain()->GetTaskManager(), _T("RunSystemCommandAction"));
         Parameter para0(_T("ObjectId"), _T("EchoMessage")); 
         Parameter para1(_T("ApplicationName"), _T("echo Hello world")); 
         Parameter para2(_T("ApplicationParameter"), _T("")); 
@@ -106,7 +106,7 @@ TEST(ActionTest, TaskListAction)
         pAction->GetParameterTable().AddParameter(para2);
     }
 
-    Action taskList(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("TaskListAction"));
+    Action taskList(GetWorkingBrain()->GetTaskManager(), _T("TaskListAction"));
     {
 
         Parameter para1(_T("IdList"), _T("{EchoMessage}")); 
@@ -123,7 +123,7 @@ TEST(ActionTest, TaskListAction_2)
     ApplicationSwitchHelper helper;
 
     {
-        Action* pAction = new Action(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("RunSystemCommandAction"));
+        Action* pAction = new Action(GetWorkingBrain()->GetTaskManager(), _T("RunSystemCommandAction"));
         Parameter para0(_T("ObjectId"), _T("EchoMessage")); 
         Parameter para1(_T("ApplicationName"), _T("echo Hello world")); 
         Parameter para2(_T("ApplicationParameter"), _T("")); 
@@ -134,7 +134,7 @@ TEST(ActionTest, TaskListAction_2)
         pAction->GetParameterTable().AddParameter(para2);
     }
 
-    Action taskList(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("TaskListAction"));
+    Action taskList(GetWorkingBrain()->GetTaskManager(), _T("TaskListAction"));
     {
 
         Parameter para1(_T("IdList"), _T("{EchoMessage}{DummyAction}")); 
@@ -151,7 +151,7 @@ TEST(ActionTest, ConditionListCheckAction_1)
     ApplicationSwitchHelper helper;
 
     {
-        Condition* pFolderCondition = new Condition(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("FolderExistsCondition"));
+        Condition* pFolderCondition = new Condition(GetWorkingBrain()->GetTaskManager(), _T("FolderExistsCondition"));
         Parameter para1(_T("ObjectId"), _T("VerifyFolderCExist")); 
         Parameter para2(_T("FolderName"), _T("C:\\")); 
 
@@ -159,7 +159,7 @@ TEST(ActionTest, ConditionListCheckAction_1)
         pFolderCondition->GetParameterTable().AddParameter(para2);
     }
 
-    Action sanityCheck(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("ConditionListCheckAction"));
+    Action sanityCheck(GetWorkingBrain()->GetTaskManager(), _T("ConditionListCheckAction"));
     {
 
         Parameter para1(_T("IdList"), _T("{VerifyFolderCExist}")); 
@@ -175,7 +175,7 @@ TEST(ActionTest, ConditionListCheckAction_2)
     ApplicationSwitchHelper helper;
 
     {
-        Condition* pFolderCondition = new Condition(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("FolderExistsCondition"));
+        Condition* pFolderCondition = new Condition(GetWorkingBrain()->GetTaskManager(), _T("FolderExistsCondition"));
         Parameter para1(_T("ObjectId"), _T("VerifyFolderCExist")); 
         Parameter para2(_T("FolderName"), _T("C:\\")); 
 
@@ -184,7 +184,7 @@ TEST(ActionTest, ConditionListCheckAction_2)
     }
 
     {
-        Condition* pFolderCondition = new Condition(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("FolderExistsCondition"));
+        Condition* pFolderCondition = new Condition(GetWorkingBrain()->GetTaskManager(), _T("FolderExistsCondition"));
         Parameter para1(_T("ObjectId"), _T("VerifyFolderZZExist")); 
         Parameter para2(_T("FolderName"), _T("ZZ:\\")); 
 
@@ -192,7 +192,7 @@ TEST(ActionTest, ConditionListCheckAction_2)
         pFolderCondition->GetParameterTable().AddParameter(para2);
     }
 
-    Action sanityCheck(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("ConditionListCheckAction"));
+    Action sanityCheck(GetWorkingBrain()->GetTaskManager(), _T("ConditionListCheckAction"));
     {
 
         Parameter para1(_T("IdList"), _T("{VerifyFolderCExist} {VerifyFolderZZExist}")); 
@@ -209,7 +209,7 @@ TEST(ActionTest, ConditionListCheckAction_3)
     ApplicationSwitchHelper helper;
 
     {
-        Condition* pFolderCondition = new Condition(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("FolderExistsCondition"));
+        Condition* pFolderCondition = new Condition(GetWorkingBrain()->GetTaskManager(), _T("FolderExistsCondition"));
         Parameter para1(_T("ObjectId"), _T("VerifyFolderCExist")); 
         Parameter para2(_T("FolderName"), _T("C:\\")); 
 
@@ -217,7 +217,7 @@ TEST(ActionTest, ConditionListCheckAction_3)
         pFolderCondition->GetParameterTable().AddParameter(para2);
     }
 
-    Action sanityCheck(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("ConditionListCheckAction"));
+    Action sanityCheck(GetWorkingBrain()->GetTaskManager(), _T("ConditionListCheckAction"));
     {
 
         Parameter para1(_T("IdList"), _T("{VerifyFolderCExist} {dummy}")); 

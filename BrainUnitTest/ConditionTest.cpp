@@ -9,7 +9,7 @@ TEST(ConditionTest, RegisterKeyExistsCondition)
     ApplicationSwitchHelper helper;
 
 	{
-		Condition regCondition(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("RegisterKeyExistsCondition"));
+		Condition regCondition(GetWorkingBrain()->GetTaskManager(), _T("RegisterKeyExistsCondition"));
 		Parameter para1(_T("RootKey"), _T("HKEY_LOCAL_MACHINE"));
 		Parameter para2(_T("SubKey"), _T("Software\\Microsoft"));
 		regCondition.GetParameterTable().AddParameter(para1);
@@ -18,7 +18,7 @@ TEST(ConditionTest, RegisterKeyExistsCondition)
 		EXPECT_EQ(true, bRet);
 	}
 	{
-		Condition regCondition(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("RegisterKeyExistsCondition"));
+		Condition regCondition(GetWorkingBrain()->GetTaskManager(), _T("RegisterKeyExistsCondition"));
 		Parameter para1(_T("RootKey"), _T("HKEY_LOCAL_MACHINE"));
 		Parameter para2(_T("SubKey"), _T("Software\\notexitkey"));
 		regCondition.GetParameterTable().AddParameter(para1);
@@ -28,7 +28,7 @@ TEST(ConditionTest, RegisterKeyExistsCondition)
 	}
 
 	{
-		Condition regCondition(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("RegisterKeyExistsCondition"));
+		Condition regCondition(GetWorkingBrain()->GetTaskManager(), _T("RegisterKeyExistsCondition"));
 		Parameter para1(_T("RootKey"), _T("HKEY_LOCAL_MACHINE"));
 		Parameter para2(_T("SubKey"), _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{FE90E978-A98B-45F6-0163-34EBA616B1F6}"));// \\{FE90E978-A98B-45F6-0163-34EBA616B1F6}
 		regCondition.GetParameterTable().AddParameter(para1);
@@ -45,7 +45,7 @@ TEST(ConditionTest, ProcessRunningCondition_Name_1)
 {
     ApplicationSwitchHelper helper;
 
-	Condition procCondition(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("ProcessRunningCondition"));
+	Condition procCondition(GetWorkingBrain()->GetTaskManager(), _T("ProcessRunningCondition"));
 	Parameter para1(_T("ProcessName"), THIS_APP_NAME); //msiexec.exe setup.exe  svchost.exe
 	procCondition.GetParameterTable().AddParameter(para1);
 	bool bRet = procCondition.IsTrue();
@@ -54,7 +54,7 @@ TEST(ConditionTest, ProcessRunningCondition_Name_1)
 
 TEST(ConditionTest, ProcessRunningCondition_Name_2)
 {
-	Condition procCondition(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("ProcessRunningCondition"));
+	Condition procCondition(GetWorkingBrain()->GetTaskManager(), _T("ProcessRunningCondition"));
 	Parameter para1(_T("ProcessName"), _T("NotExist.exe")); //Use a process name not exist at all.
 	procCondition.GetParameterTable().AddParameter(para1);
 	bool bRet = procCondition.IsTrue();
@@ -67,13 +67,13 @@ TEST(ConditionTest, ProcessRunningCondition_FullName_1)
     ApplicationSwitchHelper helper;
 
 	Parameter path;
-	bool bExist = BrainApplication::GetWorkingBrain()->GetVariableManager()->GetParameter(_T("*ExeModulePath"), path);
+	bool bExist = GetWorkingBrain()->GetVariableManager()->GetParameter(_T("*ExeModulePath"), path);
 	EXPECT_EQ(true, bExist);
 
-	CString strPath = path.GetEvaluatedValue(BrainApplication::GetWorkingBrain()->GetVariableManager());
+	CString strPath = path.GetEvaluatedValue(GetWorkingBrain()->GetVariableManager());
 	strPath += _T("\\") THIS_APP_NAME;
 
-	Condition procCondition(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("ProcessRunningCondition"));
+	Condition procCondition(GetWorkingBrain()->GetTaskManager(), _T("ProcessRunningCondition"));
 	Parameter para1(_T("ProcessName"),strPath);
 	procCondition.GetParameterTable().AddParameter(para1);
 	bool bRet = procCondition.IsTrue();
@@ -86,13 +86,13 @@ TEST(ConditionTest, ProcessRunningCondition_FullName_2)
     ApplicationSwitchHelper helper;
 
 	Parameter path;
-	bool bExist = BrainApplication::GetWorkingBrain()->GetVariableManager()->GetParameter(_T("*ExeModulePath"), path);
+	bool bExist = GetWorkingBrain()->GetVariableManager()->GetParameter(_T("*ExeModulePath"), path);
 	EXPECT_EQ(true, bExist);
 
-	CString strPath = path.GetEvaluatedValue(BrainApplication::GetWorkingBrain()->GetVariableManager());
+	CString strPath = path.GetEvaluatedValue(GetWorkingBrain()->GetVariableManager());
 	strPath += _T("/") THIS_APP_NAME;
 
-	Condition procCondition(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("ProcessRunningCondition"));
+	Condition procCondition(GetWorkingBrain()->GetTaskManager(), _T("ProcessRunningCondition"));
 	Parameter para1(_T("ProcessName"), strPath); 
 	procCondition.GetParameterTable().AddParameter(para1);
 	bool bRet = procCondition.IsTrue();
@@ -104,13 +104,13 @@ TEST(ConditionTest, ProcessRunningCondition_FullName_3)
     ApplicationSwitchHelper helper;
 
 	Parameter path;
-	bool bExist = BrainApplication::GetWorkingBrain()->GetVariableManager()->GetParameter(_T("*ExeModulePath"), path);
+	bool bExist = GetWorkingBrain()->GetVariableManager()->GetParameter(_T("*ExeModulePath"), path);
 	EXPECT_EQ(true, bExist);
 
-	CString strPath = path.GetEvaluatedValue(BrainApplication::GetWorkingBrain()->GetVariableManager());
+	CString strPath = path.GetEvaluatedValue(GetWorkingBrain()->GetVariableManager());
 	strPath += _T("\\NotExistPath\\") THIS_APP_NAME;
 
-	Condition procCondition(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("ProcessRunningCondition"));
+	Condition procCondition(GetWorkingBrain()->GetTaskManager(), _T("ProcessRunningCondition"));
 	Parameter para1(_T("ProcessName"), strPath);
 	procCondition.GetParameterTable().AddParameter(para1);
 	bool bRet = procCondition.IsTrue();
@@ -121,7 +121,7 @@ TEST(ConditionTest, FolderExistsCondition)
 {
     ApplicationSwitchHelper helper;
 
-	Condition folderCondition(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("FolderExistsCondition"));
+	Condition folderCondition(GetWorkingBrain()->GetTaskManager(), _T("FolderExistsCondition"));
 	Parameter para1(_T("FolderName"), _T("C:\\")); 
 	folderCondition.GetParameterTable().AddParameter(para1);
 	bool bRet = folderCondition.IsTrue();
@@ -133,7 +133,7 @@ TEST(ConditionTest, ActionResultCondition)
     ApplicationSwitchHelper helper;
 
     {
-        Action* pAction = new Action(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("RunProcessAction"));
+        Action* pAction = new Action(GetWorkingBrain()->GetTaskManager(), _T("RunProcessAction"));
         Parameter para0(_T("ObjectId"), _T("StartNotepad")); 
         Parameter para1(_T("ApplicationName"), _T("C:\\Windows\\System32\\notepad.exe")); 
         Parameter para2(_T("ApplicationParameter"), _T("")); 
@@ -147,7 +147,7 @@ TEST(ConditionTest, ActionResultCondition)
         pAction->GetParameterTable().AddParameter(para4);
     }
 
-    Condition checker(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("ActionResultCondition"));
+    Condition checker(GetWorkingBrain()->GetTaskManager(), _T("ActionResultCondition"));
     {
         
         Parameter para1(_T("ActionId"), _T("StartNotepad")); 

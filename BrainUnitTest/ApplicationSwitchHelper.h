@@ -2,6 +2,11 @@
 
 class BrainApplication;
 
+
+BrainApplication* GetWorkingBrain();
+BrainApplication* SetWorkingBrain(BrainApplication* pNewApp);
+
+
 class ApplicationSwitchHelper
 {
 public:
