@@ -6,7 +6,7 @@
 //Disable the waring " class 'ATL::CStringT<BaseType,StringTraits>' needs to have dll-interface to be used by clients of class"
 #pragma warning( disable : 4251 ) 
 
-class BrainApplication;
+class IDataBaseObject;
 
 class DocumentManager
 {
@@ -17,8 +17,8 @@ public:
 	void SetDocumentName(const CString&);
 
 public:
-	bool		XmlIn(const BrainApplication* pBrainApp);
-	bool		XmlOut(const BrainApplication* pBrainApp);
+	bool		XmlIn(IDataBaseObject* pObject);
+	bool		XmlOut(const IDataBaseObject* pObject);
 
 private:
 	CString		mDocumentName;
