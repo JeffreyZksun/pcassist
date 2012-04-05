@@ -27,12 +27,6 @@ public:
 	IOSProvider*			GetOSProvider() const;
 	Database*				GetDatabase() const;
 
-
-public:
-	// singleton
-	static BrainApplication* GetWorkingBrain();
-	static BrainApplication* SetWorkingBrain(BrainApplication*);
-
 public:
 	bool		XmlIn(const CString& docName) const;
 	bool		XmlOut(const CString& docName) const;

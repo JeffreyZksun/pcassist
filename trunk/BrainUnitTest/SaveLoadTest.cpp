@@ -10,17 +10,17 @@ TEST(SaveLoadTest, SaveLoadLatestVersion)
 {
 	// Use the temp application.
 	BrainApplication *pTempApp1 = new BrainApplication();
-	BrainApplication* pPreviousApp = BrainApplication::SetWorkingBrain(pTempApp1);
+	BrainApplication* pPreviousApp = SetWorkingBrain(pTempApp1);
 
 	{
 		Parameter para(_T("OS"), _T("Windows7"));
 		para.SetComments(_T("global"));
-		BrainApplication::GetWorkingBrain()->GetVariableManager()->AddUserParameter(para);
+		GetWorkingBrain()->GetVariableManager()->AddUserParameter(para);
 	}
 
 	CString conditionId = _T("DoesRegExist");
 	{
-		Condition *pRegCondition = new Condition(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("RegisterKeyExistsCondition"));
+		Condition *pRegCondition = new Condition(GetWorkingBrain()->GetTaskManager(), _T("RegisterKeyExistsCondition"));
 		Parameter objectId(OBJECT_ID, conditionId);
 		Parameter para1(_T("RootKey"), _T("HKEY_LOCAL_MACHINE"));
 		Parameter para2(_T("SubKey"), _T("Software\\Microsoft"));
@@ -29,12 +29,12 @@ TEST(SaveLoadTest, SaveLoadLatestVersion)
 		pRegCondition->GetParameterTable().AddParameter(para1);
 		pRegCondition->GetParameterTable().AddParameter(para2);
 
-		//BrainApplication::GetWorkingBrain()->GetTaskManager()->RegisterCondition(pRegCondition);
+		//GetWorkingBrain()->GetTaskManager()->RegisterCondition(pRegCondition);
 	}
 
 	CString actionId = _T("DemoToRunSysCmd");
 	{
-		Action *pNewAction = new Action(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("RunSystemCommandAction"));
+		Action *pNewAction = new Action(GetWorkingBrain()->GetTaskManager(), _T("RunSystemCommandAction"));
 		Parameter objectId(OBJECT_ID, actionId);
 		objectId.SetComments(_T("Object Id is used to reference this object everywhere."));
 		Parameter objectType;
@@ -46,36 +46,36 @@ TEST(SaveLoadTest, SaveLoadLatestVersion)
 		pNewAction->GetParameterTable().AddParameter(objectType);
 		pNewAction->GetParameterTable().AddParameter(cmd);
 
-		//BrainApplication::GetWorkingBrain()->GetTaskManager()->RegisterAction(pNewAction);
-		BrainApplication::GetWorkingBrain()->GetTaskManager()->AddActionTask(pNewAction);
+		//GetWorkingBrain()->GetTaskManager()->RegisterAction(pNewAction);
+		GetWorkingBrain()->GetTaskManager()->AddActionTask(pNewAction);
 	}
 
 	CString fileName(_T("C:\\braintest.xml"));
 
 	// Save
-	bool ret = BrainApplication::GetWorkingBrain()->XmlOut(fileName);
+	bool ret = GetWorkingBrain()->XmlOut(fileName);
 	EXPECT_EQ(true, ret);
 
 	// Load
 	BrainApplication *pTempApp2 = new BrainApplication();
 
-	BrainApplication::SetWorkingBrain(pTempApp2);
+	SetWorkingBrain(pTempApp2);
 
-	ret = BrainApplication::GetWorkingBrain()->XmlIn(fileName);
+	ret = GetWorkingBrain()->XmlIn(fileName);
 	EXPECT_EQ(true, ret);
 
 	{
-		Action* pAction = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetActionById(actionId);
+		Action* pAction = GetWorkingBrain()->GetTaskManager()->GetActionById(actionId);
 		EXPECT_EQ(true, (pAction != NULL));
 	}
 
 	{
-		Condition* pCondition = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetConditionById(conditionId);
+		Condition* pCondition = GetWorkingBrain()->GetTaskManager()->GetConditionById(conditionId);
 		EXPECT_EQ(true, (pCondition != NULL));
 	}
 
 	// Recover
-	BrainApplication::SetWorkingBrain(pPreviousApp);
+	SetWorkingBrain(pPreviousApp);
 }
 
 TEST(SaveLoadTest, LoadDocVersion1)
@@ -84,28 +84,28 @@ TEST(SaveLoadTest, LoadDocVersion1)
 
 	// Use the temp application.
 	//BrainApplication *pTempApp1 = new BrainApplication();
-	//BrainApplication* pPreviousApp = BrainApplication::SetWorkingBrain(pTempApp1);
+	//BrainApplication* pPreviousApp = SetWorkingBrain(pTempApp1);
 
 	CString fileName(_T("DocVersion1.xml"));
-	bool ret = BrainApplication::GetWorkingBrain()->XmlIn(fileName);
+	bool ret = GetWorkingBrain()->XmlIn(fileName);
 	EXPECT_EQ(true, ret);
 
 	{
 		CString actionId = _T("DemoToRunSysCmd");
-		Action* pAction = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetActionById(actionId);
+		Action* pAction = GetWorkingBrain()->GetTaskManager()->GetActionById(actionId);
 		EXPECT_EQ(true, (pAction != NULL));
 	}
 
 	{
 		CString conditionId = _T("DoesRegExist");
-		Condition* pCondition = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetConditionById(conditionId);
+		Condition* pCondition = GetWorkingBrain()->GetTaskManager()->GetConditionById(conditionId);
 		EXPECT_EQ(true, (pCondition != NULL));
 	}
 
 	// ToDo - we need to check more items here.
 
 	// Recover
-	//BrainApplication::SetWorkingBrain(pPreviousApp);
+	//SetWorkingBrain(pPreviousApp);
 }
 
 TEST(SaveLoadTest, SaveLoadDocVersion1)
@@ -114,8 +114,9 @@ TEST(SaveLoadTest, SaveLoadDocVersion1)
 
 	// Use the temp application.
 	BrainApplication *pTempApp1 = new BrainApplication();
-	BrainApplication* pPreviousApp = BrainApplication::SetWorkingBrain(pTempApp1);
+	BrainApplication* pPreviousApp = SetWorkingBrain(pTempApp1);
 
 	// Recover
-	BrainApplication::SetWorkingBrain(pPreviousApp);
+	SetWorkingBrain(pPreviousApp);
+	delete pTempApp1;
 }

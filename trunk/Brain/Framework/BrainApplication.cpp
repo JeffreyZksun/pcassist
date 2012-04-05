@@ -23,26 +23,6 @@ BrainApplication::~BrainApplication()
 	delete mpBehaviorBodyFactory;
 }
 
-
-static BrainApplication	defaultApp;
-static BrainApplication* pCurrentApp = &defaultApp;
-
-BrainApplication* BrainApplication::GetWorkingBrain()
-{
-	return pCurrentApp;
-}
-
-BrainApplication* BrainApplication::SetWorkingBrain(BrainApplication* pNewApp)
-{
-	ASSERT(pNewApp != NULL);
-	if(NULL == pNewApp) 
-		return NULL;
-
-	BrainApplication* pPreviousApp = pCurrentApp;
-	pCurrentApp = pNewApp;
-	return pPreviousApp;
-}
-
 TaskManager* BrainApplication::GetTaskManager() const
 {
 	return m_pDatabase->GetTaskManager();

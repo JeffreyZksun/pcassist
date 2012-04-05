@@ -30,7 +30,7 @@ BehaviorNode* const ExecutionContext::GetBehaviorNode() const
 	return mpCurrentBehavior;
 }
 
-BrainApplication* ExecutionContext::GetApplication() const
+BrainApplication* ExecutionContext::GetBrainApplication() const
 {
 	ASSERT(mpBrainApplication != NULL);
 	if(mpBrainApplication != NULL)
