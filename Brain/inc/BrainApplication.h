@@ -1,5 +1,5 @@
 #pragma once
-#include <atlstr.h> // CString
+
 #include "BrainSystem.h"
 
 #pragma warning( push )
@@ -12,6 +12,7 @@ class BehaviorBodyFactory;
 class VariableManager;
 class IHostService;
 class IOSProvider;
+class Database;
 
 class BRAINEXPORT BrainApplication
 {
@@ -24,6 +25,7 @@ public:
 	BehaviorBodyFactory*	GetBehaviorBodyFactory() const;
 	VariableManager*		GetVariableManager() const;
 	IOSProvider*			GetOSProvider() const;
+	Database*				GetDatabase() const;
 
 
 public:
@@ -38,11 +40,9 @@ public:
 private:
 	void		Initialize();
 
-
 private:
-	TaskManager*			mpTaskManager;
+	Database*				m_pDatabase;
 	BehaviorBodyFactory*	mpBehaviorBodyFactory;
-	VariableManager*		mpVariableManager;
 	IHostService*			mpHostService;
 
 };

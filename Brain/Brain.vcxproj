@@ -52,7 +52,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;$(ProjectDir);$(ProjectDir)XML\;$(ProjectDir)Network\;$(ProjectDir)Event\;MultiThreading;$(SolutionDir)3p\Boost\boost_1_49_0\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;$(ProjectDir);$(ProjectDir)XML\;$(ProjectDir)Network\;$(ProjectDir)Event\;$(ProjectDir)DataModel\;$(ProjectDir)MultiThreading\;$(SolutionDir)3p\Boost\boost_1_49_0\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINOS;WIN32;_DEBUG;_WINDOWS;_USRDLL;NO_BRAIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -72,7 +72,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;$(ProjectDir);$(ProjectDir)XML\;$(ProjectDir)Network\;$(ProjectDir)Event\;MultiThreading;$(SolutionDir)3p\Boost\boost_1_49_0\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;$(ProjectDir);$(ProjectDir)XML\;$(ProjectDir)Network\;$(ProjectDir)Event\;$(ProjectDir)DataModel\;$(ProjectDir)MultiThreading\;$(SolutionDir)3p\Boost\boost_1_49_0\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINOS;WIN32;NDEBUG;_WINDOWS;_USRDLL;NO_BRAIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -80,6 +80,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>
@@ -88,6 +89,11 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DataModel\Database.h" />
+    <ClInclude Include="DataModel\ParameterImp.h" />
+    <ClInclude Include="DataModel\ParameterTableImp.h" />
+    <ClInclude Include="DataModel\VariableManager.h" />
+    <ClInclude Include="DataModel\VariableManagerImp.h" />
     <ClInclude Include="Event\IEvent.h" />
     <ClInclude Include="Event\IEventDispatcher.h" />
     <ClInclude Include="Event\IEventFilter.h" />
@@ -120,7 +126,6 @@
     <ClInclude Include="Framework\DocumentManager.h" />
     <ClInclude Include="Framework\ExecutionContext.h" />
     <ClInclude Include="Framework\IBehaviorBody.h" />
-    <ClInclude Include="Framework\VariableManager.h" />
     <ClInclude Include="MultiThreading\ThreadSafeSingleton.h" />
     <ClInclude Include="Network\ConnectionPoint.h" />
     <ClInclude Include="Network\ConnectionPointImp.h" />
@@ -139,6 +144,14 @@
     <ClInclude Include="XML\XmlNodeWrapper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DataModel\Database.cpp" />
+    <ClCompile Include="DataModel\Parameter.cpp" />
+    <ClCompile Include="DataModel\ParameterImp.cpp" />
+    <ClCompile Include="DataModel\ParameterTable.cpp" />
+    <ClCompile Include="DataModel\ParameterTableImp.cpp" />
+    <ClCompile Include="DataModel\TaskManager.cpp" />
+    <ClCompile Include="DataModel\VariableManager.cpp" />
+    <ClCompile Include="DataModel\VariableManagerImp.cpp" />
     <ClCompile Include="Event\NotificationMgr.cpp" />
     <ClCompile Include="Event\NotificationMgrImp.cpp" />
     <ClCompile Include="Main\Actions.cpp" />
@@ -154,10 +167,6 @@
     <ClCompile Include="Framework\BrainApplication.cpp" />
     <ClCompile Include="Framework\DocumentManager.cpp" />
     <ClCompile Include="Framework\ExecutionContext.cpp" />
-    <ClCompile Include="Framework\Parameter.cpp" />
-    <ClCompile Include="Framework\ParameterTable.cpp" />
-    <ClCompile Include="Framework\TaskManager.cpp" />
-    <ClCompile Include="Framework\VariableManager.cpp" />
     <ClCompile Include="Network\ConnectionPoint.cpp" />
     <ClCompile Include="Network\ConnectionPointImp.cpp" />
     <ClCompile Include="Network\NetworkMessageEvent.cpp" />

@@ -37,6 +37,9 @@
     <Filter Include="Framework\MultiThreading">
       <UniqueIdentifier>{606e8347-d661-4218-8fdb-04fb99771957}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\DataModel">
+      <UniqueIdentifier>{cc507f1f-afaf-4bdc-94b2-2329a48e7cda}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\BrainApplication.h">
@@ -95,9 +98,6 @@
     </ClInclude>
     <ClInclude Include="Main\BehaviorBuilder.h">
       <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\VariableManager.h">
-      <Filter>Framework\Server</Filter>
     </ClInclude>
     <ClInclude Include="Framework\BehaviorBodyFactory.h">
       <Filter>Framework\Server</Filter>
@@ -186,6 +186,21 @@
     <ClInclude Include="MultiThreading\ThreadSafeSingleton.h">
       <Filter>Framework\MultiThreading</Filter>
     </ClInclude>
+    <ClInclude Include="DataModel\VariableManager.h">
+      <Filter>Framework\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModel\ParameterImp.h">
+      <Filter>Framework\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModel\ParameterTableImp.h">
+      <Filter>Framework\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModel\VariableManagerImp.h">
+      <Filter>Framework\DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModel\Database.h">
+      <Filter>Framework\DataModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Actions.cpp">
@@ -230,18 +245,6 @@
     <ClCompile Include="Framework\ExecutionContext.cpp">
       <Filter>Framework\Server</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Parameter.cpp">
-      <Filter>Framework\Server</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\ParameterTable.cpp">
-      <Filter>Framework\Server</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\TaskManager.cpp">
-      <Filter>Framework\Server</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\VariableManager.cpp">
-      <Filter>Framework\Server</Filter>
-    </ClCompile>
     <ClCompile Include="XML\XmlIOStream.cpp">
       <Filter>Framework\XML</Filter>
     </ClCompile>
@@ -277,6 +280,30 @@
     </ClCompile>
     <ClCompile Include="Network\TCPServerImp.cpp">
       <Filter>Framework\Networks</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModel\Parameter.cpp">
+      <Filter>Framework\DataModel</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModel\ParameterTable.cpp">
+      <Filter>Framework\DataModel</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModel\TaskManager.cpp">
+      <Filter>Framework\DataModel</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModel\VariableManager.cpp">
+      <Filter>Framework\DataModel</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModel\ParameterImp.cpp">
+      <Filter>Framework\DataModel</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModel\ParameterTableImp.cpp">
+      <Filter>Framework\DataModel</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModel\VariableManagerImp.cpp">
+      <Filter>Framework\DataModel</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModel\Database.cpp">
+      <Filter>Framework\DataModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

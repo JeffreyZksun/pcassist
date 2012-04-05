@@ -70,7 +70,7 @@ TEST(ConditionTest, ProcessRunningCondition_FullName_1)
 	bool bExist = BrainApplication::GetWorkingBrain()->GetVariableManager()->GetParameter(_T("*ExeModulePath"), path);
 	EXPECT_EQ(true, bExist);
 
-	CString strPath = path.GetEvaluatedValue();
+	CString strPath = path.GetEvaluatedValue(BrainApplication::GetWorkingBrain()->GetVariableManager());
 	strPath += _T("\\") THIS_APP_NAME;
 
 	Condition procCondition(_T("ProcessRunningCondition"));
@@ -89,7 +89,7 @@ TEST(ConditionTest, ProcessRunningCondition_FullName_2)
 	bool bExist = BrainApplication::GetWorkingBrain()->GetVariableManager()->GetParameter(_T("*ExeModulePath"), path);
 	EXPECT_EQ(true, bExist);
 
-	CString strPath = path.GetEvaluatedValue();
+	CString strPath = path.GetEvaluatedValue(BrainApplication::GetWorkingBrain()->GetVariableManager());
 	strPath += _T("/") THIS_APP_NAME;
 
 	Condition procCondition(_T("ProcessRunningCondition"));
@@ -107,7 +107,7 @@ TEST(ConditionTest, ProcessRunningCondition_FullName_3)
 	bool bExist = BrainApplication::GetWorkingBrain()->GetVariableManager()->GetParameter(_T("*ExeModulePath"), path);
 	EXPECT_EQ(true, bExist);
 
-	CString strPath = path.GetEvaluatedValue();
+	CString strPath = path.GetEvaluatedValue(BrainApplication::GetWorkingBrain()->GetVariableManager());
 	strPath += _T("\\NotExistPath\\") THIS_APP_NAME;
 
 	Condition procCondition(_T("ProcessRunningCondition"));

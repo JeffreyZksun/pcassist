@@ -1,19 +1,19 @@
 #include "StdAfx.h"
-#include "Parameter.h"
+#include "ParameterImp.h"
 #include "VariableManager.h"
 #include "XmlIOStream.h"
-#include "BrainApplication.h"
+
 
 //////////////////////////////////////////////////////////////////////////
 // ComplexString
 //////////////////////////////////////////////////////////////////////////
 
-ComplexString::ComplexString(void)
+ComplexString::ComplexString(VariableManager* pVariableManager/* = NULL*/)
     : mRawVariableString()
 {
 }
 
-ComplexString::ComplexString(const CString& variableString)
+ComplexString::ComplexString(const CString& variableString, VariableManager* pVariableManager/* = NULL*/)
     : mRawVariableString(variableString)
 {
 
@@ -33,58 +33,69 @@ const CString& ComplexString::GetRawtring() const
     return mRawVariableString;
 }
 
-CString ComplexString::GetEvaluatedString() const
+CString ComplexString::GetEvaluatedString(const VariableManager* pVariableManager) const
 {
-	CString evaluatedString = BrainApplication::GetWorkingBrain()->GetVariableManager()->GetEvaluatedString(mRawVariableString);
+	ASSERT(pVariableManager != NULL);
+
+	if(NULL == pVariableManager)
+		return mRawVariableString;
+
+	const CString evaluatedString = pVariableManager->GetEvaluatedString(mRawVariableString);
 
     return evaluatedString;
 }
 
 //////////////////////////////////////////////////////////////////////////
-// Parameter
+// ParameterImp
 //////////////////////////////////////////////////////////////////////////
 
-Parameter::Parameter()
-    : mName(), mValue(), mComments()
+ParameterImp::ParameterImp(Parameter* pSelf)
+    : m_pSelf(pSelf), mName(), mValue(), mComments()
 {
 
 }
-Parameter::Parameter(const CString& name)
-    : mName(name), mValue(), mComments()
+
+ParameterImp::ParameterImp(Parameter* pSelf, const CString& name)
+    : m_pSelf(pSelf), mName(name), mValue(), mComments()
 {
 }
 
-Parameter::Parameter(const CString& name, const CString& value)
-    : mName(name), mValue(value), mComments()
+ParameterImp::ParameterImp(Parameter* pSelf, const CString& name, const CString& value)
+    : m_pSelf(pSelf), mName(name), mValue(value), mComments()
 {
 }
 
-const CString& Parameter::GetName() const
+const CString& ParameterImp::GetName() const
 {
     return mName;
 }
 
-void Parameter::SetValue(const CString& value)
+void  ParameterImp::SetName(const CString& name)
+{
+	mName = name;
+}
+
+void ParameterImp::SetValue(const CString& value)
 {
     mValue = value;
 }
 
-const CString&  Parameter::GetRawValue() const
+const CString&  ParameterImp::GetRawValue() const
 {
     return  mValue.GetRawtring();
 }
 
-const CString  Parameter::GetEvaluatedValue() const
+const CString  ParameterImp::GetEvaluatedValue(const VariableManager* pVariableManager) const
 {
-    return  mValue.GetEvaluatedString();
+    return  mValue.GetEvaluatedString(pVariableManager);
 }
 
-void Parameter::SetComments(const CString& comments)
+void ParameterImp::SetComments(const CString& comments)
 {
     mComments = comments;
 }
 
-const CString& Parameter::GetComments() const
+const CString& ParameterImp::GetComments() const
 {
     return mComments;
 }
@@ -102,7 +113,7 @@ The data format is:
 #define ValueNode _T("Value")
 #define CommentsNode _T("Comments")
 
-bool Parameter::XmlIn(XmlIOStream* pXmlIOStream)
+bool ParameterImp::XmlIn(XmlIOStream* pXmlIOStream)
 {
 	ASSERT(pXmlIOStream != NULL);
 	{
@@ -132,7 +143,7 @@ bool Parameter::XmlIn(XmlIOStream* pXmlIOStream)
 	return true;
 }
 
-bool Parameter::XmlOut(XmlIOStream* pXmlIOStream) const
+bool ParameterImp::XmlOut(XmlIOStream* pXmlIOStream) const
 {
 	ASSERT(pXmlIOStream != NULL);
 
