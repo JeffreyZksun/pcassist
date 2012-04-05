@@ -22,7 +22,7 @@ TEST(TaskManager, GetActionByIndex)
 	BrainApplication::GetWorkingBrain()->GetTaskManager()->deleteRegisteredConditions();
 
 	CString appName(_T("S:\\VEX\\pctext\\PcAssist\\bin\\Release_x86\\PC.exe"));
-	Action* pAction = new Action(_T("RunProcessAction"));
+	Action* pAction = new Action(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("RunProcessAction"));
 	Parameter para(APPLICATION_NAME, appName);
 	Parameter para2(APPLICATION_PARAMETER, _T("as  ds -?"));
 	pAction->GetParameterTable().AddParameter(para);

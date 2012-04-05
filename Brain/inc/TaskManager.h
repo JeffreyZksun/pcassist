@@ -44,6 +44,8 @@ public:
 	virtual bool			XmlIn(XmlIOStream* pXmlIOStream);
 	virtual bool			XmlOut(XmlIOStream* pXmlIOStream) const;
 
+	BrainApplication*		GetBrainApplication() const;
+
 public:
     void                    deleteRegisteredActions();
     void                    deleteRegisteredConditions();
@@ -61,7 +63,7 @@ private:
 private:
 
     BehaviorNodeList			mRegisteredActions;
-    BehaviorNodeList			mRegisteredContions;
+    BehaviorNodeList			mRegisteredConditions;
 
     ActionList					mTaskList;
 
@@ -84,19 +86,20 @@ public:
 	CString			GetObjectId() const;
 	CString			GetObjectType() const;
 
+	void			SetTaskManager(TaskManager* pTaskManager);
+	TaskManager*	GetTaskManager() const;
+
 	ParameterTable& GetParameterTable();
 
 	virtual bool	XmlIn(XmlIOStream* pXmlIOStream);
 	virtual bool	XmlOut(XmlIOStream* pXmlIOStream) const;
 
-	BrainApplication* GetApplication() const;
-
 protected:
 	bool			ExecuteBehavior();
 
+private:
+	TaskManager*	mpTaskManager; // This pointer is set when it is added to the task manager.
 	ParameterTable	mParameterTable;
-
-	BrainApplication* mpBrainApplication; // Back-pointer
 
 	bool			mbIsExecuting; // Don't persist. Used for reference loop check.
 };
@@ -109,11 +112,12 @@ class BRAINEXPORT Action : public BehaviorNode
 {
 public:
 	Action();
-    Action(const CString& objetType);
+	//Action(const CString& objetType);
+    Action(TaskManager* pTaskManager, const CString& objetType);
     virtual ~Action(void);
 
 protected:
-	virtual bool		IsParameterValid(const Parameter& para) const;
+	//virtual bool		IsParameterValid(const Parameter& para) const;
 
 public:
     bool				Execute();
@@ -128,11 +132,12 @@ class BRAINEXPORT Condition : public BehaviorNode
 {
 public:
 	Condition();
-    Condition(const CString& objetType);
+    //Condition(const CString& objetType);
+	Condition(TaskManager* pTaskManager, const CString& objetType);
     virtual ~Condition(void);
 
 protected:
-	virtual bool		IsParameterValid(const Parameter& para) const;
+	//virtual bool		IsParameterValid(const Parameter& para) const;
 
 public:
     bool				IsTrue();
