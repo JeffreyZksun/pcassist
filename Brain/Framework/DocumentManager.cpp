@@ -69,14 +69,10 @@ void DocumentManager::SetDocumentName(const CString& docName)
 #define DocRootNode _T("DocRoot")
 #define VERSION_ATTR _T("Version")
 
-bool DocumentManager::XmlIn(const BrainApplication* pBrainApp)
+bool DocumentManager::XmlIn(IDataBaseObject* pObject)
 {
-	ASSERT(pBrainApp != NULL);
-	if(NULL == pBrainApp)
-		return false;
-
-	ASSERT(pBrainApp->GetDatabase() != NULL);
-	if(NULL == pBrainApp->GetDatabase())
+	ASSERT(pObject != NULL);
+	if(NULL == pObject)
 		return false;
 
 
@@ -106,7 +102,7 @@ bool DocumentManager::XmlIn(const BrainApplication* pBrainApp)
 		}
 
 		// Load database
-		pBrainApp->GetDatabase()->XmlIn(pXmlIOStream);
+		pObject->XmlIn(pXmlIOStream);
 	}
 
 	::CoUninitialize();
@@ -114,15 +110,12 @@ bool DocumentManager::XmlIn(const BrainApplication* pBrainApp)
 	return bRet;
 }
 
-bool DocumentManager::XmlOut(const BrainApplication* pBrainApp)
+bool DocumentManager::XmlOut(const IDataBaseObject* pObject)
 {
-	ASSERT(pBrainApp != NULL);
-	if(NULL == pBrainApp)
+	ASSERT(pObject != NULL);
+	if(NULL == pObject)
 		return false;
 
-	ASSERT(pBrainApp->GetDatabase() != NULL);
-	if(NULL == pBrainApp->GetDatabase())
-		return false;
 
 	::CoInitialize(NULL);
 
@@ -143,7 +136,7 @@ bool DocumentManager::XmlOut(const BrainApplication* pBrainApp)
 
 		// Save database
 
-		pBrainApp->GetDatabase()->XmlOut(pXmlIOStream);
+		pObject->XmlOut(pXmlIOStream);
 	}
 
 	bool bRet = pXmlIOStream->Save(mDocumentName);

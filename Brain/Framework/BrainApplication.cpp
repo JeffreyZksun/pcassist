@@ -57,7 +57,7 @@ bool BrainApplication::XmlIn(const CString& docName) const
 {
 	DocumentManager* pDoc = new DocumentManager();
 	pDoc->SetDocumentName(docName);
-	bool bRet = pDoc->XmlIn(this);
+	bool bRet = pDoc->XmlIn(m_pDatabase);
 
 	return bRet;
 }
@@ -66,7 +66,7 @@ bool BrainApplication::XmlOut(const CString& docName) const
 {
 	DocumentManager* pDoc = new DocumentManager();
 	pDoc->SetDocumentName(docName);
-	bool bRet = pDoc->XmlOut(this);
+	bool bRet = pDoc->XmlOut(m_pDatabase);
 
 	return bRet;
 }
