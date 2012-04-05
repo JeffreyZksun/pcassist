@@ -1,28 +1,26 @@
 #include "StdAfx.h"
 #include "BrainApplication.h"
-#include "TaskManager.h"
 #include "BehaviorBodyFactory.h"
-#include "VariableManager.h"
 #include "DocumentManager.h"
 
 #include "HostService.h"
 #include "IBehaviorBuilder.h"
+#include "Database.h"
 
 
 BrainApplication::BrainApplication()
-		: mpTaskManager(new TaskManager())
-		, mpBehaviorBodyFactory(new BehaviorBodyFactory())
+		: mpBehaviorBodyFactory(new BehaviorBodyFactory())
 		, mpHostService(new HostService()) // ToDo - This data should be set by client.
-		, mpVariableManager(NULL)
+		, m_pDatabase(NULL)
 {
+	m_pDatabase = new Database(this); // IMPORTANT: This object must be constructed after mpHostService.
 	Initialize();
 }
 
 BrainApplication::~BrainApplication()
 {
-	delete mpTaskManager;
+	delete m_pDatabase;
 	delete mpBehaviorBodyFactory;
-	delete mpVariableManager;
 }
 
 
@@ -47,7 +45,7 @@ BrainApplication* BrainApplication::SetWorkingBrain(BrainApplication* pNewApp)
 
 TaskManager* BrainApplication::GetTaskManager() const
 {
-	return mpTaskManager;
+	return m_pDatabase->GetTaskManager();
 }
 
 BehaviorBodyFactory* BrainApplication::GetBehaviorBodyFactory() const
@@ -57,7 +55,7 @@ BehaviorBodyFactory* BrainApplication::GetBehaviorBodyFactory() const
 
 VariableManager* BrainApplication::GetVariableManager() const
 {
-	return mpVariableManager;
+	return m_pDatabase->GetVariableManager();
 }
 
 IOSProvider* BrainApplication::GetOSProvider() const
@@ -68,6 +66,11 @@ IOSProvider* BrainApplication::GetOSProvider() const
 	}
 
 	return NULL;
+}
+
+Database* BrainApplication::GetDatabase() const
+{
+	return m_pDatabase;
 }
 
 bool BrainApplication::XmlIn(const CString& docName) const
@@ -93,8 +96,6 @@ void BrainApplication::Initialize()
 	ASSERT(mpHostService != NULL);
 	if(mpHostService)
 	{
-		mpVariableManager = new VariableManager(mpHostService->GetOSProvider());
-
 		IBehaviorBuilder* pBuilder = mpHostService->GetBehaviorBuilder();
 		ASSERT(pBuilder != NULL);
 		if(pBuilder)

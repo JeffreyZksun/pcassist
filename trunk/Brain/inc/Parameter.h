@@ -8,41 +8,32 @@
 #pragma warning( disable : 4251 ) 
 
 class XmlIOStream;
-
-//////////////////////////////////////////////////////////////////////////
-// ComplexString
-//////////////////////////////////////////////////////////////////////////
-
-// This class should work as a POD type. The operator = is deep copy.
-class BRAINEXPORT ComplexString
-{
-public:
-    ComplexString(void);
-    ComplexString(const CString& variableString);
-    ~ComplexString(void);
-
-    void				SetRawString(const CString& variableString);
-    const CString&		GetRawtring() const;
-    CString				GetEvaluatedString() const;
-
-private:
-    CString				mRawVariableString; // %AppPath%
-};
+class ParameterImp;
+class VariableManager;
 
 // This class should work as a POD type. The operator = is deep copy.
 class BRAINEXPORT Parameter : IDataBaseObject
 {
 public:
-    Parameter();
+	Parameter();
     Parameter(const CString& name);
     Parameter(const CString& name, const CString& value);
 
+	Parameter(const Parameter& rSrc);
+	
+	virtual ~Parameter();
+
+	Parameter* Clone() const;
+
+	Parameter& operator= (const Parameter& rSrc);
+
 public:
+	void  SetName(const CString& name);
     const CString&  GetName() const;
 
     void            SetValue(const CString& value);
     const CString&  GetRawValue() const;
-    const CString   GetEvaluatedValue() const;
+    const CString   GetEvaluatedValue(const VariableManager* pVariableManager) const;
 
     void            SetComments(const CString& comments);
     const CString&  GetComments() const;
@@ -52,9 +43,7 @@ public:
 
 private:
     // 
-    CString         mName;
-    ComplexString   mValue;
-    CString         mComments;
+    ParameterImp*	m_pImp;
 };
 
 #pragma warning( pop ) 

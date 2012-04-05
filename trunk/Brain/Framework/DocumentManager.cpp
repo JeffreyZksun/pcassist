@@ -1,9 +1,8 @@
 #include "StdAfx.h"
 #include "DocumentManager.h"
 #include "XmlIOStream.h"
-#include "TaskManager.h"
-#include "VariableManager.h"
 #include "BrainApplication.h"
+#include "Database.h"
 
 /************************************************************************/
 /* The document schema/format is as below:
@@ -72,9 +71,14 @@ void DocumentManager::SetDocumentName(const CString& docName)
 
 bool DocumentManager::XmlIn(const BrainApplication* pBrainApp)
 {
+	ASSERT(pBrainApp != NULL);
 	if(NULL == pBrainApp)
 		return false;
-	ASSERT(pBrainApp != NULL);
+
+	ASSERT(pBrainApp->GetDatabase() != NULL);
+	if(NULL == pBrainApp->GetDatabase())
+		return false;
+
 
 	::CoInitialize(NULL);
 
@@ -101,11 +105,8 @@ bool DocumentManager::XmlIn(const BrainApplication* pBrainApp)
 			pXmlIOStream->SetDocVersion(DOC_ORIGINAL_VERSION);
 		}
 
-		// Load variable manager
-		pBrainApp->GetVariableManager()->XmlIn(pXmlIOStream);
-
-		// Load task manager
-		pBrainApp->GetTaskManager()->XmlIn(pXmlIOStream);
+		// Load database
+		pBrainApp->GetDatabase()->XmlIn(pXmlIOStream);
 	}
 
 	::CoUninitialize();
@@ -115,9 +116,13 @@ bool DocumentManager::XmlIn(const BrainApplication* pBrainApp)
 
 bool DocumentManager::XmlOut(const BrainApplication* pBrainApp)
 {
+	ASSERT(pBrainApp != NULL);
 	if(NULL == pBrainApp)
 		return false;
-	ASSERT(pBrainApp != NULL);
+
+	ASSERT(pBrainApp->GetDatabase() != NULL);
+	if(NULL == pBrainApp->GetDatabase())
+		return false;
 
 	::CoInitialize(NULL);
 
@@ -136,11 +141,9 @@ bool DocumentManager::XmlOut(const BrainApplication* pBrainApp)
 		docVersion.Format(_T("%u"), pXmlIOStream->GetDocVersion());
 		pXmlIOStream->WriteNodeAttribute(VERSION_ATTR, docVersion);
 
-		// Save variable manager
-		pBrainApp->GetVariableManager()->XmlOut(pXmlIOStream);
+		// Save database
 
-		// Save task manager
-		pBrainApp->GetTaskManager()->XmlOut(pXmlIOStream);
+		pBrainApp->GetDatabase()->XmlOut(pXmlIOStream);
 	}
 
 	bool bRet = pXmlIOStream->Save(mDocumentName);

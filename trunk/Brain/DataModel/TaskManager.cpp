@@ -14,8 +14,8 @@
 // TaskManager
 //////////////////////////////////////////////////////////////////////////
 
-TaskManager::TaskManager(void)
-    : mRegisteredActions(), mRegisteredContions(), mTaskList()
+TaskManager::TaskManager(BrainApplication* pBrainApplication)
+    : mpBrainApplication(pBrainApplication), mRegisteredActions(), mRegisteredContions(), mTaskList()
 {
 }
 
@@ -125,6 +125,18 @@ void TaskManager::RemoveActionTask(Action* pAction)
 
 bool TaskManager::RunTasks()
 {
+	if(NULL == mpBrainApplication)
+	{
+		LogOut(_T("Invalid BrainApplication Pointer"));
+		return false;
+	}
+
+	if(NULL == mpBrainApplication->GetVariableManager())
+	{
+		LogOut(_T("Invalid VariableManager Pointer"));
+		return false;
+	}
+
 	// Log format.
 	//	[==========] Task Begin. (##:##:##)// current time
 	//	[----------]
@@ -196,7 +208,7 @@ bool TaskManager::RunTasks()
             bool bExit = pCurrentAction->GetParameterTable().GetParameter(BREAK_ON_FAIL, para);
             if(bExit)
             {
-                if( para.GetEvaluatedValue().CompareNoCase(_T("true")) == 0)
+                if( para.GetEvaluatedValue(mpBrainApplication->GetVariableManager()).CompareNoCase(_T("true")) == 0)
                 {
                     LogOut(_T("ERROR: Break the task due to the failed action ["), COLOR_RED); 
                     LogOut(*it, COLOR_RED); 
@@ -524,7 +536,7 @@ CString BehaviorNode::GetObjectId() const
 	if(!bExist)
 		return _T("");
 
-	return para.GetEvaluatedValue();
+	return para.GetEvaluatedValue(mpBrainApplication->GetVariableManager());
 }
 
 CString BehaviorNode::GetObjectType() const
@@ -535,7 +547,7 @@ CString BehaviorNode::GetObjectType() const
 	if(!bExist)
 		return _T("");
 
-	return para.GetEvaluatedValue();
+	return para.GetEvaluatedValue(mpBrainApplication->GetVariableManager());
 }
 
 ParameterTable& BehaviorNode::GetParameterTable()
@@ -598,7 +610,7 @@ bool BehaviorNode::ExecuteBehavior()
 				continue;
 
 			// 12 + 1 empty chars
-			LogOut(_T("             ")); LogOut(para.GetName()); LogOut(_T("=")); LogOut(para.GetEvaluatedValue()); LogOut(_T("\n"));
+			LogOut(_T("             ")); LogOut(para.GetName()); LogOut(_T("=")); LogOut(para.GetEvaluatedValue(mpBrainApplication->GetVariableManager())); LogOut(_T("\n"));
 		}
 	}
 
@@ -649,7 +661,7 @@ bool Action::IsParameterValid(const Parameter& para) const
 {
 	if(para.GetName().CompareNoCase(OBJECT_ID) == 0)
 	{
-		Action* pAction = GetApplication()->GetTaskManager()->GetActionById(para.GetEvaluatedValue());
+		Action* pAction = GetApplication()->GetTaskManager()->GetActionById(para.GetEvaluatedValue(mpBrainApplication->GetVariableManager()));
 		ASSERT(NULL == pAction);
 		if(pAction != NULL) // Duplicated Id
 			return false;
@@ -701,7 +713,7 @@ bool Condition::IsParameterValid(const Parameter& para) const
 {
 	if(para.GetName().CompareNoCase(OBJECT_ID) == 0)
 	{
-		Condition* pAction = GetApplication()->GetTaskManager()->GetConditionById(para.GetEvaluatedValue());
+		Condition* pAction = GetApplication()->GetTaskManager()->GetConditionById(para.GetEvaluatedValue(mpBrainApplication->GetVariableManager()));
 		ASSERT(NULL == pAction);
 		if(pAction != NULL) // Duplicated Id
 			return false;

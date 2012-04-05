@@ -13,7 +13,7 @@ TEST(VariableManagerTest, BuiltInVariable)
 
 	if(bExist)
 	{
-		CString actual = para.GetEvaluatedValue(); 
+		CString actual = para.GetEvaluatedValue(BrainApplication::GetWorkingBrain()->GetVariableManager()); 
 		EXPECT_EQ(false, actual.IsEmpty()); // Verify the path should exist.
 	}
 }
@@ -30,7 +30,7 @@ TEST(VariableManagerTest, BuiltInVariable_1)
 
 	if(bExist)
 	{
-		CString actual = para.GetEvaluatedValue(); 
+		CString actual = para.GetEvaluatedValue(BrainApplication::GetWorkingBrain()->GetVariableManager()); 
 		EXPECT_EQ(false, actual.IsEmpty()); // Verify the path should exist.
 	}
 }

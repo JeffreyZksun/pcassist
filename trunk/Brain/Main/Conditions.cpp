@@ -27,13 +27,13 @@ BEHAVIORBODY_IMP(CompositeCondition)
 	if(!bExist)
 		return false;
 
-	Condition* pFstCondition = pContext->GetApplication()->GetTaskManager()->GetConditionById(firstCondition.GetEvaluatedValue());
+	Condition* pFstCondition = pContext->GetApplication()->GetTaskManager()->GetConditionById(firstCondition.GetEvaluatedValue(pContext->GetApplication()->GetVariableManager()));
 	ASSERT(pFstCondition != NULL);
 	if(NULL == pFstCondition)
 		return false;
 
 	bool bRet = false;
-	if(oper.GetEvaluatedValue().CompareNoCase(_T("Not")) == 0)
+	if(oper.GetEvaluatedValue(pContext->GetApplication()->GetVariableManager()).CompareNoCase(_T("Not")) == 0)
 	{
 		bRet = !pFstCondition->IsTrue();
 	}
@@ -44,15 +44,15 @@ BEHAVIORBODY_IMP(CompositeCondition)
 		ASSERT(bExist);
 		if(bExist)
 		{
-			Condition* pSndCondition = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetConditionById(sndCondition.GetEvaluatedValue());
+			Condition* pSndCondition = BrainApplication::GetWorkingBrain()->GetTaskManager()->GetConditionById(sndCondition.GetEvaluatedValue(pContext->GetApplication()->GetVariableManager()));
 			ASSERT(pSndCondition != NULL);
 			if(pSndCondition != NULL)
 			{
-				if(oper.GetEvaluatedValue().CompareNoCase(_T("AND")) == 0)
+				if(oper.GetEvaluatedValue(pContext->GetApplication()->GetVariableManager()).CompareNoCase(_T("AND")) == 0)
 				{
 					bRet =  pFstCondition->IsTrue() && pSndCondition->IsTrue();
 				}
-				else if(oper.GetEvaluatedValue().CompareNoCase(_T("OR")) == 0)
+				else if(oper.GetEvaluatedValue(pContext->GetApplication()->GetVariableManager()).CompareNoCase(_T("OR")) == 0)
 				{
 					bRet =  pFstCondition->IsTrue() || pSndCondition->IsTrue();
 				}
@@ -74,7 +74,7 @@ BEHAVIORBODY_IMP(FileExistsCondition)
     ASSERT(bExist);
 
     if(bExist)
-        return BrainUtil::DoesFileorFolderExist(para.GetEvaluatedValue());
+        return BrainUtil::DoesFileorFolderExist(para.GetEvaluatedValue(pContext->GetApplication()->GetVariableManager()));
     
     return false;
 }
@@ -91,7 +91,7 @@ BEHAVIORBODY_IMP(FolderExistsCondition)
     ASSERT(bExist);
 
     if(bExist)
-        return BrainUtil::DoesFileorFolderExist(para.GetEvaluatedValue());
+        return BrainUtil::DoesFileorFolderExist(para.GetEvaluatedValue(pContext->GetApplication()->GetVariableManager()));
 
     return false;
 }
@@ -103,14 +103,14 @@ BEHAVIORBODY_IMP(RegisterKeyExistsCondition)
 	ASSERT(bExist);
 	if(!bExist)
 		return false;
-	CString rootKey = para.GetEvaluatedValue();
+	CString rootKey = para.GetEvaluatedValue(pContext->GetApplication()->GetVariableManager());
 
 	bExist = pContext->GetInputParameterTable()->GetParameter(SUB_KEY, para);
 	ASSERT(bExist);
 	if(!bExist)
 		return false;
 
-	CString subKeyName = para.GetEvaluatedValue();
+	CString subKeyName = para.GetEvaluatedValue(pContext->GetApplication()->GetVariableManager());
 
 	rootKey.MakeLower();
 	HKEY hRootKey = NULL;
@@ -165,7 +165,7 @@ BEHAVIORBODY_IMP(ProcessRunningCondition)
 	ASSERT(bExist);
 	if(!bExist)
 		return false;
-	CString strPorcessName = para.GetEvaluatedValue();
+	CString strPorcessName = para.GetEvaluatedValue(pContext->GetApplication()->GetVariableManager());
 	strPorcessName.Replace(_T('/'), _T('\\'));
 
 	bool bCompareNameOnly = true;
@@ -186,7 +186,7 @@ BEHAVIORBODY_IMP(ActionResultCondition)
     ASSERT(bExist);
     if(!bExist)
         return false;
-    CString strActionId = para.GetEvaluatedValue();
+    CString strActionId = para.GetEvaluatedValue(pContext->GetApplication()->GetVariableManager());
   
     Action* pAction = pContext->GetApplication()->GetTaskManager()->GetActionById(strActionId);
     ASSERT(pAction != NULL);

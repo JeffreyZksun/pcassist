@@ -21,7 +21,7 @@ TEST(ParameterTest, EvaluationLoop)
 	Parameter para3(_T("C"), _T("C%A%C"));
 	pVM->AddUserParameter(para3);
 
-	CString actual = para3.GetEvaluatedValue(); // There is an expected assert.
+	CString actual = para3.GetEvaluatedValue(BrainApplication::GetWorkingBrain()->GetVariableManager()); // There is an expected assert.
 	CString expected = _T("CABBAC");
 
 	bool bmatch = actual.Compare(expected) == 0;
@@ -46,7 +46,7 @@ TEST(ParameterTest, Evaluation)
 	Parameter para3(_T("ParameterTest_C"), _T("C%ParameterTest_A%C"));
 	pVM->AddUserParameter(para3);
 
-	CString actual = para3.GetEvaluatedValue(); 
+	CString actual = para3.GetEvaluatedValue(BrainApplication::GetWorkingBrain()->GetVariableManager()); 
 	CString expected = _T("CAParameterTest_B_ValueAC");
 
 	bool bmatch = actual.Compare(expected) == 0;

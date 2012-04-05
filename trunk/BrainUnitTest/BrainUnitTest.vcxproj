@@ -55,7 +55,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Brain\Inc;$(SolutionDir)\Brain\Main;$(SolutionDir)\Brain\Framework;$(SolutionDir)\3P\gTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Brain\Inc;$(SolutionDir)\Brain\Main;$(SolutionDir)\Brain\Framework;$(SolutionDir)Brain\DataModel\;$(SolutionDir)\3P\gTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINOS;WIN32;_DEBUG;_CONSOLE;NO_BRAIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -80,7 +80,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Brain\Inc;$(SolutionDir)\Brain\Main;$(SolutionDir)\Brain\Framework;$(SolutionDir)\3P\gTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Brain\Inc;$(SolutionDir)\Brain\Main;$(SolutionDir)\Brain\Framework;$(SolutionDir)Brain\DataModel\;$(SolutionDir)\3P\gTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINOS;WIN32;NDEBUG;_CONSOLE;NO_BRAIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>

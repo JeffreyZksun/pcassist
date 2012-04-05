@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "VariableManager.h"
+#include "VariableManagerImp.h"
 #include <list>
 #include <algorithm>
 #include "CloseLoopChecker.h"
@@ -18,19 +18,20 @@
 static CloseLoopChecker sVariableManagerCloseLoopChecker;
 
 //////////////////////////////////////////////////////////////////////////
-// VariableManager
+// VariableManagerImp
 //////////////////////////////////////////////////////////////////////////
 
-VariableManager::VariableManager(IOSProvider* pOSProvider) : mUserParameterTable(), mBuiltinParameterTable()
+VariableManagerImp::VariableManagerImp(VariableManager* pSelf, IOSProvider* pOSProvider) 
+	: m_pSelf(pSelf), mUserParameterTable(), mBuiltinParameterTable()
 {
 	InitializeBuiltInGlobalVariables(pOSProvider);
 }
 
-VariableManager::~VariableManager(void)
+VariableManagerImp::~VariableManagerImp(void)
 {
 }
 
- CString VariableManager::GetEvaluatedString(const CString& variableString) const
+ CString VariableManagerImp::GetEvaluatedString(const CString& variableString) const
  {
      CString evaluatedString = variableString;
 
@@ -58,7 +59,7 @@ VariableManager::~VariableManager(void)
 			 return _T("");  
 		 }
 
-         CString evalStr = para.GetEvaluatedValue();
+         CString evalStr = para.GetEvaluatedValue(Self());
 
 		 sVariableManagerCloseLoopChecker.Pop();
 
@@ -77,12 +78,12 @@ VariableManager::~VariableManager(void)
      return evaluatedString;
  }
 
- void VariableManager::AddUserParameter(const Parameter& para)
+ void VariableManagerImp::AddUserParameter(const Parameter& para)
  {
 	mUserParameterTable.AddParameter(para);
  }
 
- bool VariableManager::GetParameter(const CString& paraName, Parameter& para) const
+ bool VariableManagerImp::GetParameter(const CString& paraName, Parameter& para) const
  {
 	 bool bRet = mUserParameterTable.GetParameter(paraName, para);
 	 if(bRet) 
@@ -94,7 +95,7 @@ VariableManager::~VariableManager(void)
 
  // GetNextVariable(_T("C:\\temp%%\\%userPath%\\local\\%NextOne%\\readme.txt")); return userPath
  // The return value doesn't include the %.
- bool VariableManager::GetNextVariable(const CString& variableString, CString& varItem) const
+ bool VariableManagerImp::GetNextVariable(const CString& variableString, CString& varItem) const
  {
      int posStart = variableString.Find(_T('%'));
      if(-1 == posStart)
@@ -123,17 +124,17 @@ VariableManager::~VariableManager(void)
      return true;
  }
 
-// ParameterTable& VariableManager::GetParameterTable()
+// ParameterTable& VariableManagerImp::GetParameterTable()
 //{
 //	return mUserParameterTable;
 //}
 
-void VariableManager::AddBuiltinParameter(const Parameter& para)
+void VariableManagerImp::AddBuiltinParameter(const Parameter& para)
 {
 	mBuiltinParameterTable.AddParameter(para);
 }
 
-void VariableManager::InitializeBuiltInGlobalVariables(IOSProvider* pOSProvider)
+void VariableManagerImp::InitializeBuiltInGlobalVariables(IOSProvider* pOSProvider)
 {
 	if(pOSProvider)
 	{
@@ -164,6 +165,11 @@ void VariableManager::InitializeBuiltInGlobalVariables(IOSProvider* pOSProvider)
 		}
 	}	
 }
+
+VariableManager* VariableManagerImp::Self() const
+{
+	return m_pSelf;
+}
  
 /************************************************************************
  The data format is:
@@ -177,7 +183,7 @@ void VariableManager::InitializeBuiltInGlobalVariables(IOSProvider* pOSProvider)
 ************************************************************************/
 #define GlobalVariablesNode _T("GlobalVariables")
 
-bool VariableManager::XmlIn(XmlIOStream* pXmlIOStream)
+bool VariableManagerImp::XmlIn(XmlIOStream* pXmlIOStream)
 {
 	ASSERT(pXmlIOStream != NULL);
 	{
@@ -188,7 +194,7 @@ bool VariableManager::XmlIn(XmlIOStream* pXmlIOStream)
 	return true;
 }
 
-bool VariableManager::XmlOut(XmlIOStream* pXmlIOStream) const
+bool VariableManagerImp::XmlOut(XmlIOStream* pXmlIOStream) const
 {
 	ASSERT(pXmlIOStream != NULL);	
 

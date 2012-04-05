@@ -22,7 +22,7 @@ class BrainApplication;
 class BRAINEXPORT TaskManager : IDataBaseObject
 {
 public:
-    TaskManager(void);
+    TaskManager(BrainApplication* pBrainApplication);
     ~TaskManager(void);
 
 public:
@@ -64,6 +64,8 @@ private:
     BehaviorNodeList			mRegisteredContions;
 
     ActionList					mTaskList;
+
+	BrainApplication*			mpBrainApplication; // Back-pointer
 
 };
 

@@ -9,6 +9,7 @@
 #pragma warning( disable : 4251 ) 
 
 class XmlIOStream;
+class ParameterTableImp;
 
 class BRAINEXPORT ParameterTable : IDataBaseObject
 {
@@ -29,16 +30,9 @@ public:
 	virtual bool		XmlIn(XmlIOStream* pXmlIOStream);
 	virtual bool		XmlOut(XmlIOStream* pXmlIOStream) const;
 
-protected:
-	virtual bool		IsParameterValid(const Parameter& para) const;
 
 private:
-
-	// Use the list to instead the map. We want to the parameters are shown as sequence they are added. 
-	//typedef std::map<CString, Parameter> ParameterMap;
-	typedef std::list<Parameter> ParameterList;
-
-    ParameterList	mParaList;
+	ParameterTableImp*	m_pImp;
 };
 
 #pragma warning( pop ) 
