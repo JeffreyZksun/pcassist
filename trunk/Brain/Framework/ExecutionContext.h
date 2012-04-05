@@ -8,10 +8,9 @@ class BrainApplication;
 class ExecutionContext
 {
 public:
-	ExecutionContext(BehaviorNode*, ParameterTable*);
+	ExecutionContext(BrainApplication*, BehaviorNode*);
 
-	void					SetInputParameterTable(ParameterTable*);
-	ParameterTable* const	GetInputParameterTable() const;
+	const ParameterTable* const	GetInputParameterTable() const;
 
 	void					SetBehaviorNode(BehaviorNode*);
 	BehaviorNode* const		GetBehaviorNode() const;
@@ -19,7 +18,7 @@ public:
 	BrainApplication*		GetApplication() const;
 
 private:
-	ParameterTable*			mpInputTable;
+	BrainApplication*		mpBrainApplication;
 	BehaviorNode*			mpCurrentBehavior;
 };
 

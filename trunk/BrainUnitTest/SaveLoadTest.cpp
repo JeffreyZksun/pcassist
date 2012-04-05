@@ -20,7 +20,7 @@ TEST(SaveLoadTest, SaveLoadLatestVersion)
 
 	CString conditionId = _T("DoesRegExist");
 	{
-		Condition *pRegCondition = new Condition(_T("RegisterKeyExistsCondition"));
+		Condition *pRegCondition = new Condition(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("RegisterKeyExistsCondition"));
 		Parameter objectId(OBJECT_ID, conditionId);
 		Parameter para1(_T("RootKey"), _T("HKEY_LOCAL_MACHINE"));
 		Parameter para2(_T("SubKey"), _T("Software\\Microsoft"));
@@ -34,7 +34,7 @@ TEST(SaveLoadTest, SaveLoadLatestVersion)
 
 	CString actionId = _T("DemoToRunSysCmd");
 	{
-		Action *pNewAction = new Action(_T("RunSystemCommandAction"));
+		Action *pNewAction = new Action(BrainApplication::GetWorkingBrain()->GetTaskManager(), _T("RunSystemCommandAction"));
 		Parameter objectId(OBJECT_ID, actionId);
 		objectId.SetComments(_T("Object Id is used to reference this object everywhere."));
 		Parameter objectType;

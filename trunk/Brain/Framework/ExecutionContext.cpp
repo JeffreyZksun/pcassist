@@ -3,22 +3,19 @@
 #include "TaskManager.h"
 
 
-ExecutionContext::ExecutionContext(BehaviorNode* pBehavior, ParameterTable* pInTable)
-	: mpCurrentBehavior(pBehavior), mpInputTable(pInTable)
+ExecutionContext::ExecutionContext(BrainApplication* pBrainApplication, BehaviorNode* pBehavior)
+	: mpBrainApplication(pBrainApplication), mpCurrentBehavior(pBehavior)
 {
 
 }
 
-void ExecutionContext::SetInputParameterTable(ParameterTable* pInTable)
+const ParameterTable* const ExecutionContext::GetInputParameterTable() const
 {
-	ASSERT(pInTable != NULL);
-	mpInputTable = pInTable;
-}
+	ASSERT(mpCurrentBehavior != NULL);
+	if(mpCurrentBehavior != NULL)
+		return &(mpCurrentBehavior->GetParameterTable());
 
-ParameterTable* const ExecutionContext::GetInputParameterTable() const
-{
-	ASSERT(mpInputTable != NULL);
-	return mpInputTable;
+	return NULL;
 }
 
 void ExecutionContext::SetBehaviorNode(BehaviorNode* pBehavior)
@@ -35,9 +32,9 @@ BehaviorNode* const ExecutionContext::GetBehaviorNode() const
 
 BrainApplication* ExecutionContext::GetApplication() const
 {
-	ASSERT(mpCurrentBehavior != NULL);
-	if(mpCurrentBehavior != NULL)
-		return mpCurrentBehavior->GetApplication();
+	ASSERT(mpBrainApplication != NULL);
+	if(mpBrainApplication != NULL)
+		return mpBrainApplication;
 
 	return NULL;
 }
