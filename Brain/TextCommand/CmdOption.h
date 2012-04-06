@@ -8,10 +8,19 @@ namespace Ts
 
     class BRAINEXPORT CmdOption
     {
+	public:
+		enum EValueType
+		{
+			eNoValue,
+			eString
+		};
+
     public:
-        CmdOption(const NString& name, const NString& description);
-        CmdOption(const NString& name, char shortName, const NString& description);
+        CmdOption(const NString& name, const NString& description, EValueType eType = eString);
+        CmdOption(const NString& name, char shortName, const NString& description, EValueType eType = eString);
         ~CmdOption();
+
+
 
     public:
         NString GetLongAndShortName() const;
@@ -27,6 +36,9 @@ namespace Ts
 
         const NString& GetValue() const;
         void SetValue(const NString& value);
+
+		CmdOption::EValueType GetValueType() const;
+		void SetValueType(CmdOption::EValueType eType);
 
     private:
         CmdOptionImp*  m_pImp;

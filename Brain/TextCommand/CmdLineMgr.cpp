@@ -49,7 +49,7 @@ bool CmdLineMgr::HasUnrecognizedOption() const
     return m_pImp->HasUnrecognizedOption();
 }
 
-NString CmdLineMgr::GetUnrecongnizedOption() const
+const NString& CmdLineMgr::GetUnrecongnizedOption() const
 {
     return m_pImp->GetUnrecongnizedOption();
 }

@@ -4,16 +4,16 @@
 
 using namespace Ts;
 
-CmdOption::CmdOption(const NString& name, const NString& description) 
+CmdOption::CmdOption(const NString& name, const NString& description, EValueType eType /*= eString*/) 
     : m_pImp(NULL)
 {
-    m_pImp = new CmdOptionImp(this, name, description);
+    m_pImp = new CmdOptionImp(this, name, description, eType);
 }
 
-CmdOption::CmdOption(const NString& name, char shortName, const NString& description) 
+CmdOption::CmdOption(const NString& name, char shortName, const NString& description, EValueType eType/* = eString*/) 
     : m_pImp(NULL)
 {
-     m_pImp = new CmdOptionImp(this, name, shortName, description);
+     m_pImp = new CmdOptionImp(this, name, shortName, description, eType);
 }
 
 CmdOption::~CmdOption()
@@ -68,4 +68,14 @@ const NString& CmdOption::GetValue() const
 void CmdOption::SetValue(const NString& value)
 {
     m_pImp->SetValue(value);
+}
+
+CmdOption::EValueType CmdOption::GetValueType() const
+{
+	return m_pImp->GetValueType();
+}
+
+void CmdOption::SetValueType(CmdOption::EValueType eType)
+{
+	m_pImp->SetValueType(eType);
 }
