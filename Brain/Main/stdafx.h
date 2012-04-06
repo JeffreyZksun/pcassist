@@ -21,7 +21,4 @@
 //#include <assert.h> // the assert will abort the program
 #include <afxcom_.h> // For ASSERT
 
-#include <iostream>
-#include <string>
-typedef std::wstring    WString; // Wide string
-typedef std::string     NString; // Narrow string
+#include "BrainSystem.h"
