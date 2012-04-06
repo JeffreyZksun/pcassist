@@ -53,3 +53,7 @@ const NString& CmdLineMgr::GetUnrecongnizedOption() const
 {
     return m_pImp->GetUnrecongnizedOption();
 }
+NString	CmdLineMgr::GetOptionDescription() const
+{
+	return m_pImp->GetOptionDescription();
+}

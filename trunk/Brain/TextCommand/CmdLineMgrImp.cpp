@@ -51,21 +51,7 @@ bool CmdLineMgrImp::Parse(const std::vector<NString>& options)
 
         po::options_description optionDesc("Allowed options");
 
-        for(CmdOptionList::const_iterator it = m_SupportedOptionsList.begin(); it != m_SupportedOptionsList.end(); ++it)
-        {
-			switch((*it)->GetValueType())
-			{
-			case CmdOption::eNoValue:
-				optionDesc.add_options()((*it)->GetLongAndShortName().c_str(), (*it)->GetDescription().c_str());
-				break;
-			case CmdOption::eString:
-				optionDesc.add_options()((*it)->GetLongAndShortName().c_str(), po::value<NString>(), (*it)->GetDescription().c_str());
-				break;
-			default:
-				optionDesc.add_options()((*it)->GetLongAndShortName().c_str(), po::value<NString>(), (*it)->GetDescription().c_str());
-				break;				
-			}
-        }
+        PopulateOptionsDescription(optionDesc);
 
         po::variables_map vm;
         int style = po::command_line_style::unix_style 
@@ -174,4 +160,34 @@ CmdOption* CmdLineMgrImp::GetSupportedOptionByName(const NString& name) const
 const NString& CmdLineMgrImp::GetUnrecongnizedOption() const
 {
     return m_UnrecognizedOptions;
+}
+
+NString	CmdLineMgrImp::GetOptionDescription() const
+{
+	po::options_description optionDesc("Allowed options");
+	PopulateOptionsDescription(optionDesc);
+	
+	std::ostringstream strStream;
+	optionDesc.print(strStream);
+
+	return strStream.str();
+}
+
+void CmdLineMgrImp::PopulateOptionsDescription(po::options_description& optionDesc) const
+{
+	for(CmdOptionList::const_iterator it = m_SupportedOptionsList.begin(); it != m_SupportedOptionsList.end(); ++it)
+	{
+		switch((*it)->GetValueType())
+		{
+		case CmdOption::eNoValue:
+			optionDesc.add_options()((*it)->GetLongAndShortName().c_str(), (*it)->GetDescription().c_str());
+			break;
+		case CmdOption::eString:
+			optionDesc.add_options()((*it)->GetLongAndShortName().c_str(), po::value<NString>(), (*it)->GetDescription().c_str());
+			break;
+		default:
+			optionDesc.add_options()((*it)->GetLongAndShortName().c_str(), po::value<NString>(), (*it)->GetDescription().c_str());
+			break;				
+		}
+	}
 }
