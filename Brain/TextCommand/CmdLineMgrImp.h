@@ -3,6 +3,14 @@
 #include <list>
 #include <vector>
 
+namespace boost
+{ 
+	namespace program_options
+	{
+		class options_description;
+	}
+}
+
 namespace Ts
 {
     class CmdLineMgr;
@@ -25,9 +33,13 @@ namespace Ts
         bool			HasUnrecognizedOption() const ;
         const NString&  GetUnrecongnizedOption() const;
 
+		NString			GetOptionDescription() const;
+
     private:
         void			RemovedRecognizedOptions();
         bool			Parse(const std::vector<NString>& options);
+
+		void			PopulateOptionsDescription(boost::program_options::options_description& optionDesc) const;
 
     private:
         typedef std::list<CmdOption*> CmdOptionList;

@@ -21,7 +21,8 @@ namespace Ts
         virtual CmdOption*		GetSupportedOptionByName(const NString& name) const;
 
         virtual bool			HasUnrecognizedOption() const;
-        virtual const NString&     GetUnrecongnizedOption() const;
+        virtual const NString&  GetUnrecongnizedOption() const;
+		virtual NString			GetOptionDescription() const;
 
     private:
         CmdLineMgrImp*  m_pImp;

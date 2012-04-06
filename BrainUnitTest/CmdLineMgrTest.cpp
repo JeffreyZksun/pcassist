@@ -204,7 +204,7 @@ TEST(CmdLineMgrTest, Test_3)
 	}
 }
 
-// ExeName -F script.xml --help
+// -F script.xml --help
 TEST(CmdLineMgrTest, Test_4)
 {
 	NString strOptions = "-F script.xml --help";
@@ -274,4 +274,33 @@ TEST(CmdLineMgrTest, Test_4)
 			EXPECT_EQ("script.xml", strValue);
 		}
 	}
+}
+
+
+// -F script.xml --help
+TEST(CmdLineMgrTest, Test_5)
+{
+	NString strOptions = "-F script.xml --help";
+
+	Ts::CmdLineMgr cmdMgr;
+	{
+		CmdOption* pOption = new CmdOption("help", "Display help message", CmdOption::eNoValue);
+		const bool ok = cmdMgr.AddSupportedOption(pOption);
+		if(!ok)
+			delete pOption;
+	}
+
+	{
+		CmdOption* pOption = new CmdOption("file", 'F', "file name");
+		const bool ok = cmdMgr.AddSupportedOption(pOption);
+		if(!ok)
+			delete pOption;
+	}
+
+	const bool ok = cmdMgr.Parse(strOptions);
+	EXPECT_EQ(true, ok);
+
+	const NString options_Desc = cmdMgr.GetOptionDescription();
+	const NString expectedStr = "Allowed options:\n  --help                Display help message\n  -F [ --file ] arg     file name";
+	EXPECT_EQ(expectedStr, options_Desc);
 }
