@@ -31,3 +31,5 @@
 #include "DocumentManager.h"
 #include "Actions.h"
 #include "Conditions.h"
+
+#include "BrainSystem.h"

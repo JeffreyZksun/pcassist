@@ -9,7 +9,7 @@
 #include "NotificationMgr.h"
 #include "NetworkMessageEvent.h"
 
-
+#include <iostream>
 #include <boost/array.hpp>
 
 using boost::asio::ip::tcp;

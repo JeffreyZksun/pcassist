@@ -40,6 +40,9 @@
     <Filter Include="Framework\DataModel">
       <UniqueIdentifier>{cc507f1f-afaf-4bdc-94b2-2329a48e7cda}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TextCommand">
+      <UniqueIdentifier>{753fc032-5e6b-4d69-9f2e-0d4ddbb195c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\BrainApplication.h">
@@ -201,6 +204,21 @@
     <ClInclude Include="DataModel\Database.h">
       <Filter>Framework\DataModel</Filter>
     </ClInclude>
+    <ClInclude Include="TextCommand\CmdLineMgr.h">
+      <Filter>TextCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="TextCommand\CmdLineMgrImp.h">
+      <Filter>TextCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="TextCommand\CmdOption.h">
+      <Filter>TextCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="TextCommand\CmdOptionImp.h">
+      <Filter>TextCommand</Filter>
+    </ClInclude>
+    <ClInclude Include="TextCommand\ICmdLineMgr.h">
+      <Filter>TextCommand</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Actions.cpp">
@@ -304,6 +322,18 @@
     </ClCompile>
     <ClCompile Include="DataModel\Database.cpp">
       <Filter>Framework\DataModel</Filter>
+    </ClCompile>
+    <ClCompile Include="TextCommand\CmdLineMgr.cpp">
+      <Filter>TextCommand</Filter>
+    </ClCompile>
+    <ClCompile Include="TextCommand\CmdLineMgrImp.cpp">
+      <Filter>TextCommand</Filter>
+    </ClCompile>
+    <ClCompile Include="TextCommand\CmdOption.cpp">
+      <Filter>TextCommand</Filter>
+    </ClCompile>
+    <ClCompile Include="TextCommand\CmdOptionImp.cpp">
+      <Filter>TextCommand</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

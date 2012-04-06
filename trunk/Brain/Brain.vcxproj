@@ -65,7 +65,7 @@
     <Lib>
       <AdditionalDependencies>
       </AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Boost\boost_1_49_0\stage\lib-$(Platform)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)3P\Boost\boost_1_49_0\stage\lib-$(Platform)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -85,7 +85,7 @@
     <Lib>
       <AdditionalDependencies>
       </AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Boost\boost_1_49_0\stage\lib-$(Platform)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)3P\Boost\boost_1_49_0\stage\lib-$(Platform)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -138,6 +138,11 @@
     <ClInclude Include="Network\TCPServer.h" />
     <ClInclude Include="Network\TCPServerImp.h" />
     <ClInclude Include="OS\Windows\WindowsProvider.h" />
+    <ClInclude Include="TextCommand\CmdLineMgr.h" />
+    <ClInclude Include="TextCommand\CmdLineMgrImp.h" />
+    <ClInclude Include="TextCommand\CmdOption.h" />
+    <ClInclude Include="TextCommand\CmdOptionImp.h" />
+    <ClInclude Include="TextCommand\ICmdLineMgr.h" />
     <ClInclude Include="XML\IXmlIOStream.h" />
     <ClInclude Include="XML\XmlIOStream.h" />
     <ClInclude Include="XML\XmlIOStreamImp.h" />
@@ -175,6 +180,10 @@
     <ClCompile Include="Network\TCPServer.cpp" />
     <ClCompile Include="Network\TCPServerImp.cpp" />
     <ClCompile Include="OS\Windows\WindowsProvider.cpp" />
+    <ClCompile Include="TextCommand\CmdLineMgr.cpp" />
+    <ClCompile Include="TextCommand\CmdLineMgrImp.cpp" />
+    <ClCompile Include="TextCommand\CmdOption.cpp" />
+    <ClCompile Include="TextCommand\CmdOptionImp.cpp" />
     <ClCompile Include="XML\XmlIOStream.cpp" />
     <ClCompile Include="XML\XmlIOStreamImp.cpp" />
     <ClCompile Include="XML\XmlNodeWrapper.cpp" />
