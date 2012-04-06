@@ -3,14 +3,14 @@
 
 using namespace Ts;
 
-CmdOptionImp::CmdOptionImp(CmdOption* pSelf, const NString& name, const NString& description) 
-    : m_pSelf(pSelf), m_Name(name), m_ShortName(0), m_Description(description), m_Value()
+CmdOptionImp::CmdOptionImp(CmdOption* pSelf, const NString& name, const NString& description, CmdOption::EValueType eType) 
+    : m_pSelf(pSelf), m_Name(name), m_ShortName(0), m_Description(description), m_eType(eType), m_Value()
 {
 
 }
 
-CmdOptionImp::CmdOptionImp(CmdOption* pSelf, const NString& name, char shortName, const NString& description) 
-    : m_pSelf(pSelf), m_Name(name), m_ShortName(shortName), m_Description(description), m_Value()
+CmdOptionImp::CmdOptionImp(CmdOption* pSelf, const NString& name, char shortName, const NString& description, CmdOption::EValueType eType) 
+    : m_pSelf(pSelf), m_Name(name), m_ShortName(shortName), m_Description(description), m_eType(eType), m_Value()
 {
 
 }
@@ -76,4 +76,14 @@ void CmdOptionImp::SetValue(const NString& value)
 {
     m_Value = value;
 
+}
+
+CmdOption::EValueType CmdOptionImp::GetValueType() const
+{
+	return m_eType;
+}
+
+void CmdOptionImp::SetValueType(CmdOption::EValueType eType)
+{
+	m_eType = eType;
 }

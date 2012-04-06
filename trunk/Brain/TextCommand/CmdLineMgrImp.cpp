@@ -53,7 +53,18 @@ bool CmdLineMgrImp::Parse(const std::vector<NString>& options)
 
         for(CmdOptionList::const_iterator it = m_SupportedOptionsList.begin(); it != m_SupportedOptionsList.end(); ++it)
         {
-            optionDesc.add_options()((*it)->GetLongAndShortName().c_str(), po::value<NString>(), (*it)->GetDescription().c_str());
+			switch((*it)->GetValueType())
+			{
+			case CmdOption::eNoValue:
+				optionDesc.add_options()((*it)->GetLongAndShortName().c_str(), (*it)->GetDescription().c_str());
+				break;
+			case CmdOption::eString:
+				optionDesc.add_options()((*it)->GetLongAndShortName().c_str(), po::value<NString>(), (*it)->GetDescription().c_str());
+				break;
+			default:
+				optionDesc.add_options()((*it)->GetLongAndShortName().c_str(), po::value<NString>(), (*it)->GetDescription().c_str());
+				break;				
+			}
         }
 
         po::variables_map vm;
@@ -86,10 +97,9 @@ bool CmdLineMgrImp::Parse(const std::vector<NString>& options)
             itrV != vecUnrecognizedOptions.end(); itrV++)
         {
             if(!bFirst)
-            {
                 m_UnrecognizedOptions.push_back(' '); // And space.
-                bFirst = false;
-            }
+			else
+				bFirst = false;
 
             // Handle the space or add quotes
             if(boost::icontains(itrV->c_str(), " "))
@@ -161,7 +171,7 @@ CmdOption* CmdLineMgrImp::GetSupportedOptionByName(const NString& name) const
     return NULL;
 }
 
-NString CmdLineMgrImp::GetUnrecongnizedOption() const
+const NString& CmdLineMgrImp::GetUnrecongnizedOption() const
 {
     return m_UnrecognizedOptions;
 }
