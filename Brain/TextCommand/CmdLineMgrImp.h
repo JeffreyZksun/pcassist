@@ -30,6 +30,7 @@ namespace Ts
         CmdOption*		GetRecognizedOptionByName(const NString& name) const;
         CmdOption*		GetSupportedOptionByName(const NString& name) const;
 
+		bool			HasRecognizedOption() const;
         bool			HasUnrecognizedOption() const ;
         const NString&  GetUnrecongnizedOption() const;
 

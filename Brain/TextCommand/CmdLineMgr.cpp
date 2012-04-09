@@ -44,6 +44,11 @@ CmdOption* CmdLineMgr::GetSupportedOptionByName(const NString& name) const
     return m_pImp->GetSupportedOptionByName(name);
 }
 
+bool CmdLineMgr::HasRecognizedOption() const
+{
+	return m_pImp->HasRecognizedOption();
+}
+
 bool CmdLineMgr::HasUnrecognizedOption() const
 {
     return m_pImp->HasUnrecognizedOption();

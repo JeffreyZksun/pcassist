@@ -136,9 +136,14 @@ CmdOption* CmdLineMgrImp::GetRecognizedOptionByName(const NString& name) const
     return NULL;
 }
 
+bool CmdLineMgrImp::HasRecognizedOption() const
+{
+    return (m_RecognizedOptionsList.size() != 0);
+}
+
 bool CmdLineMgrImp::HasUnrecognizedOption() const
 {
-    return (m_UnrecognizedOptions.size() != 0);
+	return (m_UnrecognizedOptions.size() != 0);
 }
 
 void CmdLineMgrImp::RemovedRecognizedOptions() 
