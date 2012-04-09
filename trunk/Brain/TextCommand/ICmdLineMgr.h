@@ -18,6 +18,7 @@ namespace Ts
         virtual CmdOption*		GetRecognizedOptionByName(const NString& name) const = 0;
         virtual CmdOption*		GetSupportedOptionByName(const NString& name) const = 0;
 
+		virtual bool			HasRecognizedOption() const = 0;
         virtual bool			HasUnrecognizedOption() const = 0;
 		virtual const NString&	GetUnrecongnizedOption() const = 0;
 

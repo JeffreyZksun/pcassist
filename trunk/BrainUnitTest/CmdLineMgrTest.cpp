@@ -6,7 +6,7 @@
 using namespace Ts;
 
 // Add/get supported options
-TEST(CmdLineMgrTest, Test_1)
+TEST(CmdLineMgrTest, Test_BeforeParsing)
 {
 	Ts::CmdLineMgr cmdMgr;
 
@@ -89,10 +89,14 @@ TEST(CmdLineMgrTest, Test_1)
 			EXPECT_EQ("", strValue);
 		}
 	}
+	{
+		const bool bExist = cmdMgr.HasRecognizedOption();
+		EXPECT_EQ(false, bExist);
+	}
 }
 
 // ExeName -F script.xml --help
-TEST(CmdLineMgrTest, Test_2)
+TEST(CmdLineMgrTest, Test_AllValidOptions)
 {
 	char* argv[] = {{"ExeName"}, {"-F"}, {"script.xml"}, {"--help"} };
 	int argc = 4;
@@ -165,7 +169,7 @@ TEST(CmdLineMgrTest, Test_2)
 }
 
 // ExeName --Tags "tag1 tag2 tag3" --unrecognized "unknwon1 unknown2"
-TEST(CmdLineMgrTest, Test_3)
+TEST(CmdLineMgrTest, Test_MixValidAndInvalidOptions)
 {
 	char* argv[] = {{"ExeName"}, {"--Tags"}, {"tag1 tag2 tag3"}, {"--unrecognized"} , {"unknwon1 unknown2"}};
 	int argc = 5;
@@ -205,7 +209,7 @@ TEST(CmdLineMgrTest, Test_3)
 }
 
 // -F script.xml --help
-TEST(CmdLineMgrTest, Test_4)
+TEST(CmdLineMgrTest, Test_AllValidStringOptions)
 {
 	NString strOptions = "-F script.xml --help";
 
@@ -274,11 +278,15 @@ TEST(CmdLineMgrTest, Test_4)
 			EXPECT_EQ("script.xml", strValue);
 		}
 	}
+
+	{
+		const bool bExist = cmdMgr.HasRecognizedOption();
+		EXPECT_EQ(true, bExist);
+	}
 }
 
-
 // -F script.xml --help
-TEST(CmdLineMgrTest, Test_5)
+TEST(CmdLineMgrTest, Test_Description)
 {
 	NString strOptions = "-F script.xml --help";
 
@@ -301,6 +309,33 @@ TEST(CmdLineMgrTest, Test_5)
 	EXPECT_EQ(true, ok);
 
 	const NString options_Desc = cmdMgr.GetOptionDescription();
-	const NString expectedStr = "Allowed options:\n  --help                Display help message\n  -F [ --file ] arg     file name";
+	const NString expectedStr = "Allowed options:\n  --help                Display help message\n  -F [ --file ] arg     file name\n";
 	EXPECT_EQ(expectedStr, options_Desc);
+}
+
+// -F script.xml --help
+TEST(CmdLineMgrTest, Test_UnrecognizedOptions)
+{
+	NString strOptions = "-T script.xml --help2";
+
+	Ts::CmdLineMgr cmdMgr;
+	{
+		CmdOption* pOption = new CmdOption("help", "Display help message", CmdOption::eNoValue);
+		const bool ok = cmdMgr.AddSupportedOption(pOption);
+		if(!ok)
+			delete pOption;
+	}
+
+	{
+		CmdOption* pOption = new CmdOption("file", 'F', "file name");
+		const bool ok = cmdMgr.AddSupportedOption(pOption);
+		if(!ok)
+			delete pOption;
+	}
+
+	const bool ok = cmdMgr.Parse(strOptions);
+	EXPECT_EQ(true, ok);
+
+	const bool bExist = cmdMgr.HasRecognizedOption();
+	EXPECT_EQ(false, bExist);
 }
