@@ -30,6 +30,8 @@ void ConnectionGroupImp::Close()
         (*it)->Close();
     }
 
+    m_io_service.stop();
+
     // Stop the asio
     if(m_pAsioThread != NULL)
     {
@@ -83,7 +85,14 @@ boost::asio::io_service& ConnectionGroupImp::io_service()
 
 void ConnectionGroupImp::IOThreadEntry()
 {
-    m_io_service.run();
+    try
+    {
+        m_io_service.run();
+    }
+    catch (... )
+    {
+        // The run always throws the exception.
+    }
 }
 
 
