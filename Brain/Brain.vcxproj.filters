@@ -219,6 +219,9 @@
     <ClInclude Include="TextCommand\ICmdLineMgr.h">
       <Filter>Framework\TextCommand</Filter>
     </ClInclude>
+    <ClInclude Include="Network\ConnectionGroupImp.h">
+      <Filter>Framework\Networks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Actions.cpp">
@@ -334,6 +337,9 @@
     </ClCompile>
     <ClCompile Include="TextCommand\CmdOptionImp.cpp">
       <Filter>Framework\TextCommand</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\ConnectionGroupImp.cpp">
+      <Filter>Framework\Networks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

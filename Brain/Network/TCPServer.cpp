@@ -19,9 +19,9 @@ TCPServer::~TCPServer(void)
     }
 }
 
-bool TCPServer::StartListen_Asyc()
+bool TCPServer::Start()
 {
-    return m_pImp->StartListen_Asyc();
+    return m_pImp->Start();
 }
 
 void TCPServer::Close()

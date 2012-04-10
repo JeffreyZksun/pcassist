@@ -10,26 +10,26 @@ namespace Ts
     class ConnectionPoint : public IConnectionPoint
     {
     public:
-        ConnectionPoint();
+        ConnectionPoint(ConnectionPointImp* pImp);
 
         virtual ~ConnectionPoint(void);
 
     public:
-        virtual bool                Accept(unsigned short serverPort); // work as server
-        virtual bool                ConnectToServer(const WString& serverIP, unsigned short serverPort); // work as client
+        virtual bool                ConnectToServer(const WString& serverIP, unsigned short serverPort);
+        virtual void                Close();
+
+        virtual void                Send(const WString& strData);
+
+        virtual WString             GetRemoteIP() const;
+        virtual unsigned short      GetRemotePort() const;
+        virtual unsigned short      GetLocalPort() const;
         virtual bool                IsConnected() const;
-    
-        virtual std::size_t         Send(const WString& strData);
-        virtual bool                Receive(WString& strData);
-        virtual void                Receive_Asyc();
 
-        virtual WString             GetRemoteIP();
 
-        virtual bool                Close();
 
     private:
 
-        ConnectionPointImp*     m_pImp;
+        ConnectionPointImp*         m_pImp;
     };
 
 }

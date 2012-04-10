@@ -2,11 +2,13 @@
 
 #include "TCPServerImp.h"
 #include "ConnectionPoint.h"
+#include "ConnectionPointImp.h"
 
 using namespace Ts;
 
 
-TCPServerImp::TCPServerImp(TCPServer* pSelf, unsigned short serverPort) : m_pSelf(pSelf), m_ClientList(), m_ServerPort(serverPort), m_pListenThread(NULL)
+TCPServerImp::TCPServerImp(TCPServer* pSelf, unsigned short serverPort) : m_pSelf(pSelf), m_ConnectionGroup(), m_ServerPort(serverPort)
+    , m_acceptor(m_ConnectionGroup.io_service(), tcp::endpoint(tcp::v4(), serverPort)) , m_pListeningConnectionImp(NULL)
 {
 
 }
@@ -21,63 +23,54 @@ TCPServer* TCPServerImp::Self() const
     return m_pSelf;
 }
 
-bool TCPServerImp::StartListen_Asyc()
+
+bool TCPServerImp::Start()
 {
-    m_pListenThread = new boost::thread(boost::bind( &TCPServerImp::_StartListen_Asyc, this ));
+    start_accept();
+
+    m_ConnectionGroup.Start();
 
     return true;
 }
 
-void TCPServerImp::_StartListen_Asyc()
-{
-    while(true)
-    {
-        IConnectionPoint* pCP = new ConnectionPoint();
-
-        // Start to listen the incoming TCP connection request.
-        bool bSucc = pCP->Accept(m_ServerPort);
-        if(bSucc)
-        {
-            // ToDo - lock the list
-            m_ClientList.push_back(pCP);
-
-            pCP->Receive_Asyc();
-        }
-        else
-        {
-            delete pCP;
-            pCP = NULL;
-        }
-    }
-}
 
 void TCPServerImp::Close()
 {
-    // Kill the listening thread first.
+    m_acceptor.close();
 
-    if(m_pListenThread != NULL)
-    {
-        // ToDo - Do we need to kill the thread?
-        delete m_pListenThread;
-        m_pListenThread = NULL;
-    }
+    m_ConnectionGroup.Close();
 
-    while (!m_ClientList.empty())
+    if(m_pListeningConnectionImp)
     {
-        IConnectionPoint* pCP = m_ClientList.back();
-        delete pCP;
-        m_ClientList.pop_back();
+        delete m_pListeningConnectionImp;
+        m_pListeningConnectionImp = NULL;
     }
 }
 
 bool TCPServerImp::BroadcastToClients(const WString& message)
 {
-    for(ConnectionPointList::iterator it = m_ClientList.begin(); it != m_ClientList.end(); ++it)
-    {
-        (*it)->Send(message);
-    }
+    m_ConnectionGroup.Send(message);
 
     return true;
 }
 
+void TCPServerImp::start_accept()
+{
+    m_pListeningConnectionImp = new ConnectionPointImp(m_ConnectionGroup.io_service());
+    m_acceptor.async_accept(m_pListeningConnectionImp->socket(),
+        boost::bind(&TCPServerImp::handle_accept, this, m_pListeningConnectionImp,
+        boost::asio::placeholders::error));
+}
 
+void TCPServerImp::handle_accept(ConnectionPointImp* pImp,
+    const boost::system::error_code& error)
+{
+    if (!error)
+    {
+        IConnectionPoint* pCP = new ConnectionPoint(pImp);
+        m_ConnectionGroup.Add(pCP);
+        pImp->Start();
+    }
+
+    start_accept();
+}

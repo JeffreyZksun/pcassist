@@ -2,12 +2,15 @@
 
 #include <list>
 #include <boost/thread.hpp>
+#include <boost/asio.hpp>
+
+#include "ConnectionGroupImp.h"
 
 namespace Ts
 {
     class IConnectionPoint;
     class TCPServer;
-
+    class ConnectionPointImp;
 
     class TCPServerImp
     {
@@ -19,13 +22,15 @@ namespace Ts
 
     public:
 
-        bool            StartListen_Asyc();
+        bool            Start();
         void            Close();
         bool            BroadcastToClients(const WString& message);
 
 
     private:
-         void           _StartListen_Asyc();
+        void            start_accept();
+        void            handle_accept(ConnectionPointImp* pImp,
+            const boost::system::error_code& error);
 
     private:
         typedef std::list<IConnectionPoint*> ConnectionPointList;
@@ -33,10 +38,10 @@ namespace Ts
     private:
         TCPServer*              m_pSelf;
 
-        ConnectionPointList     m_ClientList;
+        ConnectionGroupImp      m_ConnectionGroup;
+
         unsigned short          m_ServerPort;
-
-        boost::thread*          m_pListenThread;
-
+        ConnectionPointImp*     m_pListeningConnectionImp;
+        boost::asio::ip::tcp::acceptor  m_acceptor;
     };
 }

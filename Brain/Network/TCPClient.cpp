@@ -29,9 +29,9 @@ void TCPClient::Close()
     return m_pImp->Close();
 }
 
-std::size_t TCPClient::SendToServer(const WString& message)
+void TCPClient::SendToServer(const WString& message)
 {
-    return m_pImp->SendToServer(message);
+    m_pImp->SendToServer(message);
 }
 
 bool TCPClient::IsConnected() const

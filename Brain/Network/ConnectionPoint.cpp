@@ -6,10 +6,11 @@
 
 using namespace Ts;
 
-ConnectionPoint::ConnectionPoint()
-    : m_pImp(NULL)
+ConnectionPoint::ConnectionPoint(ConnectionPointImp* pImp)
+    : m_pImp(pImp)
 {
-    m_pImp = new ConnectionPointImp(this);
+    if(m_pImp != NULL)
+        m_pImp->SetSelf(this);
 }
 
 ConnectionPoint::~ConnectionPoint()
@@ -21,39 +22,34 @@ ConnectionPoint::~ConnectionPoint()
     }
 }
 
-bool ConnectionPoint::Accept(unsigned short serverPort)
-{
-    return m_pImp->Accept(serverPort);
-}
-
 bool ConnectionPoint::ConnectToServer(const WString& serverIP, unsigned short serverPort)
 {
     return m_pImp->ConnectToServer(serverIP, serverPort);
 }
 
-std::size_t ConnectionPoint::Send(const WString& strData)
+void ConnectionPoint::Close()
 {
-    return m_pImp->Send(strData);
+    m_pImp->Close();
 }
 
-bool ConnectionPoint::Receive(WString& strData)
+void ConnectionPoint::Send(const WString& strData)
 {
-    return m_pImp->Receive(strData);
+    m_pImp->Send(strData);
 }
 
-void ConnectionPoint::Receive_Asyc()
-{
-    m_pImp->Receive_Asyc();
-}
-
-WString ConnectionPoint::GetRemoteIP()
+WString ConnectionPoint::GetRemoteIP() const
 {
     return m_pImp->GetRemoteIP();
 }
 
-bool ConnectionPoint::Close()
+unsigned short ConnectionPoint::GetRemotePort() const
 {
-    return m_pImp->Close();
+    return m_pImp->GetRemotePort();
+}
+
+unsigned short ConnectionPoint::GetLocalPort() const
+{
+    return m_pImp->GetLocalPort();
 }
 
 bool ConnectionPoint::IsConnected() const

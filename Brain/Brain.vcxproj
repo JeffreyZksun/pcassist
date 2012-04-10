@@ -127,6 +127,7 @@
     <ClInclude Include="Framework\ExecutionContext.h" />
     <ClInclude Include="Framework\IBehaviorBody.h" />
     <ClInclude Include="MultiThreading\ThreadSafeSingleton.h" />
+    <ClInclude Include="Network\ConnectionGroupImp.h" />
     <ClInclude Include="Network\ConnectionPoint.h" />
     <ClInclude Include="Network\ConnectionPointImp.h" />
     <ClInclude Include="Network\IConnectionPoint.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="Framework\BrainApplication.cpp" />
     <ClCompile Include="Framework\DocumentManager.cpp" />
     <ClCompile Include="Framework\ExecutionContext.cpp" />
+    <ClCompile Include="Network\ConnectionGroupImp.cpp" />
     <ClCompile Include="Network\ConnectionPoint.cpp" />
     <ClCompile Include="Network\ConnectionPointImp.cpp" />
     <ClCompile Include="Network\NetworkMessageEvent.cpp" />
