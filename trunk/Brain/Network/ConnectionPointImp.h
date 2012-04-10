@@ -7,48 +7,72 @@
 
 #pragma once
 
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
+#include <boost/enable_shared_from_this.hpp>
+#include <deque>
 
 using namespace boost::asio;
+using boost::asio::ip::tcp;
 
 namespace Ts
 {
     class ConnectionPoint;
 
-
-    class ConnectionPointImp
+    class ConnectionPointImp 
     {
     public:
-        ConnectionPointImp(ConnectionPoint* pSelf);
+        ConnectionPointImp(ConnectionPoint* pSelf, boost::asio::io_service& io_service);
+        ConnectionPointImp(boost::asio::io_service& io_service);
 
         ~ConnectionPointImp(void);
         ConnectionPoint*    Self() const;
+        void                SetSelf( ConnectionPoint* pSelf);
 
     public:
+        bool                ConnectToServer(const WString& serverIP, unsigned short serverPort);
+        void                Start();
+        void                Close();
 
-        bool                Accept(unsigned short serverPort); // work as server
-        bool                ConnectToServer(const WString& serverIP, unsigned short serverPort); // work as client
-        bool                Close();
+        void                Send(const WString& strData);
 
-        std::size_t         Send(const WString& strData);
-        bool                Receive(WString& strData);
-        void                Receive_Asyc();
 
-        WString             GetRemoteIP();
-
+        WString             GetRemoteIP() const;
+        unsigned short      GetRemotePort() const;
+        unsigned short      GetLocalPort() const;
         bool                IsConnected() const;
 
     private:
-        void                _Receive_Asyc();
+
+
+        ////////////////////////////New impl///////////
+    public:
+        tcp::socket&        socket();
+
+    private:
+        void                do_async_write();
+        void                do_async_read();
+
+        void                handle_read_line(const boost::system::error_code& error);
+        void                handle_write(const boost::system::error_code& error);
+        
+    private:
+        typedef std::deque<WString>     MessageQueue;
 
     private:
         ConnectionPoint*                m_pSelf;
 
-        boost::asio::io_service         m_io_service;
         boost::asio::ip::tcp::socket    m_socket;
+        MessageQueue                    m_WriteMessageQueue;
+        boost::asio::streambuf          m_ReceivedBuffer;
+        std::string                     m_WrittingBuffer;
+
         bool                            m_IsConnected;
-        boost::thread*                  m_pReceiveThread;
+
     };
 
 }

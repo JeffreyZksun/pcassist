@@ -12,16 +12,40 @@
 #include <iostream>
 #include <boost/array.hpp>
 
-using boost::asio::ip::tcp;
+#include <codecvt>
 
-// Max message frame size is 1 M.
-#define MAX_MESSAGEFRAME_SIZE 2e20
+
+using boost::asio::ip::tcp;
 
 using namespace Ts;
 
+/************************************************************************/
+/*                                                                      */
+/************************************************************************/
+// http://stackoverflow.com/questions/6140223/c-boost-encode-decode-utf-8
+inline void decode_utf8(const std::string& bytes, std::wstring& wstr)
+{
+    std::wstring_convert<std::codecvt_utf8<wchar_t> > conv;
+    wstr = conv.from_bytes(bytes);
+}
+inline void encode_utf8(const std::wstring& wstr, std::string& bytes)
+{
+    std::wstring_convert<std::codecvt_utf8<wchar_t> > conv;
+    bytes = conv.to_bytes(wstr);
+}
 
-ConnectionPointImp::ConnectionPointImp(ConnectionPoint* pSelf)
-    : m_pSelf(pSelf), m_io_service(), m_socket(m_io_service), m_IsConnected(false), m_pReceiveThread(NULL)
+/************************************************************************/
+/*                                                                      */
+/************************************************************************/
+
+ConnectionPointImp::ConnectionPointImp(ConnectionPoint* pSelf, boost::asio::io_service& io_service)
+    : m_pSelf(pSelf),  m_socket(io_service), m_IsConnected(false)
+{
+
+}
+
+ConnectionPointImp::ConnectionPointImp( boost::asio::io_service& io_service)
+    : m_pSelf(NULL),  m_socket(io_service), m_IsConnected(false)
 {
 
 }
@@ -36,29 +60,9 @@ ConnectionPoint* ConnectionPointImp::Self() const
     return m_pSelf;
 }
 
-bool ConnectionPointImp::Accept(unsigned short serverPort)
+void ConnectionPointImp::SetSelf( ConnectionPoint* pSelf)
 {
-    try
-    {
-        tcp::acceptor acceptor(m_io_service, tcp::endpoint(tcp::v4(), serverPort));
-
-        // ToDo - verify the port issue
-
-        acceptor.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
-        acceptor.listen();
-
-        acceptor.accept(m_socket);
-        m_IsConnected = true;
-
-        return IsConnected();
-    }
-    catch (std::exception& e)
-    {
-        // ToDo - Log it
-        std::cerr << e.what() << std::endl;
-    }
-
-    return false;
+    m_pSelf = pSelf;
 }
 
 bool ConnectionPointImp::ConnectToServer(const WString& serverIP, unsigned short serverPort)
@@ -71,6 +75,8 @@ bool ConnectionPointImp::ConnectToServer(const WString& serverIP, unsigned short
         m_socket.connect(endpoint);
         m_IsConnected = true;
 
+        Start();
+
         return IsConnected();
     }
     catch (std::exception& e)
@@ -82,100 +88,7 @@ bool ConnectionPointImp::ConnectToServer(const WString& serverIP, unsigned short
     return IsConnected();
 }
 
-std::size_t ConnectionPointImp::Send(const WString& strData)
-{
-    if(!IsConnected())
-        return 0;
-    
-    try
-    {
-        // Send the wide chars.
-        boost::system::error_code error;
-        const std::size_t byteSize = boost::asio::write(m_socket, boost::asio::buffer(strData), error);
-
-        if (error)
-            m_IsConnected = false;
-
-        // Remarks: The send operation may not transmit all of the data to the peer. 
-        // Consider using the write function if you need to ensure that all data is written before the blocking operation completes. 
-        // const std::size_t actualSize = m_socket.send(boost::asio::buffer(strData));
-        const std::size_t wcharSize = sizeof(wchar_t);
-        const std::size_t actualSize = byteSize / wcharSize;
-
-        return actualSize;
-    }
-    catch (std::exception&)
-    {
-        // EXCEPTION: The exception is thrown when the remote connection is close. This is acceptable.
-        //std::cerr << e.what() << std::endl;
-        m_IsConnected = false;
-    }
-
-    return 0;
-}
-
-bool ConnectionPointImp::Receive(WString& strData)
-{
-    if(!IsConnected())
-        return false;
-
-    strData.clear();
-    const std::size_t wcharSize = sizeof(wchar_t);
-
-    for (;;)
-    {
-        boost::array<wchar_t, 128> buf = {0};
-        boost::system::error_code error;
-
-        // boost::asio::read and basic_stream_socket::receive will block until one or more bytes of data has been received successfully,
-        // or until an error occurs. 
-        // In our design, during a TCP connection session, we will process many bidirectional transfer. And will keep the connection alive.
-        // What we want is 1. when there is no data received, block the function. 2. If there is any data, even though there is only one byte,
-        // return the data directly.
-        //const std::size_t byteSize = boost::asio::read(m_socket, boost::asio::buffer(buf), error);
-        const std::size_t byteSize = m_socket.read_some(boost::asio::buffer(buf), error);//boost::asio::read(m_socket, boost::asio::buffer(buf), error);
-
-        const std::size_t actualSize = byteSize / wcharSize;
-        if(actualSize > 0)
-            strData.append(buf.data(), actualSize);
-
-        if (error)
-        {
-            m_IsConnected = false;
-            break; 
-        }
-
-        // Check the cache size to avoid the exhaustion of the memory.
-        if(strData.size() > MAX_MESSAGEFRAME_SIZE)
-            break;
-
-        if(m_socket.available() == 0) // No more data in the socket buffer
-            break;
-    }
-
-    return strData.size() > 0;
-}
-
-void ConnectionPointImp::Receive_Asyc()
-{
-    m_pReceiveThread = new boost::thread(boost::bind( &ConnectionPointImp::_Receive_Asyc, this ));
-}
-
-void ConnectionPointImp::_Receive_Asyc()
-{
-    while(IsConnected())
-    {
-        WString strData;
-        
-        if(Receive(strData))
-        {
-            NetworkMessageEvent nwEvent(this->Self(), strData);
-            NotificationMgr::Get()->Fire(&nwEvent);
-        }
-    }
-}
-
-WString ConnectionPointImp::GetRemoteIP()
+WString ConnectionPointImp::GetRemoteIP() const
 {
     if(!IsConnected())
         return WString();
@@ -189,28 +102,20 @@ WString ConnectionPointImp::GetRemoteIP()
     return waddr;
 }
 
-bool ConnectionPointImp::Close()
+unsigned short ConnectionPointImp::GetRemotePort() const
 {
-    if(IsConnected())
-    {
-        // Remarks
-        // For portable behavior with respect to graceful closure of a connected socket, 
-        // call shutdown() before closing the socket. 
+    if(!IsConnected())
+        return 0;
 
-        boost::system::error_code error;
-        m_socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, error);
-        m_socket.close(error);
-        m_IsConnected = false;
-    }
+    return m_socket.remote_endpoint().port();
+}
 
-    if(m_pReceiveThread != NULL)
-    {
-        // ToDo - Do we need to kill the thread?
-        delete m_pReceiveThread;
-        m_pReceiveThread = NULL;
-    }
+unsigned short ConnectionPointImp::GetLocalPort() const
+{
+    if(!IsConnected())
+        return 0;
 
-    return !IsConnected();
+    return m_socket.local_endpoint().port();
 }
 
 bool ConnectionPointImp::IsConnected() const
@@ -227,3 +132,118 @@ bool ConnectionPointImp::IsConnected() const
     return m_IsConnected;
 }
 
+tcp::socket& ConnectionPointImp::socket()
+{
+    return m_socket;
+}
+
+void ConnectionPointImp::Start()
+{
+    m_IsConnected = true;
+
+    do_async_read();
+}
+
+
+void ConnectionPointImp::Send(const WString& msg)
+{
+    if(!IsConnected())
+        return;
+
+    bool write_in_progress = !m_WriteMessageQueue.empty();
+    m_WriteMessageQueue.push_back(msg);
+    if (!write_in_progress)
+    {
+        do_async_write();
+    }
+}
+
+void ConnectionPointImp::Close()
+{
+    if(IsConnected())
+    {
+        m_IsConnected = false;
+        m_socket.close();
+    }
+}
+
+void ConnectionPointImp::handle_read_line(const boost::system::error_code& error)
+{
+    if (!error)
+    {
+        if(this->Self() != NULL)
+        {
+
+            std::istream response_stream(&m_ReceivedBuffer);
+            std::string strLine;
+
+            // The receive buffer may contains multiple lines of data. We need to split it and remove the suffix.
+            while (std::getline(response_stream, strLine))
+            {
+                //strLine.pop_back(); // The '\n' is NOT returned. Do NOT need to pop it.
+                strLine.pop_back(); // '\r'
+
+                WString strData;
+                decode_utf8(strLine, strData);
+
+                NetworkMessageEvent nwEvent(this->Self(), strData);
+                NotificationMgr::Get()->Fire(&nwEvent);
+            }
+        }
+
+        do_async_read();
+    }
+    else
+    {
+        Close();
+    }
+}
+
+void ConnectionPointImp::handle_write(const boost::system::error_code& error)
+{
+    if (!error)
+    {
+        m_WriteMessageQueue.pop_front();
+        if (!m_WriteMessageQueue.empty())
+        {
+            do_async_write();
+        }
+    }
+    else
+    {
+        Close();
+    }
+}
+
+void ConnectionPointImp::do_async_write()
+{
+    if(!IsConnected())
+        return;
+
+    if(m_WriteMessageQueue.empty())
+        return;
+
+    encode_utf8(m_WriteMessageQueue.front(), m_WrittingBuffer);
+
+    m_WrittingBuffer.push_back('\r');
+    m_WrittingBuffer.push_back('\n');
+
+    boost::asio::async_write(m_socket,
+        boost::asio::buffer(m_WrittingBuffer.data(),
+        m_WrittingBuffer.length()),
+        boost::bind(&ConnectionPointImp::handle_write, this,
+        boost::asio::placeholders::error));
+}
+
+void ConnectionPointImp:: do_async_read()
+{
+    if(!IsConnected())
+        return;
+
+    boost::asio::async_read_until(m_socket, m_ReceivedBuffer, "\r\n",
+        boost::bind(&ConnectionPointImp::handle_read_line, this,
+        boost::asio::placeholders::error));
+
+    // Clear the buffer.
+    m_ReceivedBuffer.consume(m_ReceivedBuffer.size());
+}

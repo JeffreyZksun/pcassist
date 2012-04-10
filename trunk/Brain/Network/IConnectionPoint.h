@@ -13,16 +13,14 @@ namespace Ts
     public:
         virtual ~IConnectionPoint(void){};
 
-        virtual bool                Accept(unsigned short serverPort) = 0; // work as server
-        virtual bool                ConnectToServer(const WString& serverIP, unsigned short serverPort) = 0; // work as client
-        virtual bool                Close() = 0;
+        virtual bool                ConnectToServer(const WString& serverIP, unsigned short serverPort) = 0;
+        virtual void                Close() = 0;
 
-        virtual std::size_t         Send(const WString& strData) = 0;
-        virtual bool                Receive(WString& strData) = 0;
-        virtual void                Receive_Asyc() = 0;
+        virtual void                Send(const WString& strData) = 0;
 
-        virtual WString             GetRemoteIP() = 0;
-
+        virtual WString             GetRemoteIP() const = 0;
+        virtual unsigned short      GetRemotePort() const = 0;
+        virtual unsigned short      GetLocalPort() const = 0;
         virtual bool                IsConnected() const = 0;
     };
 }

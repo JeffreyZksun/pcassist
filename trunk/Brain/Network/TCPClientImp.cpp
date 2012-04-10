@@ -3,23 +3,18 @@
 
 #include "TCPClientImp.h"
 #include "ConnectionPoint.h"
+#include "ConnectionPointImp.h"
 
 using namespace Ts;
 
 TCPClientImp::TCPClientImp(TCPClient* pSelf, const WString& serverIP, unsigned short serverPort) 
-    : m_pSelf(pSelf), m_pConnectionPoint(NULL), m_ServerIP(serverIP), m_ServerPort(serverPort)
+    : m_pSelf(pSelf), m_ConnectionGroup(), m_ServerIP(serverIP), m_ServerPort(serverPort)
 {
 }
 
 TCPClientImp::~TCPClientImp(void)
 {
-    if(m_pConnectionPoint != NULL)
-    {
-        delete m_pConnectionPoint;
-        m_pConnectionPoint = NULL;
-    }
-
-
+    Close();
 }
 
 TCPClient* TCPClientImp::Self() const
@@ -29,41 +24,41 @@ TCPClient* TCPClientImp::Self() const
 
 bool TCPClientImp::ConnectToServer()
 {
-    if(NULL == m_pConnectionPoint)
+    IConnectionPoint*  pConnectionPoint = m_ConnectionGroup.GetConnectionPoint(0);
+    if(NULL == pConnectionPoint)
     {
-        m_pConnectionPoint = new ConnectionPoint();
+        ConnectionPointImp* pImp = new ConnectionPointImp(m_ConnectionGroup.io_service());
+        pConnectionPoint = new ConnectionPoint(pImp);
+
+        m_ConnectionGroup.Add(pConnectionPoint);
     }
 
-    bool ret = m_pConnectionPoint->ConnectToServer(m_ServerIP, m_ServerPort);
-    if(ret)
-        m_pConnectionPoint->Receive_Asyc();
+    bool ok = pConnectionPoint->ConnectToServer(m_ServerIP, m_ServerPort);
+    if(ok)
+    {
+        m_ConnectionGroup.Start();
+    }
 
-    return ret;
+    return ok;
 }
 
 void TCPClientImp::Close()
 {
-    if(m_pConnectionPoint != NULL)
-    {
-        delete m_pConnectionPoint;
-        m_pConnectionPoint = NULL;
-    }
+    m_ConnectionGroup.Close();
 }
 
-std::size_t TCPClientImp::SendToServer(const WString& message)
+void TCPClientImp::SendToServer(const WString& message)
 {
-    if(NULL == m_pConnectionPoint)
-        return false;
-
-    return m_pConnectionPoint->Send(message);
+    m_ConnectionGroup.Send(message);
 }
 
 bool TCPClientImp::IsConnected() const
 {
-    if(NULL == m_pConnectionPoint)
+    IConnectionPoint*  pConnectionPoint = m_ConnectionGroup.GetConnectionPoint(0);
+    if(NULL == pConnectionPoint)
         return false;
 
-    return m_pConnectionPoint->IsConnected();
+    return pConnectionPoint->IsConnected();
 }
 
 

@@ -14,7 +14,7 @@ namespace Ts
         virtual ~TCPServer(void);
 
      public:
-        virtual bool            StartListen_Asyc();
+        virtual bool            Start();
         virtual void            Close();
         virtual bool            BroadcastToClients(const WString& message);
 

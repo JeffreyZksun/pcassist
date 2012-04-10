@@ -10,7 +10,7 @@ namespace Ts
 
         virtual bool            ConnectToServer() = 0;
         virtual void            Close() = 0;
-        virtual std::size_t     SendToServer(const WString& message) = 0;
+        virtual void            SendToServer(const WString& message) = 0;
 
         virtual bool            IsConnected() const = 0;
 

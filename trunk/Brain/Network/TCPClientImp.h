@@ -1,5 +1,9 @@
 #pragma once
 
+#include <boost/asio.hpp>
+
+#include "ConnectionGroupImp.h"
+
 namespace Ts
 {
     class IConnectionPoint;
@@ -18,16 +22,16 @@ namespace Ts
 
         bool                    ConnectToServer();
         virtual void            Close();
-        std::size_t             SendToServer(const WString& message);
+        void                    SendToServer(const WString& message);
 
         bool                    IsConnected() const;
 
     private:
         TCPClient*          m_pSelf;
 
-        IConnectionPoint*   m_pConnectionPoint;
+        ConnectionGroupImp  m_ConnectionGroup;
+
         WString             m_ServerIP;
         unsigned short      m_ServerPort;
-
     };
 }
