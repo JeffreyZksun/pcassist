@@ -2,6 +2,7 @@
  * Design
      * [UserStories UserStories]
      * [HighLevelDesign HighLevelDesign]
+     * [FunctionalComponents Functional Components]
      * [ClassResponsibility ClassResponsibility]
      * [TATP TATP]
  * Tutorial
