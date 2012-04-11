@@ -133,7 +133,7 @@
     <ClInclude Include="Network\IConnectionPoint.h" />
     <ClInclude Include="Network\ITCPClient.h" />
     <ClInclude Include="Network\ITCPServer.h" />
-    <ClInclude Include="Network\NetworkMessageEvent.h" />
+    <ClInclude Include="Network\NetworkEvents.h" />
     <ClInclude Include="Network\TCPClient.h" />
     <ClInclude Include="Network\TCPClientImp.h" />
     <ClInclude Include="Network\TCPServer.h" />
@@ -176,7 +176,7 @@
     <ClCompile Include="Network\ConnectionGroupImp.cpp" />
     <ClCompile Include="Network\ConnectionPoint.cpp" />
     <ClCompile Include="Network\ConnectionPointImp.cpp" />
-    <ClCompile Include="Network\NetworkMessageEvent.cpp" />
+    <ClCompile Include="Network\NetworkEvents.cpp" />
     <ClCompile Include="Network\TCPClient.cpp" />
     <ClCompile Include="Network\TCPClientImp.cpp" />
     <ClCompile Include="Network\TCPServer.cpp" />

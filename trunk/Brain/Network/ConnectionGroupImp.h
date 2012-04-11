@@ -3,11 +3,15 @@
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 
+#include "NetworkEvents.h"
+#include "EventFilters.h"
+
+
 namespace Ts
 {
     class IConnectionPoint;
 
-    class ConnectionGroupImp
+    class ConnectionGroupImp : public NetworkConnectionEventSink
     {
     public:
         ConnectionGroupImp();
@@ -24,6 +28,11 @@ namespace Ts
 
         boost::asio::io_service&    io_service();
 
+    public:
+        // override NetworkConnectionEventSink
+        virtual void                OnConnected(NetworkConnectionEvent* pEvent);
+        virtual void                OnDisconnected(NetworkConnectionEvent* pEvent);
+
     private:
         void                        IOThreadEntry();
 
@@ -31,9 +40,12 @@ namespace Ts
         typedef std::list<IConnectionPoint*> ConnectionPointList;
 
     private:
+        mutable boost::recursive_mutex  m_mutexConnectionList; // Thread Safety: lock this mutex before accessing m_ConnectionList
         ConnectionPointList             m_ConnectionList;
         boost::thread*                  m_pAsioThread;
 
         boost::asio::io_service         m_io_service;
+
+        DefaultFilter                   m_EventFilter;
     };
 }

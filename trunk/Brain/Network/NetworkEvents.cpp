@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "NetworkMessageEvent.h"
+#include "NetworkEvents.h"
 
 using namespace Ts;
 
@@ -29,7 +29,7 @@ const WString& NetworkMessageEvent::GetMessage() const
 
 IEventSource* NetworkMessageEvent::GetEventSource() const
 {
-    return NetworkMessageEventSource::Get();
+    return NetworkEventSource::Get();
 }
 
 IEventDispatcher* NetworkMessageEvent::GetEventDispatcher() const
@@ -71,9 +71,9 @@ bool NetworkMessageEventDispatcher::Fire(IEvent* pEvent, IEventSink* pSink) cons
 }
 
 /****************************************************/
-//              NetworkMessageEventSource
+//              NetworkEventSource
 /****************************************************/
-THREADSAFE_SINGLETON_IMPL(NetworkMessageEventSource)
+THREADSAFE_SINGLETON_IMPL(NetworkEventSource)
 
 /****************************************************/
 //              NetworkMessageEventFilter
@@ -86,6 +86,81 @@ bool NetworkMessageEventFilter::Applicable(IEvent* pEvent) const
     NetworkMessageEvent* pNwEvent = dynamic_cast<NetworkMessageEvent*>(pEvent);
     if(NULL == pNwEvent)
         return false;
+
+    return true;
+}
+
+
+/****************************************************/
+//              NetworkConnectionEvent
+/****************************************************/
+NetworkConnectionEvent::NetworkConnectionEvent(Ts::IConnectionPoint* pConnectionPoint, EConnectionEventType eType) : m_pConnectionPoint(pConnectionPoint), m_eType(eType)
+{
+
+}
+
+NetworkConnectionEvent::~NetworkConnectionEvent(void)
+{
+    // the m_pConnectionPoint is deleted by its owner.
+}
+
+Ts::IConnectionPoint* NetworkConnectionEvent::GetConnectionPoint() const
+{
+    return m_pConnectionPoint;
+}
+
+IEventSource* NetworkConnectionEvent::GetEventSource() const
+{
+    return NetworkEventSource::Get();
+}
+
+IEventDispatcher* NetworkConnectionEvent::GetEventDispatcher() const
+{
+    return NetworkConnectionEventDispatcher::Get();
+}
+
+unsigned int NetworkConnectionEvent::GetType() const
+{
+    return (unsigned int)m_eType;
+}
+
+IEvent::ETime NetworkConnectionEvent::GetTime() const
+{
+    return ePost;
+}
+
+/****************************************************/
+//              NetworkConnectionEventDispatcher
+/****************************************************/
+THREADSAFE_SINGLETON_IMPL(NetworkConnectionEventDispatcher)
+
+bool NetworkConnectionEventDispatcher::Fire(IEvent* pEvent, IEventSink* pSink) const 
+{
+    if(NULL == pEvent || NULL == pSink)
+        return false;
+
+    NetworkConnectionEvent* pNwEvent = dynamic_cast<NetworkConnectionEvent*>(pEvent);
+    if(NULL == pNwEvent)
+        return false;
+
+    NetworkConnectionEventSink* pNwSink = dynamic_cast<NetworkConnectionEventSink*>(pSink);
+    if(NULL == pNwSink)
+        return false;
+
+    switch(pNwEvent->GetType())
+    {
+    case NetworkConnectionEvent::eConnect:
+        pNwSink->OnConnected(pNwEvent);
+        break;
+    case NetworkConnectionEvent::eDisconnect:
+        pNwSink->OnDisconnected(pNwEvent);
+        break;
+    default:
+        break;
+        // ToDo - assert it.
+    }
+
+
 
     return true;
 }

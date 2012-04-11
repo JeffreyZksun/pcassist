@@ -7,7 +7,8 @@
 #include "ConnectionPointImp.h"
 #include "ConnectionPoint.h"
 #include "NotificationMgr.h"
-#include "NetworkMessageEvent.h"
+#include "NetworkEvents.h"
+#include "ThreadLocks.h"
 
 #include <iostream>
 #include <boost/array.hpp>
@@ -18,6 +19,8 @@
 using boost::asio::ip::tcp;
 
 using namespace Ts;
+
+#define  MAX_MESSAGEQUE_LENGTH 10
 
 /************************************************************************/
 /*                                                                      */
@@ -149,6 +152,10 @@ void ConnectionPointImp::Send(const WString& msg)
 {
     if(!IsConnected())
         return;
+    RECURSIVE_LOCK_GUARD(m_mutexWriteMessageQueue);
+
+    if(m_WriteMessageQueue.size() > MAX_MESSAGEQUE_LENGTH)
+        return;
 
     bool write_in_progress = !m_WriteMessageQueue.empty();
     m_WriteMessageQueue.push_back(msg);
@@ -165,6 +172,12 @@ void ConnectionPointImp::Close()
         m_IsConnected = false;
         m_socket.close();
     }
+
+    if(this->Self() != NULL)
+    {
+        NetworkConnectionEvent nwEvent(this->Self(), NetworkConnectionEvent::eDisconnect);
+        NotificationMgr::Get()->Fire(&nwEvent);
+    }
 }
 
 void ConnectionPointImp::handle_read_line(const boost::system::error_code& error)
@@ -178,10 +191,11 @@ void ConnectionPointImp::handle_read_line(const boost::system::error_code& error
             std::string strLine;
 
             // The receive buffer may contains multiple lines of data. We need to split it and remove the suffix.
-            while (std::getline(response_stream, strLine))
+            while (std::getline(response_stream, strLine, '\n'))
             {
                 //strLine.pop_back(); // The '\n' is NOT returned. Do NOT need to pop it.
-                strLine.pop_back(); // '\r'
+                // strLine.pop_back(); // '\r'
+                strLine.push_back('\n'); // The '\n' is NOT returned. Append it. 
 
                 WString strData;
                 decode_utf8(strLine, strData);
@@ -203,6 +217,8 @@ void ConnectionPointImp::handle_write(const boost::system::error_code& error)
 {
     if (!error)
     {
+        RECURSIVE_LOCK_GUARD(m_mutexWriteMessageQueue);
+
         m_WriteMessageQueue.pop_front();
         if (!m_WriteMessageQueue.empty())
         {
@@ -219,14 +235,15 @@ void ConnectionPointImp::do_async_write()
 {
     if(!IsConnected())
         return;
+    {
+        if(m_WriteMessageQueue.empty())
+            return;
 
-    if(m_WriteMessageQueue.empty())
-        return;
+        encode_utf8(m_WriteMessageQueue.front(), m_WrittingBuffer);
+    }
 
-    encode_utf8(m_WriteMessageQueue.front(), m_WrittingBuffer);
-
-    m_WrittingBuffer.push_back('\r');
-    m_WrittingBuffer.push_back('\n');
+    //m_WrittingBuffer.push_back('\r');
+    //m_WrittingBuffer.push_back('\n');
 
     boost::asio::async_write(m_socket,
         boost::asio::buffer(m_WrittingBuffer.data(),
