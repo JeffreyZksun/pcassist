@@ -3,16 +3,21 @@
 
 #include "ConnectionGroupImp.h"
 #include "ConnectionPoint.h"
+#include "ThreadLocks.h"
+#include "NotificationMgr.h"
+
 
 using namespace Ts;
 
 ConnectionGroupImp::ConnectionGroupImp() 
-    :m_ConnectionList(), m_io_service(), m_pAsioThread(NULL)
+    :m_mutexConnectionList(), m_ConnectionList(), m_io_service(), m_pAsioThread(NULL)
 {
+     NotificationMgr::Get()->Subscribe(NetworkEventSource::Get(), this, &m_EventFilter);
 }
 
 ConnectionGroupImp::~ConnectionGroupImp(void)
 {
+    NotificationMgr::Get()->Unsubscribe(NetworkEventSource::Get(), this);
     Close();
 }
 
@@ -25,6 +30,7 @@ void ConnectionGroupImp::Start()
 
 void ConnectionGroupImp::Close()
 {
+    RECURSIVE_LOCK_GUARD(m_mutexConnectionList);
     for(ConnectionPointList::iterator it = m_ConnectionList.begin(); it != m_ConnectionList.end(); ++it)
     {
         (*it)->Close();
@@ -50,11 +56,13 @@ void ConnectionGroupImp::Close()
 
 void ConnectionGroupImp::Add(Ts::IConnectionPoint* pConnectionPoint)
 {
+    RECURSIVE_LOCK_GUARD(m_mutexConnectionList);
     m_ConnectionList.push_back(pConnectionPoint);
 }
 
 void ConnectionGroupImp::Send(const WString& message)
 {
+    RECURSIVE_LOCK_GUARD(m_mutexConnectionList);
     for(ConnectionPointList::iterator it = m_ConnectionList.begin(); it != m_ConnectionList.end(); ++it)
     {
         (*it)->Send(message);
@@ -63,6 +71,8 @@ void ConnectionGroupImp::Send(const WString& message)
 
 Ts::IConnectionPoint* ConnectionGroupImp::GetConnectionPoint(std::size_t index) const
 {
+    RECURSIVE_LOCK_GUARD(m_mutexConnectionList);
+
     if(m_ConnectionList.size() <= index)
         return NULL;
 
@@ -83,6 +93,28 @@ boost::asio::io_service& ConnectionGroupImp::io_service()
     return m_io_service;
 }
 
+void ConnectionGroupImp::OnConnected(NetworkConnectionEvent* pEvent)
+{
+    // Do nothing.
+}
+
+void ConnectionGroupImp::OnDisconnected(NetworkConnectionEvent* pEvent)
+{
+    if(pEvent->GetConnectionPoint() == NULL)
+        return;
+
+    RECURSIVE_LOCK_GUARD(m_mutexConnectionList);
+
+    // It will crash when delete the connection pointer. We need to find a good solution to handle the pointers.
+
+    //ConnectionPointList::iterator it = std::find(m_ConnectionList.begin(), m_ConnectionList.end(), pEvent->GetConnectionPoint());
+    //if(it != m_ConnectionList.end())
+    //{
+    //    m_ConnectionList.erase(it);
+    //    delete pEvent->GetConnectionPoint();
+    //}
+}
+
 void ConnectionGroupImp::IOThreadEntry()
 {
     try
@@ -94,8 +126,4 @@ void ConnectionGroupImp::IOThreadEntry()
         // The run always throws the exception.
     }
 }
-
-
-
-
 

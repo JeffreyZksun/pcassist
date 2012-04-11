@@ -171,9 +171,6 @@
     <ClInclude Include="Network\ITCPServer.h">
       <Filter>Framework\Networks</Filter>
     </ClInclude>
-    <ClInclude Include="Network\NetworkMessageEvent.h">
-      <Filter>Framework\Networks</Filter>
-    </ClInclude>
     <ClInclude Include="Network\TCPClient.h">
       <Filter>Framework\Networks</Filter>
     </ClInclude>
@@ -220,6 +217,9 @@
       <Filter>Framework\TextCommand</Filter>
     </ClInclude>
     <ClInclude Include="Network\ConnectionGroupImp.h">
+      <Filter>Framework\Networks</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\NetworkEvents.h">
       <Filter>Framework\Networks</Filter>
     </ClInclude>
   </ItemGroup>
@@ -287,9 +287,6 @@
     <ClCompile Include="Network\ConnectionPointImp.cpp">
       <Filter>Framework\Networks</Filter>
     </ClCompile>
-    <ClCompile Include="Network\NetworkMessageEvent.cpp">
-      <Filter>Framework\Networks</Filter>
-    </ClCompile>
     <ClCompile Include="Network\TCPClient.cpp">
       <Filter>Framework\Networks</Filter>
     </ClCompile>
@@ -339,6 +336,9 @@
       <Filter>Framework\TextCommand</Filter>
     </ClCompile>
     <ClCompile Include="Network\ConnectionGroupImp.cpp">
+      <Filter>Framework\Networks</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\NetworkEvents.cpp">
       <Filter>Framework\Networks</Filter>
     </ClCompile>
   </ItemGroup>

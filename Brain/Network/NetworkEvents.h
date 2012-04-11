@@ -75,20 +75,20 @@ namespace Ts
     };
 
     /****************************************************/
-    //              NetworkMessageEventSource
+    //              NetworkEventSource
     /****************************************************/
 
-    class NetworkMessageEventSource: public IEventSource
+    class NetworkEventSource: public IEventSource
     {
     public:
-        virtual ~NetworkMessageEventSource(void){};
+        virtual ~NetworkEventSource(void){};
 
     public:
-        THREADSAFE_SINGLETON_DECL(NetworkMessageEventSource)
+        THREADSAFE_SINGLETON_DECL(NetworkEventSource)
 
     private:
         // Disable it
-        NetworkMessageEventSource(){};
+        NetworkEventSource(){};
     };
 
     /****************************************************/
@@ -102,6 +102,72 @@ namespace Ts
 
     public:
         virtual bool Applicable(IEvent*) const;
+    };
+
+    /****************************************************/
+    //              NetworkConnectionEvent
+    /****************************************************/
+    class NetworkConnectionEvent : public IEvent
+    {
+    public:
+        enum EConnectionEventType
+        {
+            eConnect,
+            eDisconnect
+        };
+
+    public:
+        NetworkConnectionEvent(Ts::IConnectionPoint* pConnectionPoint, EConnectionEventType eType);
+        virtual ~NetworkConnectionEvent(void);
+
+    public:
+        virtual IEventSource*       GetEventSource() const;
+        virtual IEventDispatcher*   GetEventDispatcher() const;
+        virtual unsigned int        GetType() const;
+        virtual ETime               GetTime() const;
+
+
+    public:
+        virtual IConnectionPoint*       GetConnectionPoint() const;
+
+    private:
+        Ts::IConnectionPoint*	        m_pConnectionPoint;
+        EConnectionEventType            m_eType;
+    };
+
+    /****************************************************/
+    //              NetworkMessageEventDispatcher
+    /****************************************************/
+
+    class NetworkConnectionEventDispatcher: public IEventDispatcher
+    {
+    public:
+        virtual ~NetworkConnectionEventDispatcher(void){};
+
+        THREADSAFE_SINGLETON_DECL(NetworkConnectionEventDispatcher)
+
+
+    public:
+        virtual bool Fire(IEvent*, IEventSink*) const ;
+
+    private:
+        // Disable it
+        NetworkConnectionEventDispatcher(){};
+    };
+
+    /****************************************************/
+    //              NetworkMessageEventSink
+    /****************************************************/
+
+    class NetworkConnectionEventSink: public IEventSink
+    {
+    public:
+        virtual ~NetworkConnectionEventSink(void){};
+
+    public:
+        virtual void OnConnected(NetworkConnectionEvent* pEvent) = 0;
+        virtual void OnDisconnected(NetworkConnectionEvent* pEvent) = 0;
+
     };
 
 }
