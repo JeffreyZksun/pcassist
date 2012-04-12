@@ -4,22 +4,24 @@
 #include <boost/thread.hpp>
 #include <boost/asio.hpp>
 #include "ConnectionGroupImp.h"
+#include <boost/weak_ptr.hpp>
 
 namespace Ts
 {
-    class IConnectionPoint;
     class TCPServer;
     class ConnectionPointImp;
 
-    typedef boost::shared_ptr<ConnectionPointImp> ConnectionPointImpPtr;
+    typedef boost::shared_ptr<ConnectionPointImp>   ConnectionPointImpPtr;
+    typedef boost::shared_ptr<TCPServer>            TCPServerPtr;
+    typedef boost::weak_ptr<TCPServer>              TCPServerBackPtr;
 
     class TCPServerImp
     {
     public:
-        TCPServerImp(TCPServer* pSelf, unsigned short serverPort);
+        TCPServerImp(TCPServerBackPtr pSelf, unsigned short serverPort);
         ~TCPServerImp(void);
 
-        TCPServer*      Self() const;
+        TCPServerPtr    Self() const;
 
     public:
 
@@ -32,11 +34,9 @@ namespace Ts
         void            start_accept();
         void            handle_accept(const boost::system::error_code& error);
 
-    private:
-        typedef std::list<IConnectionPoint*> ConnectionPointList;
 
     private:
-        TCPServer*              m_pSelf;
+        TCPServerBackPtr        m_pSelf;
 
         ConnectionGroupImp      m_ConnectionGroup;
 

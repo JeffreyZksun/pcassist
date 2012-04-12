@@ -7,7 +7,7 @@
 using namespace Ts;
 
 
-TCPServerImp::TCPServerImp(TCPServer* pSelf, unsigned short serverPort) : m_pSelf(pSelf), m_ConnectionGroup(), m_ServerPort(serverPort)
+TCPServerImp::TCPServerImp(TCPServerBackPtr pSelf, unsigned short serverPort) : m_pSelf(pSelf), m_ConnectionGroup(), m_ServerPort(serverPort)
     , m_acceptor(m_ConnectionGroup.io_service(), tcp::endpoint(tcp::v4(), serverPort)) , m_pListeningConnectionImp()
 {
 
@@ -18,9 +18,9 @@ TCPServerImp::~TCPServerImp(void)
     Close();
 }
 
-TCPServer* TCPServerImp::Self() const
+TCPServerPtr TCPServerImp::Self() const
 {
-    return m_pSelf;
+    return m_pSelf.lock();
 }
 
 

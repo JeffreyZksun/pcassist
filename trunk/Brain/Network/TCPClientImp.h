@@ -3,20 +3,22 @@
 #include <boost/asio.hpp>
 
 #include "ConnectionGroupImp.h"
+#include <boost/weak_ptr.hpp>
 
 namespace Ts
 {
-    class IConnectionPoint;
     class TCPClient;
 
+    typedef boost::shared_ptr<TCPClient>            TCPClientPtr;
+    typedef boost::weak_ptr<TCPClient>              TCPClientBackPtr;
 
     class TCPClientImp
     {
     public:
-        TCPClientImp(TCPClient* pSelf, const WString& serverIP, unsigned short serverPort);
+        TCPClientImp(TCPClientBackPtr pSelf, const WString& serverIP, unsigned short serverPort);
         ~TCPClientImp(void);
 
-        TCPClient*    Self() const;
+        TCPClientPtr            Self() const;
 
     public:
 
@@ -27,7 +29,7 @@ namespace Ts
         bool                    IsConnected() const;
 
     private:
-        TCPClient*          m_pSelf;
+        TCPClientBackPtr    m_pSelf;
 
         ConnectionGroupImp  m_ConnectionGroup;
 
