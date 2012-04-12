@@ -8,7 +8,7 @@ using namespace Ts;
 
 
 TCPServerImp::TCPServerImp(TCPServer* pSelf, unsigned short serverPort) : m_pSelf(pSelf), m_ConnectionGroup(), m_ServerPort(serverPort)
-    , m_acceptor(m_ConnectionGroup.io_service(), tcp::endpoint(tcp::v4(), serverPort)) , m_pListeningConnectionImp(NULL)
+    , m_acceptor(m_ConnectionGroup.io_service(), tcp::endpoint(tcp::v4(), serverPort)) , m_pListeningConnectionImp()
 {
 
 }
@@ -39,12 +39,6 @@ void TCPServerImp::Close()
     m_acceptor.close();
 
     m_ConnectionGroup.Close();
-
-    if(m_pListeningConnectionImp)
-    {
-        delete m_pListeningConnectionImp;
-        m_pListeningConnectionImp = NULL;
-    }
 }
 
 bool TCPServerImp::BroadcastToClients(const WString& message)
@@ -56,20 +50,19 @@ bool TCPServerImp::BroadcastToClients(const WString& message)
 
 void TCPServerImp::start_accept()
 {
-    m_pListeningConnectionImp = new ConnectionPointImp(m_ConnectionGroup.io_service());
+    m_pListeningConnectionImp.reset(new ConnectionPointImp(m_ConnectionGroup.io_service()));
     m_acceptor.async_accept(m_pListeningConnectionImp->socket(),
-        boost::bind(&TCPServerImp::handle_accept, this, m_pListeningConnectionImp,
+        boost::bind(&TCPServerImp::handle_accept, this,
         boost::asio::placeholders::error));
 }
 
-void TCPServerImp::handle_accept(ConnectionPointImp* pImp,
-    const boost::system::error_code& error)
+void TCPServerImp::handle_accept(const boost::system::error_code& error)
 {
     if (!error)
     {
-        IConnectionPoint* pCP = new ConnectionPoint(pImp);
+        IConnectionPointPtr pCP = ConnectionPoint::Create(m_pListeningConnectionImp);
         m_ConnectionGroup.Add(pCP);
-        pImp->Start();
+        m_pListeningConnectionImp->Start();
     }
 
     start_accept();

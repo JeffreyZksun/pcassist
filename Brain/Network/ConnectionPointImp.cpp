@@ -15,6 +15,10 @@
 
 #include <codecvt>
 
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+
 
 using boost::asio::ip::tcp;
 
@@ -41,14 +45,14 @@ inline void encode_utf8(const std::wstring& wstr, std::string& bytes)
 /*                                                                      */
 /************************************************************************/
 
-ConnectionPointImp::ConnectionPointImp(ConnectionPoint* pSelf, boost::asio::io_service& io_service)
+ConnectionPointImp::ConnectionPointImp(ConnectionPointBackPtr pSelf, boost::asio::io_service& io_service)
     : m_pSelf(pSelf),  m_socket(io_service), m_IsConnected(false)
 {
 
 }
 
 ConnectionPointImp::ConnectionPointImp( boost::asio::io_service& io_service)
-    : m_pSelf(NULL),  m_socket(io_service), m_IsConnected(false)
+    : m_pSelf(),  m_socket(io_service), m_IsConnected(false)
 {
 
 }
@@ -58,12 +62,12 @@ ConnectionPointImp::~ConnectionPointImp()
     Close();
 }
 
-ConnectionPoint* ConnectionPointImp::Self() const
+ConnectionPointPtr ConnectionPointImp::Self() const
 {
-    return m_pSelf;
+    return m_pSelf.lock();
 }
 
-void ConnectionPointImp::SetSelf( ConnectionPoint* pSelf)
+void ConnectionPointImp::SetSelf(ConnectionPointBackPtr pSelf)
 {
     m_pSelf = pSelf;
 }
@@ -76,7 +80,6 @@ bool ConnectionPointImp::ConnectToServer(const WString& serverIP, unsigned short
     {
         boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::address::from_string(theServerIP), serverPort);
         m_socket.connect(endpoint);
-        m_IsConnected = true;
 
         Start();
 
@@ -167,10 +170,14 @@ void ConnectionPointImp::Send(const WString& msg)
 
 void ConnectionPointImp::Close()
 {
-    if(IsConnected())
+    bool bPreviousConnected = IsConnected();
+    if(bPreviousConnected)
     {
         m_IsConnected = false;
-        m_socket.close();
+
+        boost::system::error_code ec;
+        m_socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both,ec);
+        m_socket.close(ec);
     }
 
     if(this->Self() != NULL)
@@ -200,7 +207,7 @@ void ConnectionPointImp::handle_read_line(const boost::system::error_code& error
                 WString strData;
                 decode_utf8(strLine, strData);
 
-                NetworkMessageEvent nwEvent(this->Self(), strData);
+                NetworkMessageEvent nwEvent(this->Self()->shared_from_this(), strData);
                 NotificationMgr::Get()->Fire(&nwEvent);
             }
         }

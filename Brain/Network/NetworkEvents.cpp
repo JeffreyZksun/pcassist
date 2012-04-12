@@ -7,7 +7,7 @@ using namespace Ts;
 /****************************************************/
 //              NetworkMessageEvent
 /****************************************************/
-NetworkMessageEvent::NetworkMessageEvent(Ts::IConnectionPoint* pConnectionPoint, const WString& message) : m_pConnectionPoint(pConnectionPoint), m_Message(message)
+NetworkMessageEvent::NetworkMessageEvent(Ts::IConnectionPointPtr pConnectionPoint, const WString& message) : m_pConnectionPoint(pConnectionPoint), m_Message(message)
 {
 
 }
@@ -17,7 +17,7 @@ NetworkMessageEvent::~NetworkMessageEvent(void)
     // the m_pConnectionPoint is deleted by its owner.
 }
 
-Ts::IConnectionPoint* NetworkMessageEvent::GetConnectionPoint() const
+Ts::IConnectionPointPtr NetworkMessageEvent::GetConnectionPoint() const
 {
     return m_pConnectionPoint;
 }
@@ -94,7 +94,7 @@ bool NetworkMessageEventFilter::Applicable(IEvent* pEvent) const
 /****************************************************/
 //              NetworkConnectionEvent
 /****************************************************/
-NetworkConnectionEvent::NetworkConnectionEvent(Ts::IConnectionPoint* pConnectionPoint, EConnectionEventType eType) : m_pConnectionPoint(pConnectionPoint), m_eType(eType)
+NetworkConnectionEvent::NetworkConnectionEvent(Ts::IConnectionPointPtr pConnectionPoint, EConnectionEventType eType) : m_pConnectionPoint(pConnectionPoint), m_eType(eType)
 {
 
 }
@@ -104,7 +104,7 @@ NetworkConnectionEvent::~NetworkConnectionEvent(void)
     // the m_pConnectionPoint is deleted by its owner.
 }
 
-Ts::IConnectionPoint* NetworkConnectionEvent::GetConnectionPoint() const
+Ts::IConnectionPointPtr NetworkConnectionEvent::GetConnectionPoint() const
 {
     return m_pConnectionPoint;
 }

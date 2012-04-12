@@ -10,7 +10,11 @@
 using namespace Ts;
 
 ConnectionGroupImp::ConnectionGroupImp() 
-    :m_mutexConnectionList(), m_ConnectionList(), m_io_service(), m_pAsioThread(NULL)
+    :m_mutexConnectionList()
+    , m_ConnectionList()
+    , m_io_service()
+    , m_pAsioThread(NULL)
+    , m_HasPendingDisconnectionEvent(false)
 {
      NotificationMgr::Get()->Subscribe(NetworkEventSource::Get(), this, &m_EventFilter);
 }
@@ -31,6 +35,9 @@ void ConnectionGroupImp::Start()
 void ConnectionGroupImp::Close()
 {
     RECURSIVE_LOCK_GUARD(m_mutexConnectionList);
+
+    ProcessPendingEvents();
+
     for(ConnectionPointList::iterator it = m_ConnectionList.begin(); it != m_ConnectionList.end(); ++it)
     {
         (*it)->Close();
@@ -46,35 +53,39 @@ void ConnectionGroupImp::Close()
         m_pAsioThread = NULL;
     }
 
-    while (!m_ConnectionList.empty())
-    {
-        IConnectionPoint* pCP = m_ConnectionList.back();
-        delete pCP;
-        m_ConnectionList.pop_back();
-    }
+    m_ConnectionList.clear();
 }
 
-void ConnectionGroupImp::Add(Ts::IConnectionPoint* pConnectionPoint)
+void ConnectionGroupImp::Add(Ts::IConnectionPointPtr spConnectionPoint)
 {
     RECURSIVE_LOCK_GUARD(m_mutexConnectionList);
-    m_ConnectionList.push_back(pConnectionPoint);
+
+    ProcessPendingEvents();
+
+    m_ConnectionList.push_back(spConnectionPoint);
 }
 
 void ConnectionGroupImp::Send(const WString& message)
 {
     RECURSIVE_LOCK_GUARD(m_mutexConnectionList);
+
+    ProcessPendingEvents();
+
     for(ConnectionPointList::iterator it = m_ConnectionList.begin(); it != m_ConnectionList.end(); ++it)
     {
         (*it)->Send(message);
     }
 }
 
-Ts::IConnectionPoint* ConnectionGroupImp::GetConnectionPoint(std::size_t index) const
+Ts::IConnectionPointPtr ConnectionGroupImp::GetConnectionPoint(std::size_t index) const
 {
     RECURSIVE_LOCK_GUARD(m_mutexConnectionList);
 
+    ConnectionGroupImp* pThis = const_cast<ConnectionGroupImp*>(this);
+    pThis->ProcessPendingEvents();
+
     if(m_ConnectionList.size() <= index)
-        return NULL;
+        return IConnectionPointPtr();
 
     std::size_t i = 0;
     for(ConnectionPointList::const_iterator it = m_ConnectionList.begin(); it != m_ConnectionList.end(); ++it)
@@ -85,7 +96,7 @@ Ts::IConnectionPoint* ConnectionGroupImp::GetConnectionPoint(std::size_t index) 
         i++;
     }
 
-    return NULL;
+    return IConnectionPointPtr();
 }
 
 boost::asio::io_service& ConnectionGroupImp::io_service()
@@ -105,25 +116,46 @@ void ConnectionGroupImp::OnDisconnected(NetworkConnectionEvent* pEvent)
 
     RECURSIVE_LOCK_GUARD(m_mutexConnectionList);
 
-    // It will crash when delete the connection pointer. We need to find a good solution to handle the pointers.
+    // In the connection point, there are two async handlers (read and write) in the same thread.
+    // When the remote client is closed, one async handler will throw an exception. We'll disconnect
+    // the connection. Even if we delete the connection point object in the first async handler, the other
+    // async handler will still be called. It will result in crash due to the second handler is running on
+    // a deleted object.
+    // 
+    // To resolve this issue, we just pending this event here. Make the related operation during the next access
+    // to this object.
 
-    //ConnectionPointList::iterator it = std::find(m_ConnectionList.begin(), m_ConnectionList.end(), pEvent->GetConnectionPoint());
-    //if(it != m_ConnectionList.end())
-    //{
-    //    m_ConnectionList.erase(it);
-    //    delete pEvent->GetConnectionPoint();
-    //}
+    m_HasPendingDisconnectionEvent = true;
 }
 
 void ConnectionGroupImp::IOThreadEntry()
 {
-    try
+    boost::system::error_code ec;
+    m_io_service.run(ec);
+
+}
+
+void ConnectionGroupImp::ProcessPendingEvents()
+{
+    if(m_HasPendingDisconnectionEvent)
     {
-        m_io_service.run();
-    }
-    catch (... )
-    {
-        // The run always throws the exception.
+        boost::system::error_code ec;
+        m_io_service.poll(ec);
+
+        ConnectionPointList::iterator it = m_ConnectionList.begin();
+        while (  it != m_ConnectionList.end())
+        {
+            if((*it)->IsConnected())
+            {
+                ++it;
+            }
+            else
+            {
+                it = m_ConnectionList.erase(it);
+            }
+        }
+
+        m_HasPendingDisconnectionEvent = false;
     }
 }
 
