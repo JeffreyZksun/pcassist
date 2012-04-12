@@ -16,5 +16,6 @@
      * [TCPLibrary TCPLibrary]
      * [SendEmailMessage SendEmailMessage]
      * [Log Log]
+     * [PointerManagement Pointer Management]
  * [ToDoList ToDoList]
  * [http://code.google.com/p/pcassist/w/list List All]
