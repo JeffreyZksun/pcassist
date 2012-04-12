@@ -10,6 +10,7 @@
 namespace Ts
 {
     class IConnectionPoint;
+    typedef boost::shared_ptr<IConnectionPoint>     IConnectionPointPtr;
 
     class ConnectionGroupImp : public NetworkConnectionEventSink
     {
@@ -20,10 +21,10 @@ namespace Ts
         void                        Start();
         void                        Close();
 
-        void                        Add(Ts::IConnectionPoint* pConnectionPoint);
+        void                        Add(Ts::IConnectionPointPtr spConnectionPoint);
         void                        Send(const WString& message);
 
-        Ts::IConnectionPoint*       GetConnectionPoint(std::size_t index) const;
+        Ts::IConnectionPointPtr       GetConnectionPoint(std::size_t index) const;
 
 
         boost::asio::io_service&    io_service();
@@ -35,9 +36,10 @@ namespace Ts
 
     private:
         void                        IOThreadEntry();
+        void                        ProcessPendingEvents();
 
     private:
-        typedef std::list<IConnectionPoint*> ConnectionPointList;
+        typedef std::list<IConnectionPointPtr> ConnectionPointList;
 
     private:
         mutable boost::recursive_mutex  m_mutexConnectionList; // Thread Safety: lock this mutex before accessing m_ConnectionList
@@ -47,5 +49,6 @@ namespace Ts
         boost::asio::io_service         m_io_service;
 
         DefaultFilter                   m_EventFilter;
+        bool                            m_HasPendingDisconnectionEvent;
     };
 }

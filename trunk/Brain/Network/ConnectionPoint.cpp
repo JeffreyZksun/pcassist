@@ -6,20 +6,24 @@
 
 using namespace Ts;
 
-ConnectionPoint::ConnectionPoint(ConnectionPointImp* pImp)
-    : m_pImp(pImp)
+ConnectionPoint::ConnectionPoint()
 {
-    if(m_pImp != NULL)
-        m_pImp->SetSelf(this);
+
 }
 
 ConnectionPoint::~ConnectionPoint()
 {
-    if(m_pImp)
-    {
-        delete m_pImp;
-        m_pImp = NULL;
-    }
+    // Do nothing to m_pImp
+}
+
+ConnectionPointPtr ConnectionPoint::Create(ConnectionPointImpPtr pImp)
+{
+    ConnectionPointPtr pNewObj(new ConnectionPoint());
+    pNewObj->m_pImp = pImp;
+    if(pImp)
+        pImp->SetSelf(pNewObj);
+
+    return pNewObj;
 }
 
 bool ConnectionPoint::ConnectToServer(const WString& serverIP, unsigned short serverPort)

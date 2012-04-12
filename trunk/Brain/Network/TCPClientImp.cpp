@@ -24,11 +24,11 @@ TCPClient* TCPClientImp::Self() const
 
 bool TCPClientImp::ConnectToServer()
 {
-    IConnectionPoint*  pConnectionPoint = m_ConnectionGroup.GetConnectionPoint(0);
+    IConnectionPointPtr  pConnectionPoint = m_ConnectionGroup.GetConnectionPoint(0);
     if(NULL == pConnectionPoint)
     {
-        ConnectionPointImp* pImp = new ConnectionPointImp(m_ConnectionGroup.io_service());
-        pConnectionPoint = new ConnectionPoint(pImp);
+        ConnectionPointImpPtr pImp(new ConnectionPointImp(m_ConnectionGroup.io_service()));
+        pConnectionPoint = ConnectionPoint::Create(pImp);
 
         m_ConnectionGroup.Add(pConnectionPoint);
     }
@@ -54,7 +54,7 @@ void TCPClientImp::SendToServer(const WString& message)
 
 bool TCPClientImp::IsConnected() const
 {
-    IConnectionPoint*  pConnectionPoint = m_ConnectionGroup.GetConnectionPoint(0);
+    IConnectionPointPtr  pConnectionPoint = m_ConnectionGroup.GetConnectionPoint(0);
     if(NULL == pConnectionPoint)
         return false;
 

@@ -3,7 +3,6 @@
 #include <list>
 #include <boost/thread.hpp>
 #include <boost/asio.hpp>
-
 #include "ConnectionGroupImp.h"
 
 namespace Ts
@@ -11,6 +10,8 @@ namespace Ts
     class IConnectionPoint;
     class TCPServer;
     class ConnectionPointImp;
+
+    typedef boost::shared_ptr<ConnectionPointImp> ConnectionPointImpPtr;
 
     class TCPServerImp
     {
@@ -29,8 +30,7 @@ namespace Ts
 
     private:
         void            start_accept();
-        void            handle_accept(ConnectionPointImp* pImp,
-            const boost::system::error_code& error);
+        void            handle_accept(const boost::system::error_code& error);
 
     private:
         typedef std::list<IConnectionPoint*> ConnectionPointList;
@@ -41,7 +41,7 @@ namespace Ts
         ConnectionGroupImp      m_ConnectionGroup;
 
         unsigned short          m_ServerPort;
-        ConnectionPointImp*     m_pListeningConnectionImp;
+        ConnectionPointImpPtr   m_pListeningConnectionImp;
         boost::asio::ip::tcp::acceptor  m_acceptor;
     };
 }

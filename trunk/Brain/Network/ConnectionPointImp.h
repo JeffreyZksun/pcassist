@@ -7,13 +7,9 @@
 
 #pragma once
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
-#include <boost/enable_shared_from_this.hpp>
+#include <boost/weak_ptr.hpp>
 #include <deque>
 
 using namespace boost::asio;
@@ -23,15 +19,18 @@ namespace Ts
 {
     class ConnectionPoint;
 
+    typedef boost::weak_ptr<ConnectionPoint>    ConnectionPointBackPtr;
+    typedef boost::shared_ptr<ConnectionPoint>  ConnectionPointPtr;
+
     class ConnectionPointImp 
     {
     public:
-        ConnectionPointImp(ConnectionPoint* pSelf, boost::asio::io_service& io_service);
+        ConnectionPointImp(ConnectionPointBackPtr pSelf, boost::asio::io_service& io_service);
         ConnectionPointImp(boost::asio::io_service& io_service);
 
         ~ConnectionPointImp(void);
-        ConnectionPoint*    Self() const;
-        void                SetSelf( ConnectionPoint* pSelf);
+        ConnectionPointPtr  Self() const;
+        void                SetSelf(ConnectionPointBackPtr pSelf);
 
     public:
         bool                ConnectToServer(const WString& serverIP, unsigned short serverPort);
@@ -64,7 +63,7 @@ namespace Ts
         typedef std::deque<WString>     MessageQueue;
 
     private:
-        ConnectionPoint*                m_pSelf;
+        ConnectionPointBackPtr          m_pSelf;
 
         boost::asio::ip::tcp::socket    m_socket;
 

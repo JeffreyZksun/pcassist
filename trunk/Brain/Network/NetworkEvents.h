@@ -10,8 +10,8 @@
 
 namespace Ts
 {
-
     class IConnectionPoint;
+    typedef boost::shared_ptr<IConnectionPoint>     IConnectionPointPtr;
 
     /****************************************************/
     //              NetworkMessageEvent
@@ -19,7 +19,7 @@ namespace Ts
     class NetworkMessageEvent : public IEvent
     {
     public:
-        NetworkMessageEvent(Ts::IConnectionPoint* pConnectionPoint, const WString& message);
+        NetworkMessageEvent(Ts::IConnectionPointPtr pConnectionPoint, const WString& message);
         virtual ~NetworkMessageEvent(void);
 
     public:
@@ -30,13 +30,13 @@ namespace Ts
 
 
     public:
-        virtual IConnectionPoint*       GetConnectionPoint() const;
-        virtual const WString&          GetMessage() const;
+        virtual IConnectionPointPtr       GetConnectionPoint() const;
+        virtual const WString&                  GetMessage() const;
 
 
     private:
-        Ts::IConnectionPoint*	m_pConnectionPoint;
-        WString					m_Message;
+        IConnectionPointPtr	        m_pConnectionPoint;
+        WString					    m_Message;
 
     };
 
@@ -117,7 +117,7 @@ namespace Ts
         };
 
     public:
-        NetworkConnectionEvent(Ts::IConnectionPoint* pConnectionPoint, EConnectionEventType eType);
+        NetworkConnectionEvent(Ts::IConnectionPointPtr pConnectionPoint, EConnectionEventType eType);
         virtual ~NetworkConnectionEvent(void);
 
     public:
@@ -128,10 +128,10 @@ namespace Ts
 
 
     public:
-        virtual IConnectionPoint*       GetConnectionPoint() const;
+        virtual Ts::IConnectionPointPtr       GetConnectionPoint() const;
 
     private:
-        Ts::IConnectionPoint*	        m_pConnectionPoint;
+        Ts::IConnectionPointPtr	        m_pConnectionPoint;
         EConnectionEventType            m_eType;
     };
 

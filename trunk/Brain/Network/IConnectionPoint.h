@@ -1,14 +1,10 @@
 #pragma once
-/*****************************************************************************/
-// *********************REMARK*********************
-// When define the application framework, don't use any library-related type,
-// even though it is accepted by standard.
-// Use the language grammar only. 
-// When change the dependent libraries someday, We can benefit from this rule.
-/*****************************************************************************/
+#include <boost/shared_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
+
 namespace Ts
 {
-    class IConnectionPoint
+    class IConnectionPoint : public boost::enable_shared_from_this<IConnectionPoint>
     {
     public:
         virtual ~IConnectionPoint(void){};

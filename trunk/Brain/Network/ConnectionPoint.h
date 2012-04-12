@@ -6,13 +6,20 @@ namespace Ts
 {
 
     class ConnectionPointImp;
+    class ConnectionPoint;
+
+    typedef boost::shared_ptr<ConnectionPointImp>   ConnectionPointImpPtr;
+    typedef boost::shared_ptr<ConnectionPoint>      ConnectionPointPtr;
 
     class ConnectionPoint : public IConnectionPoint
     {
     public:
-        ConnectionPoint(ConnectionPointImp* pImp);
-
         virtual ~ConnectionPoint(void);
+
+        static ConnectionPointPtr Create(ConnectionPointImpPtr pImp);
+
+    protected:
+        ConnectionPoint(); // Disable this
 
     public:
         virtual bool                ConnectToServer(const WString& serverIP, unsigned short serverPort);
@@ -29,7 +36,7 @@ namespace Ts
 
     private:
 
-        ConnectionPointImp*         m_pImp;
+        ConnectionPointImpPtr         m_pImp;
     };
 
 }
