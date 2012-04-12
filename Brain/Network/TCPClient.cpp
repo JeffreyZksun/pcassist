@@ -5,18 +5,22 @@
 
 using namespace Ts;
 
-TCPClient::TCPClient(const WString& serverIP, unsigned short serverPort) : m_pImp(NULL)
+TCPClient::TCPClient()
 {
-    m_pImp = new TCPClientImp(this, serverIP, serverPort);
+    
 }
 
 TCPClient::~TCPClient(void)
 {
-    if(m_pImp)
-    {
-        delete m_pImp;
-        m_pImp = NULL;
-    }
+
+}
+
+TCPClientPtr TCPClient::Create(const WString& serverIP, unsigned short serverPort)
+{
+    TCPClientPtr pNewObj(new TCPClient());
+    pNewObj->m_pImp.reset(new TCPClientImp(pNewObj, serverIP, serverPort));
+
+    return pNewObj;
 }
 
 bool TCPClient::ConnectToServer()

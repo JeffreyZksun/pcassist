@@ -126,6 +126,7 @@
     <ClInclude Include="Framework\DocumentManager.h" />
     <ClInclude Include="Framework\ExecutionContext.h" />
     <ClInclude Include="Framework\IBehaviorBody.h" />
+    <ClInclude Include="MultiThreading\ThreadLocks.h" />
     <ClInclude Include="MultiThreading\ThreadSafeSingleton.h" />
     <ClInclude Include="Network\ConnectionGroupImp.h" />
     <ClInclude Include="Network\ConnectionPoint.h" />
@@ -173,6 +174,7 @@
     <ClCompile Include="Framework\BrainApplication.cpp" />
     <ClCompile Include="Framework\DocumentManager.cpp" />
     <ClCompile Include="Framework\ExecutionContext.cpp" />
+    <ClCompile Include="MultiThreading\ThreadLocks.cpp" />
     <ClCompile Include="Network\ConnectionGroupImp.cpp" />
     <ClCompile Include="Network\ConnectionPoint.cpp" />
     <ClCompile Include="Network\ConnectionPointImp.cpp" />

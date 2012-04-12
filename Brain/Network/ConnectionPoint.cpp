@@ -3,6 +3,7 @@
 
 #include "ConnectionPoint.h"
 #include "ConnectionPointImp.h"
+#include "ThreadLocks.h"
 
 using namespace Ts;
 

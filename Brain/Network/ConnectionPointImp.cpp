@@ -153,9 +153,10 @@ void ConnectionPointImp::Start()
 
 void ConnectionPointImp::Send(const WString& msg)
 {
+    RECURSIVE_LOCK_GUARD(ComponetMutexs::GetNetworkMutex());
+
     if(!IsConnected())
         return;
-    RECURSIVE_LOCK_GUARD(m_mutexWriteMessageQueue);
 
     if(m_WriteMessageQueue.size() > MAX_MESSAGEQUE_LENGTH)
         return;
@@ -170,6 +171,8 @@ void ConnectionPointImp::Send(const WString& msg)
 
 void ConnectionPointImp::Close()
 {
+    RECURSIVE_LOCK_GUARD(ComponetMutexs::GetNetworkMutex());
+
     bool bPreviousConnected = IsConnected();
     if(bPreviousConnected)
     {
@@ -189,6 +192,8 @@ void ConnectionPointImp::Close()
 
 void ConnectionPointImp::handle_read_line(const boost::system::error_code& error)
 {
+    RECURSIVE_LOCK_GUARD(ComponetMutexs::GetNetworkMutex());
+
     if (!error)
     {
         if(this->Self() != NULL)
@@ -222,10 +227,9 @@ void ConnectionPointImp::handle_read_line(const boost::system::error_code& error
 
 void ConnectionPointImp::handle_write(const boost::system::error_code& error)
 {
+    RECURSIVE_LOCK_GUARD(ComponetMutexs::GetNetworkMutex());
     if (!error)
     {
-        RECURSIVE_LOCK_GUARD(m_mutexWriteMessageQueue);
-
         m_WriteMessageQueue.pop_front();
         if (!m_WriteMessageQueue.empty())
         {
@@ -240,6 +244,8 @@ void ConnectionPointImp::handle_write(const boost::system::error_code& error)
 
 void ConnectionPointImp::do_async_write()
 {
+    RECURSIVE_LOCK_GUARD(ComponetMutexs::GetNetworkMutex());
+
     if(!IsConnected())
         return;
     {
@@ -261,6 +267,8 @@ void ConnectionPointImp::do_async_write()
 
 void ConnectionPointImp:: do_async_read()
 {
+    RECURSIVE_LOCK_GUARD(ComponetMutexs::GetNetworkMutex());
+
     if(!IsConnected())
         return;
 

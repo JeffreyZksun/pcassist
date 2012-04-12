@@ -1,19 +1,18 @@
 #include "stdafx.h"
 
-
 #include "ConnectionGroupImp.h"
 #include "ConnectionPoint.h"
 #include "ThreadLocks.h"
 #include "NotificationMgr.h"
+#include "ThreadLocks.h"
 
 
 using namespace Ts;
 
 ConnectionGroupImp::ConnectionGroupImp() 
-    :m_mutexConnectionList()
-    , m_ConnectionList()
+    : m_ConnectionList()
     , m_io_service()
-    , m_pAsioThread(NULL)
+    , m_pAsioThread()
     , m_HasPendingDisconnectionEvent(false)
 {
      NotificationMgr::Get()->Subscribe(NetworkEventSource::Get(), this, &m_EventFilter);
@@ -29,12 +28,12 @@ void ConnectionGroupImp::Start()
 {
     // Run the asio tasks in the working thread.
     if(NULL == m_pAsioThread)
-        m_pAsioThread = new boost::thread(boost::bind( &ConnectionGroupImp::IOThreadEntry, this));
+        m_pAsioThread.reset(new boost::thread(boost::bind( &ConnectionGroupImp::IOThreadEntry, this)));
 }
 
 void ConnectionGroupImp::Close()
 {
-    RECURSIVE_LOCK_GUARD(m_mutexConnectionList);
+    RECURSIVE_LOCK_GUARD(ComponetMutexs::GetNetworkMutex());
 
     ProcessPendingEvents();
 
@@ -45,20 +44,12 @@ void ConnectionGroupImp::Close()
 
     m_io_service.stop();
 
-    // Stop the asio
-    if(m_pAsioThread != NULL)
-    {
-        // ToDo - Do we need to kill the thread?
-        delete m_pAsioThread;
-        m_pAsioThread = NULL;
-    }
-
     m_ConnectionList.clear();
 }
 
 void ConnectionGroupImp::Add(Ts::IConnectionPointPtr spConnectionPoint)
 {
-    RECURSIVE_LOCK_GUARD(m_mutexConnectionList);
+    RECURSIVE_LOCK_GUARD(ComponetMutexs::GetNetworkMutex());
 
     ProcessPendingEvents();
 
@@ -67,7 +58,7 @@ void ConnectionGroupImp::Add(Ts::IConnectionPointPtr spConnectionPoint)
 
 void ConnectionGroupImp::Send(const WString& message)
 {
-    RECURSIVE_LOCK_GUARD(m_mutexConnectionList);
+    RECURSIVE_LOCK_GUARD(ComponetMutexs::GetNetworkMutex());
 
     ProcessPendingEvents();
 
@@ -79,7 +70,7 @@ void ConnectionGroupImp::Send(const WString& message)
 
 Ts::IConnectionPointPtr ConnectionGroupImp::GetConnectionPoint(std::size_t index) const
 {
-    RECURSIVE_LOCK_GUARD(m_mutexConnectionList);
+    RECURSIVE_LOCK_GUARD(ComponetMutexs::GetNetworkMutex());
 
     ConnectionGroupImp* pThis = const_cast<ConnectionGroupImp*>(this);
     pThis->ProcessPendingEvents();
@@ -114,7 +105,7 @@ void ConnectionGroupImp::OnDisconnected(NetworkConnectionEvent* pEvent)
     if(pEvent->GetConnectionPoint() == NULL)
         return;
 
-    RECURSIVE_LOCK_GUARD(m_mutexConnectionList);
+    RECURSIVE_LOCK_GUARD(ComponetMutexs::GetNetworkMutex());
 
     // In the connection point, there are two async handlers (read and write) in the same thread.
     // When the remote client is closed, one async handler will throw an exception. We'll disconnect
@@ -139,8 +130,8 @@ void ConnectionGroupImp::ProcessPendingEvents()
 {
     if(m_HasPendingDisconnectionEvent)
     {
-        boost::system::error_code ec;
-        m_io_service.poll(ec);
+        //boost::system::error_code ec;
+        //m_io_service.poll(ec);  // ToDo - It would hang here.
 
         ConnectionPointList::iterator it = m_ConnectionList.begin();
         while (  it != m_ConnectionList.end())

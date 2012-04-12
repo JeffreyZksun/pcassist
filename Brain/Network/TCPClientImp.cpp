@@ -7,7 +7,7 @@
 
 using namespace Ts;
 
-TCPClientImp::TCPClientImp(TCPClient* pSelf, const WString& serverIP, unsigned short serverPort) 
+TCPClientImp::TCPClientImp(TCPClientBackPtr pSelf, const WString& serverIP, unsigned short serverPort) 
     : m_pSelf(pSelf), m_ConnectionGroup(), m_ServerIP(serverIP), m_ServerPort(serverPort)
 {
 }
@@ -17,9 +17,9 @@ TCPClientImp::~TCPClientImp(void)
     Close();
 }
 
-TCPClient* TCPClientImp::Self() const
+TCPClientPtr TCPClientImp::Self() const
 {
-    return m_pSelf;
+    return m_pSelf.lock();
 }
 
 bool TCPClientImp::ConnectToServer()

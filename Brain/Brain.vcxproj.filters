@@ -222,6 +222,9 @@
     <ClInclude Include="Network\NetworkEvents.h">
       <Filter>Framework\Networks</Filter>
     </ClInclude>
+    <ClInclude Include="MultiThreading\ThreadLocks.h">
+      <Filter>Framework\MultiThreading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Actions.cpp">
@@ -340,6 +343,9 @@
     </ClCompile>
     <ClCompile Include="Network\NetworkEvents.cpp">
       <Filter>Framework\Networks</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiThreading\ThreadLocks.cpp">
+      <Filter>Framework\MultiThreading</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

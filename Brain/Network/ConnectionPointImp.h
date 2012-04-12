@@ -8,7 +8,6 @@
 #pragma once
 
 #include <boost/asio.hpp>
-#include <boost/thread.hpp>
 #include <boost/weak_ptr.hpp>
 #include <deque>
 
@@ -67,9 +66,6 @@ namespace Ts
 
         boost::asio::ip::tcp::socket    m_socket;
 
-        // Thread Safety: lock this mutex before accessing m_WriteMessageQueue
-        // Lock this mutex recursively in the same thread.
-        mutable boost::recursive_mutex  m_mutexWriteMessageQueue; 
         MessageQueue                    m_WriteMessageQueue;
         boost::asio::streambuf          m_ReceivedBuffer;
         std::string                     m_WrittingBuffer;

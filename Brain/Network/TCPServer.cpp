@@ -5,18 +5,20 @@
 
 using namespace Ts;
 
-TCPServer::TCPServer(unsigned short serverPort) : m_pImp(NULL)
+TCPServer::TCPServer() : m_pImp()
 {
-    m_pImp = new TCPServerImp(this, serverPort);
 }
 
 TCPServer::~TCPServer(void)
 {
-    if(m_pImp)
-    {
-        delete m_pImp;
-        m_pImp = NULL;
-    }
+}
+
+TCPServerPtr TCPServer::Create(unsigned short serverPort)
+{
+    TCPServerPtr pNewObj(new TCPServer());
+    pNewObj->m_pImp.reset(new TCPServerImp(pNewObj, serverPort));
+
+    return pNewObj;
 }
 
 bool TCPServer::Start()

@@ -42,9 +42,8 @@ namespace Ts
         typedef std::list<IConnectionPointPtr> ConnectionPointList;
 
     private:
-        mutable boost::recursive_mutex  m_mutexConnectionList; // Thread Safety: lock this mutex before accessing m_ConnectionList
         ConnectionPointList             m_ConnectionList;
-        boost::thread*                  m_pAsioThread;
+        boost::shared_ptr<boost::thread> m_pAsioThread;
 
         boost::asio::io_service         m_io_service;
 
