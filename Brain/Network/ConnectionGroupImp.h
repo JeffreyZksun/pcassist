@@ -24,7 +24,7 @@ namespace Ts
         void                        Add(Ts::IConnectionPointPtr spConnectionPoint);
         void                        Send(const WString& message);
 
-        Ts::IConnectionPointPtr       GetConnectionPoint(std::size_t index) const;
+        Ts::IConnectionPointPtr     GetConnectionPoint(std::size_t index) const;
 
 
         boost::asio::io_service&    io_service();
@@ -36,7 +36,6 @@ namespace Ts
 
     private:
         void                        IOThreadEntry();
-        void                        ProcessPendingEvents();
 
     private:
         typedef std::list<IConnectionPointPtr> ConnectionPointList;
@@ -48,6 +47,5 @@ namespace Ts
         boost::asio::io_service         m_io_service;
 
         DefaultFilter                   m_EventFilter;
-        bool                            m_HasPendingDisconnectionEvent;
     };
 }

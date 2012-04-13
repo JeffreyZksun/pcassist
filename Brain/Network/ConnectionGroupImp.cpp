@@ -13,7 +13,6 @@ ConnectionGroupImp::ConnectionGroupImp()
     : m_ConnectionList()
     , m_io_service()
     , m_pAsioThread()
-    , m_HasPendingDisconnectionEvent(false)
 {
      NotificationMgr::Get()->Subscribe(NetworkEventSource::Get(), this, &m_EventFilter);
 }
@@ -35,13 +34,6 @@ void ConnectionGroupImp::Close()
 {
     RECURSIVE_LOCK_GUARD(ComponetMutexs::GetNetworkMutex());
 
-    ProcessPendingEvents();
-
-    for(ConnectionPointList::iterator it = m_ConnectionList.begin(); it != m_ConnectionList.end(); ++it)
-    {
-        (*it)->Close();
-    }
-
     m_io_service.stop();
 
     m_ConnectionList.clear();
@@ -51,7 +43,6 @@ void ConnectionGroupImp::Add(Ts::IConnectionPointPtr spConnectionPoint)
 {
     RECURSIVE_LOCK_GUARD(ComponetMutexs::GetNetworkMutex());
 
-    ProcessPendingEvents();
 
     m_ConnectionList.push_back(spConnectionPoint);
 }
@@ -60,7 +51,6 @@ void ConnectionGroupImp::Send(const WString& message)
 {
     RECURSIVE_LOCK_GUARD(ComponetMutexs::GetNetworkMutex());
 
-    ProcessPendingEvents();
 
     for(ConnectionPointList::iterator it = m_ConnectionList.begin(); it != m_ConnectionList.end(); ++it)
     {
@@ -72,8 +62,6 @@ Ts::IConnectionPointPtr ConnectionGroupImp::GetConnectionPoint(std::size_t index
 {
     RECURSIVE_LOCK_GUARD(ComponetMutexs::GetNetworkMutex());
 
-    ConnectionGroupImp* pThis = const_cast<ConnectionGroupImp*>(this);
-    pThis->ProcessPendingEvents();
 
     if(m_ConnectionList.size() <= index)
         return IConnectionPointPtr();
@@ -107,46 +95,17 @@ void ConnectionGroupImp::OnDisconnected(NetworkConnectionEvent* pEvent)
 
     RECURSIVE_LOCK_GUARD(ComponetMutexs::GetNetworkMutex());
 
-    // In the connection point, there are two async handlers (read and write) in the same thread.
-    // When the remote client is closed, one async handler will throw an exception. We'll disconnect
-    // the connection. Even if we delete the connection point object in the first async handler, the other
-    // async handler will still be called. It will result in crash due to the second handler is running on
-    // a deleted object.
-    // 
-    // To resolve this issue, we just pending this event here. Make the related operation during the next access
-    // to this object.
-
-    m_HasPendingDisconnectionEvent = true;
+    ConnectionPointList::iterator it = find(m_ConnectionList.begin(), m_ConnectionList.end(), pEvent->GetConnectionPoint());
+    if (it != m_ConnectionList.end())
+    {
+        m_ConnectionList.erase(it);
+    }
 }
 
 void ConnectionGroupImp::IOThreadEntry()
 {
     boost::system::error_code ec;
     m_io_service.run(ec);
-
 }
 
-void ConnectionGroupImp::ProcessPendingEvents()
-{
-    if(m_HasPendingDisconnectionEvent)
-    {
-        //boost::system::error_code ec;
-        //m_io_service.poll(ec);  // ToDo - It would hang here.
-
-        ConnectionPointList::iterator it = m_ConnectionList.begin();
-        while (  it != m_ConnectionList.end())
-        {
-            if((*it)->IsConnected())
-            {
-                ++it;
-            }
-            else
-            {
-                it = m_ConnectionList.erase(it);
-            }
-        }
-
-        m_HasPendingDisconnectionEvent = false;
-    }
-}
 
