@@ -10,6 +10,7 @@
 #include <boost/asio.hpp>
 #include <boost/weak_ptr.hpp>
 #include <deque>
+#include <boost/enable_shared_from_this.hpp>
 
 using namespace boost::asio;
 using boost::asio::ip::tcp;
@@ -21,7 +22,7 @@ namespace Ts
     typedef boost::weak_ptr<ConnectionPoint>    ConnectionPointBackPtr;
     typedef boost::shared_ptr<ConnectionPoint>  ConnectionPointPtr;
 
-    class ConnectionPointImp 
+    class ConnectionPointImp : public boost::enable_shared_from_this<ConnectionPointImp>
     {
     public:
         ConnectionPointImp(ConnectionPointBackPtr pSelf, boost::asio::io_service& io_service);

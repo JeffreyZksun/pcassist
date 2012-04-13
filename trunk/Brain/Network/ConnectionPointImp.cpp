@@ -150,7 +150,6 @@ void ConnectionPointImp::Start()
     do_async_read();
 }
 
-
 void ConnectionPointImp::Send(const WString& msg)
 {
     RECURSIVE_LOCK_GUARD(ComponetMutexs::GetNetworkMutex());
@@ -165,6 +164,9 @@ void ConnectionPointImp::Send(const WString& msg)
     m_WriteMessageQueue.push_back(msg);
     if (!write_in_progress)
     {
+        // IMPORTANT: You must NEVER schedule async_read_some or async_write_some if there is already one in progress, 
+        // i.e. let's say you called async_read_some on a socket, until this event is invoked by asio, you must not schedule another async_read_some, 
+        // else you'll have lots of crap in your buffers!
         do_async_write();
     }
 }
@@ -258,10 +260,11 @@ void ConnectionPointImp::do_async_write()
     //m_WrittingBuffer.push_back('\r');
     //m_WrittingBuffer.push_back('\n');
 
+    // IMPORTANT: Pass the shared_ptr to the handler. So that it make sure the object isn't deleted before the handler release this object.
     boost::asio::async_write(m_socket,
         boost::asio::buffer(m_WrittingBuffer.data(),
         m_WrittingBuffer.length()),
-        boost::bind(&ConnectionPointImp::handle_write, this,
+        boost::bind(&ConnectionPointImp::handle_write, shared_from_this(),
         boost::asio::placeholders::error));
 }
 
@@ -272,8 +275,9 @@ void ConnectionPointImp:: do_async_read()
     if(!IsConnected())
         return;
 
+    // IMPORTANT: Pass the shared_ptr to the handler. So that it make sure the object isn't deleted before the handler release this object.
     boost::asio::async_read_until(m_socket, m_ReceivedBuffer, "\r\n",
-        boost::bind(&ConnectionPointImp::handle_read_line, this,
+        boost::bind(&ConnectionPointImp::handle_read_line, shared_from_this(),
         boost::asio::placeholders::error));
 
     // Clear the buffer.
