@@ -89,6 +89,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Base\Diagnostics.h" />
     <ClInclude Include="DataModel\Database.h" />
     <ClInclude Include="DataModel\ParameterImp.h" />
     <ClInclude Include="DataModel\ParameterTableImp.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="XML\XmlNodeWrapper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Base\Diagnostics.cpp" />
     <ClCompile Include="DataModel\Database.cpp" />
     <ClCompile Include="DataModel\Parameter.cpp" />
     <ClCompile Include="DataModel\ParameterImp.cpp" />
