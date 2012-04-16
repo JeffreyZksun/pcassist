@@ -8,6 +8,3 @@
 	#define BRAINEXPORT __declspec(dllimport)
 #endif
 
-#include <string>
-typedef std::wstring    WString; // Wide string
-typedef std::string     NString; // Narrow string
