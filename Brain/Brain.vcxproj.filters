@@ -46,6 +46,9 @@
     <Filter Include="Framework\Base">
       <UniqueIdentifier>{799788b9-f883-44cf-a206-bc2851eeb572}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Task">
+      <UniqueIdentifier>{937b63cf-17f3-4d97-83aa-b6a4ab89b159}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\BrainApplication.h">
@@ -231,6 +234,30 @@
     <ClInclude Include="Base\Diagnostics.h">
       <Filter>Framework\Base</Filter>
     </ClInclude>
+    <ClInclude Include="Base\ClassHeaderMacros.h">
+      <Filter>Framework\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\ClassSourceMacros.h">
+      <Filter>Framework\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\ITask.h">
+      <Filter>Framework\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\ImmediateTask.h">
+      <Filter>Framework\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\ImmediateTaskImp.h">
+      <Filter>Framework\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\CommonHeaders.h">
+      <Filter>Framework\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\ConditionalTask.h">
+      <Filter>Framework\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\ConditionalTaskImp.h">
+      <Filter>Framework\Task</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Actions.cpp">
@@ -355,6 +382,18 @@
     </ClCompile>
     <ClCompile Include="Base\Diagnostics.cpp">
       <Filter>Framework\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\ImmediateTask.cpp">
+      <Filter>Framework\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\ImmediateTaskImp.cpp">
+      <Filter>Framework\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\ConditionalTask.cpp">
+      <Filter>Framework\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\ConditionalTaskImp.cpp">
+      <Filter>Framework\Task</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
