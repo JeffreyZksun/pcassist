@@ -1,27 +1,29 @@
 #pragma once
 
+#include "TaskBaseImp.h"
+
 namespace Ts
 {
 	class ConditionalTask;	
 
-	class ConditionalTaskImp 													
+	class ConditionalTaskImp  : public TaskBaseImp															
 	{															
 	public:														
-		typedef boost::shared_ptr<ConditionalTask>	owner_pointer;		
+		typedef boost::shared_ptr<ConditionalTask>		owner_pointer;		
 		typedef boost::weak_ptr<ConditionalTask>		owner_weak_pointer;	
 
 	public:														
-		ConditionalTaskImp(owner_weak_pointer pSelf);							
+		ConditionalTaskImp(owner_pointer pSelf, const WString& taskName, const WString& conditionName, const WString& decoratedTaskName);							
 
-		owner_pointer   Self() const;	
+		// owner_pointer   Self() const;
 
 	public:
-		bool            IsReady();
-		bool            Execute();
+		virtual bool            IsReady(ITaskSystem* pTaskSystem) const;
+		virtual bool            Execute(ITaskSystem* pTaskSystem);
 
 	private:													
-		owner_weak_pointer			m_pSelf;
-
+		WString						m_Condition;
+		WString						m_DecoratedTaskName;
 	};
 
 }

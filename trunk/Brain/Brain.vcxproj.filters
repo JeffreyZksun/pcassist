@@ -258,6 +258,15 @@
     <ClInclude Include="inc\TaskSystem.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="inc\ITaskSystem.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\TaskBase.h">
+      <Filter>Framework\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\TaskBaseImp.h">
+      <Filter>Framework\Task</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Actions.cpp">
@@ -394,6 +403,12 @@
     </ClCompile>
     <ClCompile Include="Framework\TaskSystem.cpp">
       <Filter>Framework\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\TaskBase.cpp">
+      <Filter>Framework\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\TaskBaseImp.cpp">
+      <Filter>Framework\Task</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

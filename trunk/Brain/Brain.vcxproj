@@ -108,6 +108,7 @@
     <ClInclude Include="Event\NotificationMgrImp.h" />
     <ClInclude Include="Framework\IBehaviorBuilder.h" />
     <ClInclude Include="Framework\IOSProvider.h" />
+    <ClInclude Include="inc\ITaskSystem.h" />
     <ClInclude Include="inc\TaskSystem.h" />
     <ClInclude Include="inc\BrainSystem.h" />
     <ClInclude Include="inc\ConstantsDefinition.h" />
@@ -149,6 +150,8 @@
     <ClInclude Include="Task\ImmediateTaskImp.h" />
     <ClInclude Include="Task\ITask.h" />
     <ClInclude Include="Task\ImmediateTask.h" />
+    <ClInclude Include="Task\TaskBase.h" />
+    <ClInclude Include="Task\TaskBaseImp.h" />
     <ClInclude Include="TextCommand\CmdLineMgr.h" />
     <ClInclude Include="TextCommand\CmdLineMgrImp.h" />
     <ClInclude Include="TextCommand\CmdOption.h" />
@@ -198,6 +201,8 @@
     <ClCompile Include="Task\ConditionalTaskImp.cpp" />
     <ClCompile Include="Task\ImmediateTask.cpp" />
     <ClCompile Include="Task\ImmediateTaskImp.cpp" />
+    <ClCompile Include="Task\TaskBase.cpp" />
+    <ClCompile Include="Task\TaskBaseImp.cpp" />
     <ClCompile Include="TextCommand\CmdLineMgr.cpp" />
     <ClCompile Include="TextCommand\CmdLineMgrImp.cpp" />
     <ClCompile Include="TextCommand\CmdOption.cpp" />

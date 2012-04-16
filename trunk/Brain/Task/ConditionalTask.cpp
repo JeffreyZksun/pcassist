@@ -8,7 +8,7 @@
 using namespace Ts;
 
 
-ConditionalTask::ConditionalTask() : m_pImp()						
+ConditionalTask::ConditionalTask() : TaskBase()					
 {											
 }											
 
@@ -17,20 +17,11 @@ ConditionalTask::~ConditionalTask()
 
 }
 
-ConditionalTask::pointer ConditionalTask::Create()					
+ConditionalTask::pointer ConditionalTask::Create(const WString& taskName, const WString& conditionName, const WString& decoratedTaskName)					
 {											
-	ConditionalTask::pointer pNewObj(new ConditionalTask());		
-	pNewObj->m_pImp.reset(new ConditionalTaskImp(pNewObj));
+	ConditionalTask::pointer pNewObj(new ConditionalTask());	
+	ConditionalTask::imp_pointer pImp(new ConditionalTaskImp(pNewObj, taskName, conditionName, decoratedTaskName));
+	pNewObj->SetImp(pImp);
 
 	return pNewObj;							
-}
-
-bool ConditionalTask::IsReady()
-{
-	return m_pImp->IsReady();
-}
-
-bool ConditionalTask::Execute()
-{
-	return m_pImp->Execute();
 }

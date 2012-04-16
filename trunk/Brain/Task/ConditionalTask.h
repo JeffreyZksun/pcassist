@@ -1,12 +1,12 @@
 #pragma once
 
-#include "ITask.h"
+#include "TaskBase.h"
 
 namespace Ts
 {
 	class ConditionalTaskImp;	
 
-	class ConditionalTask : public ITask								
+	class ConditionalTask : public TaskBase								
 	{													
 	public:												
 		typedef boost::shared_ptr<ConditionalTask>		pointer;		
@@ -14,18 +14,12 @@ namespace Ts
 
 	public:			
 		virtual ~ConditionalTask();
-		static pointer		Create();
+		static pointer		Create(const WString& taskName, const WString& conditionName, const WString& decoratedTaskName);
 
 	public:
-		// override ITask
-		virtual bool            IsReady();
-		virtual bool            Execute();
 
 	protected:											
 		ConditionalTask();											
-
-	private:											
-		imp_pointer         m_pImp;
 	};
 
 }

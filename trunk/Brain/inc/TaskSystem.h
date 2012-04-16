@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BrainSystem.h"
+#include "ITaskSystem.h"
 
 #pragma warning( push )
 // http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
@@ -14,18 +15,19 @@ class IHostService;
 class IOSProvider;
 class Database;
 
-class BRAINEXPORT TaskSystem
+class BRAINEXPORT TaskSystem : public ITaskSystem
 {
 public:
 	TaskSystem();
-	~TaskSystem();
+	virtual ~TaskSystem();
 
 public:
-	TaskManager*			GetTaskManager() const;
-	BehaviorBodyFactory*	GetBehaviorBodyFactory() const;
-	VariableManager*		GetVariableManager() const;
-	IOSProvider*			GetOSProvider() const;
-	Database*				GetDatabase() const;
+	// override ITaskSystem 
+	virtual TaskManager*			GetTaskManager() const;
+	virtual BehaviorBodyFactory*	GetBehaviorBodyFactory() const;
+	virtual VariableManager*		GetVariableManager() const;
+	virtual IOSProvider*			GetOSProvider() const;
+	virtual Database*				GetDatabase() const;
 
 public:
 	bool		XmlIn(const CString& docName) const;
