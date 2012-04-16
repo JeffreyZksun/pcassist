@@ -2,7 +2,7 @@
 
 #include "TaskSystem.h"
 #include "Parameter.h"
-#include "TaskManager.h"
+#include "BehaviorManager.h"
 #include "VariableManager.h"
 #include "ConstantsDefinition.h"
 
@@ -20,7 +20,7 @@ TEST(SaveLoadTest, SaveLoadLatestVersion)
 
 	CString conditionId = _T("DoesRegExist");
 	{
-		Condition *pRegCondition = new Condition(GetWorkingBrain()->GetTaskManager(), _T("RegisterKeyExistsCondition"));
+		Condition *pRegCondition = new Condition(GetWorkingBrain()->GetBehaviorManager(), _T("RegisterKeyExistsCondition"));
 		Parameter objectId(OBJECT_ID, conditionId);
 		Parameter para1(_T("RootKey"), _T("HKEY_LOCAL_MACHINE"));
 		Parameter para2(_T("SubKey"), _T("Software\\Microsoft"));
@@ -29,12 +29,12 @@ TEST(SaveLoadTest, SaveLoadLatestVersion)
 		pRegCondition->GetParameterTable().AddParameter(para1);
 		pRegCondition->GetParameterTable().AddParameter(para2);
 
-		//GetWorkingBrain()->GetTaskManager()->RegisterCondition(pRegCondition);
+		//GetWorkingBrain()->GetBehaviorManager()->RegisterCondition(pRegCondition);
 	}
 
 	CString actionId = _T("DemoToRunSysCmd");
 	{
-		Action *pNewAction = new Action(GetWorkingBrain()->GetTaskManager(), _T("RunSystemCommandAction"));
+		Action *pNewAction = new Action(GetWorkingBrain()->GetBehaviorManager(), _T("RunSystemCommandAction"));
 		Parameter objectId(OBJECT_ID, actionId);
 		objectId.SetComments(_T("Object Id is used to reference this object everywhere."));
 		Parameter objectType;
@@ -46,8 +46,8 @@ TEST(SaveLoadTest, SaveLoadLatestVersion)
 		pNewAction->GetParameterTable().AddParameter(objectType);
 		pNewAction->GetParameterTable().AddParameter(cmd);
 
-		//GetWorkingBrain()->GetTaskManager()->RegisterAction(pNewAction);
-		GetWorkingBrain()->GetTaskManager()->AddActionTask(pNewAction);
+		//GetWorkingBrain()->GetBehaviorManager()->RegisterAction(pNewAction);
+		GetWorkingBrain()->GetBehaviorManager()->AddActionTask(pNewAction);
 	}
 
 	CString fileName(_T("C:\\braintest.xml"));
@@ -65,12 +65,12 @@ TEST(SaveLoadTest, SaveLoadLatestVersion)
 	EXPECT_EQ(true, ret);
 
 	{
-		Action* pAction = GetWorkingBrain()->GetTaskManager()->GetActionById(actionId);
+		Action* pAction = GetWorkingBrain()->GetBehaviorManager()->GetActionById(actionId);
 		EXPECT_EQ(true, (pAction != NULL));
 	}
 
 	{
-		Condition* pCondition = GetWorkingBrain()->GetTaskManager()->GetConditionById(conditionId);
+		Condition* pCondition = GetWorkingBrain()->GetBehaviorManager()->GetConditionById(conditionId);
 		EXPECT_EQ(true, (pCondition != NULL));
 	}
 
@@ -92,13 +92,13 @@ TEST(SaveLoadTest, LoadDocVersion1)
 
 	{
 		CString actionId = _T("DemoToRunSysCmd");
-		Action* pAction = GetWorkingBrain()->GetTaskManager()->GetActionById(actionId);
+		Action* pAction = GetWorkingBrain()->GetBehaviorManager()->GetActionById(actionId);
 		EXPECT_EQ(true, (pAction != NULL));
 	}
 
 	{
 		CString conditionId = _T("DoesRegExist");
-		Condition* pCondition = GetWorkingBrain()->GetTaskManager()->GetConditionById(conditionId);
+		Condition* pCondition = GetWorkingBrain()->GetBehaviorManager()->GetConditionById(conditionId);
 		EXPECT_EQ(true, (pCondition != NULL));
 	}
 
