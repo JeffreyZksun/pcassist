@@ -8,7 +8,7 @@
 using namespace Ts;
 
 
-ImmediateTask::ImmediateTask() : m_pImp()						
+ImmediateTask::ImmediateTask() 					
 {											
 }											
 
@@ -17,20 +17,11 @@ ImmediateTask::~ImmediateTask()
 
 }
 
-ImmediateTask::pointer ImmediateTask::Create()					
+ImmediateTask::pointer ImmediateTask::Create(const WString& taskName)					
 {											
-	ImmediateTask::pointer pNewObj(new ImmediateTask());		
-	pNewObj->m_pImp.reset(new ImmediateTaskImp(pNewObj));
+	ImmediateTask::pointer pNewObj(new ImmediateTask());
+	ImmediateTask::imp_pointer pImp(new ImmediateTaskImp(pNewObj, taskName));
+	pNewObj->SetImp(pImp);
 
 	return pNewObj;							
-}
-
-bool ImmediateTask::IsReady()
-{
-	return m_pImp->IsReady();
-}
-
-bool ImmediateTask::Execute()
-{
-	return m_pImp->Execute();
 }
