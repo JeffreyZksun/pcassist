@@ -5,7 +5,7 @@
 #include "BehaviorBodyFactory.h"
 #include "TaskManager.h"
 #include "RegistryKey.h"
-#include "BrainApplication.h"
+#include "TaskSystem.h"
 #include "ExecutionContext.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -27,13 +27,13 @@ BEHAVIORBODY_IMP(CompositeCondition)
 	if(!bExist)
 		return false;
 
-	Condition* pFstCondition = pContext->GetBrainApplication()->GetTaskManager()->GetConditionById(firstCondition.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()));
+	Condition* pFstCondition = pContext->GetTaskSystem()->GetTaskManager()->GetConditionById(firstCondition.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 	ASSERT(pFstCondition != NULL);
 	if(NULL == pFstCondition)
 		return false;
 
 	bool bRet = false;
-	if(oper.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()).CompareNoCase(_T("Not")) == 0)
+	if(oper.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()).CompareNoCase(_T("Not")) == 0)
 	{
 		bRet = !pFstCondition->IsTrue();
 	}
@@ -44,15 +44,15 @@ BEHAVIORBODY_IMP(CompositeCondition)
 		ASSERT(bExist);
 		if(bExist)
 		{
-			Condition* pSndCondition = pContext->GetBrainApplication()->GetTaskManager()->GetConditionById(sndCondition.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()));
+			Condition* pSndCondition = pContext->GetTaskSystem()->GetTaskManager()->GetConditionById(sndCondition.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 			ASSERT(pSndCondition != NULL);
 			if(pSndCondition != NULL)
 			{
-				if(oper.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()).CompareNoCase(_T("AND")) == 0)
+				if(oper.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()).CompareNoCase(_T("AND")) == 0)
 				{
 					bRet =  pFstCondition->IsTrue() && pSndCondition->IsTrue();
 				}
-				else if(oper.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()).CompareNoCase(_T("OR")) == 0)
+				else if(oper.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()).CompareNoCase(_T("OR")) == 0)
 				{
 					bRet =  pFstCondition->IsTrue() || pSndCondition->IsTrue();
 				}
@@ -74,7 +74,7 @@ BEHAVIORBODY_IMP(FileExistsCondition)
     ASSERT(bExist);
 
     if(bExist)
-        return BrainUtil::DoesFileorFolderExist(para.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()));
+        return BrainUtil::DoesFileorFolderExist(para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
     
     return false;
 }
@@ -91,7 +91,7 @@ BEHAVIORBODY_IMP(FolderExistsCondition)
     ASSERT(bExist);
 
     if(bExist)
-        return BrainUtil::DoesFileorFolderExist(para.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()));
+        return BrainUtil::DoesFileorFolderExist(para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 
     return false;
 }
@@ -103,14 +103,14 @@ BEHAVIORBODY_IMP(RegisterKeyExistsCondition)
 	ASSERT(bExist);
 	if(!bExist)
 		return false;
-	CString rootKey = para.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager());
+	CString rootKey = para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
 
 	bExist = pContext->GetInputParameterTable()->GetParameter(SUB_KEY, para);
 	ASSERT(bExist);
 	if(!bExist)
 		return false;
 
-	CString subKeyName = para.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager());
+	CString subKeyName = para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
 
 	rootKey.MakeLower();
 	HKEY hRootKey = NULL;
@@ -165,7 +165,7 @@ BEHAVIORBODY_IMP(ProcessRunningCondition)
 	ASSERT(bExist);
 	if(!bExist)
 		return false;
-	CString strPorcessName = para.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager());
+	CString strPorcessName = para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
 	strPorcessName.Replace(_T('/'), _T('\\'));
 
 	bool bCompareNameOnly = true;
@@ -186,9 +186,9 @@ BEHAVIORBODY_IMP(ActionResultCondition)
     ASSERT(bExist);
     if(!bExist)
         return false;
-    CString strActionId = para.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager());
+    CString strActionId = para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
   
-    Action* pAction = pContext->GetBrainApplication()->GetTaskManager()->GetActionById(strActionId);
+    Action* pAction = pContext->GetTaskSystem()->GetTaskManager()->GetActionById(strActionId);
     ASSERT(pAction != NULL);
     if(NULL == pAction)
         return false;

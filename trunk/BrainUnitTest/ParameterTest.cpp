@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "Parameter.h"
-#include "BrainApplication.h"
+#include "TaskSystem.h"
 #include "VariableManager.h"
 
 TEST(ParameterTest, EvaluationLoop)

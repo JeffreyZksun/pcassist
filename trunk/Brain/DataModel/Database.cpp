@@ -2,18 +2,18 @@
 #include "Database.h"
 #include "TaskManager.h"
 #include "VariableManager.h"
-#include "BrainApplication.h"
+#include "TaskSystem.h"
 
-Database::Database(BrainApplication* pBrainApplication)
-		: m_pBrainApplication(pBrainApplication)
-		, m_pTaskManager(new TaskManager(pBrainApplication))
-		, m_pVariableManager(new VariableManager(pBrainApplication->GetOSProvider()))
+Database::Database(TaskSystem* pTaskSystem)
+		: m_pTaskSystem(pTaskSystem)
+		, m_pTaskManager(new TaskManager(pTaskSystem))
+		, m_pVariableManager(new VariableManager(pTaskSystem->GetOSProvider()))
 {
 }
 
 Database::~Database()
 {
-	// Do nothing to m_pBrainApplication;
+	// Do nothing to m_pTaskSystem;
 	delete m_pTaskManager;
 	delete m_pVariableManager;
 }

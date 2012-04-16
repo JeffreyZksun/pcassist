@@ -1,10 +1,10 @@
 #pragma once
 
-class BrainApplication;
+class TaskSystem;
 
 
-BrainApplication* GetWorkingBrain();
-BrainApplication* SetWorkingBrain(BrainApplication* pNewApp);
+TaskSystem* GetWorkingBrain();
+TaskSystem* SetWorkingBrain(TaskSystem* pNewApp);
 
 
 class ApplicationSwitchHelper
@@ -14,8 +14,8 @@ public:
 	~ApplicationSwitchHelper();
 
 private:
-	BrainApplication* pCurrentApp;
-	BrainApplication* pPreviousApp;
+	TaskSystem* pCurrentApp;
+	TaskSystem* pPreviousApp;
 };
 
 

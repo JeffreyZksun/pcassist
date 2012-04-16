@@ -13,7 +13,7 @@ class BehaviorNode;
 class Action;
 class Condition;
 class XmlIOStream;
-class BrainApplication;
+class TaskSystem;
 
 //////////////////////////////////////////////////////////////////////////
 // TaskManager
@@ -22,7 +22,7 @@ class BrainApplication;
 class BRAINEXPORT TaskManager : IDataBaseObject
 {
 public:
-    TaskManager(BrainApplication* pBrainApplication);
+    TaskManager(TaskSystem* pTaskSystem);
     ~TaskManager(void);
 
 public:
@@ -44,7 +44,7 @@ public:
 	virtual bool			XmlIn(XmlIOStream* pXmlIOStream);
 	virtual bool			XmlOut(XmlIOStream* pXmlIOStream) const;
 
-	BrainApplication*		GetBrainApplication() const;
+	TaskSystem*		GetTaskSystem() const;
 
 public:
     void                    deleteRegisteredActions();
@@ -67,7 +67,7 @@ private:
 
     ActionList					mTaskList;
 
-	BrainApplication*			mpBrainApplication; // Back-pointer
+	TaskSystem*			mpTaskSystem; // Back-pointer
 
 };
 

@@ -2,23 +2,23 @@
 
 class ParameterTable;
 class BehaviorNode;
-class BrainApplication;
+class TaskSystem;
 
 
 class ExecutionContext
 {
 public:
-	ExecutionContext(BrainApplication*, BehaviorNode*);
+	ExecutionContext(TaskSystem*, BehaviorNode*);
 
 	const ParameterTable* const	GetInputParameterTable() const;
 
 	void					SetBehaviorNode(BehaviorNode*);
 	BehaviorNode* const		GetBehaviorNode() const;
 
-	BrainApplication*		GetBrainApplication() const;
+	TaskSystem*		GetTaskSystem() const;
 
 private:
-	BrainApplication*		mpBrainApplication;
+	TaskSystem*		mpTaskSystem;
 	BehaviorNode*			mpCurrentBehavior;
 };
 

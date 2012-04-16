@@ -8,7 +8,7 @@
 #include "Logger.h"
 #include "BrainUtil.h" // ToDo remove this reference later.
 #include "IOSProvider.h"
-#include "BrainApplication.h"
+#include "TaskSystem.h"
 #include "IOSProvider.h"
 
 //////////////////////////////////////////////////////////////////////////

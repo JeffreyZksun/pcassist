@@ -6,7 +6,7 @@
 #include "XmlIOStream.h"
 #include "BehaviorBodyFactory.h"
 #include "Logger.h"
-#include "BrainApplication.h"
+#include "TaskSystem.h"
 #include "ExecutionContext.h"
 #include "IBehaviorBody.h"
 
@@ -14,8 +14,8 @@
 // TaskManager
 //////////////////////////////////////////////////////////////////////////
 
-TaskManager::TaskManager(BrainApplication* pBrainApplication)
-    : mpBrainApplication(pBrainApplication), mRegisteredActions(), mRegisteredConditions(), mTaskList()
+TaskManager::TaskManager(TaskSystem* pTaskSystem)
+    : mpTaskSystem(pTaskSystem), mRegisteredActions(), mRegisteredConditions(), mTaskList()
 {
 }
 
@@ -125,13 +125,13 @@ void TaskManager::RemoveActionTask(Action* pAction)
 
 bool TaskManager::RunTasks()
 {
-	if(NULL == mpBrainApplication)
+	if(NULL == mpTaskSystem)
 	{
-		LogOut(_T("Invalid BrainApplication Pointer"));
+		LogOut(_T("Invalid TaskSystem Pointer"));
 		return false;
 	}
 
-	if(NULL == mpBrainApplication->GetVariableManager())
+	if(NULL == mpTaskSystem->GetVariableManager())
 	{
 		LogOut(_T("Invalid VariableManager Pointer"));
 		return false;
@@ -208,7 +208,7 @@ bool TaskManager::RunTasks()
             bool bExit = pCurrentAction->GetParameterTable().GetParameter(BREAK_ON_FAIL, para);
             if(bExit)
             {
-                if( para.GetEvaluatedValue(mpBrainApplication->GetVariableManager()).CompareNoCase(_T("true")) == 0)
+                if( para.GetEvaluatedValue(mpTaskSystem->GetVariableManager()).CompareNoCase(_T("true")) == 0)
                 {
                     LogOut(_T("ERROR: Break the task due to the failed action ["), COLOR_RED); 
                     LogOut(*it, COLOR_RED); 
@@ -427,9 +427,9 @@ bool TaskManager::XmlOut(XmlIOStream* pXmlIOStream) const
 	return true;
 }
 
-BrainApplication* TaskManager::GetBrainApplication() const
+TaskSystem* TaskManager::GetTaskSystem() const
 {
-	return mpBrainApplication;
+	return mpTaskSystem;
 }
 
 
@@ -636,16 +636,16 @@ bool BehaviorNode::ExecuteBehavior()
 				continue;
 
 			// 12 + 1 empty chars
-			LogOut(_T("             ")); LogOut(para.GetName()); LogOut(_T("=")); LogOut(para.GetEvaluatedValue(mpTaskManager->GetBrainApplication()->GetVariableManager())); LogOut(_T("\n"));
+			LogOut(_T("             ")); LogOut(para.GetName()); LogOut(_T("=")); LogOut(para.GetEvaluatedValue(mpTaskManager->GetTaskSystem()->GetVariableManager())); LogOut(_T("\n"));
 		}
 	}
 
 	bool bSucc = true;
 
-	IBehaviorBody *pBody = mpTaskManager->GetBrainApplication()->GetBehaviorBodyFactory()->GetBehaviorBody(GetObjectType());
+	IBehaviorBody *pBody = mpTaskManager->GetTaskSystem()->GetBehaviorBodyFactory()->GetBehaviorBody(GetObjectType());
 	if(NULL != pBody)
 	{
-		ExecutionContext context(mpTaskManager->GetBrainApplication(), this);
+		ExecutionContext context(mpTaskManager->GetTaskSystem(), this);
 
 		bSucc = pBody->Execute(&context);
 	}
@@ -693,7 +693,7 @@ Action::~Action(void)
 //{
 //	if(para.GetName().CompareNoCase(OBJECT_ID) == 0)
 //	{
-//		Action* pAction = GetApplication()->GetTaskManager()->GetActionById(para.GetEvaluatedValue(mpBrainApplication->GetVariableManager()));
+//		Action* pAction = GetApplication()->GetTaskManager()->GetActionById(para.GetEvaluatedValue(mpTaskSystem->GetVariableManager()));
 //		ASSERT(NULL == pAction);
 //		if(pAction != NULL) // Duplicated Id
 //			return false;
@@ -752,7 +752,7 @@ Condition::~Condition(void)
 //{
 //	if(para.GetName().CompareNoCase(OBJECT_ID) == 0)
 //	{
-//		Condition* pAction = GetApplication()->GetTaskManager()->GetConditionById(para.GetEvaluatedValue(mpBrainApplication->GetVariableManager()));
+//		Condition* pAction = GetApplication()->GetTaskManager()->GetConditionById(para.GetEvaluatedValue(mpTaskSystem->GetVariableManager()));
 //		ASSERT(NULL == pAction);
 //		if(pAction != NULL) // Duplicated Id
 //			return false;

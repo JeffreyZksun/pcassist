@@ -24,7 +24,7 @@
 
 #include "ApplicationSwitchHelper.h"
 
-#include "BrainApplication.h"
+#include "TaskSystem.h"
 #include "TaskManager.h"
 #include "BehaviorBodyFactory.h"
 #include "VariableManager.h"

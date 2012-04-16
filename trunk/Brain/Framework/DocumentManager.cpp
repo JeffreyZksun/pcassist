@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "DocumentManager.h"
 #include "XmlIOStream.h"
-#include "BrainApplication.h"
+#include "TaskSystem.h"
 #include "Database.h"
 
 /************************************************************************/

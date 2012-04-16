@@ -14,11 +14,11 @@ class IHostService;
 class IOSProvider;
 class Database;
 
-class BRAINEXPORT BrainApplication
+class BRAINEXPORT TaskSystem
 {
 public:
-	BrainApplication();
-	~BrainApplication();
+	TaskSystem();
+	~TaskSystem();
 
 public:
 	TaskManager*			GetTaskManager() const;
