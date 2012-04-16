@@ -2,7 +2,7 @@
 
 #include "BrainSystem.h"
 
-class TaskManager;
+class BehaviorManager;
 class BehaviorBodyFactory;
 class VariableManager;
 class IOSProvider;
@@ -15,7 +15,7 @@ public:
 	virtual ~ITaskSystem(){};
 
 public:
-	virtual TaskManager*			GetTaskManager() const = 0;
+	virtual BehaviorManager*		GetBehaviorManager() const = 0;
 	virtual BehaviorBodyFactory*	GetBehaviorBodyFactory() const = 0;
 	virtual VariableManager*		GetVariableManager() const = 0;
 	virtual IOSProvider*			GetOSProvider() const = 0;

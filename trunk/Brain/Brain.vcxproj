@@ -117,7 +117,7 @@
     <ClInclude Include="inc\Logger.h" />
     <ClInclude Include="inc\Parameter.h" />
     <ClInclude Include="inc\ParameterTable.h" />
-    <ClInclude Include="inc\TaskManager.h" />
+    <ClInclude Include="inc\BehaviorManager.h" />
     <ClInclude Include="Main\Actions.h" />
     <ClInclude Include="Main\BehaviorBuilder.h" />
     <ClInclude Include="Main\CommandLineService.h" />
@@ -169,7 +169,7 @@
     <ClCompile Include="DataModel\ParameterImp.cpp" />
     <ClCompile Include="DataModel\ParameterTable.cpp" />
     <ClCompile Include="DataModel\ParameterTableImp.cpp" />
-    <ClCompile Include="DataModel\TaskManager.cpp" />
+    <ClCompile Include="DataModel\BehaviorManager.cpp" />
     <ClCompile Include="DataModel\VariableManager.cpp" />
     <ClCompile Include="DataModel\VariableManagerImp.cpp" />
     <ClCompile Include="Event\NotificationMgr.cpp" />

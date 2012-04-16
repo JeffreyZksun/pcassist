@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "ExecutionContext.h"
-#include "TaskManager.h"
+#include "BehaviorManager.h"
 
 
 ExecutionContext::ExecutionContext(TaskSystem* pTaskSystem, BehaviorNode* pBehavior)

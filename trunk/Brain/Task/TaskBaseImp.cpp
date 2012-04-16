@@ -23,6 +23,9 @@ TaskBaseImp::owner_pointer TaskBaseImp::Self() const
 
 bool TaskBaseImp::IsReady(ITaskSystem* pTaskSystem) const
 {
+	if(NULL == pTaskSystem)
+		return false;
+
 	return true;
 }
 
