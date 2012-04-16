@@ -3,7 +3,7 @@
 #include "BrainUtil.h"
 #include "ConstantsDefinition.h"
 #include "BehaviorBodyFactory.h"
-#include "TaskManager.h"
+#include "BehaviorManager.h"
 #include "RegistryKey.h"
 #include "TaskSystem.h"
 #include "ExecutionContext.h"
@@ -27,7 +27,7 @@ BEHAVIORBODY_IMP(CompositeCondition)
 	if(!bExist)
 		return false;
 
-	Condition* pFstCondition = pContext->GetTaskSystem()->GetTaskManager()->GetConditionById(firstCondition.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
+	Condition* pFstCondition = pContext->GetTaskSystem()->GetBehaviorManager()->GetConditionById(firstCondition.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 	ASSERT(pFstCondition != NULL);
 	if(NULL == pFstCondition)
 		return false;
@@ -44,7 +44,7 @@ BEHAVIORBODY_IMP(CompositeCondition)
 		ASSERT(bExist);
 		if(bExist)
 		{
-			Condition* pSndCondition = pContext->GetTaskSystem()->GetTaskManager()->GetConditionById(sndCondition.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
+			Condition* pSndCondition = pContext->GetTaskSystem()->GetBehaviorManager()->GetConditionById(sndCondition.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 			ASSERT(pSndCondition != NULL);
 			if(pSndCondition != NULL)
 			{
@@ -188,7 +188,7 @@ BEHAVIORBODY_IMP(ActionResultCondition)
         return false;
     CString strActionId = para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
   
-    Action* pAction = pContext->GetTaskSystem()->GetTaskManager()->GetActionById(strActionId);
+    Action* pAction = pContext->GetTaskSystem()->GetBehaviorManager()->GetActionById(strActionId);
     ASSERT(pAction != NULL);
     if(NULL == pAction)
         return false;

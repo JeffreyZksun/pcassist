@@ -23,9 +23,9 @@ TaskSystem::~TaskSystem()
 	delete mpBehaviorBodyFactory;
 }
 
-TaskManager* TaskSystem::GetTaskManager() const
+BehaviorManager* TaskSystem::GetBehaviorManager() const
 {
-	return m_pDatabase->GetTaskManager();
+	return m_pDatabase->GetBehaviorManager();
 }
 
 BehaviorBodyFactory* TaskSystem::GetBehaviorBodyFactory() const

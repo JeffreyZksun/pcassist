@@ -69,9 +69,6 @@
     <ClInclude Include="inc\ParameterTable.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TaskManager.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
     <ClInclude Include="Main\Actions.h">
       <Filter>Main</Filter>
     </ClInclude>
@@ -267,6 +264,9 @@
     <ClInclude Include="Task\TaskBaseImp.h">
       <Filter>Framework\Task</Filter>
     </ClInclude>
+    <ClInclude Include="inc\BehaviorManager.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Actions.cpp">
@@ -347,9 +347,6 @@
     <ClCompile Include="DataModel\ParameterTable.cpp">
       <Filter>Framework\DataModel</Filter>
     </ClCompile>
-    <ClCompile Include="DataModel\TaskManager.cpp">
-      <Filter>Framework\DataModel</Filter>
-    </ClCompile>
     <ClCompile Include="DataModel\VariableManager.cpp">
       <Filter>Framework\DataModel</Filter>
     </ClCompile>
@@ -409,6 +406,9 @@
     </ClCompile>
     <ClCompile Include="Task\TaskBaseImp.cpp">
       <Filter>Framework\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModel\BehaviorManager.cpp">
+      <Filter>Framework\DataModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

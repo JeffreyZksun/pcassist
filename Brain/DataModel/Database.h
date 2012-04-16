@@ -1,7 +1,7 @@
 #pragma once
 #include "IDatabaseObject.h"
 
-class TaskManager;
+class BehaviorManager;
 class VariableManager;
 class TaskSystem;
 
@@ -13,7 +13,7 @@ public:
 	~Database();
 
 public:
-	TaskManager*			GetTaskManager() const;
+	BehaviorManager*			GetBehaviorManager() const;
 	VariableManager*		GetVariableManager() const;
 
 public:
@@ -23,7 +23,7 @@ public:
 private:
 	TaskSystem*		m_pTaskSystem; // Back pointer
 
-	TaskManager*			m_pTaskManager;
+	BehaviorManager*			m_pBehaviorManager;
 	VariableManager*		m_pVariableManager;
 };
 

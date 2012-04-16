@@ -8,7 +8,7 @@
 //Disable the waring " class 'ATL::CStringT<BaseType,StringTraits>' needs to have dll-interface to be used by clients of class"
 #pragma warning( disable : 4251 ) 
 
-class TaskManager;
+class BehaviorManager;
 class BehaviorBodyFactory;
 class VariableManager;
 class IHostService;
@@ -23,7 +23,7 @@ public:
 
 public:
 	// override ITaskSystem 
-	virtual TaskManager*			GetTaskManager() const;
+	virtual BehaviorManager*			GetBehaviorManager() const;
 	virtual BehaviorBodyFactory*	GetBehaviorBodyFactory() const;
 	virtual VariableManager*		GetVariableManager() const;
 	virtual IOSProvider*			GetOSProvider() const;

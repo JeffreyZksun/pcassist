@@ -13,6 +13,9 @@ ImmediateTaskImp::ImmediateTaskImp(owner_pointer pSelf, const WString& taskName)
 
 bool ImmediateTaskImp::Execute(ITaskSystem* pTaskSystem)
 {
+	if(NULL == pTaskSystem)
+		return false;
+
 	// Todo
 	return false;
 }

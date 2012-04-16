@@ -20,11 +20,17 @@ ConditionalTaskImp::ConditionalTaskImp(owner_pointer pSelf, const WString& taskN
 
 bool ConditionalTaskImp::IsReady(ITaskSystem* pTaskSystem) const
 {
+	if(NULL == pTaskSystem)
+		return false;
+
 	return true;
 }
 
 bool ConditionalTaskImp::Execute(ITaskSystem* pTaskSystem)
 {
+	if(NULL == pTaskSystem)
+		return false;
+
 	// Todo
 	return false;
 }

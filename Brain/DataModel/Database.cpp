@@ -1,12 +1,12 @@
 #include "StdAfx.h"
 #include "Database.h"
-#include "TaskManager.h"
+#include "BehaviorManager.h"
 #include "VariableManager.h"
 #include "TaskSystem.h"
 
 Database::Database(TaskSystem* pTaskSystem)
 		: m_pTaskSystem(pTaskSystem)
-		, m_pTaskManager(new TaskManager(pTaskSystem))
+		, m_pBehaviorManager(new BehaviorManager(pTaskSystem))
 		, m_pVariableManager(new VariableManager(pTaskSystem->GetOSProvider()))
 {
 }
@@ -14,14 +14,14 @@ Database::Database(TaskSystem* pTaskSystem)
 Database::~Database()
 {
 	// Do nothing to m_pTaskSystem;
-	delete m_pTaskManager;
+	delete m_pBehaviorManager;
 	delete m_pVariableManager;
 }
 
 
-TaskManager* Database::GetTaskManager() const
+BehaviorManager* Database::GetBehaviorManager() const
 {
-	return m_pTaskManager;
+	return m_pBehaviorManager;
 }
 
 VariableManager* Database::GetVariableManager() const
@@ -35,7 +35,7 @@ bool Database::XmlIn(XmlIOStream* pXmlIOStream)
 	bool bRet = m_pVariableManager->XmlIn(pXmlIOStream);
 
 	// Load task manager
-	bRet = m_pTaskManager->XmlIn(pXmlIOStream);
+	bRet = m_pBehaviorManager->XmlIn(pXmlIOStream);
 
 	return bRet;
 }
@@ -46,7 +46,7 @@ bool Database::XmlOut(XmlIOStream* pXmlIOStream) const
 	bool bRet = m_pVariableManager->XmlOut(pXmlIOStream);
 
 	// Load task manager
-	bRet = m_pTaskManager->XmlOut(pXmlIOStream);
+	bRet = m_pBehaviorManager->XmlOut(pXmlIOStream);
 
 	return bRet;
 }
