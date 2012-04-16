@@ -4,7 +4,7 @@
 #include "stdafx.h"
 
 #include "Parameter.h"
-#include "TaskManager.h"
+#include "BehaviorManager.h"
 #include "BrainUtil.h"
 #include "ConstantsDefinition.h"
 #include "VariableManager.h"
@@ -56,7 +56,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	//	pNewAction->AddParameter(objectType);
 	//	pNewAction->AddParameter(cmd);
 
-	//	TaskManager::Get()->AddActionTask(pNewAction);
+	//	BehaviorManager::Get()->AddActionTask(pNewAction);
 	//}
 
 	//{
@@ -102,7 +102,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	//pDoc->XmlIn();
 	//delete pDoc;
 
-	//TaskManager::Get()->RunTasks();
+	//BehaviorManager::Get()->RunTasks();
 	return 0;
 
 	////////////////// Test DocumentManager
@@ -135,7 +135,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	//pComplexAction->AddParameter(Parameter(MAIN_ACTION, _T("MainAction")));
 	//pComplexAction->AddParameter(Parameter(POST_ACTION, _T("PostAction")));
 
-	//Action* pA = TaskManager::Get()->GetActionById(_T("CreateFolders"));
+	//Action* pA = BehaviorManager::Get()->GetActionById(_T("CreateFolders"));
 
 	//bool bRet = pA->Execute();
 
@@ -178,7 +178,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	//pC->AddParameter(Parameter(FIRST_CONDITION, _T("CheckDiskC")));
 	//pC->AddParameter(Parameter(SECOND_CONDITION, _T("CheckDiskAZ")));
 
-	//Condition* pC2 = TaskManager::Get()->GetConditionById(_T("CheckDiskCD"));
+	//Condition* pC2 = BehaviorManager::Get()->GetConditionById(_T("CheckDiskCD"));
 	//bool bIsTrue = pC2->IsTrue();
 
 
@@ -197,20 +197,20 @@ int _tmain(int argc, _TCHAR* argv[])
 	//bool bIsTrue = pCB->IsTrue();
 
 	///////////////////////////////////////////// Test GetActionById, GetConditionById
-	//TaskManager* pTaskMgr = TaskManager::Get();
+	//BehaviorManager* pTaskMgr = BehaviorManager::Get();
 	//new CreateFileAction();
 	//Action* pA = new CreateFileAction();
 	//pA->AddParameter(Parameter(OBJECT_ID, _T("CreateOS")));
 
-	//Action* pA2 = TaskManager::Get()->GetActionById(_T("CreateOS"));
+	//Action* pA2 = BehaviorManager::Get()->GetActionById(_T("CreateOS"));
 
 	//new FileExistsCondition();
 	//Condition* pC = new FileExistsCondition();
 	//pC->AddParameter(Parameter(OBJECT_ID, _T("CreateOS")));
 
-	//Condition* pC2 = TaskManager::Get()->GetConditionById(_T("CreateOS"));
+	//Condition* pC2 = BehaviorManager::Get()->GetConditionById(_T("CreateOS"));
 
-	//TaskManager* pTaskMgr = TaskManager::Get();
+	//BehaviorManager* pTaskMgr = BehaviorManager::Get();
 	//CreateFileAction action;
 	//pTaskMgr->RegisterAction(&action);
 

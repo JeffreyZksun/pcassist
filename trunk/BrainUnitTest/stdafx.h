@@ -25,7 +25,7 @@
 #include "ApplicationSwitchHelper.h"
 
 #include "TaskSystem.h"
-#include "TaskManager.h"
+#include "BehaviorManager.h"
 #include "BehaviorBodyFactory.h"
 #include "VariableManager.h"
 #include "DocumentManager.h"
