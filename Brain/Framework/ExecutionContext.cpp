@@ -3,8 +3,8 @@
 #include "TaskManager.h"
 
 
-ExecutionContext::ExecutionContext(BrainApplication* pBrainApplication, BehaviorNode* pBehavior)
-	: mpBrainApplication(pBrainApplication), mpCurrentBehavior(pBehavior)
+ExecutionContext::ExecutionContext(TaskSystem* pTaskSystem, BehaviorNode* pBehavior)
+	: mpTaskSystem(pTaskSystem), mpCurrentBehavior(pBehavior)
 {
 
 }
@@ -30,11 +30,11 @@ BehaviorNode* const ExecutionContext::GetBehaviorNode() const
 	return mpCurrentBehavior;
 }
 
-BrainApplication* ExecutionContext::GetBrainApplication() const
+TaskSystem* ExecutionContext::GetTaskSystem() const
 {
-	ASSERT(mpBrainApplication != NULL);
-	if(mpBrainApplication != NULL)
-		return mpBrainApplication;
+	ASSERT(mpTaskSystem != NULL);
+	if(mpTaskSystem != NULL)
+		return mpTaskSystem;
 
 	return NULL;
 }

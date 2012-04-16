@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "BehaviorBodyFactory.h"
-#include "BrainApplication.h"
+#include "TaskSystem.h"
 #include "IBehaviorBody.h"
 
 BehaviorBodyFactory::BehaviorBodyFactory(void) : mBehaviorBodyMap()

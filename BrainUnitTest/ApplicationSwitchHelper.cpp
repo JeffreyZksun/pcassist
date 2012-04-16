@@ -1,29 +1,29 @@
 #include "StdAfx.h"
 #include "ApplicationSwitchHelper.h"
-#include "BrainApplication.h"
+#include "TaskSystem.h"
 
 
-static BrainApplication	defaultApp;
-static BrainApplication* pCurrentApp = &defaultApp;
+static TaskSystem	defaultApp;
+static TaskSystem* pCurrentApp = &defaultApp;
 
-BrainApplication* GetWorkingBrain()
+TaskSystem* GetWorkingBrain()
 {
 	return pCurrentApp;
 }
 
-BrainApplication* SetWorkingBrain(BrainApplication* pNewApp)
+TaskSystem* SetWorkingBrain(TaskSystem* pNewApp)
 {
 	ASSERT(pNewApp != NULL);
 	if(NULL == pNewApp) 
 		return NULL;
 
-	BrainApplication* pPreviousApp = pCurrentApp;
+	TaskSystem* pPreviousApp = pCurrentApp;
 	pCurrentApp = pNewApp;
 	return pPreviousApp;
 }
 
 
-ApplicationSwitchHelper::ApplicationSwitchHelper(): pPreviousApp(NULL), pCurrentApp(new BrainApplication())
+ApplicationSwitchHelper::ApplicationSwitchHelper(): pPreviousApp(NULL), pCurrentApp(new TaskSystem())
 {
 	// Use the temp application.
 	pPreviousApp = SetWorkingBrain(pCurrentApp);
@@ -32,7 +32,7 @@ ApplicationSwitchHelper::ApplicationSwitchHelper(): pPreviousApp(NULL), pCurrent
 ApplicationSwitchHelper::~ApplicationSwitchHelper()
 {
 	// Recover
-	BrainApplication *pTempApp = SetWorkingBrain(pPreviousApp);
+	TaskSystem *pTempApp = SetWorkingBrain(pPreviousApp);
 	ASSERT(pTempApp == pCurrentApp);
 
 	delete pCurrentApp;

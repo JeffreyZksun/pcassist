@@ -9,7 +9,7 @@
 #include "ConstantsDefinition.h"
 #include "VariableManager.h"
 #include "DocumentManager.h"
-#include "BrainApplication.h"
+#include "TaskSystem.h"
 #include "Logger.h"
 
 void TestFileExistsCondition();

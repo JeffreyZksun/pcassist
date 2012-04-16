@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 
-#include "BrainApplication.h"
+#include "TaskSystem.h"
 #include "Parameter.h"
 #include "TaskManager.h"
 #include "VariableManager.h"
@@ -9,8 +9,8 @@
 TEST(SaveLoadTest, SaveLoadLatestVersion)
 {
 	// Use the temp application.
-	BrainApplication *pTempApp1 = new BrainApplication();
-	BrainApplication* pPreviousApp = SetWorkingBrain(pTempApp1);
+	TaskSystem *pTempApp1 = new TaskSystem();
+	TaskSystem* pPreviousApp = SetWorkingBrain(pTempApp1);
 
 	{
 		Parameter para(_T("OS"), _T("Windows7"));
@@ -57,7 +57,7 @@ TEST(SaveLoadTest, SaveLoadLatestVersion)
 	EXPECT_EQ(true, ret);
 
 	// Load
-	BrainApplication *pTempApp2 = new BrainApplication();
+	TaskSystem *pTempApp2 = new TaskSystem();
 
 	SetWorkingBrain(pTempApp2);
 
@@ -83,8 +83,8 @@ TEST(SaveLoadTest, LoadDocVersion1)
 	ApplicationSwitchHelper helper;
 
 	// Use the temp application.
-	//BrainApplication *pTempApp1 = new BrainApplication();
-	//BrainApplication* pPreviousApp = SetWorkingBrain(pTempApp1);
+	//TaskSystem *pTempApp1 = new TaskSystem();
+	//TaskSystem* pPreviousApp = SetWorkingBrain(pTempApp1);
 
 	CString fileName(_T("DocVersion1.xml"));
 	bool ret = GetWorkingBrain()->XmlIn(fileName);
@@ -113,8 +113,8 @@ TEST(SaveLoadTest, SaveLoadDocVersion1)
 	CString content = _T("");
 
 	// Use the temp application.
-	BrainApplication *pTempApp1 = new BrainApplication();
-	BrainApplication* pPreviousApp = SetWorkingBrain(pTempApp1);
+	TaskSystem *pTempApp1 = new TaskSystem();
+	TaskSystem* pPreviousApp = SetWorkingBrain(pTempApp1);
 
 	// Recover
 	SetWorkingBrain(pPreviousApp);

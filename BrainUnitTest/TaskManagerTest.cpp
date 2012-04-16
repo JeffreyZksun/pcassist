@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "TaskManager.h"
 #include <ConstantsDefinition.h>
-#include <BrainApplication.h>
+#include <TaskSystem.h>
 
 
 TEST(TaskManager, Action)

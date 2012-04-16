@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "BrainApplication.h"
+#include "TaskSystem.h"
 #include "BehaviorBodyFactory.h"
 #include "DocumentManager.h"
 
@@ -8,7 +8,7 @@
 #include "Database.h"
 
 
-BrainApplication::BrainApplication()
+TaskSystem::TaskSystem()
 		: mpBehaviorBodyFactory(new BehaviorBodyFactory())
 		, mpHostService(new HostService()) // ToDo - This data should be set by client.
 		, m_pDatabase(NULL)
@@ -17,28 +17,28 @@ BrainApplication::BrainApplication()
 	Initialize();
 }
 
-BrainApplication::~BrainApplication()
+TaskSystem::~TaskSystem()
 {
 	delete m_pDatabase;
 	delete mpBehaviorBodyFactory;
 }
 
-TaskManager* BrainApplication::GetTaskManager() const
+TaskManager* TaskSystem::GetTaskManager() const
 {
 	return m_pDatabase->GetTaskManager();
 }
 
-BehaviorBodyFactory* BrainApplication::GetBehaviorBodyFactory() const
+BehaviorBodyFactory* TaskSystem::GetBehaviorBodyFactory() const
 {
 	return mpBehaviorBodyFactory;
 }
 
-VariableManager* BrainApplication::GetVariableManager() const
+VariableManager* TaskSystem::GetVariableManager() const
 {
 	return m_pDatabase->GetVariableManager();
 }
 
-IOSProvider* BrainApplication::GetOSProvider() const
+IOSProvider* TaskSystem::GetOSProvider() const
 {
 	if(mpHostService)
 	{
@@ -48,12 +48,12 @@ IOSProvider* BrainApplication::GetOSProvider() const
 	return NULL;
 }
 
-Database* BrainApplication::GetDatabase() const
+Database* TaskSystem::GetDatabase() const
 {
 	return m_pDatabase;
 }
 
-bool BrainApplication::XmlIn(const CString& docName) const
+bool TaskSystem::XmlIn(const CString& docName) const
 {
 	DocumentManager* pDoc = new DocumentManager();
 	pDoc->SetDocumentName(docName);
@@ -62,7 +62,7 @@ bool BrainApplication::XmlIn(const CString& docName) const
 	return bRet;
 }
 
-bool BrainApplication::XmlOut(const CString& docName) const
+bool TaskSystem::XmlOut(const CString& docName) const
 {
 	DocumentManager* pDoc = new DocumentManager();
 	pDoc->SetDocumentName(docName);
@@ -71,7 +71,7 @@ bool BrainApplication::XmlOut(const CString& docName) const
 	return bRet;
 }
 
-void BrainApplication::Initialize()
+void TaskSystem::Initialize()
 {
 	ASSERT(mpHostService != NULL);
 	if(mpHostService)

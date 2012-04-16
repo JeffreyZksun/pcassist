@@ -51,9 +51,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\BrainApplication.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
     <ClInclude Include="inc\BrainSystem.h">
       <Filter>Inc</Filter>
     </ClInclude>
@@ -258,6 +255,9 @@
     <ClInclude Include="Task\ConditionalTaskImp.h">
       <Filter>Framework\Task</Filter>
     </ClInclude>
+    <ClInclude Include="inc\TaskSystem.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Actions.cpp">
@@ -291,9 +291,6 @@
       <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="Framework\BehaviorBodyFactory.cpp">
-      <Filter>Framework\Server</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\BrainApplication.cpp">
       <Filter>Framework\Server</Filter>
     </ClCompile>
     <ClCompile Include="Framework\DocumentManager.cpp">
@@ -394,6 +391,9 @@
     </ClCompile>
     <ClCompile Include="Task\ConditionalTaskImp.cpp">
       <Filter>Framework\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\TaskSystem.cpp">
+      <Filter>Framework\Server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

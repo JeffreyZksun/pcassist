@@ -108,7 +108,7 @@
     <ClInclude Include="Event\NotificationMgrImp.h" />
     <ClInclude Include="Framework\IBehaviorBuilder.h" />
     <ClInclude Include="Framework\IOSProvider.h" />
-    <ClInclude Include="inc\BrainApplication.h" />
+    <ClInclude Include="inc\TaskSystem.h" />
     <ClInclude Include="inc\BrainSystem.h" />
     <ClInclude Include="inc\ConstantsDefinition.h" />
     <ClInclude Include="inc\IDatabaseObject.h" />
@@ -181,7 +181,7 @@
     <ClCompile Include="Main\Logger.cpp" />
     <ClCompile Include="Main\RegistryKey.cpp" />
     <ClCompile Include="Framework\BehaviorBodyFactory.cpp" />
-    <ClCompile Include="Framework\BrainApplication.cpp" />
+    <ClCompile Include="Framework\TaskSystem.cpp" />
     <ClCompile Include="Framework\DocumentManager.cpp" />
     <ClCompile Include="Framework\ExecutionContext.cpp" />
     <ClCompile Include="MultiThreading\ThreadLocks.cpp" />

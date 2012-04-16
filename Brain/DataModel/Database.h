@@ -3,13 +3,13 @@
 
 class TaskManager;
 class VariableManager;
-class BrainApplication;
+class TaskSystem;
 
 
 class Database : public IDataBaseObject
 {
 public:
-	Database(BrainApplication* pBrainApplication);
+	Database(TaskSystem* pTaskSystem);
 	~Database();
 
 public:
@@ -21,7 +21,7 @@ public:
 	virtual bool			XmlOut(XmlIOStream* pXmlIOStream) const;
 
 private:
-	BrainApplication*		m_pBrainApplication; // Back pointer
+	TaskSystem*		m_pTaskSystem; // Back pointer
 
 	TaskManager*			m_pTaskManager;
 	VariableManager*		m_pVariableManager;

@@ -4,7 +4,7 @@
 #include "ConstantsDefinition.h"
 #include "BehaviorBodyFactory.h"
 #include "TaskManager.h"
-#include "BrainApplication.h"
+#include "TaskSystem.h"
 #include "Logger.h"
 #include "ExecutionContext.h"
 
@@ -17,7 +17,7 @@ BEHAVIORBODY_IMP(ComplexAction)
 	if(!bExist)
 		return false;
 
-	Condition* pExeCondition = pContext->GetBrainApplication()->GetTaskManager()->GetConditionById(condition.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()));
+	Condition* pExeCondition = pContext->GetTaskSystem()->GetTaskManager()->GetConditionById(condition.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 	ASSERT(pExeCondition != NULL);
 	if(NULL == pExeCondition)
 		return false;
@@ -32,7 +32,7 @@ BEHAVIORBODY_IMP(ComplexAction)
 	if(!bExist)
 		return false;
 
-	Action* pMainAction = pContext->GetBrainApplication()->GetTaskManager()->GetActionById(mainAction.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()));
+	Action* pMainAction = pContext->GetTaskSystem()->GetTaskManager()->GetActionById(mainAction.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 	ASSERT(pMainAction != NULL);
 	if(NULL == pMainAction)
 		return false;
@@ -42,7 +42,7 @@ BEHAVIORBODY_IMP(ComplexAction)
 	bExist = pContext->GetInputParameterTable()->GetParameter(PRE_ACTION, preAction);
 	if(bExist)
 	{
-		Action* pPreAction = pContext->GetBrainApplication()->GetTaskManager()->GetActionById(preAction.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()));
+		Action* pPreAction = pContext->GetTaskSystem()->GetTaskManager()->GetActionById(preAction.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 		if(pPreAction != NULL)
 			pPreAction->Execute();
 	}
@@ -55,7 +55,7 @@ BEHAVIORBODY_IMP(ComplexAction)
 	bExist = pContext->GetInputParameterTable()->GetParameter(POST_ACTION, postAction);
 	if(bExist)
 	{
-		Action* pPostAction = pContext->GetBrainApplication()->GetTaskManager()->GetActionById(postAction.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()));
+		Action* pPostAction = pContext->GetTaskSystem()->GetTaskManager()->GetActionById(postAction.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 		if(pPostAction != NULL)
 			pPostAction->Execute();
 	}
@@ -70,7 +70,7 @@ BEHAVIORBODY_IMP(CreateFileAction)
     ASSERT(bExist);
 
     if(bExist)
-        return BrainUtil::CreateFile(para.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()));
+        return BrainUtil::CreateFile(para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 
     return false;
 }
@@ -82,7 +82,7 @@ BEHAVIORBODY_IMP(DeleteFileAction)
     ASSERT(bExist);
 
     if(bExist)
-        return BrainUtil::DeleteFile(para.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()));
+        return BrainUtil::DeleteFile(para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 
     return false;
 }
@@ -101,7 +101,7 @@ BEHAVIORBODY_IMP(CopyFileAction)
     if(!bExist)
         return false;
 
-    return BrainUtil::CopyFile(para1.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()), para2.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()));
+    return BrainUtil::CopyFile(para1.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()), para2.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 }
 
 BEHAVIORBODY_IMP(CreateFolderAction)
@@ -111,7 +111,7 @@ BEHAVIORBODY_IMP(CreateFolderAction)
     ASSERT(bExist);
 
     if(bExist)
-        return BrainUtil::CreateFolder(para.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()));
+        return BrainUtil::CreateFolder(para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 
     return false;
 }
@@ -123,7 +123,7 @@ BEHAVIORBODY_IMP(DeleteFolderAction)
     ASSERT(bExist);
 
     if(bExist)
-        return BrainUtil::DeleteFolder(para.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()));
+        return BrainUtil::DeleteFolder(para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 
     return false;
 }
@@ -142,7 +142,7 @@ BEHAVIORBODY_IMP(CopyFolderAction)
     if(!bExist)
         return false;
 
-    return BrainUtil::CopyFolder(para1.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()), para2.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()));
+    return BrainUtil::CopyFolder(para1.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()), para2.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 }
 
 BEHAVIORBODY_IMP(MakeDirectoryLinkAction)
@@ -159,7 +159,7 @@ BEHAVIORBODY_IMP(MakeDirectoryLinkAction)
     if(!bExist)
         return false;
 
-    return BrainUtil::MakeLink(para1.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()), para2.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()));
+    return BrainUtil::MakeLink(para1.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()), para2.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 }
 
 BEHAVIORBODY_IMP(RunSystemCommandAction)
@@ -170,12 +170,12 @@ BEHAVIORBODY_IMP(RunSystemCommandAction)
 	if(!bExist)
 		return false;
 
-	CString applicationName = para.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager());
+	CString applicationName = para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
 
 	bExist = pContext->GetInputParameterTable()->GetParameter(APPLICATION_PARAMETER, para);
 	if(bExist)
 	{
-		CString applicationParameter = para.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager());
+		CString applicationParameter = para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
 
 		applicationName = applicationName + _T(" ") + applicationParameter;
 	}
@@ -198,20 +198,20 @@ BEHAVIORBODY_IMP(RunProcessAction)
 	if(!bExist)
 		return false;
 
-	CString applicationName = para.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager());
+	CString applicationName = para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
 
 	bExist = pContext->GetInputParameterTable()->GetParameter(APPLICATION_PARAMETER, para);
 	CString applicationParameter;
 	if(bExist)
 	{
-		applicationParameter = para.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager());
+		applicationParameter = para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
 	}
 
 	bExist = pContext->GetInputParameterTable()->GetParameter(APPLICATION_SHOWWINDOW, para);
 	bool bShowWindow = true;
 	if(bExist)
 	{
-		CString strShowWindow = para.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager());
+		CString strShowWindow = para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
 		if(strShowWindow.CompareNoCase(_T("false")) == 0)
 			bShowWindow = false;
 	}
@@ -220,7 +220,7 @@ BEHAVIORBODY_IMP(RunProcessAction)
 	bool bWaitForExit = true;
 	if(bExist)
 	{
-		CString strWaitForExit = para.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager());
+		CString strWaitForExit = para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
 		if(strWaitForExit.CompareNoCase(_T("false")) == 0)
 			bWaitForExit = false;
 	}
@@ -250,7 +250,7 @@ BEHAVIORBODY_IMP(ConditionBlockAction)
 	ASSERT(bExist);
 	if(!bExist)
 		return true;
-	CString strExpectedRet = para2.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager());
+	CString strExpectedRet = para2.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
 	strExpectedRet.MakeLower();
 	bool bExpectedResult = strExpectedRet == _T("true");
 
@@ -258,7 +258,7 @@ BEHAVIORBODY_IMP(ConditionBlockAction)
 	//Parameter para3;
 	//bExist = pContext->GetInputParameterTable()->GetParameter(EXPECTED_RESULT, para3);
 
-	Condition* pCondition = pContext->GetBrainApplication()->GetTaskManager()->GetConditionById(para.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager()));
+	Condition* pCondition = pContext->GetTaskSystem()->GetTaskManager()->GetConditionById(para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 
 	ASSERT(pCondition);
 	bool bTimeOut = false;
@@ -294,7 +294,7 @@ BEHAVIORBODY_IMP(TaskListAction)
     if(!bExist)
         return true;
 
-    CString strGroup = para.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager());
+    CString strGroup = para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
 
     std::vector<CString> actionIds;
 
@@ -307,7 +307,7 @@ BEHAVIORBODY_IMP(TaskListAction)
 
     for(std::vector<CString>::const_iterator it = actionIds.begin(); it != actionIds.end(); it++)
     {
-        Action* pCurrentAction = pContext->GetBrainApplication()->GetTaskManager()->GetActionById(*it);
+        Action* pCurrentAction = pContext->GetTaskSystem()->GetTaskManager()->GetActionById(*it);
         ASSERT(pCurrentAction != NULL);
         if(NULL != pCurrentAction)
         {
@@ -352,7 +352,7 @@ BEHAVIORBODY_IMP(ConditionListCheckAction)
     if(!bExist)
         return true;
 
-    CString strGroup = para.GetEvaluatedValue(pContext->GetBrainApplication()->GetVariableManager());
+    CString strGroup = para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
 
     std::vector<CString> actionIds;
 
@@ -365,7 +365,7 @@ BEHAVIORBODY_IMP(ConditionListCheckAction)
 
     for(std::vector<CString>::const_iterator it = actionIds.begin(); it != actionIds.end(); it++)
     {
-        Condition* pCurrentCondition = pContext->GetBrainApplication()->GetTaskManager()->GetConditionById(*it);
+        Condition* pCurrentCondition = pContext->GetTaskSystem()->GetTaskManager()->GetConditionById(*it);
         ASSERT(pCurrentCondition != NULL);
         if(NULL != pCurrentCondition)
         {
