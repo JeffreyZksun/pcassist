@@ -267,6 +267,15 @@
     <ClInclude Include="inc\BehaviorManager.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Task\ITaskManager.h">
+      <Filter>Framework\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\TaskManager.h">
+      <Filter>Framework\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\TaskManagerImp.h">
+      <Filter>Framework\Task</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Actions.cpp">
@@ -409,6 +418,12 @@
     </ClCompile>
     <ClCompile Include="DataModel\BehaviorManager.cpp">
       <Filter>Framework\DataModel</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\TaskManager.cpp">
+      <Filter>Framework\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\TaskManagerImp.cpp">
+      <Filter>Framework\Task</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

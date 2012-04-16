@@ -150,8 +150,11 @@
     <ClInclude Include="Task\ImmediateTaskImp.h" />
     <ClInclude Include="Task\ITask.h" />
     <ClInclude Include="Task\ImmediateTask.h" />
+    <ClInclude Include="Task\ITaskManager.h" />
     <ClInclude Include="Task\TaskBase.h" />
     <ClInclude Include="Task\TaskBaseImp.h" />
+    <ClInclude Include="Task\TaskManager.h" />
+    <ClInclude Include="Task\TaskManagerImp.h" />
     <ClInclude Include="TextCommand\CmdLineMgr.h" />
     <ClInclude Include="TextCommand\CmdLineMgrImp.h" />
     <ClInclude Include="TextCommand\CmdOption.h" />
@@ -203,6 +206,8 @@
     <ClCompile Include="Task\ImmediateTaskImp.cpp" />
     <ClCompile Include="Task\TaskBase.cpp" />
     <ClCompile Include="Task\TaskBaseImp.cpp" />
+    <ClCompile Include="Task\TaskManager.cpp" />
+    <ClCompile Include="Task\TaskManagerImp.cpp" />
     <ClCompile Include="TextCommand\CmdLineMgr.cpp" />
     <ClCompile Include="TextCommand\CmdLineMgrImp.cpp" />
     <ClCompile Include="TextCommand\CmdOption.cpp" />
