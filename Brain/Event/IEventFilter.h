@@ -5,7 +5,7 @@ namespace Ts
 
     class IEvent;
 
-    class IEventFilter
+    class BRAINEXPORT IEventFilter
     {
     public:
         virtual ~IEventFilter(void){};

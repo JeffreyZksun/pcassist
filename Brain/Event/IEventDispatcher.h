@@ -6,7 +6,7 @@ namespace Ts
     class IEvent;
     class IEventSink;
 
-    class IEventDispatcher
+    class BRAINEXPORT IEventDispatcher
     {
     public:
         virtual ~IEventDispatcher(void){};

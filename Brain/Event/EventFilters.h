@@ -4,7 +4,7 @@
 
 namespace Ts
 {
-    class DefaultFilter: public IEventFilter
+    class BRAINEXPORT DefaultFilter: public IEventFilter
     {
     public:
         virtual ~DefaultFilter(void){};
