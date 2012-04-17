@@ -69,7 +69,10 @@ TEST(ActionTest, ReferenceLoopAction)
 		pA2->GetParameterTable().AddParameter(para3);
 	}
 
-	bool bRet = pA2->Execute(); // The assert is expected.
+	Ts::DisableAssert(); // The assert is expected due to the loop
+	bool bRet = pA2->Execute(); 
+	Ts::EnableAssert();
+
 	EXPECT_EQ(false, bRet);
 
 	GetWorkingBrain()->GetBehaviorManager()->UnregisterAction(pA2);
@@ -154,7 +157,9 @@ TEST(ActionTest, TaskListAction_2)
         pTaskList->GetParameterTable().AddParameter(para1);
     }
 
+	Ts::DisableAssert(); // DummyAction doesn't exist. Disable the assert
     bool bRet = pTaskList->Execute();
+	Ts::EnableAssert();
 
     EXPECT_EQ(false, bRet);
 
@@ -243,7 +248,9 @@ TEST(ActionTest, ConditionListCheckAction_3)
         pSanityCheck->GetParameterTable().AddParameter(para1);
     }
 
+	Ts::DisableAssert(); // The assert is expected
     bool bRet = pSanityCheck->Execute();
+	Ts::EnableAssert();
     EXPECT_EQ(false, bRet);
 
 	GetWorkingBrain()->GetBehaviorManager()->UnregisterAction(pSanityCheck);

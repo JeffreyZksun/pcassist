@@ -21,7 +21,9 @@ TEST(ParameterTest, EvaluationLoop)
 	Parameter para3(_T("C"), _T("C%A%C"));
 	pVM->AddUserParameter(para3);
 
-	CString actual = para3.GetEvaluatedValue(GetWorkingBrain()->GetVariableManager()); // There is an expected assert.
+	Ts::DisableAssert(); // The assert is expected due to the loop
+	CString actual = para3.GetEvaluatedValue(GetWorkingBrain()->GetVariableManager());
+	Ts::EnableAssert();
 	CString expected = _T("CABBAC");
 
 	bool bmatch = actual.Compare(expected) == 0;
