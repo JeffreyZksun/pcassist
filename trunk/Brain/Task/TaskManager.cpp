@@ -49,12 +49,12 @@ size_t TaskManager::PollOne()
 	return m_pImp->PollOne();
 }
 
-bool TaskManager::RemoveTask(WString taskName)
+bool TaskManager::RemoveTask(WString taskId)
 {
-	return m_pImp->RemoveTask(taskName);
+	return m_pImp->RemoveTask(taskId);
 }
 
-bool TaskManager::HasPendingTask() const
+size_t TaskManager::PendingTaskCount() const
 {
-	return m_pImp->HasPendingTask();
+	return m_pImp->PendingTaskCount();
 }

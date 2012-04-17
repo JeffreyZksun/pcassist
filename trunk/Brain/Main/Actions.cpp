@@ -388,3 +388,8 @@ BEHAVIORBODY_IMP(ConditionListCheckAction)
     return (0 == falseNum);
 }
 
+// Do nothing just return true. For the test purpose.
+BEHAVIORBODY_IMP(EmptyAction)
+{
+	return true;
+}

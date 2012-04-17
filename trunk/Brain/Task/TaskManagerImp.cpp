@@ -72,36 +72,35 @@ bool TaskManagerImp::AddTask(ITaskPtr pTask)
 	if(!pTask.get())
 		return false;
 
-	TaskMap::iterator itMap = m_CachedPendingTaskMap.find(pTask->GetName());
+	TaskMap::iterator itMap = m_CachedPendingTaskMap.find(pTask->GetId());
 	if(itMap != m_CachedPendingTaskMap.end())
 	{
-		// Assert
 		return false; //Avoid duplicated name.
 	}
 
 	// Append task
 	m_PendingTaskList.push_back(pTask);
-	m_CachedPendingTaskMap.insert(TaskMap::value_type(pTask->GetName(), pTask));
+	m_CachedPendingTaskMap.insert(TaskMap::value_type(pTask->GetId(), pTask));
 
 	return true;
 }
 
-bool TaskManagerImp::RemoveTask(WString taskName)
+bool TaskManagerImp::RemoveTask(WString taskId)
 {
-	TaskMap::iterator itMap = m_CachedPendingTaskMap.find(taskName);
-	if(itMap != m_CachedPendingTaskMap.end())
+	TaskMap::iterator itMap = m_CachedPendingTaskMap.find(taskId);
+	if(m_CachedPendingTaskMap.end() == itMap)
 	{
-		// Assert
 		return false; // No task found.
 	}
 
 	m_PendingTaskList.remove(itMap->second);
 	m_CachedPendingTaskMap.erase(itMap);
+	return true;
 }
 
-bool TaskManagerImp::HasPendingTask() const
+size_t TaskManagerImp::PendingTaskCount() const
 {
-	return m_PendingTaskList.empty();
+	return m_PendingTaskList.size();
 }
 
 ITaskPtr TaskManagerImp::PopReadyTask()
@@ -112,7 +111,7 @@ ITaskPtr TaskManagerImp::PopReadyTask()
 		if((*it)->IsReady(m_pTaskSystem))
 		{
 			pReadyTask = (*it);
-			RemoveTask(pReadyTask->GetName());
+			RemoveTask(pReadyTask->GetId());
 			break;
 		}
 	}

@@ -5,8 +5,8 @@
 
 using namespace Ts;
 
-TaskBaseImp::TaskBaseImp(owner_pointer pSelf, WString taskName)			
-	: m_pSelf(pSelf), m_TaskName(taskName)						
+TaskBaseImp::TaskBaseImp(owner_pointer pSelf, WString taskId)			
+	: m_pSelf(pSelf), m_TaskId(taskId)						
 {											
 }
 
@@ -28,7 +28,7 @@ bool TaskBaseImp::IsReady(ITaskSystem* pTaskSystem) const
 	return true;
 }
 
-const WString&	TaskBaseImp::GetName() const
+const WString&	TaskBaseImp::GetId() const
 {
-	return m_TaskName;
+	return m_TaskId;
 }

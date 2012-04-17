@@ -1,5 +1,6 @@
 #pragma once
 
+#include <list>
 #include "TaskBaseImp.h"
 
 namespace Ts
@@ -11,14 +12,22 @@ namespace Ts
 	public:														
 		typedef boost::shared_ptr<ImmediateTask>	owner_pointer;		
 		typedef boost::weak_ptr<ImmediateTask>		owner_weak_pointer;	
+		typedef std::list<WString>					ActionList;
+
 
 	public:														
-		ImmediateTaskImp(owner_pointer pSelf, const WString& taskName);							
+		ImmediateTaskImp(owner_pointer pSelf, const WString& taskId);							
 
 	public:
 		virtual bool            Execute(ITaskSystem* pTaskSystem);
 
+	public:
+		void					AppendAction(const WString& actionId);
+		size_t					GetActionCount();
+
 	private:
-		// ToDo Task list
+		
+		ActionList							m_ActionList;
+
 	};
 }

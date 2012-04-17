@@ -14,12 +14,6 @@ class VariableManager;
 class IHostService;
 class IOSProvider;
 class Database;
-namespace Ts
-{
-	class ITaskManager;
-
-	typedef boost::shared_ptr<ITaskManager> ITaskManagerPtr;
-}
 
 
 class BRAINEXPORT TaskSystem : public ITaskSystem

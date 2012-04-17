@@ -18,7 +18,7 @@ namespace Ts
 	public:
 		// override ITask
 		virtual bool            IsReady(ITaskSystem* pTaskSystem) const;
-		virtual	const WString&	GetName() const;
+		virtual	const WString&	GetId() const;
 		virtual bool            Execute(ITaskSystem* pTaskSystem);
 
 	protected:

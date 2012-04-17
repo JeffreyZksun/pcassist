@@ -30,6 +30,8 @@ void BehaviorBuilder::InitializeBehaviorBodyFactory(BehaviorBodyFactory* pBehavi
 	ADD_BEHAVIORBODY_TO_FACTORY(RegisterKeyExistsCondition);
 	ADD_BEHAVIORBODY_TO_FACTORY(ProcessRunningCondition);
 	ADD_BEHAVIORBODY_TO_FACTORY(ActionResultCondition);
+	ADD_BEHAVIORBODY_TO_FACTORY(TrueCondition);
+	ADD_BEHAVIORBODY_TO_FACTORY(FalseCondition);
 
 
 	// Actions
@@ -46,5 +48,6 @@ void BehaviorBuilder::InitializeBehaviorBodyFactory(BehaviorBodyFactory* pBehavi
 	ADD_BEHAVIORBODY_TO_FACTORY(ConditionBlockAction);
 	ADD_BEHAVIORBODY_TO_FACTORY(TaskListAction);
 	ADD_BEHAVIORBODY_TO_FACTORY(ConditionListCheckAction);
+	ADD_BEHAVIORBODY_TO_FACTORY(EmptyAction);
 
 }

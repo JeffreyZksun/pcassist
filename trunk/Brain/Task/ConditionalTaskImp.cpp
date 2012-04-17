@@ -3,11 +3,13 @@
 
 #include "ConditionalTask.h"
 #include "ConditionalTaskImp.h"
+#include "BehaviorManager.h"
+#include "ITaskSystem.h"
 
 using namespace Ts;
 
-ConditionalTaskImp::ConditionalTaskImp(owner_pointer pSelf, const WString& taskName, const WString& conditionName, const WString& decoratedTaskName)			
-	: TaskBaseImp(pSelf, taskName), m_Condition(conditionName), m_DecoratedTaskName(decoratedTaskName)				
+ConditionalTaskImp::ConditionalTaskImp(owner_pointer pSelf, const WString& taskId, const WString& conditionName, ITaskPtr pDecoratedTask)			
+	: TaskBaseImp(pSelf, taskId), m_Condition(conditionName), m_pDecoratedTask(pDecoratedTask)				
 {											
 }											
 //
@@ -19,17 +21,37 @@ ConditionalTaskImp::ConditionalTaskImp(owner_pointer pSelf, const WString& taskN
 
 bool ConditionalTaskImp::IsReady(ITaskSystem* pTaskSystem) const
 {
+	if(!m_pDecoratedTask)
+		return false;
+
 	if(NULL == pTaskSystem)
 		return false;
 
-	return true;
+	BehaviorManager* pBehaviorManager = pTaskSystem->GetBehaviorManager();
+	if(NULL == pBehaviorManager)
+		return false;
+
+	Condition* pCondition = pBehaviorManager->GetConditionById(m_Condition.data());
+	if(NULL == pCondition)
+		return false;
+
+	// ToDo disable log.
+	if(!pCondition->IsTrue())
+		return false;
+
+	return m_pDecoratedTask->IsReady(pTaskSystem);
 }
 
 bool ConditionalTaskImp::Execute(ITaskSystem* pTaskSystem)
 {
+	if(!m_pDecoratedTask)
+		return false;
+
 	if(NULL == pTaskSystem)
 		return false;
 
-	// Todo
+	if(IsReady(pTaskSystem))
+		return m_pDecoratedTask->Execute(pTaskSystem);
+
 	return false;
 }

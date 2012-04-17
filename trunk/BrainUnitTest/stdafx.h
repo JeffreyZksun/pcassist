@@ -21,6 +21,8 @@
 #include <afxcom_.h> // For ASSERT
 #include <gtest/gtest.h>
 #include <iostream>
+#include "BrainSystem.h"
+#include "CommonHeaders.h"
 
 #include "ApplicationSwitchHelper.h"
 
@@ -31,5 +33,10 @@
 #include "DocumentManager.h"
 #include "Actions.h"
 #include "Conditions.h"
+#include "Parameter.h"
+#include "TaskManager.h"
+#include "ImmediateTask.h"
+#include "ConditionalTask.h"
+#include "ConstantsDefinition.h"
 
-#include "BrainSystem.h"
+using namespace Ts;

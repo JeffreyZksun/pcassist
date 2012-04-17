@@ -13,7 +13,7 @@ namespace Ts
 		typedef boost::weak_ptr<ConditionalTask>		owner_weak_pointer;	
 
 	public:														
-		ConditionalTaskImp(owner_pointer pSelf, const WString& taskName, const WString& conditionName, const WString& decoratedTaskName);							
+		ConditionalTaskImp(owner_pointer pSelf, const WString& taskId, const WString& conditionName, ITaskPtr pDecoratedTask);							
 
 		// owner_pointer   Self() const;
 
@@ -23,7 +23,7 @@ namespace Ts
 
 	private:													
 		WString						m_Condition;
-		WString						m_DecoratedTaskName;
+		ITaskPtr					m_pDecoratedTask;
 	};
 
 }
