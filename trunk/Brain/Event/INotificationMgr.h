@@ -16,7 +16,7 @@ namespace Ts
     class IEventSink;
     class IEventFilter;
 
-    class INotificationMgr
+    class BRAINEXPORT INotificationMgr
     {
     public:
         virtual ~INotificationMgr(void){};

@@ -3,7 +3,7 @@
 namespace Ts
 {
 
-    class IEventSink
+    class BRAINEXPORT IEventSink
     {
     public:
         virtual ~IEventSink(void){};

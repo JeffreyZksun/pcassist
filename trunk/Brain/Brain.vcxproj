@@ -98,6 +98,7 @@
     <ClInclude Include="DataModel\ParameterTableImp.h" />
     <ClInclude Include="DataModel\VariableManager.h" />
     <ClInclude Include="DataModel\VariableManagerImp.h" />
+    <ClInclude Include="Event\EventFilters.h" />
     <ClInclude Include="Event\IEvent.h" />
     <ClInclude Include="Event\IEventDispatcher.h" />
     <ClInclude Include="Event\IEventFilter.h" />
@@ -175,6 +176,7 @@
     <ClCompile Include="DataModel\BehaviorManager.cpp" />
     <ClCompile Include="DataModel\VariableManager.cpp" />
     <ClCompile Include="DataModel\VariableManagerImp.cpp" />
+    <ClCompile Include="Event\EventFilters.cpp" />
     <ClCompile Include="Event\NotificationMgr.cpp" />
     <ClCompile Include="Event\NotificationMgrImp.cpp" />
     <ClCompile Include="Main\Actions.cpp" />

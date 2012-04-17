@@ -276,6 +276,9 @@
     <ClInclude Include="Task\TaskManagerImp.h">
       <Filter>Framework\Task</Filter>
     </ClInclude>
+    <ClInclude Include="Event\EventFilters.h">
+      <Filter>Framework\Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Actions.cpp">
@@ -424,6 +427,9 @@
     </ClCompile>
     <ClCompile Include="Task\TaskManagerImp.cpp">
       <Filter>Framework\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Event\EventFilters.cpp">
+      <Filter>Framework\Event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

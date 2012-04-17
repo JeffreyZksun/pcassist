@@ -8,7 +8,7 @@ namespace Ts
 
     class NotificationMgrImp;
 
-    class NotificationMgr : public INotificationMgr
+    class BRAINEXPORT NotificationMgr : public INotificationMgr
     {
     public:
         virtual ~NotificationMgr(void);

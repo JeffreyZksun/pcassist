@@ -16,7 +16,7 @@ namespace Ts
     /****************************************************/
     //              NetworkMessageEvent
     /****************************************************/
-    class NetworkMessageEvent : public IEvent
+    class BRAINEXPORT NetworkMessageEvent : public IEvent
     {
     public:
         NetworkMessageEvent(Ts::IConnectionPointPtr pConnectionPoint, const WString& message);
@@ -44,7 +44,7 @@ namespace Ts
     //              NetworkMessageEventSink
     /****************************************************/
 
-    class NetworkMessageEventSink: public IEventSink
+    class BRAINEXPORT NetworkMessageEventSink: public IEventSink
     {
     public:
         virtual ~NetworkMessageEventSink(void){};
@@ -58,7 +58,7 @@ namespace Ts
     //              NetworkMessageEventDispatcher
     /****************************************************/
 
-    class NetworkMessageEventDispatcher: public IEventDispatcher
+    class BRAINEXPORT NetworkMessageEventDispatcher: public IEventDispatcher
     {
     public:
         virtual ~NetworkMessageEventDispatcher(void){};
@@ -78,7 +78,7 @@ namespace Ts
     //              NetworkEventSource
     /****************************************************/
 
-    class NetworkEventSource: public IEventSource
+    class BRAINEXPORT NetworkEventSource: public IEventSource
     {
     public:
         virtual ~NetworkEventSource(void){};
@@ -95,7 +95,7 @@ namespace Ts
     //              NetworkMessageEventFilter
     /****************************************************/
 
-    class NetworkMessageEventFilter: public IEventFilter
+    class BRAINEXPORT NetworkMessageEventFilter: public IEventFilter
     {
     public:
         virtual ~NetworkMessageEventFilter(void){};
@@ -107,7 +107,7 @@ namespace Ts
     /****************************************************/
     //              NetworkConnectionEvent
     /****************************************************/
-    class NetworkConnectionEvent : public IEvent
+    class BRAINEXPORT NetworkConnectionEvent : public IEvent
     {
     public:
         enum EConnectionEventType
@@ -139,7 +139,7 @@ namespace Ts
     //              NetworkMessageEventDispatcher
     /****************************************************/
 
-    class NetworkConnectionEventDispatcher: public IEventDispatcher
+    class BRAINEXPORT NetworkConnectionEventDispatcher: public IEventDispatcher
     {
     public:
         virtual ~NetworkConnectionEventDispatcher(void){};
@@ -159,7 +159,7 @@ namespace Ts
     //              NetworkMessageEventSink
     /****************************************************/
 
-    class NetworkConnectionEventSink: public IEventSink
+    class BRAINEXPORT NetworkConnectionEventSink: public IEventSink
     {
     public:
         virtual ~NetworkConnectionEventSink(void){};
