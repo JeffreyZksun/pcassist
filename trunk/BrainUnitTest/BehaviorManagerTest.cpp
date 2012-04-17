@@ -8,7 +8,7 @@ TEST(BehaviorManager, Action)
 {
 
 	//CString appName(_T("S:\\VEX\\pctext\\PcAssist\\bin\\Release_x86\\PC.exe"));
-	//Action* pAction = new Action(_T("RunProcessAction"));
+	//ActionPtr pAction = Action::Create(_T("RunProcessAction"));
 	//Parameter para(APPLICATION_NAME, appName);
 	//Parameter para2(APPLICATION_PARAMETER, _T("as  ds -?"));
 	//pAction->AddParameter(para);
@@ -22,13 +22,13 @@ TEST(BehaviorManager, GetActionByIndex)
 	GetWorkingBrain()->GetBehaviorManager()->deleteRegisteredConditions();
 
 	CString appName(_T("S:\\VEX\\pctext\\PcAssist\\bin\\Release_x86\\PC.exe"));
-	Action* pAction = new Action(GetWorkingBrain()->GetBehaviorManager(), _T("RunProcessAction"));
+	ActionPtr pAction = Action::Create(_T("RunProcessAction"), GetWorkingBrain()->GetBehaviorManager());
 	Parameter para(APPLICATION_NAME, appName);
 	Parameter para2(APPLICATION_PARAMETER, _T("as  ds -?"));
 	pAction->GetParameterTable().AddParameter(para);
 	pAction->GetParameterTable().AddParameter(para2);
 
-	Action* pTmpAction = GetWorkingBrain()->GetBehaviorManager()->GetActionByIndex(1);
+	ActionPtr pTmpAction = GetWorkingBrain()->GetBehaviorManager()->GetActionByIndex(1);
 	EXPECT_EQ(true, NULL == pTmpAction);
 
 	pTmpAction = GetWorkingBrain()->GetBehaviorManager()->GetActionByIndex(0);
@@ -42,5 +42,5 @@ TEST(BehaviorManager, GetActionByIndex)
 		bool bmatch = appName.Compare(appName) == 0;
 		EXPECT_EQ(true, bmatch);
 	}
-	delete pAction;
+	GetWorkingBrain()->GetBehaviorManager()->UnregisterAction(pAction);
 }

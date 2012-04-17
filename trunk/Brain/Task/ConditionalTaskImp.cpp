@@ -31,7 +31,7 @@ bool ConditionalTaskImp::IsReady(ITaskSystem* pTaskSystem) const
 	if(NULL == pBehaviorManager)
 		return false;
 
-	Condition* pCondition = pBehaviorManager->GetConditionById(m_Condition.data());
+	ConditionPtr pCondition = pBehaviorManager->GetConditionById(m_Condition.data());
 	if(NULL == pCondition)
 		return false;
 

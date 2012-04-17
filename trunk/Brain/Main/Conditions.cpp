@@ -27,7 +27,7 @@ BEHAVIORBODY_IMP(CompositeCondition)
 	if(!bExist)
 		return false;
 
-	Condition* pFstCondition = pContext->GetTaskSystem()->GetBehaviorManager()->GetConditionById(firstCondition.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
+	ConditionPtr pFstCondition = pContext->GetTaskSystem()->GetBehaviorManager()->GetConditionById(firstCondition.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 	ASSERT(pFstCondition != NULL);
 	if(NULL == pFstCondition)
 		return false;
@@ -44,7 +44,7 @@ BEHAVIORBODY_IMP(CompositeCondition)
 		ASSERT(bExist);
 		if(bExist)
 		{
-			Condition* pSndCondition = pContext->GetTaskSystem()->GetBehaviorManager()->GetConditionById(sndCondition.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
+			ConditionPtr pSndCondition = pContext->GetTaskSystem()->GetBehaviorManager()->GetConditionById(sndCondition.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 			ASSERT(pSndCondition != NULL);
 			if(pSndCondition != NULL)
 			{
@@ -188,7 +188,7 @@ BEHAVIORBODY_IMP(ActionResultCondition)
         return false;
     CString strActionId = para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
   
-    Action* pAction = pContext->GetTaskSystem()->GetBehaviorManager()->GetActionById(strActionId);
+    ActionPtr pAction = pContext->GetTaskSystem()->GetBehaviorManager()->GetActionById(strActionId);
     ASSERT(pAction != NULL);
     if(NULL == pAction)
         return false;

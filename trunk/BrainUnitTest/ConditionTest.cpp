@@ -9,34 +9,41 @@ TEST(ConditionTest, RegisterKeyExistsCondition)
     ApplicationSwitchHelper helper;
 
 	{
-		Condition regCondition(GetWorkingBrain()->GetBehaviorManager(), _T("RegisterKeyExistsCondition"));
+		ConditionPtr pRegCondition = Condition::Create(_T("RegisterKeyExistsCondition"), GetWorkingBrain()->GetBehaviorManager());
+		//Condition regCondition(GetWorkingBrain()->GetBehaviorManager(), _T("RegisterKeyExistsCondition"));
 		Parameter para1(_T("RootKey"), _T("HKEY_LOCAL_MACHINE"));
 		Parameter para2(_T("SubKey"), _T("Software\\Microsoft"));
-		regCondition.GetParameterTable().AddParameter(para1);
-		regCondition.GetParameterTable().AddParameter(para2);
-		bool bRet = regCondition.IsTrue();
+		pRegCondition->GetParameterTable().AddParameter(para1);
+		pRegCondition->GetParameterTable().AddParameter(para2);
+		bool bRet = pRegCondition->IsTrue();
 		EXPECT_EQ(true, bRet);
+
+		GetWorkingBrain()->GetBehaviorManager()->UnregisterCondition(pRegCondition);
 	}
 	{
-		Condition regCondition(GetWorkingBrain()->GetBehaviorManager(), _T("RegisterKeyExistsCondition"));
+		ConditionPtr pRegCondition = Condition::Create(_T("RegisterKeyExistsCondition"), GetWorkingBrain()->GetBehaviorManager());
 		Parameter para1(_T("RootKey"), _T("HKEY_LOCAL_MACHINE"));
 		Parameter para2(_T("SubKey"), _T("Software\\notexitkey"));
-		regCondition.GetParameterTable().AddParameter(para1);
-		regCondition.GetParameterTable().AddParameter(para2);
-		bool bRet = regCondition.IsTrue();
+		pRegCondition->GetParameterTable().AddParameter(para1);
+		pRegCondition->GetParameterTable().AddParameter(para2);
+		bool bRet = pRegCondition->IsTrue();
 		EXPECT_EQ(false, bRet);
+		GetWorkingBrain()->GetBehaviorManager()->UnregisterCondition(pRegCondition);
+
 	}
 
 	{
-		Condition regCondition(GetWorkingBrain()->GetBehaviorManager(), _T("RegisterKeyExistsCondition"));
+		ConditionPtr pRegCondition = Condition::Create(_T("RegisterKeyExistsCondition"), GetWorkingBrain()->GetBehaviorManager());
 		Parameter para1(_T("RootKey"), _T("HKEY_LOCAL_MACHINE"));
 		Parameter para2(_T("SubKey"), _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{FE90E978-A98B-45F6-0163-34EBA616B1F6}"));// \\{FE90E978-A98B-45F6-0163-34EBA616B1F6}
-		regCondition.GetParameterTable().AddParameter(para1);
-		regCondition.GetParameterTable().AddParameter(para2);
-		bool bRet = regCondition.IsTrue();
+		pRegCondition->GetParameterTable().AddParameter(para1);
+		pRegCondition->GetParameterTable().AddParameter(para2);
+		bool bRet = pRegCondition->IsTrue();
 		//EXPECT_EQ(true, bRet); // This key is for real dwg jaws. The condition is false if RealDWG isn't installed.
 
 		//BrainUtil::LogOutLastError(_T("Registry"));
+		GetWorkingBrain()->GetBehaviorManager()->UnregisterCondition(pRegCondition);
+
 	}
 
 }
@@ -45,20 +52,27 @@ TEST(ConditionTest, ProcessRunningCondition_Name_1)
 {
     ApplicationSwitchHelper helper;
 
-	Condition procCondition(GetWorkingBrain()->GetBehaviorManager(), _T("ProcessRunningCondition"));
+	ConditionPtr pProcCondition = Condition::Create(_T("ProcessRunningCondition"), GetWorkingBrain()->GetBehaviorManager());
 	Parameter para1(_T("ProcessName"), THIS_APP_NAME); //msiexec.exe setup.exe  svchost.exe
-	procCondition.GetParameterTable().AddParameter(para1);
-	bool bRet = procCondition.IsTrue();
+	pProcCondition->GetParameterTable().AddParameter(para1);
+	bool bRet = pProcCondition->IsTrue();
 	EXPECT_EQ(true, bRet);
+
+	GetWorkingBrain()->GetBehaviorManager()->UnregisterCondition(pProcCondition);
+
 }
 
 TEST(ConditionTest, ProcessRunningCondition_Name_2)
 {
-	Condition procCondition(GetWorkingBrain()->GetBehaviorManager(), _T("ProcessRunningCondition"));
+	ConditionPtr pProcCondition = Condition::Create(_T("ProcessRunningCondition"), GetWorkingBrain()->GetBehaviorManager());
+
 	Parameter para1(_T("ProcessName"), _T("NotExist.exe")); //Use a process name not exist at all.
-	procCondition.GetParameterTable().AddParameter(para1);
-	bool bRet = procCondition.IsTrue();
+	pProcCondition->GetParameterTable().AddParameter(para1);
+	bool bRet = pProcCondition->IsTrue();
 	EXPECT_EQ(false, bRet);
+
+	GetWorkingBrain()->GetBehaviorManager()->UnregisterCondition(pProcCondition);
+
 }
 
 // Verify existence
@@ -73,11 +87,14 @@ TEST(ConditionTest, ProcessRunningCondition_FullName_1)
 	CString strPath = path.GetEvaluatedValue(GetWorkingBrain()->GetVariableManager());
 	strPath += _T("\\") THIS_APP_NAME;
 
-	Condition procCondition(GetWorkingBrain()->GetBehaviorManager(), _T("ProcessRunningCondition"));
+	ConditionPtr pProcCondition = Condition::Create(_T("ProcessRunningCondition"), GetWorkingBrain()->GetBehaviorManager());
+
 	Parameter para1(_T("ProcessName"),strPath);
-	procCondition.GetParameterTable().AddParameter(para1);
-	bool bRet = procCondition.IsTrue();
+	pProcCondition->GetParameterTable().AddParameter(para1);
+	bool bRet = pProcCondition->IsTrue();
 	EXPECT_EQ(true, bRet);
+
+	GetWorkingBrain()->GetBehaviorManager()->UnregisterCondition(pProcCondition);
 }
 
 // Verify forward slash
@@ -92,11 +109,15 @@ TEST(ConditionTest, ProcessRunningCondition_FullName_2)
 	CString strPath = path.GetEvaluatedValue(GetWorkingBrain()->GetVariableManager());
 	strPath += _T("/") THIS_APP_NAME;
 
-	Condition procCondition(GetWorkingBrain()->GetBehaviorManager(), _T("ProcessRunningCondition"));
+	ConditionPtr pProcCondition = Condition::Create(_T("ProcessRunningCondition"), GetWorkingBrain()->GetBehaviorManager());
+
 	Parameter para1(_T("ProcessName"), strPath); 
-	procCondition.GetParameterTable().AddParameter(para1);
-	bool bRet = procCondition.IsTrue();
+	pProcCondition->GetParameterTable().AddParameter(para1);
+	bool bRet = pProcCondition->IsTrue();
 	EXPECT_EQ(true, bRet);
+
+	GetWorkingBrain()->GetBehaviorManager()->UnregisterCondition(pProcCondition);
+
 }
 
 TEST(ConditionTest, ProcessRunningCondition_FullName_3)
@@ -110,22 +131,29 @@ TEST(ConditionTest, ProcessRunningCondition_FullName_3)
 	CString strPath = path.GetEvaluatedValue(GetWorkingBrain()->GetVariableManager());
 	strPath += _T("\\NotExistPath\\") THIS_APP_NAME;
 
-	Condition procCondition(GetWorkingBrain()->GetBehaviorManager(), _T("ProcessRunningCondition"));
+	ConditionPtr pProcCondition = Condition::Create(_T("ProcessRunningCondition"), GetWorkingBrain()->GetBehaviorManager());
+
 	Parameter para1(_T("ProcessName"), strPath);
-	procCondition.GetParameterTable().AddParameter(para1);
-	bool bRet = procCondition.IsTrue();
+	pProcCondition->GetParameterTable().AddParameter(para1);
+	bool bRet = pProcCondition->IsTrue();
 	EXPECT_EQ(false, bRet);
+
+	GetWorkingBrain()->GetBehaviorManager()->UnregisterCondition(pProcCondition);
+
 }
 
 TEST(ConditionTest, FolderExistsCondition)
 {
     ApplicationSwitchHelper helper;
 
-	Condition folderCondition(GetWorkingBrain()->GetBehaviorManager(), _T("FolderExistsCondition"));
+	ConditionPtr pFolderCondition = Condition::Create(_T("FolderExistsCondition"), GetWorkingBrain()->GetBehaviorManager());
 	Parameter para1(_T("FolderName"), _T("C:\\")); 
-	folderCondition.GetParameterTable().AddParameter(para1);
-	bool bRet = folderCondition.IsTrue();
+	pFolderCondition->GetParameterTable().AddParameter(para1);
+	bool bRet = pFolderCondition->IsTrue();
 	EXPECT_EQ(true, bRet);
+
+	GetWorkingBrain()->GetBehaviorManager()->UnregisterCondition(pFolderCondition);
+
 }
 
 TEST(ConditionTest, ActionResultCondition)
@@ -133,7 +161,7 @@ TEST(ConditionTest, ActionResultCondition)
     ApplicationSwitchHelper helper;
 
     {
-        Action* pAction = new Action(GetWorkingBrain()->GetBehaviorManager(), _T("RunProcessAction"));
+        ActionPtr pAction = Action::Create(_T("RunProcessAction"), GetWorkingBrain()->GetBehaviorManager());
         Parameter para0(_T("ObjectId"), _T("StartNotepad")); 
         Parameter para1(_T("ApplicationName"), _T("C:\\Windows\\System32\\notepad.exe")); 
         Parameter para2(_T("ApplicationParameter"), _T("")); 
@@ -147,14 +175,17 @@ TEST(ConditionTest, ActionResultCondition)
         pAction->GetParameterTable().AddParameter(para4);
     }
 
-    Condition checker(GetWorkingBrain()->GetBehaviorManager(), _T("ActionResultCondition"));
+    ConditionPtr pChecker = Condition::Create(_T("ActionResultCondition"), GetWorkingBrain()->GetBehaviorManager());
     {
         
         Parameter para1(_T("ActionId"), _T("StartNotepad")); 
-        checker.GetParameterTable().AddParameter(para1);
+        pChecker->GetParameterTable().AddParameter(para1);
     }
 
-    bool bRet = checker.IsTrue();
+    bool bRet = pChecker->IsTrue();
 
     EXPECT_EQ(true, bRet);
+
+	GetWorkingBrain()->GetBehaviorManager()->UnregisterCondition(pChecker);
+
 }

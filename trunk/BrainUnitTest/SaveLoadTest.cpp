@@ -20,7 +20,7 @@ TEST(SaveLoadTest, SaveLoadLatestVersion)
 
 	CString conditionId = _T("DoesRegExist");
 	{
-		Condition *pRegCondition = new Condition(GetWorkingBrain()->GetBehaviorManager(), _T("RegisterKeyExistsCondition"));
+		ConditionPtr pRegCondition = Condition::Create(_T("RegisterKeyExistsCondition"), GetWorkingBrain()->GetBehaviorManager());
 		Parameter objectId(OBJECT_ID, conditionId);
 		Parameter para1(_T("RootKey"), _T("HKEY_LOCAL_MACHINE"));
 		Parameter para2(_T("SubKey"), _T("Software\\Microsoft"));
@@ -34,7 +34,7 @@ TEST(SaveLoadTest, SaveLoadLatestVersion)
 
 	CString actionId = _T("DemoToRunSysCmd");
 	{
-		Action *pNewAction = new Action(GetWorkingBrain()->GetBehaviorManager(), _T("RunSystemCommandAction"));
+		ActionPtr pNewAction = Action::Create(_T("RunSystemCommandAction"), GetWorkingBrain()->GetBehaviorManager());
 		Parameter objectId(OBJECT_ID, actionId);
 		objectId.SetComments(_T("Object Id is used to reference this object everywhere."));
 		Parameter objectType;
@@ -65,12 +65,12 @@ TEST(SaveLoadTest, SaveLoadLatestVersion)
 	EXPECT_EQ(true, ret);
 
 	{
-		Action* pAction = GetWorkingBrain()->GetBehaviorManager()->GetActionById(actionId);
+		ActionPtr pAction = GetWorkingBrain()->GetBehaviorManager()->GetActionById(actionId);
 		EXPECT_EQ(true, (pAction != NULL));
 	}
 
 	{
-		Condition* pCondition = GetWorkingBrain()->GetBehaviorManager()->GetConditionById(conditionId);
+		ConditionPtr pCondition = GetWorkingBrain()->GetBehaviorManager()->GetConditionById(conditionId);
 		EXPECT_EQ(true, (pCondition != NULL));
 	}
 
@@ -92,13 +92,13 @@ TEST(SaveLoadTest, LoadDocVersion1)
 
 	{
 		CString actionId = _T("DemoToRunSysCmd");
-		Action* pAction = GetWorkingBrain()->GetBehaviorManager()->GetActionById(actionId);
+		ActionPtr pAction = GetWorkingBrain()->GetBehaviorManager()->GetActionById(actionId);
 		EXPECT_EQ(true, (pAction != NULL));
 	}
 
 	{
 		CString conditionId = _T("DoesRegExist");
-		Condition* pCondition = GetWorkingBrain()->GetBehaviorManager()->GetConditionById(conditionId);
+		ConditionPtr pCondition = GetWorkingBrain()->GetBehaviorManager()->GetConditionById(conditionId);
 		EXPECT_EQ(true, (pCondition != NULL));
 	}
 
