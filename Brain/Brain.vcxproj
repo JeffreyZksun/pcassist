@@ -52,7 +52,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;$(ProjectDir);$(ProjectDir)XML\;$(ProjectDir)Network\;$(ProjectDir)Event\;$(ProjectDir)DataModel\;$(ProjectDir)MultiThreading\;$(ProjectDir)Base\;$(ProjectDir)Task\;$(SolutionDir)3p\Boost\boost_1_49_0\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Behavior\;$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;$(ProjectDir);$(ProjectDir)XML\;$(ProjectDir)Network\;$(ProjectDir)Event\;$(ProjectDir)DataModel\;$(ProjectDir)MultiThreading\;$(ProjectDir)Base\;$(ProjectDir)Task\;$(SolutionDir)3p\Boost\boost_1_49_0\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINOS;WIN32;_DEBUG;_WINDOWS;_USRDLL;NO_BRAIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -72,7 +72,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;$(ProjectDir);$(ProjectDir)XML\;$(ProjectDir)Network\;$(ProjectDir)Event\;$(ProjectDir)DataModel\;$(ProjectDir)MultiThreading\;$(ProjectDir)Base\;$(ProjectDir)Task\;$(SolutionDir)3p\Boost\boost_1_49_0\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Behavior\;$(ProjectDir)Inc\;$(ProjectDir)Main\;$(ProjectDir)Framework\;$(ProjectDir);$(ProjectDir)XML\;$(ProjectDir)Network\;$(ProjectDir)Event\;$(ProjectDir)DataModel\;$(ProjectDir)MultiThreading\;$(ProjectDir)Base\;$(ProjectDir)Task\;$(SolutionDir)3p\Boost\boost_1_49_0\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINOS;WIN32;NDEBUG;_WINDOWS;_USRDLL;NO_BRAIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -93,6 +93,10 @@
     <ClInclude Include="Base\ClassSourceMacros.h" />
     <ClInclude Include="Base\CommonHeaders.h" />
     <ClInclude Include="Base\Diagnostics.h" />
+    <ClInclude Include="Behavior\BehaviorBodyFactory.h" />
+    <ClInclude Include="Behavior\ExecutionContext.h" />
+    <ClInclude Include="Behavior\IBehaviorBody.h" />
+    <ClInclude Include="Behavior\IBehaviorBuilder.h" />
     <ClInclude Include="DataModel\Database.h" />
     <ClInclude Include="DataModel\ParameterImp.h" />
     <ClInclude Include="DataModel\ParameterTableImp.h" />
@@ -107,7 +111,6 @@
     <ClInclude Include="Event\INotificationMgr.h" />
     <ClInclude Include="Event\NotificationMgr.h" />
     <ClInclude Include="Event\NotificationMgrImp.h" />
-    <ClInclude Include="Framework\IBehaviorBuilder.h" />
     <ClInclude Include="Framework\IOSProvider.h" />
     <ClInclude Include="inc\ITaskSystem.h" />
     <ClInclude Include="inc\TaskSystem.h" />
@@ -128,10 +131,7 @@
     <ClInclude Include="Main\HostService.h" />
     <ClInclude Include="Main\RegistryKey.h" />
     <ClInclude Include="Main\stdafx.h" />
-    <ClInclude Include="Framework\BehaviorBodyFactory.h" />
     <ClInclude Include="Framework\DocumentManager.h" />
-    <ClInclude Include="Framework\ExecutionContext.h" />
-    <ClInclude Include="Framework\IBehaviorBody.h" />
     <ClInclude Include="MultiThreading\ThreadLocks.h" />
     <ClInclude Include="MultiThreading\ThreadSafeSingleton.h" />
     <ClInclude Include="Network\ConnectionGroupImp.h" />
@@ -168,6 +168,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\Diagnostics.cpp" />
+    <ClCompile Include="Behavior\BehaviorBodyFactory.cpp" />
+    <ClCompile Include="Behavior\ExecutionContext.cpp" />
     <ClCompile Include="DataModel\Database.cpp" />
     <ClCompile Include="DataModel\Parameter.cpp" />
     <ClCompile Include="DataModel\ParameterImp.cpp" />
@@ -188,10 +190,8 @@
     <ClCompile Include="Main\HostService.cpp" />
     <ClCompile Include="Main\Logger.cpp" />
     <ClCompile Include="Main\RegistryKey.cpp" />
-    <ClCompile Include="Framework\BehaviorBodyFactory.cpp" />
     <ClCompile Include="Framework\TaskSystem.cpp" />
     <ClCompile Include="Framework\DocumentManager.cpp" />
-    <ClCompile Include="Framework\ExecutionContext.cpp" />
     <ClCompile Include="MultiThreading\ThreadLocks.cpp" />
     <ClCompile Include="Network\ConnectionGroupImp.cpp" />
     <ClCompile Include="Network\ConnectionPoint.cpp" />

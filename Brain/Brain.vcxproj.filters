@@ -31,9 +31,6 @@
     <Filter Include="Framework\Event">
       <UniqueIdentifier>{01928f89-a8f2-471b-b688-c7a13cfb05b4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Framework\Networks">
-      <UniqueIdentifier>{c16a3173-25ea-423f-9922-84faa66b0d6e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Framework\MultiThreading">
       <UniqueIdentifier>{606e8347-d661-4218-8fdb-04fb99771957}</UniqueIdentifier>
     </Filter>
@@ -48,6 +45,12 @@
     </Filter>
     <Filter Include="Framework\Task">
       <UniqueIdentifier>{937b63cf-17f3-4d97-83aa-b6a4ab89b159}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Network">
+      <UniqueIdentifier>{c16a3173-25ea-423f-9922-84faa66b0d6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Behavior">
+      <UniqueIdentifier>{bb4a1d91-c719-4f83-a0df-214cac6961c1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -102,19 +105,7 @@
     <ClInclude Include="Main\BehaviorBuilder.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\BehaviorBodyFactory.h">
-      <Filter>Framework\Server</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\DocumentManager.h">
-      <Filter>Framework\Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\ExecutionContext.h">
-      <Filter>Framework\Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\IBehaviorBody.h">
-      <Filter>Framework\Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\IBehaviorBuilder.h">
       <Filter>Framework\Server</Filter>
     </ClInclude>
     <ClInclude Include="Framework\IOSProvider.h">
@@ -157,31 +148,31 @@
       <Filter>Framework\Event</Filter>
     </ClInclude>
     <ClInclude Include="Network\ConnectionPoint.h">
-      <Filter>Framework\Networks</Filter>
+      <Filter>Framework\Network</Filter>
     </ClInclude>
     <ClInclude Include="Network\ConnectionPointImp.h">
-      <Filter>Framework\Networks</Filter>
+      <Filter>Framework\Network</Filter>
     </ClInclude>
     <ClInclude Include="Network\IConnectionPoint.h">
-      <Filter>Framework\Networks</Filter>
+      <Filter>Framework\Network</Filter>
     </ClInclude>
     <ClInclude Include="Network\ITCPClient.h">
-      <Filter>Framework\Networks</Filter>
+      <Filter>Framework\Network</Filter>
     </ClInclude>
     <ClInclude Include="Network\ITCPServer.h">
-      <Filter>Framework\Networks</Filter>
+      <Filter>Framework\Network</Filter>
     </ClInclude>
     <ClInclude Include="Network\TCPClient.h">
-      <Filter>Framework\Networks</Filter>
+      <Filter>Framework\Network</Filter>
     </ClInclude>
     <ClInclude Include="Network\TCPClientImp.h">
-      <Filter>Framework\Networks</Filter>
+      <Filter>Framework\Network</Filter>
     </ClInclude>
     <ClInclude Include="Network\TCPServer.h">
-      <Filter>Framework\Networks</Filter>
+      <Filter>Framework\Network</Filter>
     </ClInclude>
     <ClInclude Include="Network\TCPServerImp.h">
-      <Filter>Framework\Networks</Filter>
+      <Filter>Framework\Network</Filter>
     </ClInclude>
     <ClInclude Include="MultiThreading\ThreadSafeSingleton.h">
       <Filter>Framework\MultiThreading</Filter>
@@ -217,10 +208,10 @@
       <Filter>Framework\TextCommand</Filter>
     </ClInclude>
     <ClInclude Include="Network\ConnectionGroupImp.h">
-      <Filter>Framework\Networks</Filter>
+      <Filter>Framework\Network</Filter>
     </ClInclude>
     <ClInclude Include="Network\NetworkEvents.h">
-      <Filter>Framework\Networks</Filter>
+      <Filter>Framework\Network</Filter>
     </ClInclude>
     <ClInclude Include="MultiThreading\ThreadLocks.h">
       <Filter>Framework\MultiThreading</Filter>
@@ -279,6 +270,18 @@
     <ClInclude Include="Event\EventFilters.h">
       <Filter>Framework\Event</Filter>
     </ClInclude>
+    <ClInclude Include="Behavior\BehaviorBodyFactory.h">
+      <Filter>Framework\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Behavior\ExecutionContext.h">
+      <Filter>Framework\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Behavior\IBehaviorBody.h">
+      <Filter>Framework\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Behavior\IBehaviorBuilder.h">
+      <Filter>Framework\Behavior</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Actions.cpp">
@@ -311,13 +314,7 @@
     <ClCompile Include="Main\BehaviorBuilder.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\BehaviorBodyFactory.cpp">
-      <Filter>Framework\Server</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\DocumentManager.cpp">
-      <Filter>Framework\Server</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\ExecutionContext.cpp">
       <Filter>Framework\Server</Filter>
     </ClCompile>
     <ClCompile Include="XML\XmlIOStream.cpp">
@@ -336,22 +333,22 @@
       <Filter>Framework\Event</Filter>
     </ClCompile>
     <ClCompile Include="Network\ConnectionPoint.cpp">
-      <Filter>Framework\Networks</Filter>
+      <Filter>Framework\Network</Filter>
     </ClCompile>
     <ClCompile Include="Network\ConnectionPointImp.cpp">
-      <Filter>Framework\Networks</Filter>
+      <Filter>Framework\Network</Filter>
     </ClCompile>
     <ClCompile Include="Network\TCPClient.cpp">
-      <Filter>Framework\Networks</Filter>
+      <Filter>Framework\Network</Filter>
     </ClCompile>
     <ClCompile Include="Network\TCPClientImp.cpp">
-      <Filter>Framework\Networks</Filter>
+      <Filter>Framework\Network</Filter>
     </ClCompile>
     <ClCompile Include="Network\TCPServer.cpp">
-      <Filter>Framework\Networks</Filter>
+      <Filter>Framework\Network</Filter>
     </ClCompile>
     <ClCompile Include="Network\TCPServerImp.cpp">
-      <Filter>Framework\Networks</Filter>
+      <Filter>Framework\Network</Filter>
     </ClCompile>
     <ClCompile Include="DataModel\Parameter.cpp">
       <Filter>Framework\DataModel</Filter>
@@ -387,10 +384,10 @@
       <Filter>Framework\TextCommand</Filter>
     </ClCompile>
     <ClCompile Include="Network\ConnectionGroupImp.cpp">
-      <Filter>Framework\Networks</Filter>
+      <Filter>Framework\Network</Filter>
     </ClCompile>
     <ClCompile Include="Network\NetworkEvents.cpp">
-      <Filter>Framework\Networks</Filter>
+      <Filter>Framework\Network</Filter>
     </ClCompile>
     <ClCompile Include="MultiThreading\ThreadLocks.cpp">
       <Filter>Framework\MultiThreading</Filter>
@@ -430,6 +427,12 @@
     </ClCompile>
     <ClCompile Include="Event\EventFilters.cpp">
       <Filter>Framework\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Behavior\BehaviorBodyFactory.cpp">
+      <Filter>Framework\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Behavior\ExecutionContext.cpp">
+      <Filter>Framework\Behavior</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

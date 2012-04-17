@@ -16,13 +16,13 @@ public:
 
 // Helper macros.
 
-#define BEHAVIORBODY_DEC(BehaviorName) \
-class BehaviorName : public IBehaviorBody\
-{\
-	virtual bool Execute(ExecutionContext*);\
+#define BEHAVIORBODY_DEC(BehaviorName)				\
+class BehaviorName : public IBehaviorBody			\
+{													\
+	virtual bool Execute(ExecutionContext*);		\
 };
 
-#define BEHAVIORBODY_IMP(BehaviorName) \
+#define BEHAVIORBODY_IMP(BehaviorName)				\
 	bool BehaviorName::Execute(ExecutionContext* pContext)
 
 
