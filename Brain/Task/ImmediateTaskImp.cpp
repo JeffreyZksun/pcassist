@@ -73,7 +73,7 @@ bool ImmediateTaskImp::Execute(ITaskSystem* pTaskSystem)
 
 		CTime actionBeginTime = CTime::GetCurrentTime();
 
-		Action* pCurrentAction = pBehaviorManager->GetActionById((*it).data());
+		ActionPtr pCurrentAction = pBehaviorManager->GetActionById((*it).data());
 		ASSERT(pCurrentAction != NULL);
 		if(NULL != pCurrentAction)
 		{

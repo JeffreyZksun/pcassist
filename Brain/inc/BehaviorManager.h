@@ -15,49 +15,53 @@ class Condition;
 class XmlIOStream;
 class TaskSystem;
 
+typedef boost::shared_ptr<BehaviorNode>		BehaviorNodePtr;
+typedef boost::shared_ptr<Action>			ActionPtr;
+typedef boost::shared_ptr<Condition>		ConditionPtr;
+
 //////////////////////////////////////////////////////////////////////////
 // BehaviorManager
 //////////////////////////////////////////////////////////////////////////
 
-class BRAINEXPORT BehaviorManager : IDataBaseObject
+class BRAINEXPORT BehaviorManager : public IDataBaseObject
 {
 public:
     BehaviorManager(TaskSystem* pTaskSystem);
     ~BehaviorManager(void);
 
 public:
-    bool                    RegisterAction(Action*);
-    void                    UnregisterAction(Action*);
-	Action*					GetActionById(const CString&) const;
-	Action*					GetActionByIndex(size_t index) const;
+    bool                    RegisterAction(ActionPtr);
+    void                    UnregisterAction(ActionPtr);
+	ActionPtr				GetActionById(const CString&) const;
+	ActionPtr				GetActionByIndex(size_t index) const;
 	size_t					GetActionCount() const;
 
-    bool                    RegisterCondition(Condition*);
-    void                    UnregisterCondition(Condition*);
-	Condition*				GetConditionById(const CString&) const;
+    bool                    RegisterCondition(ConditionPtr);
+    void                    UnregisterCondition(ConditionPtr);
+	ConditionPtr				GetConditionById(const CString&) const;
 
-    void                    AddActionTask(Action*);
-    void                    RemoveActionTask(Action*);
+    void                    AddActionTask(ActionPtr);
+    void                    RemoveActionTask(ActionPtr);
 
     bool                    RunTasks();
 
 	virtual bool			XmlIn(XmlIOStream* pXmlIOStream);
 	virtual bool			XmlOut(XmlIOStream* pXmlIOStream) const;
 
-	TaskSystem*		GetTaskSystem() const;
+	TaskSystem*				GetTaskSystem() const;
 
 public:
     void                    deleteRegisteredActions();
     void                    deleteRegisteredConditions();
 
 private:
-	typedef std::list<BehaviorNode*>	BehaviorNodeList;
+	typedef std::list<BehaviorNodePtr>	BehaviorNodeList;
 	typedef std::list<CString>			ActionList;
 
 private:
-	bool                    _RegisterBehaviorNode(BehaviorNodeList&, BehaviorNode*);
-	void                    _UnregisterBehaviorNode(BehaviorNodeList&, BehaviorNode*);
-	BehaviorNode*			_GetBehaviorNodeById(const BehaviorNodeList&, const CString&) const;
+	bool                    _RegisterBehaviorNode(BehaviorNodeList&, BehaviorNodePtr);
+	void                    _UnregisterBehaviorNode(BehaviorNodeList&, BehaviorNodePtr);
+	BehaviorNodePtr			_GetBehaviorNodeById(const BehaviorNodeList&, const CString&) const;
 	void					_DeleteBehaviorNodes(BehaviorNodeList&);
 
 private:
@@ -67,7 +71,7 @@ private:
 
     ActionList					mTaskList;
 
-	TaskSystem*			mpTaskSystem; // Back-pointer
+	TaskSystem*					mpTaskSystem; // Back-pointer
 
 };
 
@@ -87,7 +91,7 @@ public:
 	CString			GetObjectType() const;
 
 	void			SetBehaviorManager(BehaviorManager* pBehaviorManager);
-	BehaviorManager*	GetBehaviorManager() const;
+	BehaviorManager*GetBehaviorManager() const;
 
 	ParameterTable& GetParameterTable();
 
@@ -111,13 +115,17 @@ private:
 class BRAINEXPORT Action : public BehaviorNode
 {
 public:
-	Action();
-	//Action(const CString& objetType);
-    Action(BehaviorManager* pBehaviorManager, const CString& objetType);
+	typedef boost::shared_ptr<Action>		pointer;	
+
+public:
     virtual ~Action(void);
 
+	static pointer		Create();
+	static pointer		Create(const CString& objetType, BehaviorManager* pBehaviorManager);
+
 protected:
-	//virtual bool		IsParameterValid(const Parameter& para) const;
+	Action();
+    Action(const CString& objetType);
 
 public:
     bool				Execute();
@@ -131,13 +139,17 @@ public:
 class BRAINEXPORT Condition : public BehaviorNode
 {
 public:
-	Condition();
-    //Condition(const CString& objetType);
-	Condition(BehaviorManager* pBehaviorManager, const CString& objetType);
+	typedef boost::shared_ptr<Condition>		pointer;	
+
+public:
     virtual ~Condition(void);
 
+	static pointer		Create();
+	static pointer		Create(const CString& objetType, BehaviorManager* pBehaviorManager);
+
 protected:
-	//virtual bool		IsParameterValid(const Parameter& para) const;
+	Condition();
+	Condition(const CString& objetType);
 
 public:
     bool				IsTrue();

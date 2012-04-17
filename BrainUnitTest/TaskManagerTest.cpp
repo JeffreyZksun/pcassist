@@ -15,7 +15,7 @@ TEST(TaskManagerTest, AddRemove)
 		{
 			BehaviorManager* pBehaviorManager = pTaskSystem->GetBehaviorManager();
 
-			Action* pNewAction = new Action(pBehaviorManager, _T("EmptyAction"));
+			ActionPtr pNewAction = Action::Create(_T("EmptyAction"), pBehaviorManager);
 			pNewAction->GetParameterTable().AddParameter(Parameter(OBJECT_ID, actionName.data()));
 		}
 
@@ -103,7 +103,7 @@ TEST(TaskManagerTest, PollOne)
 		{
 			BehaviorManager* pBehaviorManager = pTaskSystem->GetBehaviorManager();
 			
-			Action* pNewAction = new Action(pBehaviorManager, _T("EmptyAction"));
+			ActionPtr pNewAction = Action::Create(_T("EmptyAction"), pBehaviorManager);
 			pNewAction->GetParameterTable().AddParameter(Parameter(OBJECT_ID, actionName.data()));
 		}
 
@@ -148,7 +148,7 @@ TEST(TaskManagerTest, PollOne2)
 		{
 			BehaviorManager* pBehaviorManager = pTaskSystem->GetBehaviorManager();
 
-			Action* pNewAction = new Action(pBehaviorManager, _T("EmptyAction"));
+			ActionPtr pNewAction = Action::Create(_T("EmptyAction"), pBehaviorManager);
 			pNewAction->GetParameterTable().AddParameter(Parameter(OBJECT_ID, actionName.data()));
 		}
 
@@ -205,7 +205,7 @@ TEST(TaskManagerTest, Poll)
 		{
 			BehaviorManager* pBehaviorManager = pTaskSystem->GetBehaviorManager();
 
-			Action* pNewAction = new Action(pBehaviorManager, _T("EmptyAction"));
+			ActionPtr pNewAction = Action::Create(_T("EmptyAction"), pBehaviorManager);
 			pNewAction->GetParameterTable().AddParameter(Parameter(OBJECT_ID, actionName.data()));
 		}
 
@@ -252,7 +252,7 @@ TEST(TaskManagerTest, PollOneConditionalTask)
 		{
 			BehaviorManager* pBehaviorManager = pTaskSystem->GetBehaviorManager();
 
-			Action* pNewAction = new Action(pBehaviorManager, _T("EmptyAction"));
+			ActionPtr pNewAction = Action::Create(_T("EmptyAction"), pBehaviorManager);
 			pNewAction->GetParameterTable().AddParameter(Parameter(OBJECT_ID, actionName.data()));
 		}
 
@@ -260,7 +260,7 @@ TEST(TaskManagerTest, PollOneConditionalTask)
 		{
 			BehaviorManager* pBehaviorManager = pTaskSystem->GetBehaviorManager();
 
-			Condition* pNewCondtion = new Condition(pBehaviorManager, _T("FalseCondition"));
+			ConditionPtr pNewCondtion = Condition::Create(_T("FalseCondition"), pBehaviorManager);
 			pNewCondtion->GetParameterTable().AddParameter(Parameter(OBJECT_ID, conditionName.data()));
 		}
 

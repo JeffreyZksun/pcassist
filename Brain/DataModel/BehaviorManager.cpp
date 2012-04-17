@@ -27,35 +27,33 @@ BehaviorManager::~BehaviorManager(void)
 	mTaskList.clear();
 }
 
-bool BehaviorManager::RegisterAction(Action* pAction)
+bool BehaviorManager::RegisterAction(ActionPtr pAction)
 {
 	return _RegisterBehaviorNode(mRegisteredActions, pAction);
 }
 
-void BehaviorManager::UnregisterAction(Action* pAction)
+void BehaviorManager::UnregisterAction(ActionPtr pAction)
 {
     _UnregisterBehaviorNode(mRegisteredActions, pAction);
-
-	//RemoveActionTask(pAction);
 }
 
-Action*	BehaviorManager::GetActionById(const CString& objectId) const
+ActionPtr BehaviorManager::GetActionById(const CString& objectId) const
 {
-	BehaviorNode* pNode = _GetBehaviorNodeById(mRegisteredActions, objectId);
+	BehaviorNodePtr pNode = _GetBehaviorNodeById(mRegisteredActions, objectId);
 
-	Action* pAction = NULL;
-	if(pNode != NULL)
-		pAction = dynamic_cast<Action*>(pNode);
+	ActionPtr pAction;
+	if(pNode)
+		pAction = boost::dynamic_pointer_cast<Action>(pNode);
 
 	return pAction;
 }
 
-Action* BehaviorManager::GetActionByIndex(size_t index) const
+ActionPtr BehaviorManager::GetActionByIndex(size_t index) const
 {
 	if(index <0 || index >= GetActionCount())
-		return NULL;
+		return ActionPtr();
 
-	BehaviorNode* pNode = NULL;
+	BehaviorNodePtr pNode;
 	size_t i = 0;
 	for(BehaviorNodeList::const_iterator it = mRegisteredActions.begin(); it != mRegisteredActions.end(); ++it)
 	{
@@ -64,9 +62,9 @@ Action* BehaviorManager::GetActionByIndex(size_t index) const
 		i++;
 	}
 
-	Action* pAction = NULL;
-	if(pNode != NULL)
-		pAction = dynamic_cast<Action*>(pNode);
+	ActionPtr pAction;
+	if(pNode)
+		pAction = boost::dynamic_pointer_cast<Action>(pNode);
 
 	return pAction;
 }
@@ -76,28 +74,28 @@ size_t BehaviorManager::GetActionCount() const
 	return mRegisteredActions.size();
 }
 
-bool BehaviorManager::RegisterCondition(Condition* pCondition)
+bool BehaviorManager::RegisterCondition(ConditionPtr pCondition)
 {
 	return _RegisterBehaviorNode(mRegisteredConditions, pCondition);
 }
 
-void BehaviorManager::UnregisterCondition(Condition* pCondition)
+void BehaviorManager::UnregisterCondition(ConditionPtr pCondition)
 {
     _UnregisterBehaviorNode(mRegisteredConditions, pCondition);
 }
 
-Condition* BehaviorManager::GetConditionById(const CString& objectId) const
+ConditionPtr BehaviorManager::GetConditionById(const CString& objectId) const
 {
-	BehaviorNode* pNode = _GetBehaviorNodeById(mRegisteredConditions, objectId);
+	BehaviorNodePtr pNode = _GetBehaviorNodeById(mRegisteredConditions, objectId);
 
-	Condition* pCondition = NULL;
-	if(pNode != NULL)
-		pCondition = dynamic_cast<Condition*>(pNode);
+	ConditionPtr pCondition;
+	if(pNode)
+		pCondition = boost::dynamic_pointer_cast<Condition>(pNode);
 
 	return pCondition;
 }
 
-void BehaviorManager::AddActionTask(Action* pAction)
+void BehaviorManager::AddActionTask(ActionPtr pAction)
 {
     ASSERT(pAction != NULL);
     if(NULL == pAction)
@@ -107,7 +105,7 @@ void BehaviorManager::AddActionTask(Action* pAction)
     mTaskList.push_back(pAction->GetObjectId().MakeLower());
 }
 
-void BehaviorManager::RemoveActionTask(Action* pAction)
+void BehaviorManager::RemoveActionTask(ActionPtr pAction)
 {
 	ASSERT(pAction != NULL);
 	if(NULL == pAction)
@@ -174,7 +172,7 @@ bool BehaviorManager::RunTasks()
 
 		CTime actionBeginTime = CTime::GetCurrentTime();
 
-		Action* pCurrentAction = GetActionById(*it);
+		ActionPtr pCurrentAction = GetActionById(*it);
 		ASSERT(pCurrentAction != NULL);
 		if(NULL != pCurrentAction)
 		{
@@ -310,7 +308,7 @@ bool BehaviorManager::XmlIn(XmlIOStream* pXmlIOStream)
 				if(!bHasItem)
 					break;
 
-				Action* pNewAction = new Action(); 
+				ActionPtr pNewAction = Action::Create(); 
 				pNewAction->XmlIn(pXmlIOStream);
 
 				// Don't need to check the name collision during load.
@@ -336,7 +334,7 @@ bool BehaviorManager::XmlIn(XmlIOStream* pXmlIOStream)
 				if(!bHasItem)
 					break;
 
-				Condition* pNewCondition = new Condition(); // The action is registered in its ctor
+				ConditionPtr pNewCondition = Condition::Create(); // The action is registered in its ctor
 				pNewCondition->XmlIn(pXmlIOStream);
 
 				// Don't need to check the name collision during load.
@@ -401,7 +399,7 @@ bool BehaviorManager::XmlOut(XmlIOStream* pXmlIOStream) const
 		{
 			for (BehaviorNodeList::const_iterator it = mRegisteredActions.begin(); it != mRegisteredActions.end(); ++it)
 			{
-				ASSERT(*it != NULL);
+				//ASSERT(*it != NULL);
 				XmlIOStreamBeginNodeStack stack2(pXmlIOStream, ActionNode);
 				if(stack2.IsSuccess())
 					(*it)->XmlOut(pXmlIOStream);
@@ -416,7 +414,7 @@ bool BehaviorManager::XmlOut(XmlIOStream* pXmlIOStream) const
 		{
 			for (BehaviorNodeList::const_iterator it = mRegisteredConditions.begin(); it != mRegisteredConditions.end(); ++it)
 			{
-				ASSERT(*it != NULL);
+				//ASSERT(*it != NULL);
 				XmlIOStreamBeginNodeStack stack2(pXmlIOStream, ConditionNode);
 				if(stack2.IsSuccess())
 					(*it)->XmlOut(pXmlIOStream);
@@ -443,10 +441,10 @@ void BehaviorManager::deleteRegisteredConditions()
 	_DeleteBehaviorNodes(mRegisteredConditions);
 }
 
-bool BehaviorManager::_RegisterBehaviorNode(BehaviorNodeList& nodeList, BehaviorNode* pNode)
+bool BehaviorManager::_RegisterBehaviorNode(BehaviorNodeList& nodeList, BehaviorNodePtr pNode)
 {
-	ASSERT(pNode != NULL);
-	if(NULL == pNode)
+	ASSERT(pNode);
+	if(!pNode)
 		return false;
 
 	// Check if there is name conflict. We can't cached the ids in this class. 
@@ -454,9 +452,9 @@ bool BehaviorManager::_RegisterBehaviorNode(BehaviorNodeList& nodeList, Behavior
 	// So we need to traverse the list every time.
 
 	CString objectID = pNode->GetObjectId();
-	for(BehaviorNodeList::const_iterator it = nodeList.begin(); it != nodeList.end(); ++it)
+	for(BehaviorNodeList::iterator it = nodeList.begin(); it != nodeList.end(); ++it)
 	{
-		BehaviorNode* pAction = *it;
+		BehaviorNodePtr pAction = *it;
 
 		int iDiff = pAction->GetObjectId().CompareNoCase(objectID);
 		if(0 == iDiff)  //exist
@@ -468,12 +466,12 @@ bool BehaviorManager::_RegisterBehaviorNode(BehaviorNodeList& nodeList, Behavior
 	}
 
 	pNode->SetBehaviorManager(this);
-
 	nodeList.push_back(pNode);
+
 	return true;
 }
 
-void BehaviorManager::_UnregisterBehaviorNode(BehaviorNodeList& nodeList, BehaviorNode* pNode)
+void BehaviorManager::_UnregisterBehaviorNode(BehaviorNodeList& nodeList, BehaviorNodePtr pNode)
 {
 	ASSERT(pNode != NULL);
 	if(NULL == pNode)
@@ -490,29 +488,23 @@ void BehaviorManager::_UnregisterBehaviorNode(BehaviorNodeList& nodeList, Behavi
 	return ;
 }
 
-BehaviorNode* BehaviorManager::_GetBehaviorNodeById(const BehaviorNodeList& nodeList, const CString& objectId) const
+BehaviorNodePtr BehaviorManager::_GetBehaviorNodeById(const BehaviorNodeList& nodeList, const CString& objectId) const
 {
 	for(BehaviorNodeList::const_iterator it = nodeList.begin(); it != nodeList.end(); ++it)
 	{
-		BehaviorNode* pNode = *it;
+		BehaviorNodePtr pNode = *it;
 
 		int iDiff = pNode->GetObjectId().CompareNoCase(objectId);
 		if(0 == iDiff)
 			return pNode;
 	}
 
-	return NULL;
+	return BehaviorNodePtr();
 }
 
 void BehaviorManager::_DeleteBehaviorNodes(BehaviorNodeList& nodeList)
 {
-	BehaviorNodeList::iterator it = nodeList.begin();
-	while(!nodeList.empty())
-	{
-		delete *it; // In its destructor, it will unregister itself from the list.
-		//nodeList.pop_front(); // Don't need the pop operation.
-		it = nodeList.begin();
-	}
+	nodeList.clear();
 }
 //////////////////////////////////////////////////////////////////////////
 // BehaviorNode
@@ -669,38 +661,32 @@ Action::Action()
 
 }
 
-//Action::Action(const CString& objetType)
-//	: BehaviorNode(objetType)
-//{
-//    BehaviorManager* pTaskMgr = GetApplication()->GetBehaviorManager();
-//    pTaskMgr->RegisterAction(this);
-//}
-
-Action::Action(BehaviorManager* pBehaviorManager, const CString& objetType)
+Action::Action(const CString& objetType)
 	: BehaviorNode(objetType)
 {
-	if(pBehaviorManager)
-		pBehaviorManager->RegisterAction(this);
+
 }
 
 Action::~Action(void)
 {
-	if(GetBehaviorManager())
-		GetBehaviorManager()->UnregisterAction(this);
+
 }
 
-//bool Action::IsParameterValid(const Parameter& para) const
-//{
-//	if(para.GetName().CompareNoCase(OBJECT_ID) == 0)
-//	{
-//		Action* pAction = GetApplication()->GetBehaviorManager()->GetActionById(para.GetEvaluatedValue(mpTaskSystem->GetVariableManager()));
-//		ASSERT(NULL == pAction);
-//		if(pAction != NULL) // Duplicated Id
-//			return false;
-//	}
-//
-//	return true;
-//}
+Action::pointer Action::Create()
+{
+	Action::pointer pNewObj(new Action());	
+
+	return pNewObj;	
+}
+
+Action::pointer Action::Create(const CString& objetType, BehaviorManager* pBehaviorManager)
+{
+	Action::pointer pNewObj(new Action(objetType));
+	if(pBehaviorManager)
+		pBehaviorManager->RegisterAction(pNewObj);
+
+	return pNewObj;	
+}
 
 bool Action::Execute()
 {
@@ -727,32 +713,37 @@ Condition::Condition()
 
 }
 
-//Condition::Condition(const CString& objetType)
-//	: BehaviorNode(objetType)
-//{
-//	BehaviorManager* pTaskMgr = GetApplication()->GetBehaviorManager();
-//	pTaskMgr->RegisterCondition(this);
-//}
-
-Condition::Condition(BehaviorManager* pBehaviorManager, const CString& objetType)
+Condition::Condition(const CString& objetType)
 	: BehaviorNode(objetType)
 {
-	if(pBehaviorManager)
-		pBehaviorManager->RegisterCondition(this);
-}
 
+}
 
 Condition::~Condition(void)
 {
-    if(GetBehaviorManager())
-		GetBehaviorManager()->UnregisterCondition(this);
+
+}
+
+Condition::pointer Condition::Create()
+{
+	Condition::pointer pNewObj(new Condition());	
+
+	return pNewObj;	
+}
+Condition::pointer Condition::Create(const CString& objetType, BehaviorManager* pBehaviorManager)
+{
+	Condition::pointer pNewObj(new Condition(objetType));
+	if(pBehaviorManager)
+		pBehaviorManager->RegisterCondition(pNewObj);
+
+	return pNewObj;	
 }
 
 //bool Condition::IsParameterValid(const Parameter& para) const
 //{
 //	if(para.GetName().CompareNoCase(OBJECT_ID) == 0)
 //	{
-//		Condition* pAction = GetApplication()->GetBehaviorManager()->GetConditionById(para.GetEvaluatedValue(mpTaskSystem->GetVariableManager()));
+//		ConditionPtr pAction = GetApplication()->GetBehaviorManager()->GetConditionById(para.GetEvaluatedValue(mpTaskSystem->GetVariableManager()));
 //		ASSERT(NULL == pAction);
 //		if(pAction != NULL) // Duplicated Id
 //			return false;

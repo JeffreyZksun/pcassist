@@ -17,7 +17,7 @@ BEHAVIORBODY_IMP(ComplexAction)
 	if(!bExist)
 		return false;
 
-	Condition* pExeCondition = pContext->GetTaskSystem()->GetBehaviorManager()->GetConditionById(condition.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
+	ConditionPtr pExeCondition = pContext->GetTaskSystem()->GetBehaviorManager()->GetConditionById(condition.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 	ASSERT(pExeCondition != NULL);
 	if(NULL == pExeCondition)
 		return false;
@@ -32,7 +32,7 @@ BEHAVIORBODY_IMP(ComplexAction)
 	if(!bExist)
 		return false;
 
-	Action* pMainAction = pContext->GetTaskSystem()->GetBehaviorManager()->GetActionById(mainAction.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
+	ActionPtr pMainAction = pContext->GetTaskSystem()->GetBehaviorManager()->GetActionById(mainAction.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 	ASSERT(pMainAction != NULL);
 	if(NULL == pMainAction)
 		return false;
@@ -42,7 +42,7 @@ BEHAVIORBODY_IMP(ComplexAction)
 	bExist = pContext->GetInputParameterTable()->GetParameter(PRE_ACTION, preAction);
 	if(bExist)
 	{
-		Action* pPreAction = pContext->GetTaskSystem()->GetBehaviorManager()->GetActionById(preAction.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
+		ActionPtr pPreAction = pContext->GetTaskSystem()->GetBehaviorManager()->GetActionById(preAction.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 		if(pPreAction != NULL)
 			pPreAction->Execute();
 	}
@@ -55,7 +55,7 @@ BEHAVIORBODY_IMP(ComplexAction)
 	bExist = pContext->GetInputParameterTable()->GetParameter(POST_ACTION, postAction);
 	if(bExist)
 	{
-		Action* pPostAction = pContext->GetTaskSystem()->GetBehaviorManager()->GetActionById(postAction.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
+		ActionPtr pPostAction = pContext->GetTaskSystem()->GetBehaviorManager()->GetActionById(postAction.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 		if(pPostAction != NULL)
 			pPostAction->Execute();
 	}
@@ -258,7 +258,7 @@ BEHAVIORBODY_IMP(ConditionBlockAction)
 	//Parameter para3;
 	//bExist = pContext->GetInputParameterTable()->GetParameter(EXPECTED_RESULT, para3);
 
-	Condition* pCondition = pContext->GetTaskSystem()->GetBehaviorManager()->GetConditionById(para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
+	ConditionPtr pCondition = pContext->GetTaskSystem()->GetBehaviorManager()->GetConditionById(para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 
 	ASSERT(pCondition);
 	bool bTimeOut = false;
@@ -307,7 +307,7 @@ BEHAVIORBODY_IMP(TaskListAction)
 
     for(std::vector<CString>::const_iterator it = actionIds.begin(); it != actionIds.end(); it++)
     {
-        Action* pCurrentAction = pContext->GetTaskSystem()->GetBehaviorManager()->GetActionById(*it);
+        ActionPtr pCurrentAction = pContext->GetTaskSystem()->GetBehaviorManager()->GetActionById(*it);
         ASSERT(pCurrentAction != NULL);
         if(NULL != pCurrentAction)
         {
@@ -365,7 +365,7 @@ BEHAVIORBODY_IMP(ConditionListCheckAction)
 
     for(std::vector<CString>::const_iterator it = actionIds.begin(); it != actionIds.end(); it++)
     {
-        Condition* pCurrentCondition = pContext->GetTaskSystem()->GetBehaviorManager()->GetConditionById(*it);
+        ConditionPtr pCurrentCondition = pContext->GetTaskSystem()->GetBehaviorManager()->GetConditionById(*it);
         ASSERT(pCurrentCondition != NULL);
         if(NULL != pCurrentCondition)
         {

@@ -41,7 +41,7 @@ TEST(TaskTest, ImmediateTaskExecute)
 		BehaviorManager* pBehaviorManager = pTaskSystem->GetBehaviorManager();
 
 		WString actionName = _T("demoAction");
-		Action* pNewAction = new Action(pBehaviorManager, _T("EmptyAction"));
+		ActionPtr pNewAction = Action::Create(_T("EmptyAction"), pBehaviorManager);
 		pNewAction->GetParameterTable().AddParameter(Parameter(OBJECT_ID, actionName.data()));
 
 		ImmediateTask::pointer pTask (ImmediateTask::Create(_T("tempTask")));
@@ -75,7 +75,7 @@ TEST(TaskTest, ConditionalTaskBasic)
 
 		BehaviorManager* pBehaviorManager = pTaskSystem->GetBehaviorManager();
 
-		Condition* pNewCondtion = new Condition(pBehaviorManager, _T("TrueCondition"));
+		ConditionPtr pNewCondtion = Condition::Create(_T("TrueCondition"), pBehaviorManager);
 		pNewCondtion->GetParameterTable().AddParameter(Parameter(OBJECT_ID, conditionName.data()));
 
 		bIsReady = pTask->IsReady(pTaskSystem.get());
@@ -94,11 +94,11 @@ TEST(TaskTest, ConditionalTaskExecute)
 		BehaviorManager* pBehaviorManager = pTaskSystem->GetBehaviorManager();
 
 		WString actionName = _T("demoAction");
-		Action* pNewAction = new Action(pBehaviorManager, _T("EmptyAction"));
+		ActionPtr pNewAction = Action::Create(_T("EmptyAction"), pBehaviorManager);
 		pNewAction->GetParameterTable().AddParameter(Parameter(OBJECT_ID, actionName.data()));
 
 		WString conditionName (_T("TrueCondition"));
-		Condition* pNewCondtion = new Condition(pBehaviorManager, _T("TrueCondition"));
+		ConditionPtr pNewCondtion = Condition::Create(_T("TrueCondition"), pBehaviorManager);
 		pNewCondtion->GetParameterTable().AddParameter(Parameter(OBJECT_ID, conditionName.data()));
 		
 		ImmediateTask::pointer pImmeTask (ImmediateTask::Create(_T("basicTask")));
