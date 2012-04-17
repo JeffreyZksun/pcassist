@@ -2,6 +2,8 @@
  * Back pointer. The object uses the weak_ptr to reference its owner to avoid cylic reference.
  * Pass the smart pointer object with value other than reference. 
   * See http://stackoverflow.com/questions/327573/c-passing-references-to-boostshared-ptr
+ * If the object is created by the new operator. It should be wrappered by the shared_ptr. 
+  * Make the constructors protected and provide a static create function which returns the shared_ptr to new the object.
   
 {{{
 #include "boost/weak_ptr.hpp"
