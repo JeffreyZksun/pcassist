@@ -13,12 +13,12 @@ BEHAVIORBODY_IMP(ComplexAction)
 	// Condition
 	Parameter condition;
 	bool bExist = pContext->GetInputParameterTable()->GetParameter(EXECUTE_CONDITION, condition);
-	ASSERT(bExist);
+	DATA_ASSERT(bExist);
 	if(!bExist)
 		return false;
 
 	ConditionPtr pExeCondition = pContext->GetTaskSystem()->GetBehaviorManager()->GetConditionById(condition.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
-	ASSERT(pExeCondition != NULL);
+	DATA_ASSERT(pExeCondition != NULL);
 	if(NULL == pExeCondition)
 		return false;
 
@@ -28,12 +28,12 @@ BEHAVIORBODY_IMP(ComplexAction)
 	// Main action, required.
 	Parameter mainAction;
 	bExist = pContext->GetInputParameterTable()->GetParameter(MAIN_ACTION, mainAction);
-	ASSERT(bExist);
+	DATA_ASSERT(bExist);
 	if(!bExist)
 		return false;
 
 	ActionPtr pMainAction = pContext->GetTaskSystem()->GetBehaviorManager()->GetActionById(mainAction.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
-	ASSERT(pMainAction != NULL);
+	DATA_ASSERT(pMainAction != NULL);
 	if(NULL == pMainAction)
 		return false;
 
@@ -67,7 +67,7 @@ BEHAVIORBODY_IMP(CreateFileAction)
 {
     Parameter para;
     bool bExist = pContext->GetInputParameterTable()->GetParameter(FILE_NAME, para);
-    ASSERT(bExist);
+    DATA_ASSERT(bExist);
 
     if(bExist)
         return BrainUtil::CreateFile(para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
@@ -79,7 +79,7 @@ BEHAVIORBODY_IMP(DeleteFileAction)
 {
     Parameter para;
     bool bExist = pContext->GetInputParameterTable()->GetParameter(FILE_NAME, para);
-    ASSERT(bExist);
+    DATA_ASSERT(bExist);
 
     if(bExist)
         return BrainUtil::DeleteFile(para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
@@ -91,13 +91,13 @@ BEHAVIORBODY_IMP(CopyFileAction)
 {
     Parameter para1;
     bool bExist = pContext->GetInputParameterTable()->GetParameter(SRC_FILE_NAME, para1);
-    ASSERT(bExist);
+    DATA_ASSERT(bExist);
     if(!bExist)
         return false;
 
     Parameter para2;
     bExist = pContext->GetInputParameterTable()->GetParameter(DEST_FILE_NAME, para2);
-    ASSERT(bExist);
+    DATA_ASSERT(bExist);
     if(!bExist)
         return false;
 
@@ -108,7 +108,7 @@ BEHAVIORBODY_IMP(CreateFolderAction)
 {
     Parameter para;
     bool bExist = pContext->GetInputParameterTable()->GetParameter(FOLDER_NAME, para);
-    ASSERT(bExist);
+    DATA_ASSERT(bExist);
 
     if(bExist)
         return BrainUtil::CreateFolder(para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
@@ -120,7 +120,7 @@ BEHAVIORBODY_IMP(DeleteFolderAction)
 {
     Parameter para;
     bool bExist = pContext->GetInputParameterTable()->GetParameter(FOLDER_NAME, para);
-    ASSERT(bExist);
+    DATA_ASSERT(bExist);
 
     if(bExist)
         return BrainUtil::DeleteFolder(para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
@@ -132,12 +132,12 @@ BEHAVIORBODY_IMP(CopyFolderAction)
 {
     Parameter para1;
     bool bExist = pContext->GetInputParameterTable()->GetParameter(SRC_Folder_NAME, para1);
-    ASSERT(bExist);
+    DATA_ASSERT(bExist);
     if(!bExist)
         return false;
 
     Parameter para2;
-    ASSERT(bExist);
+    DATA_ASSERT(bExist);
     bExist = pContext->GetInputParameterTable()->GetParameter(DEST_Folder_NAME, para2);
     if(!bExist)
         return false;
@@ -149,12 +149,12 @@ BEHAVIORBODY_IMP(MakeDirectoryLinkAction)
 {
     Parameter para1;
     bool bExist = pContext->GetInputParameterTable()->GetParameter(LINK_NAME, para1);
-    ASSERT(bExist);
+    DATA_ASSERT(bExist);
     if(!bExist)
         return false;
 
     Parameter para2;
-    ASSERT(bExist);
+    DATA_ASSERT(bExist);
     bExist = pContext->GetInputParameterTable()->GetParameter(LINK_TARGET, para2);
     if(!bExist)
         return false;
@@ -166,7 +166,7 @@ BEHAVIORBODY_IMP(RunSystemCommandAction)
 {
 	Parameter para;
 	bool bExist = pContext->GetInputParameterTable()->GetParameter(APPLICATION_NAME, para);
-	ASSERT(bExist);
+	DATA_ASSERT(bExist);
 	if(!bExist)
 		return false;
 
@@ -194,7 +194,7 @@ BEHAVIORBODY_IMP(RunProcessAction)
 {
 	Parameter para;
 	bool bExist = pContext->GetInputParameterTable()->GetParameter(APPLICATION_NAME, para);
-	ASSERT(bExist);
+	DATA_ASSERT(bExist);
 	if(!bExist)
 		return false;
 
@@ -241,13 +241,13 @@ BEHAVIORBODY_IMP(ConditionBlockAction)
 {
 	Parameter para;
 	bool bExist = pContext->GetInputParameterTable()->GetParameter(CONDITION_ID, para);
-	ASSERT(bExist);
+	DATA_ASSERT(bExist);
 	if(!bExist)
 		return true;
 
 	Parameter para2;
 	bExist = pContext->GetInputParameterTable()->GetParameter(EXPECTED_RESULT, para2);
-	ASSERT(bExist);
+	DATA_ASSERT(bExist);
 	if(!bExist)
 		return true;
 	CString strExpectedRet = para2.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
@@ -260,7 +260,7 @@ BEHAVIORBODY_IMP(ConditionBlockAction)
 
 	ConditionPtr pCondition = pContext->GetTaskSystem()->GetBehaviorManager()->GetConditionById(para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
 
-	ASSERT(pCondition);
+	DATA_ASSERT(pCondition);
 	bool bTimeOut = false;
 	while(pCondition->IsTrue() != bExpectedResult)
 	{
@@ -290,7 +290,7 @@ BEHAVIORBODY_IMP(TaskListAction)
 {
     Parameter para;
     bool bExist = pContext->GetInputParameterTable()->GetParameter(ID_LIST, para);
-    ASSERT(bExist);
+    DATA_ASSERT(bExist);
     if(!bExist)
         return true;
 
@@ -308,7 +308,7 @@ BEHAVIORBODY_IMP(TaskListAction)
     for(std::vector<CString>::const_iterator it = actionIds.begin(); it != actionIds.end(); it++)
     {
         ActionPtr pCurrentAction = pContext->GetTaskSystem()->GetBehaviorManager()->GetActionById(*it);
-        ASSERT(pCurrentAction != NULL);
+        DATA_ASSERT(pCurrentAction != NULL);
         if(NULL != pCurrentAction)
         {
             bRet = pCurrentAction->Execute();
@@ -348,7 +348,7 @@ BEHAVIORBODY_IMP(ConditionListCheckAction)
 {
     Parameter para;
     bool bExist = pContext->GetInputParameterTable()->GetParameter(ID_LIST, para);
-    ASSERT(bExist);
+    DATA_ASSERT(bExist);
     if(!bExist)
         return true;
 
@@ -366,7 +366,7 @@ BEHAVIORBODY_IMP(ConditionListCheckAction)
     for(std::vector<CString>::const_iterator it = actionIds.begin(); it != actionIds.end(); it++)
     {
         ConditionPtr pCurrentCondition = pContext->GetTaskSystem()->GetBehaviorManager()->GetConditionById(*it);
-        ASSERT(pCurrentCondition != NULL);
+        DATA_ASSERT(pCurrentCondition != NULL);
         if(NULL != pCurrentCondition)
         {
             bRet = pCurrentCondition->IsTrue();

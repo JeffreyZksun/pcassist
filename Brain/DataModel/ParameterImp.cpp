@@ -35,7 +35,7 @@ const CString& ComplexString::GetRawtring() const
 
 CString ComplexString::GetEvaluatedString(const VariableManager* pVariableManager) const
 {
-	ASSERT(pVariableManager != NULL);
+	DATA_ASSERT(pVariableManager != NULL);
 
 	if(NULL == pVariableManager)
 		return mRawVariableString;
@@ -115,17 +115,17 @@ The data format is:
 
 bool ParameterImp::XmlIn(XmlIOStream* pXmlIOStream)
 {
-	ASSERT(pXmlIOStream != NULL);
+	DATA_ASSERT(pXmlIOStream != NULL);
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, NameNode);
-		ASSERT(stack.IsSuccess());
+		DATA_ASSERT(stack.IsSuccess());
 		if(stack.IsSuccess())
 			pXmlIOStream->ReadNodeText(mName);
 	}
 
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ValueNode);
-		ASSERT(stack.IsSuccess());
+		DATA_ASSERT(stack.IsSuccess());
 		if(stack.IsSuccess())
 		{
 			CString rawStr;
@@ -145,11 +145,11 @@ bool ParameterImp::XmlIn(XmlIOStream* pXmlIOStream)
 
 bool ParameterImp::XmlOut(XmlIOStream* pXmlIOStream) const
 {
-	ASSERT(pXmlIOStream != NULL);
+	DATA_ASSERT(pXmlIOStream != NULL);
 
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, NameNode);
-		ASSERT(stack.IsSuccess());
+		DATA_ASSERT(stack.IsSuccess());
 		if(!stack.IsSuccess())
 			return false;
 		pXmlIOStream->WriteNodeText(mName);
@@ -157,7 +157,7 @@ bool ParameterImp::XmlOut(XmlIOStream* pXmlIOStream) const
 
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ValueNode);
-		ASSERT(stack.IsSuccess());
+		DATA_ASSERT(stack.IsSuccess());
 		if(!stack.IsSuccess())
 			return false;
 		pXmlIOStream->WriteNodeText(mValue.GetRawtring());
@@ -166,7 +166,7 @@ bool ParameterImp::XmlOut(XmlIOStream* pXmlIOStream) const
 	if(mComments.GetLength() != 0)
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, CommentsNode);
-		ASSERT(stack.IsSuccess());
+		DATA_ASSERT(stack.IsSuccess());
 		if(!stack.IsSuccess())
 			return false;
 		pXmlIOStream->WriteNodeText(mComments);

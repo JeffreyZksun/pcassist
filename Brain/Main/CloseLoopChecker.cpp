@@ -16,7 +16,7 @@ bool CloseLoopChecker::PushOngoingItem(const CString& itemName)
 		// This variable is already in the stack. 
 		// Close  loop reference is detected.
 		// Return directly to avoid dead loop.
-		//ASSERT(!_T("Close loop reference is detected"));
+		//DATA_ASSERT(!_T("Close loop reference is detected"));
 
 		return false;
 	}

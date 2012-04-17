@@ -114,7 +114,7 @@ The data format is:
 
 bool ParameterTableImp::XmlIn(XmlIOStream* pXmlIOStream)
 {
-	ASSERT(pXmlIOStream != NULL);
+	DATA_ASSERT(pXmlIOStream != NULL);
 	{
 		int index = 0;
 		while(true)
@@ -139,12 +139,12 @@ bool ParameterTableImp::XmlIn(XmlIOStream* pXmlIOStream)
 
 bool ParameterTableImp::XmlOut(XmlIOStream* pXmlIOStream) const
 {
-	ASSERT(pXmlIOStream != NULL);	
+	DATA_ASSERT(pXmlIOStream != NULL);	
 
 	for(ParameterList::const_iterator it = mParaList.begin(); it != mParaList.end(); ++it)
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, ParameterNode);
-		ASSERT(stack.IsSuccess());
+		DATA_ASSERT(stack.IsSuccess());
 		if(!stack.IsSuccess())
 			return false;
 		(*it)->XmlOut(pXmlIOStream);

@@ -432,7 +432,7 @@ void CXmlNodeWrapper::RemoveNodes(LPCTSTR searchStr)
 		}
 		catch (_com_error er)
 		{
-			ASSERT(false);
+			DATA_ASSERT(false);
 		}
 	}
 }

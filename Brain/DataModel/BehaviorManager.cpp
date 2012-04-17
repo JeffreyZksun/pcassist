@@ -97,7 +97,7 @@ ConditionPtr BehaviorManager::GetConditionById(const CString& objectId) const
 
 void BehaviorManager::AddActionTask(ActionPtr pAction)
 {
-    ASSERT(pAction != NULL);
+    DATA_ASSERT(pAction != NULL);
     if(NULL == pAction)
         return;
 
@@ -107,7 +107,7 @@ void BehaviorManager::AddActionTask(ActionPtr pAction)
 
 void BehaviorManager::RemoveActionTask(ActionPtr pAction)
 {
-	ASSERT(pAction != NULL);
+	DATA_ASSERT(pAction != NULL);
 	if(NULL == pAction)
 		return;
 
@@ -173,7 +173,7 @@ bool BehaviorManager::RunTasks()
 		CTime actionBeginTime = CTime::GetCurrentTime();
 
 		ActionPtr pCurrentAction = GetActionById(*it);
-		ASSERT(pCurrentAction != NULL);
+		DATA_ASSERT(pCurrentAction != NULL);
 		if(NULL != pCurrentAction)
 		{
 			bRet = pCurrentAction->Execute();
@@ -294,7 +294,7 @@ bool BehaviorManager::RunTasks()
 
 bool BehaviorManager::XmlIn(XmlIOStream* pXmlIOStream)
 {
-	ASSERT(pXmlIOStream != NULL);
+	DATA_ASSERT(pXmlIOStream != NULL);
 
 	// Actions
 	{
@@ -376,7 +376,7 @@ bool BehaviorManager::XmlIn(XmlIOStream* pXmlIOStream)
 
 bool BehaviorManager::XmlOut(XmlIOStream* pXmlIOStream) const
 {
-	ASSERT(pXmlIOStream != NULL);
+	DATA_ASSERT(pXmlIOStream != NULL);
 
 	// TaskList
 	{
@@ -399,7 +399,7 @@ bool BehaviorManager::XmlOut(XmlIOStream* pXmlIOStream) const
 		{
 			for (BehaviorNodeList::const_iterator it = mRegisteredActions.begin(); it != mRegisteredActions.end(); ++it)
 			{
-				//ASSERT(*it != NULL);
+				//DATA_ASSERT(*it != NULL);
 				XmlIOStreamBeginNodeStack stack2(pXmlIOStream, ActionNode);
 				if(stack2.IsSuccess())
 					(*it)->XmlOut(pXmlIOStream);
@@ -414,7 +414,7 @@ bool BehaviorManager::XmlOut(XmlIOStream* pXmlIOStream) const
 		{
 			for (BehaviorNodeList::const_iterator it = mRegisteredConditions.begin(); it != mRegisteredConditions.end(); ++it)
 			{
-				//ASSERT(*it != NULL);
+				//DATA_ASSERT(*it != NULL);
 				XmlIOStreamBeginNodeStack stack2(pXmlIOStream, ConditionNode);
 				if(stack2.IsSuccess())
 					(*it)->XmlOut(pXmlIOStream);
@@ -443,7 +443,7 @@ void BehaviorManager::deleteRegisteredConditions()
 
 bool BehaviorManager::_RegisterBehaviorNode(BehaviorNodeList& nodeList, BehaviorNodePtr pNode)
 {
-	ASSERT(pNode);
+	DATA_ASSERT(pNode);
 	if(!pNode)
 		return false;
 
@@ -459,7 +459,7 @@ bool BehaviorManager::_RegisterBehaviorNode(BehaviorNodeList& nodeList, Behavior
 		int iDiff = pAction->GetObjectId().CompareNoCase(objectID);
 		if(0 == iDiff)  //exist
 		{
-			ASSERT(false);
+			DATA_ASSERT(false);
 			// ToDo - output error message.
 			return false;
 		}
@@ -473,7 +473,7 @@ bool BehaviorManager::_RegisterBehaviorNode(BehaviorNodeList& nodeList, Behavior
 
 void BehaviorManager::_UnregisterBehaviorNode(BehaviorNodeList& nodeList, BehaviorNodePtr pNode)
 {
-	ASSERT(pNode != NULL);
+	DATA_ASSERT(pNode != NULL);
 	if(NULL == pNode)
 		return ;
 
@@ -540,7 +540,7 @@ CString BehaviorNode::GetObjectId() const
 {
 	Parameter para;
 	bool bExist = mParameterTable.GetParameter(OBJECT_ID, para);
-	ASSERT(bExist);
+	DATA_ASSERT(bExist);
 	if(!bExist)
 		return _T("");
 
@@ -551,7 +551,7 @@ CString BehaviorNode::GetObjectType() const
 {
 	Parameter para;
 	bool bExist = mParameterTable.GetParameter(OBJECT_TYPE, para);
-	ASSERT(bExist);
+	DATA_ASSERT(bExist);
 	if(!bExist)
 		return _T("");
 
@@ -560,7 +560,7 @@ CString BehaviorNode::GetObjectType() const
 
 void BehaviorNode::SetBehaviorManager(BehaviorManager* pBehaviorManager)
 {
-	ASSERT(pBehaviorManager != NULL);
+	DATA_ASSERT(pBehaviorManager != NULL);
 	mpBehaviorManager = pBehaviorManager;
 }
 
@@ -586,7 +586,7 @@ bool BehaviorNode::XmlOut(XmlIOStream* pXmlIOStream) const
 
 bool BehaviorNode::ExecuteBehavior()
 {
-	ASSERT(mpBehaviorManager != NULL);
+	DATA_ASSERT(mpBehaviorManager != NULL);
 	if(NULL == mpBehaviorManager)
 		return false;
 
@@ -605,7 +605,7 @@ bool BehaviorNode::ExecuteBehavior()
 
 	if(true == mbIsExecuting)
 	{
-		ASSERT(!_T("Error: Behavior execution loop is detected"));
+		DATA_ASSERT(!_T("Error: Behavior execution loop is detected"));
 		LogOut(_T("Error: Behavior execution loop is detected=> "), COLOR_RED);
 		LogOut(GetObjectId(), COLOR_RED);
 		LogOut(_T("\n"), COLOR_RED);
@@ -744,7 +744,7 @@ Condition::pointer Condition::Create(const CString& objetType, BehaviorManager* 
 //	if(para.GetName().CompareNoCase(OBJECT_ID) == 0)
 //	{
 //		ConditionPtr pAction = GetApplication()->GetBehaviorManager()->GetConditionById(para.GetEvaluatedValue(mpTaskSystem->GetVariableManager()));
-//		ASSERT(NULL == pAction);
+//		DATA_ASSERT(NULL == pAction);
 //		if(pAction != NULL) // Duplicated Id
 //			return false;
 //	}

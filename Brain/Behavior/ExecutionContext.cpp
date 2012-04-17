@@ -11,7 +11,7 @@ ExecutionContext::ExecutionContext(TaskSystem* pTaskSystem, BehaviorNode* pBehav
 
 const ParameterTable* const ExecutionContext::GetInputParameterTable() const
 {
-	ASSERT(mpCurrentBehavior != NULL);
+	DATA_ASSERT(mpCurrentBehavior != NULL);
 	if(mpCurrentBehavior != NULL)
 		return &(mpCurrentBehavior->GetParameterTable());
 
@@ -20,19 +20,19 @@ const ParameterTable* const ExecutionContext::GetInputParameterTable() const
 
 void ExecutionContext::SetBehaviorNode(BehaviorNode* pBehavior)
 {
-	ASSERT(pBehavior != NULL);
+	DATA_ASSERT(pBehavior != NULL);
 	mpCurrentBehavior = pBehavior;
 }
 
 BehaviorNode* const ExecutionContext::GetBehaviorNode() const
 {
-	ASSERT(mpCurrentBehavior != NULL);
+	DATA_ASSERT(mpCurrentBehavior != NULL);
 	return mpCurrentBehavior;
 }
 
 TaskSystem* ExecutionContext::GetTaskSystem() const
 {
-	ASSERT(mpTaskSystem != NULL);
+	DATA_ASSERT(mpTaskSystem != NULL);
 	if(mpTaskSystem != NULL)
 		return mpTaskSystem;
 

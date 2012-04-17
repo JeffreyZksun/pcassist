@@ -37,7 +37,7 @@ void BehaviorBodyFactory::AddBehaviorBody(const CString& objectType, IBehaviorBo
 	objType.MakeLower();
 
 	BehaviorBodyMap::iterator it = mBehaviorBodyMap.find(objType);
-	ASSERT(mBehaviorBodyMap.end() == it); // Check duplication.
+	DATA_ASSERT(mBehaviorBodyMap.end() == it); // Check duplication.
 	if(mBehaviorBodyMap.end() == it)
 		mBehaviorBodyMap.insert(std::make_pair(objType, pBody));
 }

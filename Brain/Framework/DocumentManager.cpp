@@ -71,7 +71,7 @@ void DocumentManager::SetDocumentName(const CString& docName)
 
 bool DocumentManager::XmlIn(IDataBaseObject* pObject)
 {
-	ASSERT(pObject != NULL);
+	DATA_ASSERT(pObject != NULL);
 	if(NULL == pObject)
 		return false;
 
@@ -80,7 +80,7 @@ bool DocumentManager::XmlIn(IDataBaseObject* pObject)
 
 	XmlIOStream* pXmlIOStream = new XmlIOStream(true);
 	bool bRet = pXmlIOStream->Load(mDocumentName); // Load root
-	ASSERT(bRet);
+	DATA_ASSERT(bRet);
 	if(!bRet)
 		return false;
 
@@ -112,7 +112,7 @@ bool DocumentManager::XmlIn(IDataBaseObject* pObject)
 
 bool DocumentManager::XmlOut(const IDataBaseObject* pObject)
 {
-	ASSERT(pObject != NULL);
+	DATA_ASSERT(pObject != NULL);
 	if(NULL == pObject)
 		return false;
 
@@ -125,7 +125,7 @@ bool DocumentManager::XmlOut(const IDataBaseObject* pObject)
 	{
 		// Save root
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, DocRootNode);
-		ASSERT(stack.IsSuccess());
+		DATA_ASSERT(stack.IsSuccess());
 		if(!stack.IsSuccess())
 			return false;
 

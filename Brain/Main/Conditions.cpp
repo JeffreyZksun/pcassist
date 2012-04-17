@@ -17,18 +17,18 @@ BEHAVIORBODY_IMP(CompositeCondition)
 {
 	Parameter oper;
 	bool bExist = pContext->GetInputParameterTable()->GetParameter(BOOL_OPERATOR, oper);
-	ASSERT(bExist);
+	DATA_ASSERT(bExist);
 	if(!bExist)
 		return false;
 
 	Parameter firstCondition;
 	bExist = pContext->GetInputParameterTable()->GetParameter(FIRST_CONDITION, firstCondition);
-	ASSERT(bExist);
+	DATA_ASSERT(bExist);
 	if(!bExist)
 		return false;
 
 	ConditionPtr pFstCondition = pContext->GetTaskSystem()->GetBehaviorManager()->GetConditionById(firstCondition.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
-	ASSERT(pFstCondition != NULL);
+	DATA_ASSERT(pFstCondition != NULL);
 	if(NULL == pFstCondition)
 		return false;
 
@@ -41,11 +41,11 @@ BEHAVIORBODY_IMP(CompositeCondition)
 	{
 		Parameter sndCondition;
 		bExist = pContext->GetInputParameterTable()->GetParameter(SECOND_CONDITION, sndCondition);
-		ASSERT(bExist);
+		DATA_ASSERT(bExist);
 		if(bExist)
 		{
 			ConditionPtr pSndCondition = pContext->GetTaskSystem()->GetBehaviorManager()->GetConditionById(sndCondition.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
-			ASSERT(pSndCondition != NULL);
+			DATA_ASSERT(pSndCondition != NULL);
 			if(pSndCondition != NULL)
 			{
 				if(oper.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()).CompareNoCase(_T("AND")) == 0)
@@ -71,7 +71,7 @@ BEHAVIORBODY_IMP(FileExistsCondition)
 {
     Parameter para;
     bool bExist = pContext->GetInputParameterTable()->GetParameter(FILE_NAME, para);
-    ASSERT(bExist);
+    DATA_ASSERT(bExist);
 
     if(bExist)
         return BrainUtil::DoesFileorFolderExist(para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
@@ -88,7 +88,7 @@ BEHAVIORBODY_IMP(FolderExistsCondition)
 {
     Parameter para;
     bool bExist = pContext->GetInputParameterTable()->GetParameter(FOLDER_NAME, para);
-    ASSERT(bExist);
+    DATA_ASSERT(bExist);
 
     if(bExist)
         return BrainUtil::DoesFileorFolderExist(para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager()));
@@ -100,13 +100,13 @@ BEHAVIORBODY_IMP(RegisterKeyExistsCondition)
 {
 	Parameter para;
 	bool bExist = pContext->GetInputParameterTable()->GetParameter(ROOT_KEY, para);
-	ASSERT(bExist);
+	DATA_ASSERT(bExist);
 	if(!bExist)
 		return false;
 	CString rootKey = para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
 
 	bExist = pContext->GetInputParameterTable()->GetParameter(SUB_KEY, para);
-	ASSERT(bExist);
+	DATA_ASSERT(bExist);
 	if(!bExist)
 		return false;
 
@@ -162,7 +162,7 @@ BEHAVIORBODY_IMP(ProcessRunningCondition)
 {
 	Parameter para;
 	bool bExist = pContext->GetInputParameterTable()->GetParameter(PROCESS_NAME, para);
-	ASSERT(bExist);
+	DATA_ASSERT(bExist);
 	if(!bExist)
 		return false;
 	CString strPorcessName = para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
@@ -183,13 +183,13 @@ BEHAVIORBODY_IMP(ActionResultCondition)
 {
     Parameter para;
     bool bExist = pContext->GetInputParameterTable()->GetParameter(ACTION_ID, para);
-    ASSERT(bExist);
+    DATA_ASSERT(bExist);
     if(!bExist)
         return false;
     CString strActionId = para.GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
   
     ActionPtr pAction = pContext->GetTaskSystem()->GetBehaviorManager()->GetActionById(strActionId);
-    ASSERT(pAction != NULL);
+    DATA_ASSERT(pAction != NULL);
     if(NULL == pAction)
         return false;
 
