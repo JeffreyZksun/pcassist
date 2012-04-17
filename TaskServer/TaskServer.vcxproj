@@ -72,6 +72,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NO_BRAIN_EXPORTS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Brain\Task\;$(SolutionDir)Brain\MultiThreading\;$(SolutionDir)Brain\Event\;$(SolutionDir)Brain\Base\;$(SolutionDir)\Brain\Inc;$(SolutionDir)Brain\TextCommand\;$(SolutionDir)Brain\Network\;$(SolutionDir)3p\Boost\boost_1_49_0\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
