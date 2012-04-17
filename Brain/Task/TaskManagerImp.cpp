@@ -3,6 +3,7 @@
 
 #include "TaskManagerImp.h"
 #include "ITask.h"
+#include "ThreadLocks.h"
 
 using namespace Ts;
 
@@ -72,6 +73,8 @@ bool TaskManagerImp::AddTask(ITaskPtr pTask)
 	if(!pTask.get())
 		return false;
 
+	RECURSIVE_LOCK_GUARD(ComponetMutexs::GetTaskManagerMutex());
+
 	TaskMap::iterator itMap = m_CachedPendingTaskMap.find(pTask->GetId());
 	if(itMap != m_CachedPendingTaskMap.end())
 	{
@@ -87,6 +90,8 @@ bool TaskManagerImp::AddTask(ITaskPtr pTask)
 
 bool TaskManagerImp::RemoveTask(WString taskId)
 {
+	RECURSIVE_LOCK_GUARD(ComponetMutexs::GetTaskManagerMutex());
+
 	TaskMap::iterator itMap = m_CachedPendingTaskMap.find(taskId);
 	if(m_CachedPendingTaskMap.end() == itMap)
 	{
@@ -105,7 +110,10 @@ size_t TaskManagerImp::PendingTaskCount() const
 
 ITaskPtr TaskManagerImp::PopReadyTask()
 {
+
 	ITaskPtr pReadyTask;
+	RECURSIVE_LOCK_GUARD(ComponetMutexs::GetTaskManagerMutex());
+
 	for(TaskList::iterator it = m_PendingTaskList.begin(); it != m_PendingTaskList.end(); ++it)
 	{
 		if((*it)->IsReady(m_pTaskSystem))
@@ -125,7 +133,7 @@ void TaskManagerImp::ThreadEntry()
 	m_io_service.run(ec);
 
 	m_pAsioThread.reset();
-	m_bStop = false;
+	m_bStop = true;
 }
 
 void TaskManagerImp::do_set_timer()
