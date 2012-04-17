@@ -19,7 +19,7 @@ BehaviorBuilder::~BehaviorBuilder()
 
 void BehaviorBuilder::InitializeBehaviorBodyFactory(BehaviorBodyFactory* pBehaviorBodyFactory)
 {
-	ASSERT(pBehaviorBodyFactory != NULL);
+	DATA_ASSERT(pBehaviorBodyFactory != NULL);
 	if(NULL == pBehaviorBodyFactory)
 		return;
 

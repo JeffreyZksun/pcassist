@@ -74,7 +74,7 @@ bool ImmediateTaskImp::Execute(ITaskSystem* pTaskSystem)
 		CTime actionBeginTime = CTime::GetCurrentTime();
 
 		ActionPtr pCurrentAction = pBehaviorManager->GetActionById((*it).data());
-		ASSERT(pCurrentAction != NULL);
+		DATA_ASSERT(pCurrentAction != NULL);
 		if(NULL != pCurrentAction)
 		{
 			bRet = pCurrentAction->Execute();

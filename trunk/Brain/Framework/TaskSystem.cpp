@@ -81,11 +81,11 @@ bool TaskSystem::XmlOut(const CString& docName) const
 
 void TaskSystem::Initialize()
 {
-	ASSERT(mpHostService != NULL);
+	DATA_ASSERT(mpHostService != NULL);
 	if(mpHostService)
 	{
 		IBehaviorBuilder* pBuilder = mpHostService->GetBehaviorBuilder();
-		ASSERT(pBuilder != NULL);
+		DATA_ASSERT(pBuilder != NULL);
 		if(pBuilder)
 			pBuilder->InitializeBehaviorBodyFactory(GetBehaviorBodyFactory());
 	}

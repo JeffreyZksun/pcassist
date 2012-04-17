@@ -123,7 +123,7 @@ bool BrainUtil::CopyFile(const CString& srcFileFullName, const CString& destFile
     CString cmd;
     cmd.Format(_T("copy \"%s\" \"%s\""), src.GetBuffer(), dest.GetBuffer());
     int ret = _wsystem(cmd.GetBuffer());
-    ASSERT(0 == ret);
+    DATA_ASSERT(0 == ret);
     bool bSucc = DoesFileorFolderExist(destFileFullName) && 0 == ret;
     return bSucc;
 }
@@ -152,7 +152,7 @@ bool BrainUtil::CopyFolder(const CString& srcFolderFullName, const CString& dest
     CString cmd;
     cmd.Format(_T("xcopy \"%s\" \"%s\" /E /C /R /Q /Y"), src.GetBuffer(), dest.GetBuffer());
     int ret = _wsystem(cmd.GetBuffer());
-    ASSERT(0 == ret);
+    DATA_ASSERT(0 == ret);
     bool bSucc = DoesFileorFolderExist(destFolderFullName) && 0 == ret;
     return bSucc;
 }
@@ -167,7 +167,7 @@ bool BrainUtil::DeleteFile(const CString& fileFullName)
     CString cmd;
     cmd.Format(_T("del \"%s\" /F /Q"), name.GetBuffer());
     int ret = _wsystem(cmd.GetBuffer());
-    ASSERT(0 == ret);
+    DATA_ASSERT(0 == ret);
     bool bSucc = !DoesFileorFolderExist(fileFullName);
     return bSucc;
 }
@@ -182,7 +182,7 @@ bool BrainUtil::DeleteFolder(const CString& folderFullName)
     CString cmd;
     cmd.Format(_T("rd \"%s\" /S /Q"), name.GetBuffer());
     int ret = _wsystem(cmd.GetBuffer());
-    ASSERT(0 == ret);
+    DATA_ASSERT(0 == ret);
     bool bSucc = !DoesFileorFolderExist(folderFullName);
     return bSucc;
 }
@@ -205,7 +205,7 @@ bool BrainUtil::CreateFile(const CString& fileFullName)
     CString cmd;
     cmd.Format(_T("echo \"\" >> \"%s\""), name.GetBuffer());
     int ret = _wsystem(cmd.GetBuffer());
-    ASSERT(0 == ret);
+    DATA_ASSERT(0 == ret);
     bool bSucc = DoesFileorFolderExist(fileFullName);
     return bSucc;
 }
@@ -222,7 +222,7 @@ bool BrainUtil::CreateFolder(const CString& folderFullName)
     CString cmd;
     cmd.Format(_T("md \"%s\""), name.GetBuffer());
     int ret = _wsystem(cmd.GetBuffer());
-    ASSERT(0 == ret);
+    DATA_ASSERT(0 == ret);
     bool bSucc = DoesFileorFolderExist(folderFullName);
     return bSucc;
 }
@@ -257,7 +257,7 @@ bool BrainUtil::MakeLink(const CString& link, const CString& target, bool bIsDir
 
         if(DoesFileorFolderExist(temLink))// check again
         {
-            ASSERT(false); 
+            DATA_ASSERT(false); 
             return false;
         }
     }
@@ -279,7 +279,7 @@ bool BrainUtil::MakeLink(const CString& link, const CString& target, bool bIsDir
         cmd.Format(_T("mklink \"%s\" \"%s\""), temLink.GetBuffer(), temTarget.GetBuffer());
 
     int ret = _wsystem(cmd.GetBuffer());
-    ASSERT(0 == ret);
+    DATA_ASSERT(0 == ret);
     bool bSucc = DoesFileorFolderExist(link);
     return bSucc;
 }
@@ -288,7 +288,7 @@ bool BrainUtil::RunSystemCommand(const CString& cmd)
 {
     CString tempCmd = cmd;
     //int ret = _wsystem(tempCmd.GetBuffer());
-    //ASSERT(0 == ret); // Don't aseert the failure is accepted.
+    //DATA_ASSERT(0 == ret); // Don't aseert the failure is accepted.
 
 	// Get the output from the pipe
 	FILE* pipe = _wpopen(tempCmd.GetBuffer(), _T("r"));

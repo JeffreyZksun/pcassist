@@ -15,11 +15,11 @@ XmlIOStreamImp::~XmlIOStreamImp(void)
 // Only for traverse the brothers when read.
 bool XmlIOStreamImp::ReadNode(const CString& nodeName, int index)
 {
-	ASSERT(mbIsRead); 
+	DATA_ASSERT(mbIsRead); 
 	if(!mbIsRead)
 		return false;
 
-	ASSERT(mpCurrentNode != NULL);
+	DATA_ASSERT(mpCurrentNode != NULL);
 	if(NULL == mpCurrentNode)
 		return false;
 
@@ -32,7 +32,7 @@ bool XmlIOStreamImp::ReadNode(const CString& nodeName, int index)
 		return false;
 
 	MSXML2::IXMLDOMNodePtr	pNode = nodeListWrapper.Node(index);
-	ASSERT(pNode != NULL);
+	DATA_ASSERT(pNode != NULL);
 	if(NULL == pNode)
 		return false;
 
@@ -43,11 +43,11 @@ bool XmlIOStreamImp::ReadNode(const CString& nodeName, int index)
 
 bool XmlIOStreamImp::ReadNode(const CString& nodeName)
 {
-	ASSERT(mbIsRead);
+	DATA_ASSERT(mbIsRead);
 	if(!mbIsRead)
 		return false;
 
-	ASSERT(mpCurrentNode != NULL);
+	DATA_ASSERT(mpCurrentNode != NULL);
 	if(NULL == mpCurrentNode)
 		return false;
 
@@ -64,7 +64,7 @@ bool XmlIOStreamImp::ReadNode(const CString& nodeName)
 
 bool XmlIOStreamImp::ReadNodeText(CString& text)
 {
-	ASSERT(mpCurrentNode != NULL);
+	DATA_ASSERT(mpCurrentNode != NULL);
 	if(NULL == mpCurrentNode)
 		return false;
 
@@ -76,7 +76,7 @@ bool XmlIOStreamImp::ReadNodeText(CString& text)
 
 bool XmlIOStreamImp::ReadNodeAttribute(const CString& attrName, CString& attrValue)
 {
-	ASSERT(mpCurrentNode != NULL);
+	DATA_ASSERT(mpCurrentNode != NULL);
 	if(NULL == mpCurrentNode)
 		return false;
 
@@ -92,7 +92,7 @@ bool XmlIOStreamImp::ReadNodeAttribute(const CString& attrName, CString& attrVal
 
 bool XmlIOStreamImp::WriteNode(const CString& nodeName)
 {
-	ASSERT(!mbIsRead);
+	DATA_ASSERT(!mbIsRead);
 	if(mbIsRead)
 		return false;
 
@@ -108,7 +108,7 @@ bool XmlIOStreamImp::WriteNode(const CString& nodeName)
 		pNode = nodeWrapper.AppendNode(nodeName);
 	}
 
-	ASSERT(pNode != NULL);
+	DATA_ASSERT(pNode != NULL);
 	if(NULL == pNode)
 		return false;
 
@@ -119,11 +119,11 @@ bool XmlIOStreamImp::WriteNode(const CString& nodeName)
 
 bool XmlIOStreamImp::WriteNodeText(const CString& text)
 {
-	ASSERT(!mbIsRead);
+	DATA_ASSERT(!mbIsRead);
 	if(mbIsRead)
 		return false; // Can't write to the read stream.
 
-	ASSERT(mpCurrentNode != NULL);
+	DATA_ASSERT(mpCurrentNode != NULL);
 	if(NULL == mpCurrentNode)
 		return false;
 
@@ -135,11 +135,11 @@ bool XmlIOStreamImp::WriteNodeText(const CString& text)
 
 bool XmlIOStreamImp::WriteNodeAttribute(const CString& attrName, const CString& attrValue)
 {
-	ASSERT(!mbIsRead);
+	DATA_ASSERT(!mbIsRead);
 	if(mbIsRead)
 		return false; // Can't write to the read stream.
 
-	ASSERT(mpCurrentNode != NULL);
+	DATA_ASSERT(mpCurrentNode != NULL);
 	if(NULL == mpCurrentNode)
 		return false;
 
@@ -167,13 +167,13 @@ bool XmlIOStreamImp::WriteNodeAttribute(const CString& attrName, const CString& 
 bool XmlIOStreamImp::CloseNode()
 {
 	// Back to parent
-	ASSERT(mpCurrentNode != NULL);
+	DATA_ASSERT(mpCurrentNode != NULL);
 	if(NULL == mpCurrentNode)
 		return false;
 	CXmlNodeWrapper nodeWrapper(mpCurrentNode);
 	mpCurrentNode = nodeWrapper.Parent();
 
-	ASSERT(mpCurrentNode != NULL);
+	DATA_ASSERT(mpCurrentNode != NULL);
 
 	return true;
 }
@@ -196,10 +196,10 @@ unsigned int XmlIOStreamImp::GetDocVersion() const
 bool XmlIOStreamImp::Load(const CString& docName)
 {
 	BOOL bRet = mDocumentWrapper.Load(docName);
-	ASSERT(TRUE == bRet);
+	DATA_ASSERT(TRUE == bRet);
 
 	mpCurrentNode = mDocumentWrapper.AsNode();
-	ASSERT(mpCurrentNode != NULL);
+	DATA_ASSERT(mpCurrentNode != NULL);
 
 	return TRUE == bRet;
 }
@@ -223,14 +223,14 @@ bool XmlIOStreamImp::Save(const CString& docName)
 		</xsl:template>\n\
 		</xsl:stylesheet>");
 	BOOL bRet = xslt.LoadXML(strXslt);
-	ASSERT(TRUE == bRet);
+	DATA_ASSERT(TRUE == bRet);
 	if(FALSE == bRet)
 		return false;
 
 	mDocumentWrapper.Interface()->transformNodeToObject(xslt.Interface(),CComVariant(mDocumentWrapper.Interface()));
 
 	bRet = mDocumentWrapper.Save(docName);
-	ASSERT(TRUE == bRet);
+	DATA_ASSERT(TRUE == bRet);
 
 	return TRUE == bRet;
 }

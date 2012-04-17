@@ -49,7 +49,7 @@ VariableManagerImp::~VariableManagerImp(void)
 		 // Detect dead loop caused by the close loop reference. Such as (ExePath, %AppPath%/bin) (AppPath, %ExePath%/../)
 		 if(!sVariableManagerCloseLoopChecker.PushOngoingItem(varItem))
 		 {
-			 ASSERT(!_T("Error: Parameter evalation loop is detected"));
+			 DATA_ASSERT(!_T("Error: Parameter evalation loop is detected"));
 			 LogOut(_T("Error: Parameter evalation loop is detected=> "), COLOR_RED);
 			 LogOut(varItem, COLOR_RED);
 			 LogOut(_T("\n"), COLOR_RED);
@@ -185,7 +185,7 @@ VariableManager* VariableManagerImp::Self() const
 
 bool VariableManagerImp::XmlIn(XmlIOStream* pXmlIOStream)
 {
-	ASSERT(pXmlIOStream != NULL);
+	DATA_ASSERT(pXmlIOStream != NULL);
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, GlobalVariablesNode);
 		if(stack.IsSuccess())
@@ -196,11 +196,11 @@ bool VariableManagerImp::XmlIn(XmlIOStream* pXmlIOStream)
 
 bool VariableManagerImp::XmlOut(XmlIOStream* pXmlIOStream) const
 {
-	ASSERT(pXmlIOStream != NULL);	
+	DATA_ASSERT(pXmlIOStream != NULL);	
 
 	{
 		XmlIOStreamBeginNodeStack stack(pXmlIOStream, GlobalVariablesNode);
-		ASSERT(stack.IsSuccess());
+		DATA_ASSERT(stack.IsSuccess());
 		if(!stack.IsSuccess())
 			return false;
 		mUserParameterTable.XmlOut(pXmlIOStream);
