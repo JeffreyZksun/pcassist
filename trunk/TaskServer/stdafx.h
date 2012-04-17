@@ -16,6 +16,7 @@
 #include <atlstr.h>
 #include <sstream>
 
+#include <iostream>
 
 #include "BrainSystem.h"
 #include "CommonHeaders.h"
