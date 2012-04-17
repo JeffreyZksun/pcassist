@@ -9,7 +9,8 @@ namespace Ts
     class ComponetMutexs
     {
     public:
-        static boost::recursive_mutex& GetNetworkMutex();
+		static boost::recursive_mutex& GetNetworkMutex();
+        static boost::recursive_mutex& GetTaskManagerMutex();
     };
 
 }

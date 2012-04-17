@@ -14,7 +14,7 @@ TaskManager::TaskManager()
 TaskManager::~TaskManager()
 {
 
-};
+}
 
 TaskManager::pointer TaskManager::Create(ITaskSystem* pTaskSystem)					
 {											
@@ -29,6 +29,7 @@ void TaskManager::Start()
 {
 	m_pImp->Start();
 }
+
 void TaskManager::Stop()
 {
 	m_pImp->Stop();

@@ -18,7 +18,6 @@ Database::~Database()
 	delete m_pVariableManager;
 }
 
-
 BehaviorManager* Database::GetBehaviorManager() const
 {
 	return m_pBehaviorManager;

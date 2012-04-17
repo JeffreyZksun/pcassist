@@ -300,3 +300,15 @@ TEST(TaskManagerTest, PollOneConditionalTask)
 		}
 	}
 }
+
+
+TEST(TaskManagerTest, StartStop)
+{
+	ITaskSystemPtr pTaskSystem (new TaskSystem());
+	Ts::ITaskManagerPtr pTaskMgr = pTaskSystem->GetTaskManager();
+
+	{
+		pTaskMgr->Start();
+		pTaskMgr->Stop();
+	}
+}
