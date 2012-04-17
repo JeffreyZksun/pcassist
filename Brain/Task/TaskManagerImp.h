@@ -35,8 +35,8 @@ namespace Ts
 		size_t          PollOne(); // Execute at most one the ready task without block
 
 		bool			AddTask(ITaskPtr pTask);
-		bool			RemoveTask(WString taskName);
-		bool			HasPendingTask() const;
+		bool			RemoveTask(WString taskId);
+		size_t			PendingTaskCount() const;
 
 	private:
 		ITaskPtr		PopReadyTask();
@@ -54,9 +54,9 @@ namespace Ts
 		TaskMap						m_CachedPendingTaskMap; // Improve query performance.
 
 		bool						m_bStop;
-
 		boost::shared_ptr<boost::thread>	m_pAsioThread;
 		boost::asio::io_service				m_io_service;
 		boost::asio::deadline_timer			m_timer;
+
     };
 }

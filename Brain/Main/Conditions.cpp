@@ -198,4 +198,15 @@ BEHAVIORBODY_IMP(ActionResultCondition)
     return bRet;
 }
 
+// Do nothing just return true. For the test purpose.
+BEHAVIORBODY_IMP(TrueCondition)
+{	
+	return true;
+}
+
+// Do nothing just return false. For the test purpose.
+BEHAVIORBODY_IMP(FalseCondition)
+{	
+	return false;
+}
 

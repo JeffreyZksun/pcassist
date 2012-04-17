@@ -56,6 +56,11 @@ Database* TaskSystem::GetDatabase() const
 	return m_pDatabase;
 }
 
+Ts::ITaskManagerPtr TaskSystem::GetTaskManager() const
+{
+	return m_pTaskManager;
+}
+
 bool TaskSystem::XmlIn(const CString& docName) const
 {
 	DocumentManager* pDoc = new DocumentManager();

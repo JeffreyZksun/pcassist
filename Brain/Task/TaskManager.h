@@ -28,8 +28,8 @@ namespace Ts
 		virtual	size_t          PollOne(); // Execute at most one the ready task without block
 
 		virtual	bool			AddTask(ITaskPtr pTask);
-		virtual	bool			RemoveTask(WString taskName);
-		virtual	bool			HasPendingTask() const;
+		virtual	bool			RemoveTask(WString taskId);
+		virtual	size_t			PendingTaskCount() const;
 
 	private:
 		imp_pointer				m_pImp;

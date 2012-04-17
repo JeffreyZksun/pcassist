@@ -17,10 +17,10 @@ ConditionalTask::~ConditionalTask()
 
 }
 
-ConditionalTask::pointer ConditionalTask::Create(const WString& taskName, const WString& conditionName, const WString& decoratedTaskName)					
+ConditionalTask::pointer ConditionalTask::Create(const WString& taskId, const WString& conditionName, ITaskPtr pDecoratedTask)					
 {											
 	ConditionalTask::pointer pNewObj(new ConditionalTask());	
-	ConditionalTask::imp_pointer pImp(new ConditionalTaskImp(pNewObj, taskName, conditionName, decoratedTaskName));
+	ConditionalTask::imp_pointer pImp(new ConditionalTaskImp(pNewObj, taskId, conditionName, pDecoratedTask));
 	pNewObj->SetImp(pImp);
 
 	return pNewObj;							

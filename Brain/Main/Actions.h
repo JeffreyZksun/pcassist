@@ -15,3 +15,6 @@ BEHAVIORBODY_DEC(RunProcessAction)
 BEHAVIORBODY_DEC(ConditionBlockAction)
 BEHAVIORBODY_DEC(TaskListAction)
 BEHAVIORBODY_DEC(ConditionListCheckAction)
+BEHAVIORBODY_DEC(EmptyAction)
+
+// MUST DO: Don't forget to register the action to factory

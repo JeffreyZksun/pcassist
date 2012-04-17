@@ -14,7 +14,7 @@ namespace Ts
 
 	public:			
 		virtual ~ConditionalTask();
-		static pointer		Create(const WString& taskName, const WString& conditionName, const WString& decoratedTaskName);
+		static pointer		Create(const WString& taskId, const WString& conditionName, ITaskPtr pDecoratedTask);
 
 	public:
 

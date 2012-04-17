@@ -14,6 +14,6 @@ namespace Ts
 
 		virtual bool            IsReady(ITaskSystem* pTaskSystem) const = 0;
 		virtual bool            Execute(ITaskSystem* pTaskSystem) = 0;
-		virtual	const WString&	GetName() const = 0;
+		virtual	const WString&	GetId() const = 0;
     };
 }
