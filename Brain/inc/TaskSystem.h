@@ -14,6 +14,13 @@ class VariableManager;
 class IHostService;
 class IOSProvider;
 class Database;
+namespace Ts
+{
+	class ITaskManager;
+
+	typedef boost::shared_ptr<ITaskManager> ITaskManagerPtr;
+}
+
 
 class BRAINEXPORT TaskSystem : public ITaskSystem
 {
@@ -23,11 +30,12 @@ public:
 
 public:
 	// override ITaskSystem 
-	virtual BehaviorManager*			GetBehaviorManager() const;
+	virtual BehaviorManager*		GetBehaviorManager() const;
 	virtual BehaviorBodyFactory*	GetBehaviorBodyFactory() const;
 	virtual VariableManager*		GetVariableManager() const;
 	virtual IOSProvider*			GetOSProvider() const;
 	virtual Database*				GetDatabase() const;
+	virtual Ts::ITaskManagerPtr		GetTaskManager() const;
 
 public:
 	bool		XmlIn(const CString& docName) const;
@@ -40,7 +48,7 @@ private:
 	Database*				m_pDatabase;
 	BehaviorBodyFactory*	mpBehaviorBodyFactory;
 	IHostService*			mpHostService;
-
+	Ts::ITaskManagerPtr		m_pTaskManager;
 };
 
 #pragma warning( pop ) 

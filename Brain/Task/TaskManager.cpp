@@ -25,9 +25,9 @@ TaskManager::pointer TaskManager::Create(ITaskSystem* pTaskSystem)
 	return pNewObj;							
 }
 
-bool TaskManager::Start()
+void TaskManager::Start()
 {
-	return m_pImp->Start();
+	m_pImp->Start();
 }
 void TaskManager::Stop()
 {
@@ -37,4 +37,24 @@ void TaskManager::Stop()
 bool TaskManager::AddTask(ITaskPtr pTask)
 {
 	return m_pImp->AddTask(pTask);
+}
+
+size_t TaskManager::Poll()
+{
+	return m_pImp->Poll();
+}
+
+size_t TaskManager::PollOne()
+{
+	return m_pImp->PollOne();
+}
+
+bool TaskManager::RemoveTask(WString taskName)
+{
+	return m_pImp->RemoveTask(taskName);
+}
+
+bool TaskManager::HasPendingTask() const
+{
+	return m_pImp->HasPendingTask();
 }

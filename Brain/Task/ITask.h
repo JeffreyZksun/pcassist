@@ -6,6 +6,7 @@ class ITaskSystem;
 
 namespace Ts
 {
+
     class ITask : public boost::enable_shared_from_this<ITask>		
     {
     public:

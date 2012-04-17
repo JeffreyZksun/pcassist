@@ -6,14 +6,17 @@
 #include "HostService.h"
 #include "IBehaviorBuilder.h"
 #include "Database.h"
+#include "TaskManager.h"
 
 
 TaskSystem::TaskSystem()
 		: mpBehaviorBodyFactory(new BehaviorBodyFactory())
 		, mpHostService(new HostService()) // ToDo - This data should be set by client.
 		, m_pDatabase(NULL)
+		, m_pTaskManager()
 {
 	m_pDatabase = new Database(this); // IMPORTANT: This object must be constructed after mpHostService.
+	m_pTaskManager = Ts::TaskManager::Create(this);
 	Initialize();
 }
 

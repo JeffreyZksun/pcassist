@@ -2,10 +2,11 @@
 
 #include "ITaskManager.h"
 
+class ITaskSystem;
+
 namespace Ts
 {
 	class TaskManagerImp;
-	class ITaskSystem;
 
     class TaskManager : public ITaskManager	
     {
@@ -21,9 +22,14 @@ namespace Ts
 		TaskManager();
 
 	public:
-		virtual bool			Start();
+		virtual void			Start();
 		virtual void            Stop();
+		virtual	size_t          Poll(); // Execute all the ready tasks without block
+		virtual	size_t          PollOne(); // Execute at most one the ready task without block
+
 		virtual	bool			AddTask(ITaskPtr pTask);
+		virtual	bool			RemoveTask(WString taskName);
+		virtual	bool			HasPendingTask() const;
 
 	private:
 		imp_pointer				m_pImp;
