@@ -5,41 +5,44 @@
 using namespace Ts;
 
 
-CmdLineMgr::CmdLineMgr() : m_pImp(NULL)
+CmdLineMgr::CmdLineMgr()
 {
-    m_pImp = new CmdLineMgrImp(this);
 }
 
 CmdLineMgr::~CmdLineMgr()
 {
-    if(m_pImp != NULL)
-    {
-        delete m_pImp;
-        m_pImp = NULL;
-    }
 }
+
+CmdLineMgr::pointer CmdLineMgr::Create()
+{
+	CmdLineMgr::pointer pNewObj(new CmdLineMgr());
+	pNewObj->m_pImp.reset(new CmdLineMgrImp(pNewObj));
+
+	return pNewObj;
+}
+
 
 bool CmdLineMgr::Parse(int argc, const char* const argv[])
 {
     return m_pImp->Parse(argc, argv);
 }
 
-bool CmdLineMgr::Parse(NString optionString)
+bool CmdLineMgr::Parse(const NString& optionString)
 {
     return m_pImp->Parse(optionString);
 }
 
-bool CmdLineMgr::AddSupportedOption(CmdOption* pOption)
+bool CmdLineMgr::AddSupportedOption(CmdOptionPtr pOption)
 {
     return m_pImp->AddSupportedOption(pOption);
 }
 
-CmdOption* CmdLineMgr::GetRecognizedOptionByName(const NString& name) const
+CmdOptionPtr CmdLineMgr::GetRecognizedOptionByName(const NString& name) const
 {
     return m_pImp->GetRecognizedOptionByName(name);
 }
 
-CmdOption* CmdLineMgr::GetSupportedOptionByName(const NString& name) const
+CmdOptionPtr CmdLineMgr::GetSupportedOptionByName(const NString& name) const
 {
     return m_pImp->GetSupportedOptionByName(name);
 }

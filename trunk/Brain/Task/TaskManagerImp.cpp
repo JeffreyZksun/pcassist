@@ -203,8 +203,8 @@ void TaskManagerImp::handle_timer_expires(const boost::system::error_code& error
 	}
 	else
 	{
-		// Why error?
-		DATA_ASSERT(false);
+		// There is error when destruct the io_service.
+		//DATA_ASSERT(false);
 	}
 
 	if(!m_bStop)

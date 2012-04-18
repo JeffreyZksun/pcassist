@@ -4,11 +4,11 @@
 const WString& MessageResource::GetWelcomeMesage()
 {
 	static WString msg =	
-		_T("*********************************************\r\n")
-		_T("\r\n")
-		_T("     Weclome to Task Automation Server\r\n")
-		_T("\r\n")
-		_T("*********************************************\r\n");
+		_T("**********************************************\r\n")
+		_T("*                                            *\r\n")
+		_T("*     Weclome to Task Automation Server      *\r\n")
+		_T("*                                            *\r\n")
+		_T("**********************************************\r\n");
 	return msg;
 }
 
