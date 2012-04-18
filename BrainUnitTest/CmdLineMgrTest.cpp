@@ -8,45 +8,42 @@ using namespace Ts;
 // Add/get supported options
 TEST(CmdLineMgrTest, Test_BeforeParsing)
 {
-	Ts::CmdLineMgr cmdMgr;
+	Ts::CmdLineMgr::pointer pCmdMgr(Ts::CmdLineMgr::Create());
 
 	{
-		CmdOption* pOption = cmdMgr.GetSupportedOptionByName("file");
+		CmdOptionPtr pOption = pCmdMgr->GetSupportedOptionByName("file");
 		EXPECT_EQ(true, NULL == pOption);
 
-		const NString& strUnrec = cmdMgr.GetUnrecongnizedOption();
+		const NString& strUnrec = pCmdMgr->GetUnrecongnizedOption();
 		EXPECT_EQ("", strUnrec);
 	}
 
 	{
-		CmdOption* pOption = new CmdOption("help", "Display help message", CmdOption::eNoValue);
-		bool ok = cmdMgr.AddSupportedOption(pOption);
+		CmdOptionPtr pOption( new CmdOption("help", "Display help message", CmdOption::eNoValue));
+		bool ok = pCmdMgr->AddSupportedOption(pOption);
 		EXPECT_EQ(true, ok);
-		if(!ok)
-			delete pOption;
+
 
 		if(ok)
 		{
-			ok = cmdMgr.AddSupportedOption(pOption);
+			ok = pCmdMgr->AddSupportedOption(pOption);
 			EXPECT_EQ(false, ok); // Duplicated
 		}
 	}
 
 	{
-		CmdOption* pOption = new CmdOption("file", 'F', "file name");
-		bool ok = cmdMgr.AddSupportedOption(pOption);
-		if(!ok)
-			delete pOption;
+		CmdOptionPtr pOption(new CmdOption("file", 'F', "file name"));
+		bool ok = pCmdMgr->AddSupportedOption(pOption);
 
 		if(ok)
 		{
-			ok = cmdMgr.AddSupportedOption(pOption);
+			ok = pCmdMgr->AddSupportedOption(pOption);
 			EXPECT_EQ(false, ok); // Duplicated
 		}
 	}
 
 	{
-		CmdOption* pOption = cmdMgr.GetSupportedOptionByName("help");
+		CmdOptionPtr pOption = pCmdMgr->GetSupportedOptionByName("help");
 
 		EXPECT_EQ(true, pOption != NULL);
 
@@ -69,7 +66,7 @@ TEST(CmdLineMgrTest, Test_BeforeParsing)
 	}
 
 	{
-		CmdOption* pOption = cmdMgr.GetSupportedOptionByName("file");
+		CmdOptionPtr pOption = pCmdMgr->GetSupportedOptionByName("file");
 
 		EXPECT_EQ(true, pOption != NULL);
 		if(pOption != NULL)
@@ -90,7 +87,7 @@ TEST(CmdLineMgrTest, Test_BeforeParsing)
 		}
 	}
 	{
-		const bool bExist = cmdMgr.HasRecognizedOption();
+		const bool bExist = pCmdMgr->HasRecognizedOption();
 		EXPECT_EQ(false, bExist);
 	}
 }
@@ -101,29 +98,25 @@ TEST(CmdLineMgrTest, Test_AllValidOptions)
 	char* argv[] = {{"ExeName"}, {"-F"}, {"script.xml"}, {"--help"} };
 	int argc = 4;
 
-	Ts::CmdLineMgr cmdMgr;
+	Ts::CmdLineMgr::pointer pCmdMgr(Ts::CmdLineMgr::Create());
 	{
-		CmdOption* pOption = new CmdOption("help", "Display help message", CmdOption::eNoValue);
-		bool ok = cmdMgr.AddSupportedOption(pOption);
-		if(!ok)
-			delete pOption;
+		CmdOptionPtr pOption(new CmdOption("help", "Display help message", CmdOption::eNoValue));
+		bool ok = pCmdMgr->AddSupportedOption(pOption);
 	}
 
 	{
-		CmdOption* pOption = new CmdOption("file", 'F', "file name");
-		bool ok = cmdMgr.AddSupportedOption(pOption);
-		if(!ok)
-			delete pOption;
+		CmdOptionPtr pOption (new CmdOption("file", 'F', "file name"));
+		bool ok = pCmdMgr->AddSupportedOption(pOption);
 	}
 
-	bool ok = cmdMgr.Parse(argc, argv);
+	bool ok = pCmdMgr->Parse(argc, argv);
 	EXPECT_EQ(true, ok);
 
-	bool bHasUnrecognaizedOption = cmdMgr.HasUnrecognizedOption();
+	bool bHasUnrecognaizedOption = pCmdMgr->HasUnrecognizedOption();
 	EXPECT_EQ(false, bHasUnrecognaizedOption);
 
 	{
-		CmdOption* pOption = cmdMgr.GetRecognizedOptionByName("help");
+		CmdOptionPtr pOption = pCmdMgr->GetRecognizedOptionByName("help");
 
 		EXPECT_EQ(true, pOption != NULL);
 
@@ -146,7 +139,7 @@ TEST(CmdLineMgrTest, Test_AllValidOptions)
 	}
 
 	{
-		CmdOption* pOption = cmdMgr.GetRecognizedOptionByName("file");
+		CmdOptionPtr pOption = pCmdMgr->GetRecognizedOptionByName("file");
 
 		EXPECT_EQ(true, pOption != NULL);
 		if(pOption != NULL)
@@ -174,26 +167,24 @@ TEST(CmdLineMgrTest, Test_MixValidAndInvalidOptions)
 	char* argv[] = {{"ExeName"}, {"--Tags"}, {"tag1 tag2 tag3"}, {"--unrecognized"} , {"unknwon1 unknown2"}};
 	int argc = 5;
 
-	Ts::CmdLineMgr cmdMgr;
+	Ts::CmdLineMgr::pointer pCmdMgr(Ts::CmdLineMgr::Create());
 	{
-		CmdOption* pOption = new CmdOption("Tags", "Display tags", CmdOption::eString);
-		bool ok = cmdMgr.AddSupportedOption(pOption);
-		if(!ok)
-			delete pOption;
+		CmdOptionPtr pOption(new CmdOption("Tags", "Display tags", CmdOption::eString));
+		bool ok = pCmdMgr->AddSupportedOption(pOption);
 	}
 
-	bool ok = cmdMgr.Parse(argc, argv);
+	bool ok = pCmdMgr->Parse(argc, argv);
 	EXPECT_EQ(true, ok);
 
-	bool bHasUnrecognaizedOption = cmdMgr.HasUnrecognizedOption();
+	bool bHasUnrecognaizedOption = pCmdMgr->HasUnrecognizedOption();
 	EXPECT_EQ(true, bHasUnrecognaizedOption);
 
-	const NString& strUnrec = cmdMgr.GetUnrecongnizedOption();
+	const NString& strUnrec = pCmdMgr->GetUnrecongnizedOption();
 	const NString expected = "--unrecognized \"unknwon1 unknown2\"";
 	EXPECT_EQ(expected, strUnrec);
 
 	{
-		CmdOption* pOption = cmdMgr.GetRecognizedOptionByName("Tags");
+		CmdOptionPtr pOption = pCmdMgr->GetRecognizedOptionByName("Tags");
 
 		EXPECT_EQ(true, pOption != NULL);
 
@@ -213,29 +204,27 @@ TEST(CmdLineMgrTest, Test_AllValidStringOptions)
 {
 	NString strOptions = "-F script.xml --help";
 
-	Ts::CmdLineMgr cmdMgr;
+	Ts::CmdLineMgr::pointer pCmdMgr(Ts::CmdLineMgr::Create());
 	{
-		CmdOption* pOption = new CmdOption("help", "Display help message", CmdOption::eNoValue);
-		bool ok = cmdMgr.AddSupportedOption(pOption);
-		if(!ok)
-			delete pOption;
+		CmdOptionPtr pOption(new CmdOption("help", "Display help message", CmdOption::eNoValue));
+		bool ok = pCmdMgr->AddSupportedOption(pOption);
+
 	}
 
 	{
-		CmdOption* pOption = new CmdOption("file", 'F', "file name");
-		bool ok = cmdMgr.AddSupportedOption(pOption);
-		if(!ok)
-			delete pOption;
+		CmdOptionPtr pOption (new CmdOption("file", 'F', "file name"));
+		bool ok = pCmdMgr->AddSupportedOption(pOption);
+
 	}
 
-	bool ok = cmdMgr.Parse(strOptions);
+	bool ok = pCmdMgr->Parse(strOptions);
 	EXPECT_EQ(true, ok);
 
-	bool bHasUnrecognaizedOption = cmdMgr.HasUnrecognizedOption();
+	bool bHasUnrecognaizedOption = pCmdMgr->HasUnrecognizedOption();
 	EXPECT_EQ(false, bHasUnrecognaizedOption);
 
 	{
-		CmdOption* pOption = cmdMgr.GetRecognizedOptionByName("help");
+		CmdOptionPtr pOption = pCmdMgr->GetRecognizedOptionByName("help");
 
 		EXPECT_EQ(true, pOption != NULL);
 
@@ -258,7 +247,7 @@ TEST(CmdLineMgrTest, Test_AllValidStringOptions)
 	}
 
 	{
-		CmdOption* pOption = cmdMgr.GetRecognizedOptionByName("file");
+		CmdOptionPtr pOption = pCmdMgr->GetRecognizedOptionByName("file");
 
 		EXPECT_EQ(true, pOption != NULL);
 		if(pOption != NULL)
@@ -280,7 +269,7 @@ TEST(CmdLineMgrTest, Test_AllValidStringOptions)
 	}
 
 	{
-		const bool bExist = cmdMgr.HasRecognizedOption();
+		const bool bExist = pCmdMgr->HasRecognizedOption();
 		EXPECT_EQ(true, bExist);
 	}
 }
@@ -290,25 +279,21 @@ TEST(CmdLineMgrTest, Test_Description)
 {
 	NString strOptions = "-F script.xml --help";
 
-	Ts::CmdLineMgr cmdMgr;
+	Ts::CmdLineMgr::pointer pCmdMgr(Ts::CmdLineMgr::Create());
 	{
-		CmdOption* pOption = new CmdOption("help", "Display help message", CmdOption::eNoValue);
-		const bool ok = cmdMgr.AddSupportedOption(pOption);
-		if(!ok)
-			delete pOption;
+		CmdOptionPtr pOption (new CmdOption("help", "Display help message", CmdOption::eNoValue));
+		const bool ok = pCmdMgr->AddSupportedOption(pOption);
 	}
 
 	{
-		CmdOption* pOption = new CmdOption("file", 'F', "file name");
-		const bool ok = cmdMgr.AddSupportedOption(pOption);
-		if(!ok)
-			delete pOption;
+		CmdOptionPtr pOption(new CmdOption("file", 'F', "file name"));
+		const bool ok = pCmdMgr->AddSupportedOption(pOption);
 	}
 
-	const bool ok = cmdMgr.Parse(strOptions);
+	const bool ok = pCmdMgr->Parse(strOptions);
 	EXPECT_EQ(true, ok);
 
-	const NString options_Desc = cmdMgr.GetOptionDescription();
+	const NString options_Desc = pCmdMgr->GetOptionDescription();
 	const NString expectedStr = "Allowed options:\n  --help                Display help message\n  -F [ --file ] arg     file name\n";
 	EXPECT_EQ(expectedStr, options_Desc);
 }
@@ -318,24 +303,20 @@ TEST(CmdLineMgrTest, Test_UnrecognizedOptions)
 {
 	NString strOptions = "-T script.xml --help2";
 
-	Ts::CmdLineMgr cmdMgr;
+	Ts::CmdLineMgr::pointer pCmdMgr(Ts::CmdLineMgr::Create());
 	{
-		CmdOption* pOption = new CmdOption("help", "Display help message", CmdOption::eNoValue);
-		const bool ok = cmdMgr.AddSupportedOption(pOption);
-		if(!ok)
-			delete pOption;
+		CmdOptionPtr pOption(new CmdOption("help", "Display help message", CmdOption::eNoValue));
+		const bool ok = pCmdMgr->AddSupportedOption(pOption);
 	}
 
 	{
-		CmdOption* pOption = new CmdOption("file", 'F', "file name");
-		const bool ok = cmdMgr.AddSupportedOption(pOption);
-		if(!ok)
-			delete pOption;
+		CmdOptionPtr pOption(new CmdOption("file", 'F', "file name"));
+		const bool ok = pCmdMgr->AddSupportedOption(pOption);
 	}
 
-	const bool ok = cmdMgr.Parse(strOptions);
+	const bool ok = pCmdMgr->Parse(strOptions);
 	EXPECT_EQ(true, ok);
 
-	const bool bExist = cmdMgr.HasRecognizedOption();
+	const bool bExist = pCmdMgr->HasRecognizedOption();
 	EXPECT_EQ(false, bExist);
 }

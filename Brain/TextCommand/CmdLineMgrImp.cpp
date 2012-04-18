@@ -11,18 +11,13 @@ namespace po = boost::program_options;
 using namespace Ts;
 
 
-CmdLineMgrImp::CmdLineMgrImp(CmdLineMgr* pSelf) : m_pSelf(pSelf), m_SupportedOptionsList()
+CmdLineMgrImp::CmdLineMgrImp(CmdLineMgrBackPtr pSelf) : m_pSelf(pSelf), m_SupportedOptionsList()
 {
 
 }
 
 CmdLineMgrImp::~CmdLineMgrImp()
 {
-    for(CmdOptionList::iterator it = m_SupportedOptionsList.begin(); it != m_SupportedOptionsList.end(); ++it)
-    {
-        delete (*it);
-        *it = NULL;
-    }
     m_SupportedOptionsList.clear();
 
     RemovedRecognizedOptions();
@@ -36,7 +31,7 @@ bool CmdLineMgrImp::Parse(int argc, const char* const argv[])
     return Parse(options);
 }
 
-bool CmdLineMgrImp::Parse(NString optionString)
+bool CmdLineMgrImp::Parse(const NString& optionString)
 {
     std::vector<NString> options = po::split_unix(optionString);
     return Parse(options);
@@ -66,7 +61,7 @@ bool CmdLineMgrImp::Parse(const std::vector<NString>& options)
 
         for (po::variables_map::iterator it = vm.begin(); it != vm.end(); ++it)
         {
-            CmdOption * pCmdOption = GetSupportedOptionByName(it->first.c_str());
+            CmdOptionPtr pCmdOption = GetSupportedOptionByName(it->first.c_str());
 
             if(pCmdOption != NULL)
             {
@@ -109,7 +104,7 @@ bool CmdLineMgrImp::Parse(const std::vector<NString>& options)
     return true;
 }
 
-bool CmdLineMgrImp::AddSupportedOption(CmdOption* pOption)
+bool CmdLineMgrImp::AddSupportedOption(CmdOptionPtr pOption)
 {
     if(NULL == pOption)
         return false;
@@ -125,7 +120,7 @@ bool CmdLineMgrImp::AddSupportedOption(CmdOption* pOption)
     return true;
 }
 
-CmdOption* CmdLineMgrImp::GetRecognizedOptionByName(const NString& name) const
+CmdOptionPtr CmdLineMgrImp::GetRecognizedOptionByName(const NString& name) const
 {
     for(CmdOptionList::const_iterator it = m_RecognizedOptionsList.begin(); it != m_RecognizedOptionsList.end(); ++it)
     {
@@ -133,7 +128,7 @@ CmdOption* CmdLineMgrImp::GetRecognizedOptionByName(const NString& name) const
             return *it;
     } 
 
-    return NULL;
+    return CmdOptionPtr();
 }
 
 bool CmdLineMgrImp::HasRecognizedOption() const
@@ -151,7 +146,7 @@ void CmdLineMgrImp::RemovedRecognizedOptions()
     m_RecognizedOptionsList.clear();
 }
 
-CmdOption* CmdLineMgrImp::GetSupportedOptionByName(const NString& name) const
+CmdOptionPtr CmdLineMgrImp::GetSupportedOptionByName(const NString& name) const
 {
     for(CmdOptionList::const_iterator it = m_SupportedOptionsList.begin(); it != m_SupportedOptionsList.end(); ++it)
     {
@@ -159,7 +154,7 @@ CmdOption* CmdLineMgrImp::GetSupportedOptionByName(const NString& name) const
             return *it;
     } 
 
-    return NULL;
+    return CmdOptionPtr();
 }
 
 const NString& CmdLineMgrImp::GetUnrecongnizedOption() const

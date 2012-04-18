@@ -15,20 +15,22 @@ namespace Ts
 {
     class CmdLineMgr;
     class CmdOption;
+	typedef boost::shared_ptr<CmdOption>	CmdOptionPtr;
+	typedef boost::weak_ptr<CmdLineMgr>     CmdLineMgrBackPtr;
 
     class CmdLineMgrImp
     {
     public:
-        CmdLineMgrImp(CmdLineMgr* pSelf);
+		CmdLineMgrImp(CmdLineMgrBackPtr pSelf);
         ~CmdLineMgrImp();
 
     public:
         bool			Parse(int argc, const char* const argv[]);
-        bool			Parse(NString optionString);
-        bool			AddSupportedOption(CmdOption* pOption);
+        bool			Parse(const NString& optionString);
+        bool			AddSupportedOption(CmdOptionPtr pOption);
 
-        CmdOption*		GetRecognizedOptionByName(const NString& name) const;
-        CmdOption*		GetSupportedOptionByName(const NString& name) const;
+        CmdOptionPtr	GetRecognizedOptionByName(const NString& name) const;
+        CmdOptionPtr	GetSupportedOptionByName(const NString& name) const;
 
 		bool			HasRecognizedOption() const;
         bool			HasUnrecognizedOption() const ;
@@ -43,10 +45,10 @@ namespace Ts
 		void			PopulateOptionsDescription(boost::program_options::options_description& optionDesc) const;
 
     private:
-        typedef std::list<CmdOption*> CmdOptionList;
+        typedef std::list<CmdOptionPtr> CmdOptionList;
 
     private:
-        CmdLineMgr*     m_pSelf;
+        CmdLineMgrBackPtr m_pSelf;
 
         CmdOptionList   m_SupportedOptionsList;
         CmdOptionList   m_RecognizedOptionsList;
