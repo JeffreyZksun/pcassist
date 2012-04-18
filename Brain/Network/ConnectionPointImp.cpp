@@ -13,11 +13,7 @@
 #include <iostream>
 #include <boost/array.hpp>
 
-#include <codecvt>
-
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
+#include "StringUtil.h"
 
 
 using boost::asio::ip::tcp;
@@ -26,24 +22,6 @@ using namespace Ts;
 
 #define  MAX_MESSAGEQUE_LENGTH 10
 
-/************************************************************************/
-/*                                                                      */
-/************************************************************************/
-// http://stackoverflow.com/questions/6140223/c-boost-encode-decode-utf-8
-inline void decode_utf8(const std::string& bytes, std::wstring& wstr)
-{
-    std::wstring_convert<std::codecvt_utf8<wchar_t> > conv;
-    wstr = conv.from_bytes(bytes);
-}
-inline void encode_utf8(const std::wstring& wstr, std::string& bytes)
-{
-    std::wstring_convert<std::codecvt_utf8<wchar_t> > conv;
-    bytes = conv.to_bytes(wstr);
-}
-
-/************************************************************************/
-/*                                                                      */
-/************************************************************************/
 
 ConnectionPointImp::ConnectionPointImp(ConnectionPointBackPtr pSelf, boost::asio::io_service& io_service)
     : m_pSelf(pSelf),  m_socket(io_service), m_IsConnected(false)
@@ -212,7 +190,9 @@ void ConnectionPointImp::handle_read_line(const boost::system::error_code& error
                 strLine.push_back('\n'); // The '\n' is NOT returned. Append it. 
 
                 WString strData;
-                decode_utf8(strLine, strData);
+
+				StringUtil util;
+				util.decode_utf8(strLine, strData);
 
                 NetworkMessageEvent nwEvent(this->Self()->shared_from_this(), strData);
                 NotificationMgr::Get()->Fire(&nwEvent);
@@ -253,8 +233,8 @@ void ConnectionPointImp::do_async_write()
     {
         if(m_WriteMessageQueue.empty())
             return;
-
-        encode_utf8(m_WriteMessageQueue.front(), m_WrittingBuffer);
+		StringUtil util;
+        util.encode_utf8(m_WriteMessageQueue.front(), m_WrittingBuffer);
     }
 
     //m_WrittingBuffer.push_back('\r');
