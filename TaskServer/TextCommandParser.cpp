@@ -3,20 +3,6 @@
 
 #include "CmdOption.h"
 
-#define OPT_HELP ("help")
-
-// m_pProgramCmdLineMgr
-#define PRODUCT_VERSION _T("(v1.0)")
-#define OPT_PORT ("port") // Read FILE as the task schema.
-
-// m_pServerCmdLineMgr
-#define OPT_QUIT ("quit")
-#define OPT_USERS ("users")
-#define OPT_TASKS ("tasks")
-
-// m_pTaskCmdLineMgr
-#define OPT_VERSION ("version")
-#define OPT_NAME ("name")
 
 TextCommandParser::TextCommandParser()
 {
@@ -36,44 +22,44 @@ TextCommandParser::TextCommandParser()
 	m_pServerCmdLineMgr = Ts::CmdLineMgr::Create();
 	{
 		CmdOptionPtr pOption(new CmdOption(OPT_HELP, '?', "Display help message", CmdOption::eNoValue));
-		m_pProgramCmdLineMgr->AddSupportedOption(pOption);
+		m_pServerCmdLineMgr->AddSupportedOption(pOption);
 	}
 
 	{
 		CmdOptionPtr pOption(new CmdOption(OPT_QUIT, 'Q', "Quit server"));
-		m_pProgramCmdLineMgr->AddSupportedOption(pOption);
+		m_pServerCmdLineMgr->AddSupportedOption(pOption);
 	}
 
 	{
 		CmdOptionPtr pOption(new CmdOption(OPT_USERS, 'U', "List the connected users"));
-		m_pProgramCmdLineMgr->AddSupportedOption(pOption);
+		m_pServerCmdLineMgr->AddSupportedOption(pOption);
 	}
 
 	{
 		CmdOptionPtr pOption(new CmdOption(OPT_USERS, 'T', "List the pending tasks"));
-		m_pProgramCmdLineMgr->AddSupportedOption(pOption);
+		m_pServerCmdLineMgr->AddSupportedOption(pOption);
 	}
 
 	// m_pTaskCmdLineMgr
 	m_pTaskCmdLineMgr = Ts::CmdLineMgr::Create();
 	{
 		CmdOptionPtr pOption(new CmdOption(OPT_HELP, '?', "Display help message", CmdOption::eNoValue));
-		m_pProgramCmdLineMgr->AddSupportedOption(pOption);
+		m_pTaskCmdLineMgr->AddSupportedOption(pOption);
 	}
 
 	{
 		CmdOptionPtr pOption(new CmdOption(OPT_QUIT, 'Q', "Quit server"));
-		m_pProgramCmdLineMgr->AddSupportedOption(pOption);
+		m_pTaskCmdLineMgr->AddSupportedOption(pOption);
 	}
 
 	{
 		CmdOptionPtr pOption(new CmdOption(OPT_VERSION, 'V', "Version"));
-		m_pProgramCmdLineMgr->AddSupportedOption(pOption);
+		m_pTaskCmdLineMgr->AddSupportedOption(pOption);
 	}
 
 	{
 		CmdOptionPtr pOption(new CmdOption(OPT_NAME, 'N', "3p name for x86"));
-		m_pProgramCmdLineMgr->AddSupportedOption(pOption);
+		m_pTaskCmdLineMgr->AddSupportedOption(pOption);
 	}
 }
 

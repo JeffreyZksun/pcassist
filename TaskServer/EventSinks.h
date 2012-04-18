@@ -24,7 +24,7 @@ private:
 class ConnectionMonitorSink : public NetworkConnectionEventSink
 {
 public:
-	ConnectionMonitorSink();
+	ConnectionMonitorSink(TextCommandParser* pCmdLinePaser);
 	~ConnectionMonitorSink();
 
 public:
@@ -33,4 +33,6 @@ public:
 
 private:
 	DefaultFilter                   m_Filter;
+
+	TextCommandParser* m_pCmdLinePaser;
 };
