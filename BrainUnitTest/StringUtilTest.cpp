@@ -22,3 +22,14 @@ TEST(StringUtilTest, EncodeDecode)
 	EXPECT_EQ(wstr, decode_wstr);
 	EXPECT_EQ(str, encode_str);
 }
+
+TEST(StringUtilTest, Conversion)
+{
+	CString cstr =						L"abc~!@#$%^&*()_+123456789";
+	std::wstring expected_wstr =		L"abc~!@#$%^&*()_+123456789";
+
+	StringUtil util;
+	std::wstring converted_wstr = util.convert_to_wstring(cstr);
+
+	EXPECT_EQ(expected_wstr, converted_wstr);
+}

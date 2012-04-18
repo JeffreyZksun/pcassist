@@ -26,3 +26,8 @@ void StringUtil::encode_utf8(const std::wstring& wstr, std::string& bytes)
 	std::wstring_convert<std::codecvt_utf8<wchar_t> > conv;
 	bytes = conv.to_bytes(wstr);
 }
+
+std::wstring StringUtil::convert_to_wstring(const CString& str)
+{
+	return std::wstring(str);
+}

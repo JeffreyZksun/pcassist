@@ -316,7 +316,8 @@ BEHAVIORBODY_IMP(TaskListAction)
         else
         {
             LogOut(_T("Error: The action ["), COLOR_RED); 
-            LogOut(*it, COLOR_RED); 
+			Ts::StringUtil util;
+			LogOut(util.convert_to_wstring(*it), COLOR_RED); 
             LogOut(_T("] isn't registered.\n"), COLOR_RED); 
             bRet = false;
         }
@@ -374,7 +375,8 @@ BEHAVIORBODY_IMP(ConditionListCheckAction)
         else
         {
             LogOut(_T("Error: The Condition ["), COLOR_RED); 
-            LogOut(*it, COLOR_RED); 
+			Ts::StringUtil util;
+            LogOut(util.convert_to_wstring(*it), COLOR_RED); 
             LogOut(_T("] isn't registered.\n"), COLOR_RED); 
             bRet = false;
         }

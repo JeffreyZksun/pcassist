@@ -62,7 +62,8 @@ bool ImmediateTaskImp::OnExecute(ITaskSystem* pTaskSystem)
 	LogOut(_T(" Task Begin."));
 	CString strStartTime = _T(" (12:14:34)"); 
 	strStartTime.Format(_T(" (%d:%d:%d)"), taskBeginTime.GetHour(), taskBeginTime.GetMinute(), taskBeginTime.GetSecond());
-	LogOut(strStartTime);
+	Ts::StringUtil util;
+	LogOut(util.convert_to_wstring(strStartTime));
 	LogOut(_T("\n")); 
 
 	bool bRet = true;
@@ -97,7 +98,7 @@ bool ImmediateTaskImp::OnExecute(ITaskSystem* pTaskSystem)
 		LogOut(_T("[----------]"), COLOR_GREEN); // 10 chars
 		CString actionDuration = _T(" (10 s)"); 
 		actionDuration.Format(_T(" (%d s)"), elapsedTime.GetTotalSeconds());
-		LogOut(actionDuration);
+		LogOut(util.convert_to_wstring(actionDuration));
 		LogOut(_T("\n\n")); 
 
 		// Check the BreakOnFail.
@@ -110,7 +111,7 @@ bool ImmediateTaskImp::OnExecute(ITaskSystem* pTaskSystem)
 				if( para.GetEvaluatedValue(pTaskSystem->GetVariableManager()).CompareNoCase(_T("true")) == 0)
 				{
 					LogOut(_T("ERROR: Break the task due to the failed action ["), COLOR_RED); 
-					LogOut((*it).data(), COLOR_RED); 
+					LogOut((*it), COLOR_RED); 
 					LogOut(_T("] \n\n"), COLOR_RED); 
 					break;
 				}
@@ -128,26 +129,26 @@ bool ImmediateTaskImp::OnExecute(ITaskSystem* pTaskSystem)
 	CString taskDuration = _T(" (3620 s)");
 	CTimeSpan elapsedTime = CTime::GetCurrentTime() - taskBeginTime;
 	taskDuration.Format(_T(" (%d s)"), elapsedTime.GetTotalSeconds());
-	LogOut(taskDuration);
+	LogOut(util.convert_to_wstring(taskDuration));
 	LogOut(_T("\n")); 
 
 	// Total
 	LogOut(_T("[ TOTAL    ]")); // 10 chars
 	CString strNum;
 	strNum.Format(_T(" %d actions\n"), m_ActionList.size());
-	LogOut(strNum);
+	LogOut(util.convert_to_wstring(strNum));
 
 	// Success
 	LogOut(_T("[ SUCCESS  ]"), COLOR_GREEN); // 10 chars
 	strNum.Format(_T(" %d actions\n"), succNum);
-	LogOut(strNum);
+	LogOut(util.convert_to_wstring(strNum));
 
 	// Fail
 	if(!bRet)
 	{
 		LogOut(_T("[  FAIL    ]"), COLOR_RED); // 10 chars
 		strNum.Format(_T(" %d actions\n"), failNum);
-		LogOut(strNum);
+		LogOut(util.convert_to_wstring(strNum));
 	}
 
 	return bRet;

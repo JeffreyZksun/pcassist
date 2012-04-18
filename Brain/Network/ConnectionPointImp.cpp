@@ -191,7 +191,7 @@ void ConnectionPointImp::handle_read_line(const boost::system::error_code& error
 
                 WString strData;
 
-				StringUtil util;
+				Ts::StringUtil util;
 				util.decode_utf8(strLine, strData);
 
                 NetworkMessageEvent nwEvent(this->Self()->shared_from_this(), strData);
@@ -233,7 +233,7 @@ void ConnectionPointImp::do_async_write()
     {
         if(m_WriteMessageQueue.empty())
             return;
-		StringUtil util;
+		Ts::StringUtil util;
         util.encode_utf8(m_WriteMessageQueue.front(), m_WrittingBuffer);
     }
 

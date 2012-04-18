@@ -51,7 +51,7 @@ VariableManagerImp::~VariableManagerImp(void)
 		 {
 			 DATA_ASSERT(!_T("Error: Parameter evalation loop is detected"));
 			 LogOut(_T("Error: Parameter evalation loop is detected=> "), COLOR_RED);
-			 LogOut(varItem, COLOR_RED);
+			 LogOut(WString(varItem), COLOR_RED);
 			 LogOut(_T("\n"), COLOR_RED);
 
 			// Return empty string. Can't return para.GetRawValue() here,

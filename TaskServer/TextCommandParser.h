@@ -9,7 +9,10 @@ public:
 	TextCommandParser();
 
 public:
-	bool		ParseProgramOptions(int argc, const char* const argv[], unsigned short & portNumber);
+	bool						ParseProgramOptions(int argc, const char* const argv[], unsigned short & portNumber);
+	Ts::CmdLineMgr::pointer		GetProgramCmdLineMgr() const;
+	Ts::CmdLineMgr::pointer		GetServerCmdLineMgr() const;
+	Ts::CmdLineMgr::pointer		GetTaskCmdLineMgr() const;
 
 private:
 	void		PrintProgramHelp();

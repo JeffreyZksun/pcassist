@@ -15,6 +15,7 @@ typedef std::string     NString; // Narrow string
 #include "ParameterTable.h"
 #include "Logger.h"
 #include "NotificationMgr.h"
+#include "StringUtil.h"
 
 class ITaskSystem;
 class Condition;

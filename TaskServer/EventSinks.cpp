@@ -7,7 +7,7 @@
 #include "ITaskSystem.h"
 #include "MessageResource.h"
 
-RemoteMessageSink::RemoteMessageSink(ITaskSystem* pTaskSystem): m_pTaskSystem(pTaskSystem)
+RemoteMessageSink::RemoteMessageSink(ITaskSystem* pTaskSystem, TextCommandParser* pCmdLinePaser): m_pTaskSystem(pTaskSystem), m_pCmdLinePaser(pCmdLinePaser)
 {
 	NotificationMgr::Get()->Subscribe(NetworkEventSource::Get(), this, &m_Filter);
 }
@@ -24,7 +24,7 @@ void RemoteMessageSink::OnMessageReceived(NetworkMessageEvent* pEvent)
 
 	WString taskData = pEvent->GetMessage();
 
-	LogOut(taskData.data());
+	LogOut(taskData);
 
 	if(IConnectionPointPtr pCP = pEvent->GetConnectionPoint())
 	{

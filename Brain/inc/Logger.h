@@ -8,7 +8,8 @@ enum TextColor {
 };
 
 
-void LogOut(const CString& message, TextColor color = COLOR_DEFAULT);
+//void LogOut(const CString& message, TextColor color = COLOR_DEFAULT);
+void LogOut(const WString& message, TextColor color = COLOR_DEFAULT);
 
 class Logger
 {
