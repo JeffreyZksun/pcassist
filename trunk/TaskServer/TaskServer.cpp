@@ -45,7 +45,7 @@ int main(int argc, const char* const argv[])
 	}
 
 	// Subscribe the event
-	RemoteMessageSink msgSink (&taskSystem);
+	RemoteMessageSink msgSink (&taskSystem, &cmdParser);
 	ConnectionMonitorSink monitorSink;
 
 	// Start the network server

@@ -161,7 +161,8 @@ bool BehaviorManager::RunTasks()
 	LogOut(_T(" Task Begin."));
 	CString strStartTime = _T(" (12:14:34)"); 
 	strStartTime.Format(_T(" (%d:%d:%d)"), taskBeginTime.GetHour(), taskBeginTime.GetMinute(), taskBeginTime.GetSecond());
-	LogOut(strStartTime);
+	Ts::StringUtil util;
+	LogOut(util.convert_to_wstring(strStartTime));
 	LogOut(_T("\n")); 
 
 	bool bRet = true;
@@ -181,7 +182,8 @@ bool BehaviorManager::RunTasks()
 		else
 		{
 			LogOut(_T("Error: The action ["), COLOR_RED); 
-			LogOut(*it, COLOR_RED); 
+			Ts::StringUtil util;
+			LogOut(util.convert_to_wstring(*it), COLOR_RED); 
 			LogOut(_T("] isn't registered.\n"), COLOR_RED); 
 			bRet = false;
 		}
@@ -196,7 +198,8 @@ bool BehaviorManager::RunTasks()
 		LogOut(_T("[----------]"), COLOR_GREEN); // 10 chars
 		CString actionDuration = _T(" (10 s)"); 
 		actionDuration.Format(_T(" (%d s)"), elapsedTime.GetTotalSeconds());
-		LogOut(actionDuration);
+		Ts::StringUtil util;
+		LogOut(util.convert_to_wstring(actionDuration));
 		LogOut(_T("\n\n")); 
 
         // Check the BreakOnFail.
@@ -209,7 +212,7 @@ bool BehaviorManager::RunTasks()
                 if( para.GetEvaluatedValue(mpTaskSystem->GetVariableManager()).CompareNoCase(_T("true")) == 0)
                 {
                     LogOut(_T("ERROR: Break the task due to the failed action ["), COLOR_RED); 
-                    LogOut(*it, COLOR_RED); 
+					LogOut(util.convert_to_wstring(*it), COLOR_RED); 
                     LogOut(_T("] \n\n"), COLOR_RED); 
                     break;
                 }
@@ -227,26 +230,26 @@ bool BehaviorManager::RunTasks()
 	CString taskDuration = _T(" (3620 s)");
 	CTimeSpan elapsedTime = CTime::GetCurrentTime() - taskBeginTime;
 	taskDuration.Format(_T(" (%d s)"), elapsedTime.GetTotalSeconds());
-	LogOut(taskDuration);
+	LogOut(util.convert_to_wstring(taskDuration));
 	LogOut(_T("\n")); 
 
     // Total
     LogOut(_T("[ TOTAL    ]")); // 10 chars
     CString strNum;
     strNum.Format(_T(" %d actions\n"), mTaskList.size());
-    LogOut(strNum);
+    LogOut(util.convert_to_wstring(strNum));
 
     // Success
 	LogOut(_T("[ SUCCESS  ]"), COLOR_GREEN); // 10 chars
 	strNum.Format(_T(" %d actions\n"), succNum);
-	LogOut(strNum);
+	LogOut(util.convert_to_wstring(strNum));
 
     // Fail
 	if(!bRet)
 	{
 		LogOut(_T("[  FAIL    ]"), COLOR_RED); // 10 chars
 		strNum.Format(_T(" %d actions\n"), failNum);
-		LogOut(strNum);
+		LogOut(util.convert_to_wstring(strNum));
 	}
 
     return bRet;
@@ -602,18 +605,18 @@ bool BehaviorNode::ExecuteBehavior()
 	//			...
 	//	[      TRUE]
 	//	[     FALSE]
-
+	Ts::StringUtil util;
 	if(true == mbIsExecuting)
 	{
 		DATA_ASSERT(!_T("Error: Behavior execution loop is detected"));
 		LogOut(_T("Error: Behavior execution loop is detected=> "), COLOR_RED);
-		LogOut(GetObjectId(), COLOR_RED);
+		LogOut(util.convert_to_wstring(GetObjectId()), COLOR_RED);
 		LogOut(_T("\n"), COLOR_RED);
 		return false;
 	}
 
 	mbIsExecuting = true;
-	LogOut(_T(" [")); LogOut(GetObjectType()); LogOut(_T("] - ")); LogOut(GetObjectId()); LogOut(_T("\n"));
+	LogOut(_T(" [")); LogOut(util.convert_to_wstring(GetObjectType())); LogOut(_T("] - ")); LogOut(util.convert_to_wstring(GetObjectId())); LogOut(_T("\n"));
 	if(Logger::Get()->DoesOuputParameter())
 	{
 		for (unsigned int i = 0; i < mParameterTable.GetParameterLength(); i++)
@@ -628,7 +631,7 @@ bool BehaviorNode::ExecuteBehavior()
 				continue;
 
 			// 12 + 1 empty chars
-			LogOut(_T("             ")); LogOut(para.GetName()); LogOut(_T("=")); LogOut(para.GetEvaluatedValue(mpBehaviorManager->GetTaskSystem()->GetVariableManager())); LogOut(_T("\n"));
+			LogOut(_T("             ")); LogOut(util.convert_to_wstring(para.GetName())); LogOut(_T("=")); LogOut(util.convert_to_wstring(para.GetEvaluatedValue(mpBehaviorManager->GetTaskSystem()->GetVariableManager()))); LogOut(_T("\n"));
 		}
 	}
 

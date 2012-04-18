@@ -4,11 +4,12 @@
 #include "EventFilters.h"
 
 class ITaskSystem;
+class TextCommandParser;
 
 class RemoteMessageSink: public NetworkMessageEventSink
 {
 public:
-	RemoteMessageSink(ITaskSystem* pTaskSystem);
+	RemoteMessageSink(ITaskSystem* pTaskSystem, TextCommandParser* pCmdLinePaser);
 	~RemoteMessageSink();
 
 	virtual void OnMessageReceived(NetworkMessageEvent* pEvent);
@@ -16,6 +17,8 @@ public:
 private:
 	ITaskSystem*	m_pTaskSystem;
 	NetworkMessageEventFilter m_Filter;
+
+	TextCommandParser* m_pCmdLinePaser;
 };
 
 class ConnectionMonitorSink : public NetworkConnectionEventSink
