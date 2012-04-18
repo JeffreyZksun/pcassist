@@ -46,7 +46,7 @@ int main(int argc, const char* const argv[])
 
 	// Subscribe the event
 	RemoteMessageSink msgSink (&taskSystem, &cmdParser);
-	ConnectionMonitorSink monitorSink;
+	ConnectionMonitorSink monitorSink(&cmdParser);
 
 	// Start the network server
 	TCPServerPtr pServer = TCPServer::Create(portNumber);

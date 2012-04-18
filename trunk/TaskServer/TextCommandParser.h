@@ -3,6 +3,22 @@
 #include "CmdLineMgr.h"
 
 
+#define OPT_HELP ("help")
+
+// m_pProgramCmdLineMgr
+#define PRODUCT_VERSION _T("(v1.0)")
+#define OPT_PORT ("port") // Read FILE as the task schema.
+
+// m_pServerCmdLineMgr
+#define OPT_QUIT ("quit")
+#define OPT_USERS ("users")
+#define OPT_TASKS ("tasks")
+
+// m_pTaskCmdLineMgr
+#define OPT_VERSION ("version")
+#define OPT_NAME ("name")
+
+
 class TextCommandParser
 {
 public:
