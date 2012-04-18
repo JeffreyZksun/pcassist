@@ -18,8 +18,9 @@ namespace Ts
 	public:														
 		ImmediateTaskImp(owner_pointer pSelf, const WString& taskId);							
 
-	public:
-		virtual bool            Execute(ITaskSystem* pTaskSystem);
+
+	protected:
+		virtual bool            OnExecute(ITaskSystem* pTaskSystem);
 
 	public:
 		void					AppendAction(const WString& actionId);

@@ -93,6 +93,7 @@
     <ClInclude Include="Base\ClassSourceMacros.h" />
     <ClInclude Include="Base\CommonHeaders.h" />
     <ClInclude Include="Base\Diagnostics.h" />
+    <ClInclude Include="Base\StringUtil.h" />
     <ClInclude Include="Behavior\BehaviorBodyFactory.h" />
     <ClInclude Include="Behavior\ExecutionContext.h" />
     <ClInclude Include="Behavior\IBehaviorBody.h" />
@@ -168,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base\Diagnostics.cpp" />
+    <ClCompile Include="Base\StringUtil.cpp" />
     <ClCompile Include="Behavior\BehaviorBodyFactory.cpp" />
     <ClCompile Include="Behavior\ExecutionContext.cpp" />
     <ClCompile Include="DataModel\Database.cpp" />

@@ -15,7 +15,7 @@ ImmediateTaskImp::ImmediateTaskImp(owner_pointer pSelf, const WString& taskId)
 {											
 }											
 
-bool ImmediateTaskImp::Execute(ITaskSystem* pTaskSystem)
+bool ImmediateTaskImp::OnExecute(ITaskSystem* pTaskSystem)
 {
 	if(NULL == pTaskSystem)
 		return false;

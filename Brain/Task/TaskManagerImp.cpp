@@ -67,39 +67,27 @@ size_t TaskManagerImp::PollOne()
 	return count;
 }
 
-
-bool TaskManagerImp::AddTask(ITaskPtr pTask)
+bool TaskManagerImp::AddTask(const WString& taskId)
 {
-	if(!pTask.get())
-		return false;
-
 	RECURSIVE_LOCK_GUARD(ComponetMutexs::GetTaskManagerMutex());
 
-	TaskMap::iterator itMap = m_CachedPendingTaskMap.find(pTask->GetId());
-	if(itMap != m_CachedPendingTaskMap.end())
-	{
-		return false; //Avoid duplicated name.
-	}
-
-	// Append task
-	m_PendingTaskList.push_back(pTask);
-	m_CachedPendingTaskMap.insert(TaskMap::value_type(pTask->GetId(), pTask));
+	m_PendingTaskList.push_back(taskId);
 
 	return true;
 }
 
-bool TaskManagerImp::RemoveTask(WString taskId)
+bool TaskManagerImp::RemoveTask(const WString& taskId)
 {
 	RECURSIVE_LOCK_GUARD(ComponetMutexs::GetTaskManagerMutex());
 
-	TaskMap::iterator itMap = m_CachedPendingTaskMap.find(taskId);
-	if(m_CachedPendingTaskMap.end() == itMap)
+	// Remove all the tasks with the same id.
+	TaskIdList::iterator it = std::find(m_PendingTaskList.begin(), m_PendingTaskList.end(), taskId);
+	while(m_PendingTaskList.end() != it) // exist
 	{
-		return false; // No task found.
+		m_PendingTaskList.erase(it);
+		it = std::find(m_PendingTaskList.begin(), m_PendingTaskList.end(), taskId);
 	}
 
-	m_PendingTaskList.remove(itMap->second);
-	m_CachedPendingTaskMap.erase(itMap);
 	return true;
 }
 
@@ -108,19 +96,84 @@ size_t TaskManagerImp::PendingTaskCount() const
 	return m_PendingTaskList.size();
 }
 
+bool TaskManagerImp::RegisterTask(ITaskPtr pTask)
+{
+	if(NULL == pTask)
+		return false;
+
+	RECURSIVE_LOCK_GUARD(ComponetMutexs::GetTaskManagerMutex());
+
+	TaskMap::iterator itMap = m_CachedRegisteredTaskMap.find(pTask->GetObjectId());
+	if(itMap != m_CachedRegisteredTaskMap.end())
+	{
+		return false; //Avoid duplicated name.
+	}
+
+	// Append task
+	m_RegisteredTaskList.push_back(pTask);
+	m_CachedRegisteredTaskMap.insert(TaskMap::value_type(pTask->GetObjectId(), pTask));
+
+	return true;
+}
+bool TaskManagerImp::UnregisterTask(ITaskPtr pTask)
+{
+	if(NULL == pTask)
+		return false;
+
+	RECURSIVE_LOCK_GUARD(ComponetMutexs::GetTaskManagerMutex());
+
+	TaskMap::iterator itMap = m_CachedRegisteredTaskMap.find(pTask->GetObjectId());
+	if(m_CachedRegisteredTaskMap.end() == itMap)
+	{
+		return false; // No task found.
+	}
+
+	m_RegisteredTaskList.remove(itMap->second);
+	m_CachedRegisteredTaskMap.erase(itMap);
+	return true;
+}
+
+size_t TaskManagerImp::RegisteredTaskCount() const
+{
+	return m_RegisteredTaskList.size();
+}
+
+ITaskPtr TaskManagerImp::GetTaskById(const WString& taskId) const
+{
+	ITaskPtr pTask;
+	RECURSIVE_LOCK_GUARD(ComponetMutexs::GetTaskManagerMutex());
+	TaskMap::const_iterator itMap = m_CachedRegisteredTaskMap.find(taskId);
+	if(itMap != m_CachedRegisteredTaskMap.end())
+		pTask = itMap->second;
+
+	return pTask;
+}
+
 ITaskPtr TaskManagerImp::PopReadyTask()
 {
-
 	ITaskPtr pReadyTask;
 	RECURSIVE_LOCK_GUARD(ComponetMutexs::GetTaskManagerMutex());
 
-	for(TaskList::iterator it = m_PendingTaskList.begin(); it != m_PendingTaskList.end(); ++it)
+	for(TaskIdList::iterator it = m_PendingTaskList.begin(); it != m_PendingTaskList.end();)
 	{
-		if((*it)->IsReady(m_pTaskSystem))
+		ITaskPtr ptask = GetTaskById(*it);
+
+		if(!ptask) // No task found.
 		{
-			pReadyTask = (*it);
-			RemoveTask(pReadyTask->GetId());
-			break;
+			// Remove it from pending list
+			it = m_PendingTaskList.erase(it);
+		}
+		else
+		{
+			if(ptask->IsReady(m_pTaskSystem))
+			{
+				pReadyTask = ptask;
+
+				m_PendingTaskList.erase(it);
+				break;
+			}
+			else
+				++it; // check the next one.
 		}
 	}
 
@@ -150,8 +203,8 @@ void TaskManagerImp::handle_timer_expires(const boost::system::error_code& error
 	}
 	else
 	{
-		// Assert
 		// Why error?
+		DATA_ASSERT(false);
 	}
 
 	if(!m_bStop)

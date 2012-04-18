@@ -282,6 +282,9 @@
     <ClInclude Include="Behavior\IBehaviorBuilder.h">
       <Filter>Framework\Behavior</Filter>
     </ClInclude>
+    <ClInclude Include="Base\StringUtil.h">
+      <Filter>Framework\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Actions.cpp">
@@ -433,6 +436,9 @@
     </ClCompile>
     <ClCompile Include="Behavior\ExecutionContext.cpp">
       <Filter>Framework\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\StringUtil.cpp">
+      <Filter>Framework\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

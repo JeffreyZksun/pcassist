@@ -21,6 +21,7 @@ namespace Ts
 		typedef boost::weak_ptr<TaskManager>		owner_weak_pointer;	
 		typedef std::list<ITaskPtr>					TaskList;
 		typedef std::map<WString, ITaskPtr>			TaskMap;
+		typedef std::list<WString>					TaskIdList;
 
 	public:														
 		TaskManagerImp(owner_pointer pSelf, ITaskSystem* pTaskSystem);							
@@ -34,9 +35,15 @@ namespace Ts
 		size_t          Poll(); // Execute all the ready tasks without block
 		size_t          PollOne(); // Execute at most one the ready task without block
 
-		bool			AddTask(ITaskPtr pTask);
-		bool			RemoveTask(WString taskId);
+		bool			AddTask(const WString& taskId);
+		bool			RemoveTask(const WString& taskId);
 		size_t			PendingTaskCount() const;
+
+		bool			RegisterTask(ITaskPtr pTask);
+		bool			UnregisterTask(ITaskPtr pTask);
+		size_t			RegisteredTaskCount() const;
+
+		ITaskPtr		GetTaskById(const WString& taskId) const;
 
 	private:
 		ITaskPtr		PopReadyTask();
@@ -50,8 +57,11 @@ namespace Ts
 
 		ITaskSystem*				m_pTaskSystem;
 
-		TaskList					m_PendingTaskList;
-		TaskMap						m_CachedPendingTaskMap; // Improve query performance.
+		TaskList					m_RegisteredTaskList;
+		TaskMap						m_CachedRegisteredTaskMap; // Improve query performance.
+
+
+		TaskIdList					m_PendingTaskList;
 
 		bool						m_bStop;
 		boost::shared_ptr<boost::thread>	m_pAsioThread;

@@ -56,6 +56,9 @@
 // For ConditionListCheckAction, TaskListAction
 #define ID_LIST _T("IdList")
 
+// For COnditional task
+#define DECORATED_TASK_ID _T("DecoratedTaskId")
+
 // For register
 #define ROOT_KEY _T("RootKey")
 #define SUB_KEY _T("SubKey")

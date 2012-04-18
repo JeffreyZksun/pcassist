@@ -35,11 +35,6 @@ void TaskManager::Stop()
 	m_pImp->Stop();
 }
 
-bool TaskManager::AddTask(ITaskPtr pTask)
-{
-	return m_pImp->AddTask(pTask);
-}
-
 size_t TaskManager::Poll()
 {
 	return m_pImp->Poll();
@@ -50,7 +45,12 @@ size_t TaskManager::PollOne()
 	return m_pImp->PollOne();
 }
 
-bool TaskManager::RemoveTask(WString taskId)
+bool TaskManager::AddTask(const WString& taskId)
+{
+	return m_pImp->AddTask(taskId);
+}
+
+bool TaskManager::RemoveTask(const WString& taskId)
 {
 	return m_pImp->RemoveTask(taskId);
 }
@@ -58,4 +58,24 @@ bool TaskManager::RemoveTask(WString taskId)
 size_t TaskManager::PendingTaskCount() const
 {
 	return m_pImp->PendingTaskCount();
+}
+
+bool TaskManager::RegisterTask(ITaskPtr pTask)
+{
+	return m_pImp->RegisterTask(pTask);
+}
+
+bool TaskManager::UnregisterTask(ITaskPtr pTask)
+{
+	return m_pImp->UnregisterTask(pTask);
+}
+
+size_t TaskManager::RegisteredTaskCount() const
+{
+	return m_pImp->RegisteredTaskCount();
+}
+
+ITaskPtr TaskManager::GetTaskById(const WString& taskId) const
+{
+	return m_pImp->GetTaskById(taskId);
 }

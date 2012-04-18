@@ -27,9 +27,15 @@ namespace Ts
 		virtual	size_t          Poll(); // Execute all the ready tasks without block
 		virtual	size_t          PollOne(); // Execute at most one the ready task without block
 
-		virtual	bool			AddTask(ITaskPtr pTask);
-		virtual	bool			RemoveTask(WString taskId);
+		virtual	bool			AddTask(const WString& taskId);
+		virtual	bool			RemoveTask(const WString& taskId);
 		virtual	size_t			PendingTaskCount() const;
+
+		virtual	bool			RegisterTask(ITaskPtr pTask);
+		virtual	bool			UnregisterTask(ITaskPtr pTask);
+		virtual	size_t			RegisteredTaskCount() const;
+
+		virtual ITaskPtr		GetTaskById(const WString& taskId) const;
 
 	private:
 		imp_pointer				m_pImp;

@@ -22,9 +22,9 @@ bool TaskBase::IsReady(ITaskSystem* pTaskSystem) const
 	return m_pImp->IsReady(pTaskSystem);
 }
 
-const WString& TaskBase::GetId() const
+WString TaskBase::GetObjectId() const
 {
-	return m_pImp->GetId();
+	return m_pImp->GetObjectId();
 }
 
 bool TaskBase::Execute(ITaskSystem* pTaskSystem)

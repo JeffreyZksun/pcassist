@@ -63,6 +63,9 @@ void TCPServerImp::handle_accept(const boost::system::error_code& error)
         IConnectionPointPtr pCP = ConnectionPoint::Create(m_pListeningConnectionImp);
         m_ConnectionGroup.Add(pCP);
         m_pListeningConnectionImp->Start();
+
+		NetworkConnectionEvent nwEvent(pCP, NetworkConnectionEvent::eConnect);
+		NotificationMgr::Get()->Fire(&nwEvent);
     }
 
     start_accept();
