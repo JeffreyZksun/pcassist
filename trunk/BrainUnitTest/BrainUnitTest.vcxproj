@@ -120,6 +120,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="BehaviorManagerTest.cpp" />
+    <ClCompile Include="StringUtilTest.cpp" />
     <ClCompile Include="TaskManagerTest.cpp" />
     <ClCompile Include="TaskTest.cpp" />
     <ClCompile Include="VariableManagerTest.cpp" />
