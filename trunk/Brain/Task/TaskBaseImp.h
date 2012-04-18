@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ParameterTable.h"
+
 class ITaskSystem;
 
 namespace Ts
@@ -13,20 +15,29 @@ namespace Ts
 		typedef boost::weak_ptr<TaskBase>		owner_weak_pointer;	
 
 	public:														
-		TaskBaseImp(owner_pointer pSelf, WString taskId);							
+		TaskBaseImp(owner_pointer pSelf, const WString& taskId);							
 		virtual ~TaskBaseImp();							
 
 		owner_pointer   Self() const;	
 
 	public:
 		virtual bool            IsReady(ITaskSystem* pTaskSystem) const;
-		virtual const WString&	GetId() const;
-		virtual bool            Execute(ITaskSystem* pTaskSystem) = 0;
+		virtual WString			GetObjectId() const;
+		virtual bool            Execute(ITaskSystem* pTaskSystem);
+
+	protected:
+		virtual bool            OnExecute(ITaskSystem* pTaskSystem) = 0;
+
+	public:
+		ParameterTable&			GetParameterTable();
+		const ParameterTable&	GetParameterTable() const;
 
 	private:													
 		owner_weak_pointer			m_pSelf;
 
-		WString						m_TaskId;
+		ParameterTable				m_ParameterTable;
+
+		bool						mbIsExecuting; // Don't persist. Used for reference loop check.
 	};
 
 }

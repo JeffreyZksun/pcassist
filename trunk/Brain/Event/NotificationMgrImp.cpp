@@ -240,7 +240,7 @@ void NotificationMgrImp::Fire(IEvent* pEvent)
     ScopedCyclicDetector dt(pSource);
     if(dt.HasCycling())
     {
-        // ToDo - assert here.
+        DATA_ASSERT(!_T("ERROR: Cyclic envent loop is detected. Ignore the current event."))
         return;
     }
 

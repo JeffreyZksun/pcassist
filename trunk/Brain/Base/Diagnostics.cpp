@@ -3,7 +3,7 @@
 #include "Diagnostics.h"
 
 using namespace Ts;
-bool gAssertEnabled = true;
+static bool gAssertEnabled = true;
 
 void Ts::EnableAssert()
 {

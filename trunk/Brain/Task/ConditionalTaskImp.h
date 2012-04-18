@@ -13,17 +13,18 @@ namespace Ts
 		typedef boost::weak_ptr<ConditionalTask>		owner_weak_pointer;	
 
 	public:														
-		ConditionalTaskImp(owner_pointer pSelf, const WString& taskId, const WString& conditionName, ITaskPtr pDecoratedTask);							
+		ConditionalTaskImp(owner_pointer pSelf, const WString& taskId, const WString& conditionId, const WString& decoratedTaskId);							
 
-		// owner_pointer   Self() const;
 
 	public:
 		virtual bool            IsReady(ITaskSystem* pTaskSystem) const;
-		virtual bool            Execute(ITaskSystem* pTaskSystem);
+
+	protected:
+		virtual bool            OnExecute(ITaskSystem* pTaskSystem);
 
 	private:													
-		WString						m_Condition;
-		ITaskPtr					m_pDecoratedTask;
+		ConditionPtr			GetCondition(ITaskSystem* pTaskSystem) const;
+		ITaskPtr				GetDecoratedTask(ITaskSystem* pTaskSystem) const;
 	};
 
 }

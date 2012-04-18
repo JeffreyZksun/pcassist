@@ -103,9 +103,9 @@ protected:
 
 private:
 	BehaviorManager*	mpBehaviorManager; // This pointer is set when it is added to the task manager.
-	ParameterTable	mParameterTable;
+	ParameterTable		mParameterTable;
 
-	bool			mbIsExecuting; // Don't persist. Used for reference loop check.
+	bool				mbIsExecuting; // Don't persist. Used for reference loop check.
 };
 
 //////////////////////////////////////////////////////////////////////////

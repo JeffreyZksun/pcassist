@@ -13,7 +13,7 @@ TEST(TaskTest, ImmediateTaskBasic)
 		ImmediateTask::pointer pTask (ImmediateTask::Create(_T("tempTask")));
 		EXPECT_EQ(true, pTask != NULL);
 
-		const WString taskId = pTask->GetId();
+		const WString taskId = pTask->GetObjectId();
 		EXPECT_EQ(_T("tempTask"), taskId);
 
 		const bool bIsReady = pTask->IsReady(pTaskSystem.get());
@@ -46,6 +46,7 @@ TEST(TaskTest, ImmediateTaskExecute)
 
 		ImmediateTask::pointer pTask (ImmediateTask::Create(_T("tempTask")));
 		EXPECT_EQ(true, pTask != NULL);
+		pTaskMgr->RegisterTask(pTask);
 
 		pTask->AppendAction(actionName);
 
@@ -64,10 +65,12 @@ TEST(TaskTest, ConditionalTaskBasic)
 	{
 		WString conditionName (_T("TrueCondition"));
 		ImmediateTask::pointer pImmeTask (ImmediateTask::Create(_T("basicTask")));
-		ConditionalTask::pointer pTask (ConditionalTask::Create(_T("conditionTask"), conditionName, pImmeTask));
+		pTaskMgr->RegisterTask(pImmeTask);
+
+		ConditionalTask::pointer pTask (ConditionalTask::Create(_T("conditionTask"), conditionName, pImmeTask->GetObjectId()));
 		EXPECT_EQ(true, pTask != NULL);
 
-		const WString taskId = pTask->GetId();
+		const WString taskId = pTask->GetObjectId();
 		EXPECT_EQ(_T("conditionTask"), taskId);
 
 		bool bIsReady = pTask->IsReady(pTaskSystem.get());
@@ -103,8 +106,9 @@ TEST(TaskTest, ConditionalTaskExecute)
 		
 		ImmediateTask::pointer pImmeTask (ImmediateTask::Create(_T("basicTask")));
 		pImmeTask->AppendAction(actionName);
+		pTaskMgr->RegisterTask(pImmeTask);
 
-		ConditionalTask::pointer pTask (ConditionalTask::Create(_T("conditionTask"), conditionName, pImmeTask));
+		ConditionalTask::pointer pTask (ConditionalTask::Create(_T("conditionTask"), conditionName, pImmeTask->GetObjectId()));
 
 		const bool ok = pTask->Execute(pTaskSystem.get());
 		EXPECT_EQ(true, ok);

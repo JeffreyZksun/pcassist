@@ -8,49 +8,13 @@
 #include "TaskSystem.h"
 #include "BehaviorManager.h"
 #include "Logger.h"
-
-#include "CmdOption.h"
-#include "CmdLineMgr.h"
 #include "TCPServer.h"
-#include "NotificationMgr.h"
-#include "NetworkEvents.h"
-#include "IConnectionPoint.h"
-#include "TaskManager.h"
+
+#include "MessageResource.h"
+#include "EventSinks.h"
+
 
 using namespace Ts;
-
-class TaskReceiver: public NetworkMessageEventSink
-{
-public:
-	TaskReceiver(ITaskSystem* pTaskSystem): m_pTaskSystem(pTaskSystem)
-	{
-		NotificationMgr::Get()->Subscribe(NetworkEventSource::Get(), this, &m_Filter);
-	}
-
-	~TaskReceiver()
-	{
-		NotificationMgr::Get()->Unsubscribe(NetworkEventSource::Get(), this);
-	}
-
-	virtual void OnMessageReceived(NetworkMessageEvent* pEvent)
-	{
-		if(NULL == pEvent)
-			return;
-
-		WString taskData = pEvent->GetMessage();
-
-		// ToDo create a task
-
-		if(IConnectionPointPtr pCP = pEvent->GetConnectionPoint())
-		{
-			pCP->Send(_T("Task is scheduled\r\n"));
-		}
-	}
-
-private:
-	ITaskSystem*	m_pTaskSystem;
-	NetworkMessageEventFilter m_Filter;
-};
 
 
 void PrintHelp(const Ts::CmdLineMgr&);
@@ -142,14 +106,19 @@ int main(int argc, const char* const argv[])
 	}
 
 	// Subscribe the event
-	TaskReceiver receiver (&taskSystem);
+	RemoteMessageSink msgSink (&taskSystem);
+	ConnectionMonitorSink monitorSink;
 
 	// Start the network server
 	TCPServerPtr pServer = TCPServer::Create(portNumber);
 	pServer->Start();
 
-	std::cout << "Server is tarting" << std::endl;
+	// Display the welcome message
+	std::wcout << MessageResource::GetWelcomeMesage();
+	std::wcout << _T("\r\n");
+	std::wcout << _T("Server is listening on port ") << portNumber << std::endl;
 
+	// Loop to get the command from the server console 
 	char line[256];
 	while (std::cin.getline(line, 256))
 	{

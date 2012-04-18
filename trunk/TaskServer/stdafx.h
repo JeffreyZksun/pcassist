@@ -20,3 +20,5 @@
 
 #include "BrainSystem.h"
 #include "CommonHeaders.h"
+
+using namespace Ts;
