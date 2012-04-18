@@ -21,12 +21,7 @@ void SendDescription(IConnectionPointPtr pCP, Ts::CmdLineMgr::pointer pCmdLineMg
 		return;
 
 	const NString options_Desc = pCmdLineMgr->GetOptionDescription();
-
-	Ts::StringUtil util;
-	WString wstr;
-	util.decode_utf8(options_Desc, wstr);
-
-	pCP->Send(wstr);
+	pCP->Send(StringUtil().convert_to_wstring(options_Desc));
 }
 
 RemoteMessageSink::RemoteMessageSink(ITaskSystem* pTaskSystem, TextCommandParser* pCmdLinePaser): m_pTaskSystem(pTaskSystem), m_pCmdLinePaser(pCmdLinePaser)
@@ -56,7 +51,6 @@ void RemoteMessageSink::OnMessageReceived(NetworkMessageEvent* pEvent)
 		Ts::CmdLineMgr::pointer pCmdLineMgr = m_pCmdLinePaser->GetTaskCmdLineMgr();
 		if(!pCmdLineMgr)
 			return;
-
 
 		bool ok = pCmdLineMgr->Parse(StringUtil().convert_to_string(taskData));
 		if(!ok)
@@ -105,8 +99,8 @@ void RemoteMessageSink::OnMessageReceived(NetworkMessageEvent* pEvent)
 			return;
 		}
 
-		pCP->Send(_T("Task is scheduled\r\n"));
-		LogOut(_T("Task is scheduled\r\n"));
+		pCP->Send(_T("OK: Task is scheduled\r\n"));
+		LogOut(_T("OK: Task is scheduled\r\n"));
 	}
 }
 
