@@ -19,6 +19,9 @@ class Database;
 class BRAINEXPORT TaskSystem : public ITaskSystem
 {
 public:
+	typedef boost::shared_ptr<TaskSystem>		pointer;
+
+public:
 	TaskSystem();
 	virtual ~TaskSystem();
 

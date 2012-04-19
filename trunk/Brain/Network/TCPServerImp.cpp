@@ -66,7 +66,10 @@ void TCPServerImp::handle_accept(const boost::system::error_code& error)
 
 		NetworkConnectionEvent nwEvent(pCP, NetworkConnectionEvent::eConnect);
 		NotificationMgr::Get()->Fire(&nwEvent);
+
+		// After close the io_service, the error_code is set. If try to execute start_accept in this case, the program will crash.
+		// So only start accept when there is no error.
+		start_accept();
     }
 
-    start_accept();
 }

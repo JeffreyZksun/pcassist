@@ -255,3 +255,63 @@ TEST(ActionTest, ConditionListCheckAction_3)
 
 	GetWorkingBrain()->GetBehaviorManager()->UnregisterAction(pSanityCheck);
 }
+
+
+TEST(ActionTest, ChangeVariableAction)
+{
+	const CString destFile(_T("C:\\DocVersion1_new.xml"));
+	{
+		TaskSystem::pointer pTempSystem (new TaskSystem());
+		ActionPtr pChangeVariable = Action::Create(_T("ChangeVariableAction"), pTempSystem->GetBehaviorManager());
+		{
+			Parameter para1(_T("ObjectId"), _T("Change_OS")); 
+			Parameter para2(_T("SourceFileName"), _T("%*ExeModulePath%\\DocVersion1.xml"));
+			Parameter para3(_T("DestinationFileName"),destFile);
+			Parameter para4(_T("IdList"), _T("{OS} {NewVar}"));
+			Parameter para5(_T("OS"), _T("Win8"));
+			para5.SetComments(_T("Changed from Windows7 to Win8"));
+			Parameter para6(_T("NewVar"), _T("New added One"));
+			pChangeVariable->GetParameterTable().AddParameter(para1);
+			pChangeVariable->GetParameterTable().AddParameter(para2);
+			pChangeVariable->GetParameterTable().AddParameter(para3);
+			pChangeVariable->GetParameterTable().AddParameter(para4);
+			pChangeVariable->GetParameterTable().AddParameter(para5);
+			pChangeVariable->GetParameterTable().AddParameter(para6);
+		}
+
+		bool bRet = pChangeVariable->Execute();
+		EXPECT_EQ(true, bRet);
+	}
+
+	{
+		TaskSystem::pointer pTempSystem (new TaskSystem());
+		{
+			const bool ok = pTempSystem->XmlIn(destFile);
+			EXPECT_EQ(true, ok);
+		}
+
+		{
+			Parameter para;
+			bool bExist = pTempSystem->GetVariableManager()->GetParameter(_T("OS"), para);
+			EXPECT_EQ(true, bExist);
+
+			CString actual = para.GetRawValue(); 
+			CString expected = _T("Win8");
+
+			bool bmatch = actual.Compare(expected) == 0;
+			EXPECT_EQ(true, bmatch);
+		}
+
+		{
+			Parameter para;
+			bool bExist = pTempSystem->GetVariableManager()->GetParameter(_T("NewVar"), para);
+			EXPECT_EQ(true, bExist);
+
+			CString actual = para.GetRawValue(); 
+			CString expected = _T("New added One");
+
+			bool bmatch = actual.Compare(expected) == 0;
+			EXPECT_EQ(true, bmatch);
+		}
+	}
+}

@@ -36,7 +36,7 @@ int main(int argc, const char* const argv[])
 
 	// ToDo - Add the action and conditions
 	{
-
+		// Load script
 	}
 
 	// Start the task manager
@@ -61,6 +61,47 @@ int main(int argc, const char* const argv[])
 	char line[256];
 	while (std::cin.getline(line, 256))
 	{
+		Ts::CmdLineMgr::pointer pCmdLineMgr = cmdParser.GetServerCmdLineMgr();
+		if(!pCmdLineMgr)
+			continue;
+
+		bool ok = pCmdLineMgr->Parse(line);
+		if(!ok)
+		{
+			LogOut(_T("Failed to parse the options\r\n"));
+			continue;
+		}
+
+		if(pCmdLineMgr->HasUnrecognizedOption())
+		{
+			Ts::StringUtil util;
+
+			const NString& invalidOpt = pCmdLineMgr->GetUnrecongnizedOption();
+
+			CString prompt;
+			prompt.Format(_T("Invalid options: %s\r\n\r\n"), util.convert_to_wstring(invalidOpt).data());
+			LogOut(util.convert_to_wstring(prompt));
+
+
+			continue;
+		}
+
+		if(pCmdLineMgr->GetRecognizedOptionByName(OPT_HELP))
+		{
+			LogOut(_T("Show help\r\n"));
+
+			continue;
+		}
+
+		if(pCmdLineMgr->GetRecognizedOptionByName(OPT_QUIT))
+		{
+			pServer->Close();
+			taskSystem.GetTaskManager()->Stop();
+
+			break;
+		}
+
+		// ToDo -add task
 		std::cout << line << std::endl;
 	}
 	

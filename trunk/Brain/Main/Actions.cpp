@@ -4,6 +4,7 @@
 #include "ConstantsDefinition.h"
 #include "BehaviorBodyFactory.h"
 #include "BehaviorManager.h"
+#include "VariableManager.h"
 #include "TaskSystem.h"
 #include "Logger.h"
 #include "ExecutionContext.h"
@@ -388,6 +389,59 @@ BEHAVIORBODY_IMP(ConditionListCheckAction)
     }
 
     return (0 == falseNum);
+}
+
+BEHAVIORBODY_IMP(ChangeVariableAction)
+{
+	Parameter para;
+
+	const Parameter* pPara = pContext->GetInputParameterTable()->GetParameter(SRC_FILE_NAME);
+	DATA_ASSERT(pPara);
+	if(!pPara)
+		return false;
+	const CString srcFile = pPara->GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
+
+	pPara = pContext->GetInputParameterTable()->GetParameter(DEST_FILE_NAME);
+	DATA_ASSERT(pPara);
+	if(!pPara)
+		return false;
+	const CString destFile = pPara->GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
+
+	pPara = pContext->GetInputParameterTable()->GetParameter(ID_LIST);
+	DATA_ASSERT(pPara);
+	if(!pPara)
+		return false;
+
+	const CString strGroup = pPara->GetEvaluatedValue(pContext->GetTaskSystem()->GetVariableManager());
+
+	std::vector<CString> parameterNames;
+	BrainUtil::ExtractSubItems(strGroup, parameterNames);
+
+	////
+	TaskSystem::pointer pTempSystem (new TaskSystem());
+	{
+		const bool ok = pTempSystem->XmlIn(srcFile);
+		if(!ok)
+			return false;
+	}
+
+
+	for(std::vector<CString>::const_iterator it = parameterNames.begin(); it != parameterNames.end(); ++it)
+	{
+		Parameter para;
+		bool bExist = pContext->GetInputParameterTable()->GetParameter(*it, para);
+		if(!bExist)
+			continue;
+		pTempSystem->GetVariableManager()->AddUserParameter(para);
+	}
+
+	{
+		const bool ok = pTempSystem->XmlOut(destFile);
+		if(!ok)
+			return false;
+	}
+
+	return true;
 }
 
 // Do nothing just return true. For the test purpose.
