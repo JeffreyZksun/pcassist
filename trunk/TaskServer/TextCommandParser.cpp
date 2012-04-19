@@ -26,7 +26,7 @@ TextCommandParser::TextCommandParser()
 	}
 
 	{
-		CmdOptionPtr pOption(new CmdOption(OPT_QUIT, 'Q', "Quit server"));
+		CmdOptionPtr pOption(new CmdOption(OPT_QUIT, 'Q', "Quit server", CmdOption::eNoValue));
 		m_pServerCmdLineMgr->AddSupportedOption(pOption);
 	}
 
@@ -48,7 +48,7 @@ TextCommandParser::TextCommandParser()
 	}
 
 	{
-		CmdOptionPtr pOption(new CmdOption(OPT_QUIT, 'Q', "Quit server"));
+		CmdOptionPtr pOption(new CmdOption(OPT_QUIT, 'Q', "Quit server", CmdOption::eNoValue));
 		m_pTaskCmdLineMgr->AddSupportedOption(pOption);
 	}
 
