@@ -1,0 +1,22 @@
+boost_1_49_0
+
+Boost home page: http://http://www.boost.org/
+
+Consumed 3/28/2012
+
+
+ * The libs are buit with the command lines below
+cd C:\Boost\boost_1_49_0
+bootstrap.bat
+bjam.exe program_options address-model=32 variant=debug,release link=static runtime-link=static threading=multi
+bjam.exe date_time address-model=32 variant=debug,release link=static runtime-link=static threading=multi
+bjam.exe regex address-model=32 variant=debug,release link=static runtime-link=static threading=multi
+bjam.exe system address-model=32 variant=debug,release link=static runtime-link=static threading=multi
+bjam.exe thread address-model=32 variant=debug,release link=static runtime-link=static threading=multi
+
+ * Use the command lines below to extract the boost subset
+
+cd C:\Boost\boost_1_49_0\tools\bcp
+..\..\bjam.exe --toolset=msvc
+cd C:\Boost\boost_1_49_0\dist\bin
+bcp  --boost=C:/Boost/boost_1_49_0 asio.hpp thread.hpp weak_ptr.hpp shared_ptr.hpp array.hpp enable_shared_from_this.hpp program_options.hpp algorithm/string/predicate.hpp C:/Boost/subset
