@@ -2,7 +2,7 @@
 #include "EventSinks.h"
 #include "NotificationMgr.h"
 #include "IConnectionPoint.h"
-#include "TaskManager.h"
+#include "ITaskManager.h"
 #include "TextCommandParser.h"
 #include "CmdLineMgr.h"
 
@@ -98,6 +98,8 @@ void RemoteMessageSink::OnMessageReceived(NetworkMessageEvent* pEvent)
 
 			return;
 		}
+		// Todo - create a task
+		m_pTaskSystem->GetTaskManager()->AddTask(_T("NewTask"));
 
 		pCP->Send(_T("OK: Task is scheduled\r\n"));
 		LogOut(_T("OK: Task is scheduled\r\n"));

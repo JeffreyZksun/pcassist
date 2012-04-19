@@ -48,6 +48,7 @@ void BehaviorBuilder::InitializeBehaviorBodyFactory(BehaviorBodyFactory* pBehavi
 	ADD_BEHAVIORBODY_TO_FACTORY(ConditionBlockAction);
 	ADD_BEHAVIORBODY_TO_FACTORY(TaskListAction);
 	ADD_BEHAVIORBODY_TO_FACTORY(ConditionListCheckAction);
+	ADD_BEHAVIORBODY_TO_FACTORY(ChangeVariableAction);
 	ADD_BEHAVIORBODY_TO_FACTORY(EmptyAction);
 
 }
